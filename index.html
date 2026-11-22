@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0f172a" id="meta-theme-color" />
+  <meta name="description" content="Hustle & Haute: Empire Simulator — Build a Social Media Mogul or Culinary Titan empire in this strategic market simulation game." />
+  <title>Hustle &amp; Haute: Empire Simulator</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <style>
+    :root {
+      --bg-primary: #0b0f19;
+      --bg-card: #131a2a;
+      --bg-card-hover: #1b2438;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent: #f59e0b;
+      --accent-soft: rgba(245, 158, 11, 0.15);
+      --accent-text: #0b0f19;
+      --success: #10b981;
+      --danger: #ef4444;
+      --border: #1e293b;
+      --radius: 14px;
+    }
+
+    [data-theme="queen"] {
+      --bg-primary: #1a0b14;
+      --bg-card: #281220;
+      --bg-card-hover: #36192c;
+      --text-primary: #fff1f5;
+      --text-secondary: #f4b8cc;
+      --accent: #f43f5e;
+      --accent-soft: rgba(244, 63, 94, 0.18);
+      --accent-text: #ffffff;
+      --border: #471d36;
+    }
+
+    [data-theme="king"] {
+      --bg-primary: #090d16;
+      --bg-card: #111827;
+      --bg-card-hover: #1f2937;
+      --text-primary: #f9fafb;
+      --text-secondary: #9ca3af;
+      --accent: #eab308;
+      --accent-soft: rgba(234, 179, 8, 0.16);
+      --accent-text: #090d16;
+      --border: #1f2937;
+    }
+
+    [data-theme="neon"] {
+      --bg-primary: #070b14;
+      --bg-card: #0f172a;
+      --bg-card-hover: #1e293b;
+      --text-primary: #e2e8f0;
+      --text-secondary: #38bdf8;
+      --accent: #06b6d4;
+      --accent-soft: rgba(6, 182, 212, 0.18);
+      --accent-text: #070b14;
+      --border: #1e293b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      line-height: 1.45;
+    }
+
+    #app {
+      width: 100%;
+      max-width: 540px;
+      padding: 14px 14px 86px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    header {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .profile-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .title-block h1 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .title-block span {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+    }
+
+    .theme-pills {
+      display: flex;
+      gap: 6px;
+    }
+
+    .pill-btn {
+      background: var(--bg-primary);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .pill-btn.active {
+      background: var(--accent);
+      color: var(--accent-text);
+      border-color: var(--accent);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .stat-box {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      display: block;
+    }
+
+    .stat-val {
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-top: 2px;
+      display: block;
+    }
+
+    .val-cash { color: var(--success); }
+    .val-debt { color: var(--danger); }
+    .val-accent { color: var(--accent); }
+
+    .ticker {
+      background: var(--accent-soft);
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+
+    .card h2 {
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .hub-btn {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 10px;
+      border-radius: 10px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.1s ease, border-color 0.15s ease;
+    }
+
+    .hub-btn:active { transform: scale(0.98); }
+    .hub-btn.current {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .hub-name { font-weight: 700; font-size: 0.85rem; display: block; }
+    .hub-meta { font-size: 0.72rem; color: var(--text-secondary); }
+
+    .market-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .item-row {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .item-info { flex: 1; }
+    .item-title { font-weight: 700; font-size: 0.88rem; display: flex; align-items: center; gap: 6px; }
+    .tag {
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .tag-hot { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+    .tag-deal { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
+    .item-sub { font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px; }
+
+    .item-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .price-tag { font-weight: 800; font-size: 0.92rem; color: var(--accent); }
+
+    .btn-group { display: flex; gap: 5px; }
+    .btn {
+      border: none;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .btn-buy { background: var(--accent); color: var(--accent-text); }
+    .btn-sell { background: var(--bg-card-hover); color: var(--text-primary); border: 1px solid var(--border); }
+    .btn-full { width: 100%; padding: 11px; font-size: 0.85rem; margin-top: 6px; }
+
+    .nav-bar {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 540px;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 8px 6px;
+      z-index: 50;
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 0.74rem;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-btn.active { color: var(--accent); }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.78);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 100;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--accent);
+      border-radius: 16px;
+      padding: 18px;
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .choice-btn {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 11px;
+      border-radius: 10px;
+      text-align: left;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+    .choice-btn:hover { border-color: var(--accent); }
+    .footer-note {
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      margin-top: 6px;
+    }
+    .footer-note a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="top-bar">
+        <div class="profile-badge">
+          <div class="avatar-circle" id="avatar-display">👑</div>
+          <div class="title-block">
+            <h1 id="player-title">Hustle &amp; Haute</h1>
+            <span id="tier-subtitle">Day 1 / 180 • Tier 1: Bedroom Hustler</span>
+          </div>
+        </div>
+        <div class="theme-pills">
+          <button class="pill-btn active" data-set-theme="queen">Queen</button>
+          <button class="pill-btn" data-set-theme="king">King</button>
+          <button class="pill-btn" data-set-theme="neon">Neon</button>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-box">
+          <span class="stat-label">Cash</span>
+          <span class="stat-val val-cash" id="stat-cash">$2,000</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Agency Debt</span>
+          <span class="stat-val val-debt" id="stat-debt">$2,500</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Vault</span>
+          <span class="stat-val val-accent" id="stat-vault">$0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Capacity</span>
+          <span class="stat-val" id="stat-cap">0 / 25</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="ticker">
+      <span>📡</span>
+      <span id="news-feed">Welcome! Buy low in local hubs, travel to flip high, and pay off your starter loan.</span>
+    </div>
+
+    <main id="view-container"></main>
+
+    <div class="footer-note">
+      100% Free • No Ads • Offline Ready • <a href="/privacy.html">Privacy Policy</a>
+    </div>
+  </div>
+
+  <nav class="nav-bar">
+    <button class="nav-btn active" data-tab="market"><span>📈</span>Market</button>
+    <button class="nav-btn" data-tab="travel"><span>✈️</span>Travel</button>
+    <button class="nav-btn" data-tab="finance"><span>🏦</span>Bank &amp; Gear</button>
+    <button class="nav-btn" data-tab="profile"><span>🎭</span>Avatar</button>
+  </nav>
+
+  <div class="modal-backdrop" id="event-modal">
+    <div class="modal-box">
+      <h3 id="modal-title">Real-World Challenge</h3>
+      <p id="modal-desc" style="font-size:0.85rem; color:var(--text-secondary);"></p>
+      <div id="modal-choices" style="display:flex; flex-direction:column; gap:8px;"></div>
+    </div>
+  </div>
+
+  <script>
+    // Closure-encapsulated game engine (no global state exposure on window)
+    (function () {
+      "use strict";
+
+      const STORAGE_KEY = "hh_empire_save_v1";
+      const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
+
+      const HUBS = [
+        { id: "market", name: "Farmers Market & Local Feed", risk: "Low Risk", mult: 0.9 },
+        { id: "truck", name: "Food Truck Lot & TikTok Live", risk: "Medium Risk", mult: 1.0 },
+        { id: "bistro", name: "Downtown Bistro & Studio Row", risk: "Medium-High", mult: 1.15 },
+        { id: "nyc", name: "NYC / LA Brand & Michelin Hub", risk: "High Volatility", mult: 1.35 }
+      ];
+
+      const COMMODITIES = [
+        { id: "audio", name: "Viral Audio Rights", path: "Social", min: 45, max: 190 },
+        { id: "truffle", name: "Black Winter Truffles", path: "Chef", min: 140, max: 480 },
+        { id: "sponsor", name: "Mid-Roll Brand Slot", path: "Social", min: 320, max: 980 },
+        { id: "wagyu", name: "A5 Miyazaki Wagyu", path: "Chef", min: 650, max: 1950 },
+        { id: "merch", name: "Capsule Cookware Drop", path: "Hybrid", min: 1400, max: 4200 },
+        { id: "equity", name: "Creator Network Equity", path: "Hybrid", min: 3500, max: 11500 }
+      ];
+
+      const UPGRADES = [
+        { id: "knife", name: "Japanese Damascus Knife Roll", desc: "+15 Pantry/Queue Capacity", cost: 1200, capBonus: 15 },
+        { id: "rig", name: "4K Cinema & Ring Light Studio", desc: "+25 Capacity & +5% Sell Bonus", cost: 4500, capBonus: 25 },
+        { id: "commissary", name: "Cold-Storage Commissary Kitchen", desc: "+60 Capacity & Spoilage Shield", cost: 18000, capBonus: 60 },
+        { id: "agency", name: "In-House Legal & PR Retainer", desc: "+120 Capacity & Audit Protection", cost: 65000, capBonus: 120 }
+      ];
+
+      const LESSONS = [
+        {
+          title: "Food Costing Margin Check",
+          desc: "A supplier offers A5 Wagyu dishes costing $28 per plate in ingredients. To hit a healthy restaurant food-cost target of 28%, what should you price the menu dish at?",
+          choices: [
+            { text: "$100 ($28 is 28% of $100)", correct: true, reward: 1200, note: "Spot on! Menu Price = Ingredient Cost ÷ Target Food Cost % ($28 ÷ 0.28 = $100)." },
+            { text: "$56 (Double the ingredient cost)", correct: false, penalty: 400, note: "50% food cost leaves almost nothing after labor and rent! Target 28–32%." }
+          ]
+        },
+        {
+          title: "Brand Sponsorship Contract Trap",
+          desc: "A cookware brand offers $3,000 for one Reel, but Clause 9 asks for 'Perpetual Worldwide Paid-Ad Whitelisting Rights.' What is the smart Mogul move?",
+          choices: [
+            { text: "Limit usage to 30 days & charge +50% usage fee", correct: true, reward: 1800, note: "Pro move! Never give away perpetual ad rights for free—license usage in 30-day windows." },
+            { text: "Sign immediately so they don't walk away", correct: false, penalty: 600, note: "Perpetual rights let them run your face in ads forever without paying you again." }
+          ]
+        },
+        {
+          title: "FIFO Inventory & Cold Chain",
+          desc: "You receive a fresh crate of truffles while older stock is still in the prep fridge. How do you stock the shelves?",
+          choices: [
+            { text: "FIFO: Move older stock to the front, new stock behind", correct: true, reward: 950, note: "First-In, First-Out (FIFO) prevents spoilage waste and protects your profit margin." },
+            { text: "Stack new crates on top for faster access", correct: false, penalty: 500, note: "LIFO causes buried ingredients to spoil—costing you $500 in ruined inventory." }
+          ]
+        },
+        {
+          title: "Quarterly Estimated Taxes",
+          desc: "You just netted $10,000 in 1099 brand deals and pop-up profits. How much should you sweep into your Tax Vault?",
+          choices: [
+            { text: "Set aside 25%–30% ($2,500–$3,000)", correct: true, reward: 1500, note: "Smart! Setting aside 25–30% for self-employment and income taxes prevents cash crunches." },
+            { text: "Reinvest 100% into luxury props", correct: false, penalty: 900, note: "Spending your tax reserve triggers an IRS underpayment penalty!" }
+          ]
+        }
+      ];
+
+      let state = {
+        day: 1,
+        maxDays: 180,
+        hub: "market",
+        theme: "queen",
+        avatar: "👑",
+        name: "Chef & Mogul",
+        pathFocus: "Hybrid Empire",
+        cash: 2000,
+        debt: 2500,
+        vault: 0,
+        baseCap: 25,
+        upgrades: [],
+        inventory: {}, // { id: { qty, avgCost } }
+        prices: {},
+        news: "Welcome! Buy low in local hubs, travel to flip high, and pay off your starter loan.",
+        tab: "market"
+      };
+
+      async function computeHash(payloadStr) {
+        const enc = new TextEncoder().encode(payloadStr + "::" + INTEGRITY_SALT);
+        const buf = await crypto.subtle.digest("SHA-256", enc);
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+      }
+
+      async function saveGame() {
+        try {
+          const data = JSON.stringify(state);
+          const sig = await computeHash(data);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({ data, sig }));
+        } catch (e) {
+          // Ignore storage quota errors
+        }
+      }
+
+      async function loadGame() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) {
+            rollPrices();
+            return;
+          }
+          const parsed = JSON.parse(raw);
+          const expectedSig = await computeHash(parsed.data);
+          if (parsed.sig !== expectedSig) {
+            alert("Save file integrity check failed. Starting a fresh verified empire.");
+            rollPrices();
+            await saveGame();
+            return;
+          }
+          state = Object.assign(state, JSON.parse(parsed.data));
+        } catch (e) {
+          rollPrices();
+        }
+      }
+
+      function getCapacity() {
+        const bonus = state.upgrades.reduce((sum, uId) => {
+          const found = UPGRADES.find(u => u.id === uId);
+          return sum + (found ? found.capBonus : 0);
+        }, 0);
+        return state.baseCap + bonus;
+      }
+
+      function getUsedCapacity() {
+        return Object.values(state.inventory).reduce((sum, item) => sum + item.qty, 0);
+      }
+
+      function getTierLabel() {
+        const netWorth = state.cash + state.vault - state.debt;
+        if (netWorth >= 500000) return "Tier 6: Global Empire Icon";
+        if (netWorth >= 150000) return "Tier 5: Lifestyle & Cookware Brand";
+        if (netWorth >= 50000) return "Tier 4: Multi-City Network";
+        if (netWorth >= 15000) return "Tier 3: Bistro & Viral Star";
+        if (netWorth >= 4000) return "Tier 2: Food Truck & Micro-Mogul";
+        return "Tier 1: Bedroom Hustler";
+      }
+
+      function rollPrices() {
+        const hubObj = HUBS.find(h => h.id === state.hub) || HUBS[0];
+        const nextPrices = {};
+        let spikeNote = "";
+
+        COMMODITIES.forEach(c => {
+          let price = Math.round((c.min + Math.random() * (c.max - c.min)) * hubObj.mult);
+          const roll = Math.random();
+          if (roll < 0.14) {
+            price = Math.round(price * 2.1);
+            spikeNote = `🔥 VIRAL SURGE: ${c.name} prices skyrocketed in ${hubObj.name}!`;
+          } else if (roll > 0.86) {
+            price = Math.max(15, Math.round(price * 0.52));
+            spikeNote = `💸 FLASH DIP: Oversupply crashed ${c.name} prices!`;
+          }
+          nextPrices[c.id] = price;
+        });
+
+        state.prices = nextPrices;
+        if (spikeNote) state.news = spikeNote;
+      }
+
+      function fmt(num) {
+        return "$" + Math.round(num).toLocaleString();
+      }
+
+      function applyTheme(themeName) {
+        state.theme = themeName;
+        document.documentElement.setAttribute("data-theme", themeName);
+        document.querySelectorAll(".pill-btn").forEach(btn => {
+          btn.classList.toggle("active", btn.dataset.setTheme === themeName);
+        });
+      }
+
+      function triggerLessonModal() {
+        const lesson = LESSONS[Math.floor(Math.random() * LESSONS.length)];
+        const modal = document.getElementById("event-modal");
+        document.getElementById("modal-title").textContent = "🎓 " + lesson.title;
+        document.getElementById("modal-desc").textContent = lesson.desc;
+        const box = document.getElementById("modal-choices");
+        box.innerHTML = "";
+
+        lesson.choices.forEach(ch => {
+          const btn = document.createElement("button");
+          btn.className = "choice-btn";
+          btn.textContent = ch.text;
+          btn.onclick = () => {
+            if (ch.correct) {
+              state.cash += ch.reward;
+              state.news = `✅ +${fmt(ch.reward)} Bonus! ${ch.note}`;
+            } else {
+              state.cash = Math.max(0, state.cash - ch.penalty);
+              state.news = `⚠️ -${fmt(ch.penalty)} Loss! ${ch.note}`;
+            }
+            modal.classList.remove("open");
+            saveGame();
+            render();
+          };
+          box.appendChild(btn);
+        });
+
+        modal.classList.add("open");
+      }
+
+      function buyItem(id, qty) {
+        const price = state.prices[id];
+        const freeSpace = getCapacity() - getUsedCapacity();
+        const maxAffordable = Math.floor(state.cash / price);
+        const actualQty = Math.min(qty, freeSpace, maxAffordable);
+        if (actualQty <= 0) return;
+
+        const existing = state.inventory[id] || { qty: 0, avgCost: 0 };
+        const totalCost = existing.qty * existing.avgCost + actualQty * price;
+        const newQty = existing.qty + actualQty;
+
+        state.inventory[id] = { qty: newQty, avgCost: Math.round(totalCost / newQty) };
+        state.cash -= actualQty * price;
+        saveGame();
+        render();
+      }
+
+      function sellItem(id, qty) {
+        const existing = state.inventory[id];
+        if (!existing || existing.qty <= 0) return;
+        const actualQty = Math.min(qty, existing.qty);
+        const sellBonus = state.upgrades.includes("rig") ? 1.05 : 1.0;
+        const revenue = Math.round(actualQty * state.prices[id] * sellBonus);
+
+        existing.qty -= actualQty;
+        if (existing.qty === 0) delete state.inventory[id];
+        state.cash += revenue;
+        saveGame();
+        render();
+      }
+
+      function travelTo(hubId) {
+        if (hubId === state.hub) return;
+        if (state.day >= state.maxDays) {
+          alert(`180-Day Season Complete! Final Net Worth: ${fmt(state.cash + state.vault - state.debt)}`);
+          return;
+        }
+        state.hub = hubId;
+        state.day += 1;
+        // Daily compound debt (4%) and vault yield (1.5%)
+        if (state.debt > 0) state.debt = Math.round(state.debt * 1.04);
+        if (state.vault > 0) state.vault = Math.round(state.vault * 1.015);
+
+        rollPrices();
+
+        if (Math.random() < 0.38) {
+          triggerLessonModal();
+        }
+        saveGame();
+        render();
+      }
+
+      function render() {
+        applyTheme(state.theme);
+        document.getElementById("avatar-display").textContent = state.avatar;
+        document.getElementById("player-title").textContent = `${state.name} (${state.pathFocus})`;
+        document.getElementById("tier-subtitle").textContent = `Day ${state.day} / ${state.maxDays} • ${getTierLabel()}`;
+        document.getElementById("stat-cash").textContent = fmt(state.cash);
+        document.getElementById("stat-debt").textContent = fmt(state.debt);
+        document.getElementById("stat-vault").textContent = fmt(state.vault);
+        document.getElementById("stat-cap").textContent = `${getUsedCapacity()} / ${getCapacity()}`;
+        document.getElementById("news-feed").textContent = state.news;
+
+        document.querySelectorAll(".nav-btn").forEach(b => {
+          b.classList.toggle("active", b.dataset.tab === state.tab);
+        });
+
+        const container = document.getElementById("view-container");
+        container.innerHTML = "";
+
+        if (state.tab === "market") {
+          const card = document.createElement("div");
+          card.className = "card";
+          const currentHub = HUBS.find(h => h.id === state.hub);
+          card.innerHTML = `<h2><span>📍 ${currentHub.name}</span><span style="font-size:0.75rem;color:var(--text-secondary)">Live Exchange</span></h2>`;
+
+          const list = document.createElement("div");
+          list.className = "market-list";
+
+          COMMODITIES.forEach(c => {
+            const price = state.prices[c.id];
+            const owned = state.inventory[c.id];
+            const isHot = price > c.max * 1.25;
+            const isDeal = price < c.min * 0.9;
+
+            const row = document.createElement("div");
+            row.className = "item-row";
+            row.innerHTML = `
+              <div class="item-info">
+                <div class="item-title">
+                  ${c.name}
+                  ${isHot ? '<span class="tag tag-hot">Spike</span>' : ""}
+                  ${isDeal ? '<span class="tag tag-deal">Low</span>' : ""}
+                </div>
+                <div class="item-sub">
+                  ${c.path} • Owned: <strong>${owned ? owned.qty : 0}</strong>
+                  ${owned ? ` (Avg: ${fmt(owned.avgCost)})` : ""}
+                </div>
+              </div>
+              <div class="item-actions">
+                <span class="price-tag">${fmt(price)}</span>
+                <div class="btn-group">
+                  <button class="btn btn-buy" data-buy1="${c.id}">+1</button>
+                  <button class="btn btn-buy" data-buymax="${c.id}">Max</button>
+                  <button class="btn btn-sell" data-sellall="${c.id}" ${!owned ? "disabled" : ""}>Sell</button>
+                </div>
+              </div>
+            `;
+            list.appendChild(row);
+          });
+
+          card.appendChild(list);
+          container.appendChild(card);
+
+          card.querySelectorAll("[data-buy1]").forEach(b => b.onclick = () => buyItem(b.dataset.buy1, 1));
+          card.querySelectorAll("[data-buymax]").forEach(b => b.onclick = () => buyItem(b.dataset.buymax, 9999));
+          card.querySelectorAll("[data-sellall]").forEach(b => b.onclick = () => sellItem(b.dataset.sellall, 9999));
+        }
+
+        if (state.tab === "travel") {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `<h2><span>✈️ Travel &amp; Advance Day</span><span style="font-size:0.75rem;color:var(--text-secondary)">+1 Day per trip</span></h2>`;
+          const grid = document.createElement("div");
+          grid.className = "hub-grid";
+
+          HUBS.forEach(h => {
+            const btn = document.createElement("button");
+            btn.className = "hub-btn" + (h.id === state.hub ? " current" : "");
+            btn.innerHTML = `<span class="hub-name">${h.name}</span><span class="hub-meta">${h.risk} • Price Mult ${h.mult}x</span>`;
+            btn.onclick = () => travelTo(h.id);
+            grid.appendChild(btn);
+          });
+
+          card.appendChild(grid);
+          container.appendChild(card);
+        }
+
+        if (state.tab === "finance") {
+          const bankCard = document.createElement("div");
+          bankCard.className = "card";
+          bankCard.innerHTML = `
+            <h2><span>🏦 Agency Debt &amp; High-Yield Vault</span></h2>
+            <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:10px;">
+              Starter loan charges 4% daily interest. Vault savings earn 1.5% daily compound yield.
+            </p>
+            <div class="btn-group" style="margin-bottom:8px;">
+              <button class="btn btn-buy" id="pay-debt-btn" style="flex:1">Pay Off Debt</button>
+              <button class="btn btn-sell" id="dep-vault-btn" style="flex:1">Deposit All to Vault</button>
+              <button class="btn btn-sell" id="wd-vault-btn" style="flex:1">Withdraw Vault</button>
+            </div>
+          `;
+          container.appendChild(bankCard);
+
+          bankCard.querySelector("#pay-debt-btn").onclick = () => {
+            const pay = Math.min(state.cash, state.debt);
+            state.cash -= pay;
+            state.debt -= pay;
+            saveGame();
+            render();
+          };
+          bankCard.querySelector("#dep-vault-btn").onclick = () => {
+            state.vault += state.cash;
+            state.cash = 0;
+            saveGame();
+            render();
+          };
+          bankCard.querySelector("#wd-vault-btn").onclick = () => {
+            state.cash += state.vault;
+            state.vault = 0;
+            saveGame();
+            render();
+          };
+
+          const gearCard = document.createElement("div");
+          gearCard.className = "card";
+          gearCard.innerHTML = `<h2><span>🔪 Pro Equipment &amp; Studio Upgrades</span></h2>`;
+          const list = document.createElement("div");
+          list.className = "market-list";
+
+          UPGRADES.forEach(u => {
+            const owned = state.upgrades.includes(u.id);
+            const row = document.createElement("div");
+            row.className = "item-row";
+            row.innerHTML = `
+              <div class="item-info">
+                <div class="item-title">${u.name}</div>
+                <div class="item-sub">${u.desc}</div>
+              </div>
+              <button class="btn btn-buy" data-upg="${u.id}" ${owned || state.cash < u.cost ? "disabled" : ""}>
+                ${owned ? "Owned" : fmt(u.cost)}
+              </button>
+            `;
+            list.appendChild(row);
+          });
+          gearCard.appendChild(list);
+          container.appendChild(gearCard);
+
+          gearCard.querySelectorAll("[data-upg]").forEach(b => {
+            b.onclick = () => {
+              const u = UPGRADES.find(x => x.id === b.dataset.upg);
+              if (u && state.cash >= u.cost && !state.upgrades.includes(u.id)) {
+                state.cash -= u.cost;
+                state.upgrades.push(u.id);
+                saveGame();
+                render();
+              }
+            };
+          });
+        }
+
+        if (state.tab === "profile") {
+          const card = document.createElement("div");
+          card.className = "card";
+          const avatars = ["👑", "👩‍🍳", "👨‍🍳", "🤳", "💅", "🤵", "🔥", "💎"];
+          card.innerHTML = `
+            <h2><span>🎭 Avatar &amp; Empire Path</span></h2>
+            <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:10px;">Select your persona icon:</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;" id="av-picker"></div>
+            <button class="btn btn-sell btn-full" id="reset-game-btn" style="color:var(--danger);">Reset Empire Progress</button>
+          `;
+          const picker = card.querySelector("#av-picker");
+          avatars.forEach(av => {
+            const b = document.createElement("button");
+            b.className = "pill-btn" + (state.avatar === av ? " active" : "");
+            b.style.fontSize = "1.2rem";
+            b.textContent = av;
+            b.onclick = () => {
+              state.avatar = av;
+              saveGame();
+              render();
+            };
+            picker.appendChild(b);
+          });
+          card.querySelector("#reset-game-btn").onclick = () => {
+            if (confirm("Start a brand new 180-day run?")) {
+              localStorage.removeItem(STORAGE_KEY);
+              location.reload();
+            }
+          };
+          container.appendChild(card);
+        }
+      }
+
+      // Wire static controls
+      document.querySelectorAll("[data-set-theme]").forEach(btn => {
+        btn.onclick = () => {
+          applyTheme(btn.dataset.setTheme);
+          saveGame();
+        };
+      });
+
+      document.querySelectorAll("[data-tab]").forEach(btn => {
+        btn.onclick = () => {
+          state.tab = btn.dataset.tab;
+          render();
+        };
+      });
+
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/sw.js").catch(() => {});
+        });
+      }
+
+      loadGame().then(render);
+    })();
+  </script>
+</body>
+</html>
