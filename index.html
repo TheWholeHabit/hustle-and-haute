@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#0f172a" id="meta-theme-color" />
-  <meta name="description" content="Hustle & Haute: Empire Simulator — Build a Social Media Mogul or Culinary Titan empire in this strategic market simulation game." />
+  <meta name="description" content="Hustle & Haute: Empire Simulator — Custom Modular Avatar Creator, Gender & Story Paths, and 180-Day Market Strategy." />
   <title>Hustle &amp; Haute: Empire Simulator</title>
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
@@ -75,7 +75,7 @@
     #app {
       width: 100%;
       max-width: 540px;
-      padding: 14px 14px 86px;
+      padding: 14px 14px 88px;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -92,7 +92,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       margin-bottom: 12px;
     }
 
@@ -100,43 +100,75 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      min-width: 0;
     }
 
     .avatar-circle {
-      width: 44px;
-      height: 44px;
+      width: 50px;
+      height: 50px;
+      flex-shrink: 0;
       border-radius: 50%;
       background: var(--accent-soft);
       border: 2px solid var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      overflow: hidden;
     }
 
+    .avatar-circle svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .title-block { min-width: 0; }
     .title-block h1 {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 800;
       letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .title-block span {
-      font-size: 0.78rem;
+      font-size: 0.74rem;
       color: var(--text-secondary);
+      display: block;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .help-btn {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.73rem;
+      font-weight: 800;
+      cursor: pointer;
     }
 
     .theme-pills {
       display: flex;
-      gap: 6px;
+      gap: 5px;
+      flex-wrap: wrap;
     }
 
     .pill-btn {
       background: var(--bg-primary);
       color: var(--text-secondary);
       border: 1px solid var(--border);
-      padding: 5px 9px;
+      padding: 6px 10px;
       border-radius: 999px;
-      font-size: 0.72rem;
+      font-size: 0.73rem;
       font-weight: 600;
       cursor: pointer;
     }
@@ -157,12 +189,12 @@
       background: var(--bg-primary);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 8px;
+      padding: 8px 6px;
       text-align: center;
     }
 
     .stat-label {
-      font-size: 0.65rem;
+      font-size: 0.63rem;
       text-transform: uppercase;
       letter-spacing: 0.04em;
       color: var(--text-secondary);
@@ -170,7 +202,7 @@
     }
 
     .stat-val {
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-weight: 700;
       margin-top: 2px;
       display: block;
@@ -191,6 +223,18 @@
       gap: 8px;
     }
 
+    .undo-banner {
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid var(--success);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+    }
+
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -206,6 +250,174 @@
       align-items: center;
     }
 
+    .setup-section {
+      margin-bottom: 14px;
+    }
+
+    .setup-label {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .name-input-wrap {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .text-input {
+      width: 100%;
+      background: var(--bg-primary);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .text-input:focus {
+      border-color: var(--accent);
+    }
+
+    .avatar-studio-stage {
+      background: radial-gradient(circle at top, var(--accent-soft), var(--bg-primary) 75%);
+      border: 1px solid var(--accent);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .avatar-preview-frame {
+      width: 112px;
+      height: 128px;
+      flex-shrink: 0;
+      border-radius: 14px;
+      background: var(--bg-card);
+      border: 2px solid var(--accent);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-preview-frame svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .swatch-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .swatch-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+
+    .swatch-btn.active {
+      border: 3px solid #ffffff;
+      box-shadow: 0 0 0 2px var(--accent);
+      transform: scale(1.08);
+    }
+
+    .choice-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .choice-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+    }
+
+    .select-tile {
+      background: var(--bg-primary);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+      text-align: left;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .select-tile.selected {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .tile-title {
+      font-weight: 800;
+      font-size: 0.84rem;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .tile-sub {
+      font-size: 0.71rem;
+      color: var(--text-secondary);
+      display: block;
+      line-height: 1.3;
+    }
+
+    .story-preview-box {
+      background: var(--bg-primary);
+      border: 1px solid var(--accent);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .story-preview-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .story-preview-text {
+      font-size: 0.8rem;
+      color: var(--text-primary);
+      line-height: 1.45;
+    }
+
+    .story-chapter-card {
+      background: var(--bg-primary);
+      border-left: 3px solid var(--accent);
+      border-top: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 12px;
+      margin-bottom: 10px;
+    }
+
+    .story-chapter-card.locked {
+      opacity: 0.5;
+      border-left-color: var(--border);
+    }
+
     .hub-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -216,21 +428,19 @@
       background: var(--bg-primary);
       border: 1px solid var(--border);
       color: var(--text-primary);
-      padding: 10px;
+      padding: 11px;
       border-radius: 10px;
       text-align: left;
       cursor: pointer;
-      transition: transform 0.1s ease, border-color 0.15s ease;
     }
 
-    .hub-btn:active { transform: scale(0.98); }
     .hub-btn.current {
       border-color: var(--accent);
       background: var(--accent-soft);
     }
 
-    .hub-name { font-weight: 700; font-size: 0.85rem; display: block; }
-    .hub-meta { font-size: 0.72rem; color: var(--text-secondary); }
+    .hub-name { font-weight: 700; font-size: 0.84rem; display: block; margin-bottom: 2px; }
+    .hub-meta { font-size: 0.71rem; color: var(--text-secondary); }
 
     .market-list {
       display: flex;
@@ -250,17 +460,17 @@
     }
 
     .item-info { flex: 1; }
-    .item-title { font-weight: 700; font-size: 0.88rem; display: flex; align-items: center; gap: 6px; }
+    .item-title { font-weight: 700; font-size: 0.87rem; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
     .tag {
-      font-size: 0.65rem;
+      font-size: 0.63rem;
       padding: 2px 6px;
       border-radius: 6px;
       font-weight: 700;
       text-transform: uppercase;
     }
-    .tag-hot { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
-    .tag-deal { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
-    .item-sub { font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px; }
+    .tag-hot { background: rgba(239, 68, 68, 0.22); color: #fca5a5; }
+    .tag-deal { background: rgba(16, 185, 129, 0.22); color: #6ee7b7; }
+    .item-sub { font-size: 0.74rem; color: var(--text-secondary); margin-top: 2px; }
 
     .item-actions {
       display: flex;
@@ -275,7 +485,7 @@
     .btn {
       border: none;
       border-radius: 8px;
-      padding: 6px 10px;
+      padding: 7px 11px;
       font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
@@ -283,7 +493,9 @@
     .btn:disabled { opacity: 0.35; cursor: not-allowed; }
     .btn-buy { background: var(--accent); color: var(--accent-text); }
     .btn-sell { background: var(--bg-card-hover); color: var(--text-primary); border: 1px solid var(--border); }
-    .btn-full { width: 100%; padding: 11px; font-size: 0.85rem; margin-top: 6px; }
+    .btn-danger { background: rgba(239, 68, 68, 0.16); color: #fca5a5; border: 1px solid var(--danger); }
+    .btn-success { background: var(--success); color: #052e16; }
+    .btn-full { width: 100%; padding: 12px; font-size: 0.86rem; margin-top: 6px; }
 
     .nav-bar {
       position: fixed;
@@ -295,8 +507,8 @@
       background: var(--bg-card);
       border-top: 1px solid var(--border);
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      padding: 8px 6px;
+      grid-template-columns: repeat(5, 1fr);
+      padding: 8px 4px;
       z-index: 50;
     }
 
@@ -304,27 +516,28 @@
       background: none;
       border: none;
       color: var(--text-secondary);
-      font-size: 0.74rem;
+      font-size: 0.69rem;
       font-weight: 700;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 3px;
       cursor: pointer;
-      padding: 4px;
+      padding: 4px 2px;
     }
     .nav-btn.active { color: var(--accent); }
 
-    /* Modal */
+    /* Modals */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.78);
+      background: rgba(0, 0, 0, 0.82);
       display: none;
       align-items: center;
       justify-content: center;
       padding: 16px;
       z-index: 100;
+      overflow-y: auto;
     }
     .modal-backdrop.open { display: flex; }
     .modal-box {
@@ -333,7 +546,9 @@
       border-radius: 16px;
       padding: 18px;
       width: 100%;
-      max-width: 440px;
+      max-width: 460px;
+      max-height: 88vh;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -349,11 +564,26 @@
       cursor: pointer;
     }
     .choice-btn:hover { border-color: var(--accent); }
+
+    .guide-step {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.8rem;
+    }
+    .guide-step strong {
+      color: var(--accent);
+      display: block;
+      margin-bottom: 3px;
+      font-size: 0.84rem;
+    }
+
     .footer-note {
       text-align: center;
       font-size: 0.72rem;
       color: var(--text-secondary);
-      margin-top: 6px;
+      margin-top: 4px;
     }
     .footer-note a { color: var(--accent); text-decoration: none; }
   </style>
@@ -363,16 +593,14 @@
     <header>
       <div class="top-bar">
         <div class="profile-badge">
-          <div class="avatar-circle" id="avatar-display">👑</div>
+          <div class="avatar-circle" id="avatar-display"></div>
           <div class="title-block">
             <h1 id="player-title">Hustle &amp; Haute</h1>
-            <span id="tier-subtitle">Day 1 / 180 • Tier 1: Bedroom Hustler</span>
+            <span id="tier-subtitle">Build Your Character &amp; Story</span>
           </div>
         </div>
-        <div class="theme-pills">
-          <button class="pill-btn active" data-set-theme="queen">Queen</button>
-          <button class="pill-btn" data-set-theme="king">King</button>
-          <button class="pill-btn" data-set-theme="neon">Neon</button>
+        <div class="top-actions">
+          <button class="help-btn" id="open-help-btn">? Guide</button>
         </div>
       </div>
 
@@ -382,7 +610,7 @@
           <span class="stat-val val-cash" id="stat-cash">$2,000</span>
         </div>
         <div class="stat-box">
-          <span class="stat-label">Agency Debt</span>
+          <span class="stat-label" id="debt-label">Starter Debt</span>
           <span class="stat-val val-debt" id="stat-debt">$2,500</span>
         </div>
         <div class="stat-box">
@@ -396,9 +624,11 @@
       </div>
     </header>
 
+    <div id="undo-container"></div>
+
     <div class="ticker">
       <span>📡</span>
-      <span id="news-feed">Welcome! Buy low in local hubs, travel to flip high, and pay off your starter loan.</span>
+      <span id="news-feed">Design your avatar, name your mogul (up to 20 chars), and choose your path below!</span>
     </div>
 
     <main id="view-container"></main>
@@ -408,13 +638,15 @@
     </div>
   </div>
 
-  <nav class="nav-bar">
+  <nav class="nav-bar" id="bottom-nav">
     <button class="nav-btn active" data-tab="market"><span>📈</span>Market</button>
     <button class="nav-btn" data-tab="travel"><span>✈️</span>Travel</button>
-    <button class="nav-btn" data-tab="finance"><span>🏦</span>Bank &amp; Gear</button>
-    <button class="nav-btn" data-tab="profile"><span>🎭</span>Avatar</button>
+    <button class="nav-btn" data-tab="story"><span>📖</span>Story</button>
+    <button class="nav-btn" data-tab="finance"><span>🏦</span>Bank</button>
+    <button class="nav-btn" data-tab="settings"><span>⚙️</span>Settings</button>
   </nav>
 
+  <!-- Real-World Lesson Event Modal -->
   <div class="modal-backdrop" id="event-modal">
     <div class="modal-box">
       <h3 id="modal-title">Real-World Challenge</h3>
@@ -423,90 +655,592 @@
     </div>
   </div>
 
+  <!-- Story Chapter Unlock Modal -->
+  <div class="modal-backdrop" id="story-modal">
+    <div class="modal-box">
+      <h3 id="story-modal-title">📖 New Story Chapter Unlocked!</h3>
+      <p id="story-modal-body" style="font-size:0.86rem; color:var(--text-primary); line-height:1.5;"></p>
+      <button class="btn btn-buy btn-full" id="close-story-modal">Continue Empire</button>
+    </div>
+  </div>
+
+  <!-- How to Play Help Guide Modal -->
+  <div class="modal-backdrop" id="help-modal">
+    <div class="modal-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <h3>📖 How to Play &amp; Build Your Empire</h3>
+        <button class="pill-btn" id="close-help-top">✕</button>
+      </div>
+      <p style="font-size:0.82rem;color:var(--text-secondary);">
+        Grow your Net Worth (<strong>Cash + Vault − Debt</strong>) to <strong>$500,000+</strong> before Day 180 ends, unlocking all 4 chapters of your custom character story.
+      </p>
+      <div class="guide-step">
+        <strong>1. Buy Low on the Market Tab</strong>
+        Look for green <strong>LOW</strong> tags where oversupply crashed prices. Tap <strong>+1</strong> or <strong>Max</strong> to fill your inventory up to your Capacity limit.
+      </div>
+      <div class="guide-step">
+        <strong>2. Travel to Advance Days &amp; Flip High</strong>
+        Go to the <strong>Travel</strong> tab and pick a new hub. Each trip advances <strong>1 Day</strong> and refreshes prices. Higher-tier hubs pay up to <strong>1.35x</strong> more! Sell when you see red <strong>SPIKE</strong> tags or prices above your <strong>Avg</strong> cost.
+      </div>
+      <div class="guide-step">
+        <strong>3. Pay Off Starter Debt Immediately</strong>
+        Your starter loan compounds daily based on your chosen <strong>Difficulty</strong> (2% Easy, 4% Normal, 7% Difficult). Open <strong>Bank</strong> and tap <strong>Pay Off Debt</strong> with your first profits.
+      </div>
+      <div class="guide-step">
+        <strong>4. Compound in the Vault &amp; Edit Look Anytime</strong>
+        Deposit spare cash into the <strong>Vault</strong> to earn daily yield, buy <strong>Pro Upgrades</strong> for extra capacity, and tweak your character's outfit, accessories, or name anytime in <strong>Settings</strong>!
+      </div>
+      <button class="btn btn-buy btn-full" id="close-help-bottom">Got It — Back to Empire</button>
+    </div>
+  </div>
+
   <script>
-    // Closure-encapsulated game engine (no global state exposure on window)
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v1";
+      const STORAGE_KEY = "hh_empire_save_v4";
+      const BACKUP_KEY = "hh_empire_undo_backup_v4";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
-      const HUBS = [
-        { id: "market", name: "Farmers Market & Local Feed", risk: "Low Risk", mult: 0.9 },
-        { id: "truck", name: "Food Truck Lot & TikTok Live", risk: "Medium Risk", mult: 1.0 },
-        { id: "bistro", name: "Downtown Bistro & Studio Row", risk: "Medium-High", mult: 1.15 },
-        { id: "nyc", name: "NYC / LA Brand & Michelin Hub", risk: "High Volatility", mult: 1.35 }
-      ];
+      // 7-Option Modular Avatar Template Catalog (expandable architecture)
+      const AVATAR_TEMPLATES = {
+        bodyShape: [
+          { id: "petite", label: "Petite", shoulderW: 48, torsoW: 34, headR: 21 },
+          { id: "slim", label: "Slim", shoulderW: 54, torsoW: 38, headR: 22 },
+          { id: "athletic", label: "Athletic", shoulderW: 64, torsoW: 44, headR: 22 },
+          { id: "curvy", label: "Curvy", shoulderW: 56, torsoW: 46, headR: 22 },
+          { id: "broad", label: "Broad", shoulderW: 72, torsoW: 52, headR: 23 },
+          { id: "tall", label: "Runway", shoulderW: 58, torsoW: 40, headR: 20 },
+          { id: "plus", label: "Bold", shoulderW: 74, torsoW: 58, headR: 23 }
+        ],
+        skinTone: [
+          { id: "porcelain", label: "Porcelain", hex: "#fde2d2", shadow: "#e8bfa8" },
+          { id: "ivory", label: "Warm Ivory", hex: "#f5cba7", shadow: "#d9a77e" },
+          { id: "golden", label: "Golden Honey", hex: "#e0ac69", shadow: "#bd8644" },
+          { id: "olive", label: "Mediterranean", hex: "#c68642", shadow: "#9e6327" },
+          { id: "caramel", label: "Caramel", hex: "#a5693d", shadow: "#7d4b26" },
+          { id: "espresso", label: "Rich Espresso", hex: "#6f4126", shadow: "#4f2b16" },
+          { id: "ebony", label: "Deep Ebony", hex: "#432517", shadow: "#2b160c" }
+        ],
+        hairStyle: [
+          { id: "sleek_bob", label: "Sleek Bob" },
+          { id: "long_waves", label: "Glam Waves" },
+          { id: "high_bun", label: "Chef/Studio Bun" },
+          { id: "afro_puff", label: "Crown Fro" },
+          { id: "fade_crop", label: "Clean Fade" },
+          { id: "side_part", label: "Executive Part" },
+          { id: "braids", label: "Box Braids" }
+        ],
+        hairColor: [
+          { id: "jet", label: "Jet Black", hex: "#18181b" },
+          { id: "espresso", label: "Dark Roast", hex: "#3b2314" },
+          { id: "chestnut", label: "Chestnut", hex: "#6b3a22" },
+          { id: "honey", label: "Honey Blonde", hex: "#d4a359" },
+          { id: "platinum", label: "Platinum", hex: "#e5e7eb" },
+          { id: "copper", label: "Copper Auburn", hex: "#9a3412" },
+          { id: "rose", label: "Rose Magenta", hex: "#db2777" }
+        ],
+        outfit: [
+          { id: "blazer", label: "Power Blazer", primary: "#1e293b", trim: "#f59e0b" },
+          { id: "chef_white", label: "Chef Whites", primary: "#f8fafc", trim: "#0f172a" },
+          { id: "chef_black", label: "Executive Chef", primary: "#111827", trim: "#ef4444" },
+          { id: "couture", label: "Velvet Couture", primary: "#831843", trim: "#fbcfe8" },
+          { id: "streetwear", label: "Hype Hoodie", primary: "#0f766e", trim: "#5eead4" },
+          { id: "tux", label: "Midnight Suit", primary: "#090d16", trim: "#eab308" },
+          { id: "apron", label: "Artisan Apron", primary: "#78350f", trim: "#fde68a" }
+        ],
+        accessory: [
+          { id: "none", label: "Clean Look" },
+          { id: "crown", label: "Royal Crown" },
+          { id: "chef_hat", label: "Toque Chef Hat" },
+          { id: "shades", label: "VIP Shades" },
+          { id: "ring_light", label: "Studio Halo" },
+          { id: "headset", label: "Creator Mic" },
+          { id: "whisk_knife", label: "Pro Chef Steel" }
+        ]
+      };
 
-      const COMMODITIES = [
-        { id: "audio", name: "Viral Audio Rights", path: "Social", min: 45, max: 190 },
-        { id: "truffle", name: "Black Winter Truffles", path: "Chef", min: 140, max: 480 },
-        { id: "sponsor", name: "Mid-Roll Brand Slot", path: "Social", min: 320, max: 980 },
-        { id: "wagyu", name: "A5 Miyazaki Wagyu", path: "Chef", min: 650, max: 1950 },
-        { id: "merch", name: "Capsule Cookware Drop", path: "Hybrid", min: 1400, max: 4200 },
-        { id: "equity", name: "Creator Network Equity", path: "Hybrid", min: 3500, max: 11500 }
-      ];
+      const DIFFICULTIES = {
+        easy: {
+          label: "Easy",
+          startCash: 3500,
+          startDebt: 1500,
+          debtRate: 1.02,
+          vaultRate: 1.02,
+          lessonBonusMult: 1.25,
+          lessonPenaltyMult: 0.6
+        },
+        normal: {
+          label: "Normal",
+          startCash: 2000,
+          startDebt: 2500,
+          debtRate: 1.04,
+          vaultRate: 1.015,
+          lessonBonusMult: 1.0,
+          lessonPenaltyMult: 1.0
+        },
+        difficult: {
+          label: "Difficult",
+          startCash: 1200,
+          startDebt: 4000,
+          debtRate: 1.07,
+          vaultRate: 1.01,
+          lessonBonusMult: 0.85,
+          lessonPenaltyMult: 1.4
+        }
+      };
 
-      const UPGRADES = [
-        { id: "knife", name: "Japanese Damascus Knife Roll", desc: "+15 Pantry/Queue Capacity", cost: 1200, capBonus: 15 },
-        { id: "rig", name: "4K Cinema & Ring Light Studio", desc: "+25 Capacity & +5% Sell Bonus", cost: 4500, capBonus: 25 },
-        { id: "commissary", name: "Cold-Storage Commissary Kitchen", desc: "+60 Capacity & Spoilage Shield", cost: 18000, capBonus: 60 },
-        { id: "agency", name: "In-House Legal & PR Retainer", desc: "+120 Capacity & Audit Protection", cost: 65000, capBonus: 120 }
-      ];
+      const GENRES = {
+        glam: { label: "Glam & Luxury" },
+        underdog: { label: "Underdog Comeback" },
+        thriller: { label: "Drama & Thriller" }
+      };
 
-      const LESSONS = [
-        {
-          title: "Food Costing Margin Check",
-          desc: "A supplier offers A5 Wagyu dishes costing $28 per plate in ingredients. To hit a healthy restaurant food-cost target of 28%, what should you price the menu dish at?",
-          choices: [
-            { text: "$100 ($28 is 28% of $100)", correct: true, reward: 1200, note: "Spot on! Menu Price = Ingredient Cost ÷ Target Food Cost % ($28 ÷ 0.28 = $100)." },
-            { text: "$56 (Double the ingredient cost)", correct: false, penalty: 400, note: "50% food cost leaves almost nothing after labor and rent! Target 28–32%." }
+      const STORY_ARCS = {
+        female: {
+          social: {
+            glam: {
+              title: "Queen of the Front Row",
+              chapters: [
+                { netWorth: -999999, heading: "Chapter 1: Velvet Rope Reject", text: "After being cropped out of a billionaire fashion gala photo by your ex-best friend, {NAME} vows to build a media empire so massive that Paris Fashion Week begs for your front-row RSVP." },
+                { netWorth: 10000, heading: "Chapter 2: The Viral Champagne Moment", text: "{NAME}'s unfiltered luxury review goes mega-viral overnight. Luxury houses flood your inbox, while your rival tries to blacklist you from LA showrooms." },
+                { netWorth: 100000, heading: "Chapter 3: Penthouse Media House", text: "{NAME} acquires a Soho loft studio and signs top beauty creators under your management banner, turning exclusivity into eight-figure leverage." },
+                { netWorth: 500000, heading: "Chapter 4: Empress of Culture", text: "{NAME} sits atop global trend reports. The very gala that once locked you out now pays your network seven figures just to broadcast the red carpet." }
+              ]
+            },
+            underdog: {
+              title: "Wi-Fi & A Dream",
+              chapters: [
+                { netWorth: -999999, heading: "Chapter 1: Filming on a Cracked Screen", text: "Working double shifts while editing videos on a borrowed phone, {NAME} launches a channel with a predatory agency loan hanging overhead." },
+                { netWorth: 10000, heading: "Chapter 2: Debt-Free Breakthrough", text: "{NAME}'s honest, no-filter storytelling builds a fiercely loyal community. Brands realize your audience actually buys everything you recommend." },
+                { netWorth: 100000, heading: "Chapter 3: Buying Back Your Masters", text: "{NAME} pays off every early creditor, launches a creator-owned product line, and hires hometown friends onto the production team." },
+                { netWorth: 500000, heading: "Chapter 4: Self-Made Media Queen", text: "From a cracked phone screen to a $500K+ independent media powerhouse—{NAME} proved authenticity beats industry gatekeepers every time." }
+              ]
+            },
+            thriller: {
+              title: "Algorithm Assassin",
+              chapters: [
+                { netWorth: -999999, heading: "Chapter 1: The Shadowban Setup", text: "Someone inside your old talent agency leaked {NAME}'s private drafts and triggered a coordinated shadowban to steal a flagship sponsorship. You rebuild to expose them." },
+                { netWorth: 10000, heading: "Chapter 2: Following the Paper Trail", text: "Trading high-margin ad slots across hubs, {NAME} uncovers the shell company funneling creator royalties away from emerging talent." },
+                { netWorth: 100000, heading: "Chapter 3: Hostile Takeover", text: "Armed with airtight contracts and a war chest of vault reserves, {NAME} outbids the former agency for the biggest brand deals in NYC." },
+                { netWorth: 500000, heading: "Chapter 4: Checkmate on Live Stream", text: "{NAME} acquires controlling equity in the network itself, forcing the corrupt executives out and claiming the crown." }
+              ]
+            }
+          },
+          chef: {
+            glam: {
+              title: "Haute Couture Cuisine",
+              chapters: [
+                { netWorth: -999999, heading: "Chapter 1: Blacklisted by the Critic", text: "A snobbish culinary editor mocks {NAME}'s home-kitchen supper club as 'untrained plating.' You set out to earn three Michelin stars and launch a designer cookware line." },
+                { netWorth: 10000, heading: "Chapter 2: Velvet Bistro Buzz", text: "A-list celebrities book out {NAME}'s pop-up tasting menu weeks in advance, desperate for your signature truffle and saffron courses." },
+                { netWorth: 100000, heading: "Chapter 3: Copper & Gold Cookware", text: "{NAME}'s luxury rose-gold and Damascus knife collection sells out nationwide within hours of launch." },
+                { netWorth: 500000, heading: "Chapter 4: Culinary Royalty", text: "The same critic who mocked {NAME}'s home kitchen now waits six months for a corner table at your flagship restaurant." }
+              ]
+            },
+            underdog: {
+              title: "Grandma's Secret Ledger",
+              chapters: [
+                { netWorth: -999999, heading: "Chapter 1: Cottage Kitchen Hustle", text: "Armed with a handwritten family recipe book and a steep kitchen equipment loan, {NAME} starts selling artisanal sauces and market plates at dawn." },
+                { netWorth: 10000, heading: "Chapter 2: Lines Around the Block", text: "Word-of-mouth turns {NAME}'s humble food truck into the city's hottest lunch stop, mastering food-cost margins along the way." },
+                { netWorth: 100000, heading: "Chapter 3: Brick-and-Mortar Flagship", text: "{NAME} signs the lease on a downtown dining room, keeping every family recipe intact while building a debt-free hospitality group." },
+                { netWorth: 500000, heading: "Chapter 4: Global Culinary Icon", text: "{NAME}'s signature brand now graces international restaurants and pantry shelves worldwide." }
+              ]
+            },
+            thriller: {
+              title: "Midnight Kitchen Syndicate",
+              chapters: [
+                { netWorth: -999999, heading: "Chapter 1: Stolen Menu, Burned Bridge", text: "The night before an investor tasting, a partner vanishes with {NAME}'s signature recipes and sabotages the walk-in freezer. You rebuild from zero to settle the score." },
+                { netWorth: 10000, heading: "Chapter 2: Cornering the Truffle Supply", text: "By locking down direct prime supplier contracts across markets, {NAME} starves the rival restaurant of rare ingredients." },
+                { netWorth: 100000, heading: "Chapter 3: The Blind Taste Showdown", text: "At the national culinary gala, judges unanimously crown {NAME}'s menu over the rival's stolen imitation." },
+                { netWorth: 500000, heading: "Chapter 4: Buying Out the Rival", text: "With the rival's restaurant in foreclosure, {NAME} buys their flagship space and hangs a new sign above the door." }
+              ]
+            }
+          }
+        },
+        male: {
+          social: {
+            glam: {
+              title: "King of the Penthouse Feed",
+              chapters: [
+                { netWorth: -999999, heading: "Chapter 1: Cropped Out of the Yacht Club", text: "After a tech-bro media mogul humiliates {NAME} at a Miami launch party, you swear to build an empire of luxury channels, watches, and creator equity." },
+                { netWorth: 10000, heading: "Chapter 2: First-Class Momentum", text: "{NAME}'s high-production reviews and sharp dealmaking turn your personal brand into a magnet for seven-figure luxury sponsorships." },
+                { netWorth: 100000, heading: "Chapter 3: The Beverly Hills Studio", text: "{NAME} opens a private rooftop production house, signing top talent and commanding premium rates across NYC and LA." },
+                { netWorth: 500000, heading: "Chapter 4: Undisputed Media King", text: "Private jets, global brand equity, and total creative control—{NAME} owns the entire ecosystem." }
+              ]
+            },
+            underdog: {
+              title: "Garage Mic to Media Mogul",
+              chapters: [
+                { netWorth: -999999, heading: "Chapter 1: Recording After Midnight", text: "Recording voiceovers in a parked car after night shifts with a $20 mic and a heavy starter loan, {NAME} bets everything on building an independent media brand." },
+                { netWorth: 10000, heading: "Chapter 2: The Breakout Series", text: "{NAME}'s raw, high-value breakdowns hit millions of views, wiping out starter debt and upgrading to a real 4K studio rig." },
+                { netWorth: 100000, heading: "Chapter 3: Creator-Owned Empire", text: "Instead of taking cheap ad reads, {NAME} launches a direct-to-consumer gear line and scales past six figures." },
+                { netWorth: 500000, heading: "Chapter 4: Hall of Fame Mogul", text: "From a $20 garage mic to a $500K+ media empire—{NAME} turned relentless daily consistency into generational wealth." }
+              ]
+            },
+            thriller: {
+              title: "Shadow Network",
+              chapters: [
+                { netWorth: -999999, heading: "Chapter 1: Hijacked Channel", text: "A rogue MCN executive locks {NAME} out of your original channel and freezes payouts. Starting from a burner account, you plot a ruthless comeback." },
+                { netWorth: 10000, heading: "Chapter 2: Outsmarting the Algorithm", text: "Using high-retention hooks and underground arbitrage deals, {NAME}'s new brand overtakes the stolen channel in half the time." },
+                { netWorth: 100000, heading: "Chapter 3: Exposing the Clauses", text: "{NAME} poaches the agency's top sponsors by offering transparent, high-converting campaigns backed by an in-house legal retainer." },
+                { netWorth: 500000, heading: "Chapter 4: Hostile Acquisition", text: "{NAME} buys out the old agency's debt and reclaims every asset they ever took." }
+              ]
+            }
+          },
+          chef: {
+            glam: {
+              title: "King of Michelin Row",
+              chapters: [
+                { netWorth: -999999, heading: "Chapter 1: Fired from the Five-Star Line", text: "Dismissed by an arrogant celebrity restaurateur for daring to reinvent his tasting menu, {NAME} sets out to build an ultra-luxury culinary empire." },
+                { netWorth: 10000, heading: "Chapter 2: Private Jet Catering", text: "Word spreads about {NAME}'s A5 Wagyu and black truffle creations, landing exclusive private dining contracts for billionaires." },
+                { netWorth: 100000, heading: "Chapter 3: The Obsidian Knife Line", text: "{NAME}'s signature Japanese steel chef knives and flagship bistro turn you into a household culinary icon." },
+                { netWorth: 500000, heading: "Chapter 4: Three-Star Sovereign", text: "{NAME}'s restaurant group dominates global dining rankings, eclipsing your former boss's entire portfolio." }
+              ]
+            },
+            underdog: {
+              title: "Cast Iron & Grit",
+              chapters: [
+                { netWorth: -999999, heading: "Chapter 1: One Burner & A Loan", text: "Starting with a single cast-iron skillet, farmers market stalls, and a steep kitchen equipment loan, {NAME} grinds 16-hour days to master food costing." },
+                { netWorth: 10000, heading: "Chapter 2: Sold Out Before Noon", text: "{NAME}'s obsession with quality and zero-waste FIFO prep turns a humble food truck into a local legend." },
+                { netWorth: 100000, heading: "Chapter 3: Opening the Neighborhood Bistro", text: "Debt-free and battle-tested, {NAME} opens a brick-and-mortar kitchen and trains a new generation of line cooks." },
+                { netWorth: 500000, heading: "Chapter 4: Self-Made Culinary Titan", text: "From a single farmers market table to a $500K+ culinary empire—every dollar earned by {NAME} from scratch." }
+              ]
+            },
+            thriller: {
+              title: "The Saffron Cartel",
+              chapters: [
+                { netWorth: -999999, heading: "Chapter 1: Sabotaged Opening Night", text: "A rival restaurant syndicate bribes suppliers to cancel {NAME}'s deliveries hours before grand opening. You pivot to direct market arbitrage to survive." },
+                { netWorth: 10000, heading: "Chapter 2: Supply Chain Ambush", text: "{NAME} buys up scarce truffles and saffron at flash-dip prices, flipping them for massive margins while rivals scramble." },
+                { netWorth: 100000, heading: "Chapter 3: Cold-Storage Fortress", text: "With a private commissary kitchen and prime supplier contracts, no syndicate can ever choke off {NAME}'s kitchen again." },
+                { netWorth: 500000, heading: "Chapter 4: King of the Culinary Underworld", text: "{NAME} controls the rarest ingredients and finest dining rooms across every major city." }
+              ]
+            }
+          }
+        }
+      };
+
+      const PATH_DATA = {
+        social: {
+          label: "Social Media Guru",
+          debtLabel: "Agency Debt",
+          capLabel: "Content Queue",
+          hubs: [
+            { id: "bedroom", name: "Bedroom Creator Feed", risk: "Low Risk", mult: 0.9 },
+            { id: "tiktok", name: "TikTok & Reels Live Hub", risk: "Medium Risk", mult: 1.0 },
+            { id: "studio", name: "LA Content House Row", risk: "Medium-High", mult: 1.18 },
+            { id: "nyc", name: "NYC Brand & Media HQ", risk: "High Volatility", mult: 1.35 }
+          ],
+          commodities: [
+            { id: "audio", name: "Viral Audio Rights", min: 45, max: 190 },
+            { id: "ugc", name: "UGC Ad Hook Package", min: 140, max: 480 },
+            { id: "sponsor", name: "Mid-Roll Brand Sponsorship", min: 340, max: 1020 },
+            { id: "collab", name: "A-List Creator Collab Slot", min: 700, max: 2100 },
+            { id: "merch", name: "Limited Merch Drop", min: 1500, max: 4400 },
+            { id: "equity", name: "Media Network Equity", min: 3600, max: 11800 }
+          ],
+          upgrades: [
+            { id: "u1", name: "Pro Ring Light & Lavalier Mic", desc: "+15 Content Queue Capacity", cost: 1200, capBonus: 15, sellBonus: 0 },
+            { id: "u2", name: "4K Cinema Rig & Editor Hire", desc: "+25 Capacity & +5% Deal Payouts", cost: 4500, capBonus: 25, sellBonus: 0.05 },
+            { id: "u3", name: "Evergreen Content Vault Server", desc: "+60 Content Queue Capacity", cost: 18000, capBonus: 60, sellBonus: 0 },
+            { id: "u4", name: "In-House Legal & PR Retainer", desc: "+120 Content Queue Capacity", cost: 65000, capBonus: 120, sellBonus: 0 }
+          ],
+          tiers: [
+            { min: 500000, name: "Tier 6: Global Media Titan" },
+            { min: 150000, name: "Tier 5: Lifestyle Brand Mogul" },
+            { min: 50000, name: "Tier 4: Multi-Channel Network" },
+            { min: 15000, name: "Tier 3: Viral Star" },
+            { min: 4000, name: "Tier 2: Micro-Influencer" },
+            { min: -Infinity, name: "Tier 1: Bedroom Creator" }
+          ],
+          lessons: [
+            {
+              title: "Brand Sponsorship Contract Trap",
+              desc: "A brand offers $3,000 for one Reel, but Clause 9 asks for 'Perpetual Worldwide Paid-Ad Whitelisting Rights.' What is the smart Mogul move?",
+              choices: [
+                { text: "Limit usage to 30 days & charge +50% usage fee", correct: true, reward: 1800, note: "Pro move! Never give away perpetual ad rights for free—license usage in 30-day windows." },
+                { text: "Sign immediately so they don't walk away", correct: false, penalty: 600, note: "Perpetual rights let them run your face in ads forever without paying you again." }
+              ]
+            },
+            {
+              title: "Hook & Retention Optimization",
+              desc: "Your latest video has 100,000 impressions, but 75% of viewers swipe away in the first 2 seconds. What should you fix first?",
+              choices: [
+                { text: "Rewrite the 3-second visual + spoken hook", correct: true, reward: 1100, note: "Correct! Fixing early retention boosts algorithm distribution far more than hashtags." },
+                { text: "Add 40 trending hashtags to the caption", correct: false, penalty: 450, note: "Hashtags can't save a weak opening hook—viewers decide in the first 3 seconds." }
+              ]
+            },
+            {
+              title: "Quarterly 1099 Creator Taxes",
+              desc: "You just netted $10,000 in 1099 brand deals and creator payouts. How much should you sweep into your Tax Vault?",
+              choices: [
+                { text: "Set aside 25%–30% ($2,500–$3,000)", correct: true, reward: 1500, note: "Smart! Setting aside 25–30% for self-employment and income taxes prevents cash crunches." },
+                { text: "Spend 100% on designer props", correct: false, penalty: 900, note: "Spending your tax reserve triggers an IRS underpayment penalty!" }
+              ]
+            }
           ]
         },
-        {
-          title: "Brand Sponsorship Contract Trap",
-          desc: "A cookware brand offers $3,000 for one Reel, but Clause 9 asks for 'Perpetual Worldwide Paid-Ad Whitelisting Rights.' What is the smart Mogul move?",
-          choices: [
-            { text: "Limit usage to 30 days & charge +50% usage fee", correct: true, reward: 1800, note: "Pro move! Never give away perpetual ad rights for free—license usage in 30-day windows." },
-            { text: "Sign immediately so they don't walk away", correct: false, penalty: 600, note: "Perpetual rights let them run your face in ads forever without paying you again." }
-          ]
-        },
-        {
-          title: "FIFO Inventory & Cold Chain",
-          desc: "You receive a fresh crate of truffles while older stock is still in the prep fridge. How do you stock the shelves?",
-          choices: [
-            { text: "FIFO: Move older stock to the front, new stock behind", correct: true, reward: 950, note: "First-In, First-Out (FIFO) prevents spoilage waste and protects your profit margin." },
-            { text: "Stack new crates on top for faster access", correct: false, penalty: 500, note: "LIFO causes buried ingredients to spoil—costing you $500 in ruined inventory." }
-          ]
-        },
-        {
-          title: "Quarterly Estimated Taxes",
-          desc: "You just netted $10,000 in 1099 brand deals and pop-up profits. How much should you sweep into your Tax Vault?",
-          choices: [
-            { text: "Set aside 25%–30% ($2,500–$3,000)", correct: true, reward: 1500, note: "Smart! Setting aside 25–30% for self-employment and income taxes prevents cash crunches." },
-            { text: "Reinvest 100% into luxury props", correct: false, penalty: 900, note: "Spending your tax reserve triggers an IRS underpayment penalty!" }
+
+        chef: {
+          label: "Homecook to Chef",
+          debtLabel: "Kitchen Loan",
+          capLabel: "Pantry Space",
+          hubs: [
+            { id: "farmers", name: "Local Farmers Market", risk: "Low Risk", mult: 0.9 },
+            { id: "truck", name: "Downtown Food Truck Lot", risk: "Medium Risk", mult: 1.0 },
+            { id: "bistro", name: "Fine Dining Bistro District", risk: "Medium-High", mult: 1.18 },
+            { id: "michelin", name: "NYC / Paris Culinary Row", risk: "High Volatility", mult: 1.35 }
+          ],
+          commodities: [
+            { id: "saffron", name: "Kashmiri Saffron Threads", min: 45, max: 190 },
+            { id: "truffle", name: "Black Winter Truffles", min: 140, max: 480 },
+            { id: "catering", name: "Private Dinner Contract", min: 340, max: 1020 },
+            { id: "wagyu", name: "A5 Miyazaki Wagyu", min: 700, max: 2100 },
+            { id: "cookware", name: "Signature Knife & Pan Line", min: 1500, max: 4400 },
+            { id: "bistro_stake", name: "Restaurant Group Equity", min: 3600, max: 11800 }
+          ],
+          upgrades: [
+            { id: "u1", name: "Japanese Damascus Knife Roll", desc: "+15 Pantry Storage Capacity", cost: 1200, capBonus: 15, sellBonus: 0 },
+            { id: "u2", name: "Commercial Sous-Vide & Prep Line", desc: "+25 Capacity & +5% Menu Margins", cost: 4500, capBonus: 25, sellBonus: 0.05 },
+            { id: "u3", name: "Walk-In Cold-Storage Commissary", desc: "+60 Pantry Storage Capacity", cost: 18000, capBonus: 60, sellBonus: 0 },
+            { id: "u4", name: "Prime Supplier & Michelin Brigade", desc: "+120 Pantry Storage Capacity", cost: 65000, capBonus: 120, sellBonus: 0 }
+          ],
+          tiers: [
+            { min: 500000, name: "Tier 6: Global Culinary Icon" },
+            { min: 150000, name: "Tier 5: Michelin & Cookware Empire" },
+            { min: 50000, name: "Tier 4: Multi-City Restaurant Group" },
+            { min: 15000, name: "Tier 3: Brick-and-Mortar Bistro" },
+            { min: 4000, name: "Tier 2: Food Truck Owner" },
+            { min: -Infinity, name: "Tier 1: Cottage Homecook" }
+          ],
+          lessons: [
+            {
+              title: "Food Costing Margin Check",
+              desc: "A supplier offers A5 Wagyu dishes costing $28 per plate in ingredients. To hit a healthy restaurant food-cost target of 28%, what should you price the menu dish at?",
+              choices: [
+                { text: "$100 ($28 is 28% of $100)", correct: true, reward: 1200, note: "Spot on! Menu Price = Ingredient Cost ÷ Target Food Cost % ($28 ÷ 0.28 = $100)." },
+                { text: "$56 (Double the ingredient cost)", correct: false, penalty: 400, note: "50% food cost leaves almost nothing after labor and rent! Target 28–32%." }
+              ]
+            },
+            {
+              title: "FIFO Inventory & Cold Chain",
+              desc: "You receive a fresh crate of truffles while older stock is still in the prep fridge. How do you stock the shelves?",
+              choices: [
+                { text: "FIFO: Move older stock to the front, new stock behind", correct: true, reward: 950, note: "First-In, First-Out (FIFO) prevents spoilage waste and protects your profit margin." },
+                { text: "Stack new crates on top for faster access", correct: false, penalty: 500, note: "LIFO causes buried ingredients to spoil—costing you $500 in ruined inventory." }
+              ]
+            },
+            {
+              title: "Prep Yield & Trim Loss Math",
+              desc: "You buy 10 lbs of whole beef tenderloin at $20/lb ($200 total), and trimming yields 8 lbs of usable steaks. What is your true usable cost per pound?",
+              choices: [
+                { text: "$25.00/lb ($200 ÷ 8 usable lbs)", correct: true, reward: 1400, note: "Exact! Always calculate menu pricing using post-trim yield cost ($200 ÷ 8 lbs = $25/lb)." },
+                { text: "$20.00/lb (Same as invoice price)", correct: false, penalty: 550, note: "Ignoring trim loss underprices your plates and quietly drains kitchen profits." }
+              ]
+            }
           ]
         }
-      ];
-
-      let state = {
-        day: 1,
-        maxDays: 180,
-        hub: "market",
-        theme: "queen",
-        avatar: "👑",
-        name: "Chef & Mogul",
-        pathFocus: "Hybrid Empire",
-        cash: 2000,
-        debt: 2500,
-        vault: 0,
-        baseCap: 25,
-        upgrades: [],
-        inventory: {}, // { id: { qty, avgCost } }
-        prices: {},
-        news: "Welcome! Buy low in local hubs, travel to flip high, and pay off your starter loan.",
-        tab: "market"
       };
+
+      // Generates layered SVG character artwork from the 7-option templates
+      function renderAvatarSVG(avatarCfg, gender) {
+        const body = AVATAR_TEMPLATES.bodyShape.find(x => x.id === avatarCfg.bodyShape) || AVATAR_TEMPLATES.bodyShape[1];
+        const skin = AVATAR_TEMPLATES.skinTone.find(x => x.id === avatarCfg.skinTone) || AVATAR_TEMPLATES.skinTone[2];
+        const hairColor = AVATAR_TEMPLATES.hairColor.find(x => x.id === avatarCfg.hairColor) || AVATAR_TEMPLATES.hairColor[0];
+        const outfit = AVATAR_TEMPLATES.outfit.find(x => x.id === avatarCfg.outfit) || AVATAR_TEMPLATES.outfit[0];
+        const hairStyle = avatarCfg.hairStyle;
+        const acc = avatarCfg.accessory;
+
+        const cx = 60;
+        const headY = 46;
+        const r = body.headR;
+        const shW = body.shoulderW;
+        const torW = body.torsoW;
+
+        let backHair = "";
+        if (hairStyle === "long_waves") {
+          backHair = `<path d="M ${cx - r - 6} ${headY} Q ${cx - r - 10} 92 ${cx - r + 2} 102 L ${cx + r - 2} 102 Q ${cx + r + 10} 92 ${cx + r + 6} ${headY} Z" fill="${hairColor.hex}" />`;
+        } else if (hairStyle === "afro_puff") {
+          backHair = `<circle cx="${cx}" cy="${headY - 6}" r="${r + 11}" fill="${hairColor.hex}" />`;
+        } else if (hairStyle === "braids") {
+          backHair = `
+            <rect x="${cx - r - 5}" y="${headY}" width="6" height="54" rx="3" fill="${hairColor.hex}" />
+            <rect x="${cx - r + 2}" y="${headY + 4}" width="5" height="52" rx="2.5" fill="${hairColor.hex}" />
+            <rect x="${cx + r - 7}" y="${headY + 4}" width="5" height="52" rx="2.5" fill="${hairColor.hex}" />
+            <rect x="${cx + r - 1}" y="${headY}" width="6" height="54" rx="3" fill="${hairColor.hex}" />
+          `;
+        }
+
+        let frontHair = "";
+        if (hairStyle === "sleek_bob") {
+          frontHair = `<path d="M ${cx - r - 3} ${headY + 12} Q ${cx - r - 4} ${headY - r - 6} ${cx} ${headY - r - 6} Q ${cx + r + 4} ${headY - r - 6} ${cx + r + 3} ${headY + 12} Q ${cx + r - 4} ${headY - 6} ${cx} ${headY - 8} Q ${cx - r + 4} ${headY - 6} ${cx - r - 3} ${headY + 12} Z" fill="${hairColor.hex}" />`;
+        } else if (hairStyle === "long_waves") {
+          frontHair = `<path d="M ${cx - r - 2} ${headY + 2} Q ${cx} ${headY - r - 10} ${cx + r + 2} ${headY + 2} Q ${cx + r - 4} ${headY - 10} ${cx} ${headY - 10} Q ${cx - r + 4} ${headY - 10} ${cx - r - 2} ${headY + 2} Z" fill="${hairColor.hex}" />`;
+        } else if (hairStyle === "high_bun") {
+          frontHair = `
+            <circle cx="${cx}" cy="${headY - r - 7}" r="11" fill="${hairColor.hex}" />
+            <path d="M ${cx - r} ${headY - 2} Q ${cx} ${headY - r - 8} ${cx + r} ${headY - 2} Q ${cx} ${headY - 11} ${cx - r} ${headY - 2} Z" fill="${hairColor.hex}" />
+          `;
+        } else if (hairStyle === "afro_puff") {
+          frontHair = `<path d="M ${cx - r} ${headY - 4} Q ${cx} ${headY - r - 6} ${cx + r} ${headY - 4} Q ${cx} ${headY - 12} ${cx - r} ${headY - 4} Z" fill="${hairColor.hex}" />`;
+        } else if (hairStyle === "fade_crop") {
+          frontHair = `<path d="M ${cx - r + 1} ${headY - 5} Q ${cx} ${headY - r - 7} ${cx + r - 1} ${headY - 5} Q ${cx} ${headY - 13} ${cx - r + 1} ${headY - 5} Z" fill="${hairColor.hex}" />`;
+        } else if (hairStyle === "side_part") {
+          frontHair = `<path d="M ${cx - r} ${headY - 2} Q ${cx - 6} ${headY - r - 11} ${cx + r + 1} ${headY - 4} Q ${cx + 2} ${headY - 12} ${cx - r} ${headY - 2} Z" fill="${hairColor.hex}" />`;
+        } else if (hairStyle === "braids") {
+          frontHair = `<path d="M ${cx - r - 1} ${headY - 1} Q ${cx} ${headY - r - 8} ${cx + r + 1} ${headY - 1} Q ${cx} ${headY - 11} ${cx - r - 1} ${headY - 1} Z" fill="${hairColor.hex}" />`;
+        }
+
+        let ringLightBack = "";
+        if (acc === "ring_light") {
+          ringLightBack = `<circle cx="${cx}" cy="${headY + 4}" r="36" fill="none" stroke="#38bdf8" stroke-width="3.5" opacity="0.85" />`;
+        }
+
+        let accFront = "";
+        if (acc === "crown") {
+          accFront = `<polygon points="${cx - 13},${headY - r + 1} ${cx - 9},${headY - r - 12} ${cx - 3},${headY - r - 5} ${cx},${headY - r - 15} ${cx + 3},${headY - r - 5} ${cx + 9},${headY - r - 12} ${cx + 13},${headY - r + 1}" fill="#facc15" stroke="#ca8a04" stroke-width="1.2" />`;
+        } else if (acc === "chef_hat") {
+          accFront = `
+            <rect x="${cx - 13}" y="${headY - r - 8}" width="26" height="10" rx="2" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+            <circle cx="${cx - 8}" cy="${headY - r - 11}" r="7" fill="#ffffff" />
+            <circle cx="${cx}" cy="${headY - r - 13}" r="8" fill="#ffffff" />
+            <circle cx="${cx + 8}" cy="${headY - r - 11}" r="7" fill="#ffffff" />
+          `;
+        } else if (acc === "shades") {
+          accFront = `
+            <rect x="${cx - 15}" y="${headY - 5}" width="13" height="8" rx="2" fill="#090d16" stroke="#eab308" stroke-width="1.2" />
+            <rect x="${cx + 2}" y="${headY - 5}" width="13" height="8" rx="2" fill="#090d16" stroke="#eab308" stroke-width="1.2" />
+            <line x1="${cx - 2}" y1="${headY - 2}" x2="${cx + 2}" y2="${headY - 2}" stroke="#eab308" stroke-width="1.5" />
+          `;
+        } else if (acc === "headset") {
+          accFront = `
+            <path d="M ${cx - r - 1} ${headY - 2} Q ${cx} ${headY - r - 8} ${cx + r + 1} ${headY - 2}" fill="none" stroke="#94a3b8" stroke-width="2.5" />
+            <rect x="${cx - r - 4}" y="${headY - 6}" width="5" height="10" rx="2" fill="#f43f5e" />
+            <path d="M ${cx - r - 2} ${headY + 4} Q ${cx - 10} ${headY + 12} ${cx - 4} ${headY + 11}" fill="none" stroke="#cbd5e1" stroke-width="1.8" />
+          `;
+        } else if (acc === "whisk_knife") {
+          accFront = `
+            <polygon points="${cx + shW/2 - 4},78 ${cx + shW/2 + 6},66 ${cx + shW/2 + 8},68 ${cx + shW/2 - 1},82" fill="#e2e8f0" />
+            <rect x="${cx + shW/2 - 6}" y="80" width="4" height="10" rx="1" fill="#78350f" />
+          `;
+        }
+
+        const lashes = gender === "female"
+          ? `<line x1="${cx - 11}" y1="${headY - 2}" x2="${cx - 14}" y2="${headY - 4}" stroke="#18181b" stroke-width="1.3" />
+             <line x1="${cx + 11}" y1="${headY - 2}" x2="${cx + 14}" y2="${headY - 4}" stroke="#18181b" stroke-width="1.3" />`
+          : "";
+
+        return `
+          <svg viewBox="0 0 120 136" xmlns="http://www.w3.org/2000/svg">
+            ${ringLightBack}
+            ${backHair}
+            <!-- Neck -->
+            <rect x="${cx - 7}" y="${headY + r - 4}" width="14" height="16" rx="5" fill="${skin.shadow}" />
+            <!-- Shoulders & Torso -->
+            <path d="M ${cx - shW/2} 136 L ${cx - shW/2 + 3} 92 Q ${cx - shW/2 + 5} 78 ${cx - 12} 76 L ${cx + 12} 76 Q ${cx + shW/2 - 5} 78 ${cx + shW/2 - 3} 92 L ${cx + shW/2} 136 Z" fill="${outfit.primary}" />
+            <!-- Outfit Lapel / Trim -->
+            <polygon points="${cx - 11},76 ${cx},98 ${cx + 11},76" fill="${skin.hex}" />
+            <path d="M ${cx - 11} 76 L ${cx} 98 L ${cx + 11} 76" fill="none" stroke="${outfit.trim}" stroke-width="3" />
+            <!-- Waist Contour -->
+            <line x1="${cx - torW/2}" y1="104" x2="${cx - torW/2 + 2}" y2="136" stroke="rgba(0,0,0,0.22)" stroke-width="2" />
+            <line x1="${cx + torW/2}" y1="104" x2="${cx + torW/2 - 2}" y2="136" stroke="rgba(0,0,0,0.22)" stroke-width="2" />
+            <!-- Head -->
+            <circle cx="${cx}" cy="${headY}" r="${r}" fill="${skin.hex}" />
+            <!-- Eyes & Smile -->
+            <circle cx="${cx - 8}" cy="${headY - 1}" r="2.3" fill="#18181b" />
+            <circle cx="${cx + 8}" cy="${headY - 1}" r="2.3" fill="#18181b" />
+            ${lashes}
+            <path d="M ${cx - 6} ${headY + 8} Q ${cx} ${headY + 13} ${cx + 6} ${headY + 8}" fill="none" stroke="#9f1239" stroke-width="2" stroke-linecap="round" />
+            ${frontHair}
+            ${accFront}
+          </svg>
+        `;
+      }
+
+      function defaultAvatarConfig(gender, path) {
+        return {
+          bodyShape: gender === "female" ? "curvy" : "athletic",
+          skinTone: "golden",
+          hairStyle: gender === "female" ? "long_waves" : "fade_crop",
+          hairColor: "jet",
+          outfit: path === "chef" ? "chef_white" : "blazer",
+          accessory: path === "chef" ? "chef_hat" : "crown"
+        };
+      }
+
+      function sanitizeName(raw) {
+        const cleaned = String(raw || "").replace(/\s+/g, " ").trim().slice(0, 20);
+        return cleaned.length > 0 ? cleaned : "Mogul";
+      }
+
+      let draftSetup = {
+        charName: "Nova",
+        gender: "female",
+        path: "social",
+        genre: "glam",
+        difficulty: "normal",
+        avatarCfg: defaultAvatarConfig("female", "social")
+      };
+
+      function createFreshState(setup) {
+        if (!setup) {
+          return {
+            started: false,
+            charName: "Nova",
+            gender: "female",
+            path: "social",
+            genre: "glam",
+            difficulty: "normal",
+            avatarCfg: defaultAvatarConfig("female", "social"),
+            day: 1,
+            maxDays: 180,
+            hub: "",
+            theme: "queen",
+            cash: 2000,
+            debt: 2500,
+            vault: 0,
+            baseCap: 25,
+            upgrades: [],
+            inventory: {},
+            prices: {},
+            unlockedChapters: 1,
+            news: "Design your avatar, name your character (up to 20 chars), and choose your path below!",
+            tab: "market"
+          };
+        }
+
+        const cfg = PATH_DATA[setup.path];
+        const diff = DIFFICULTIES[setup.difficulty];
+        const arc = STORY_ARCS[setup.gender][setup.path][setup.genre];
+        const defaultTheme = setup.gender === "female" ? "queen" : "king";
+        const finalName = sanitizeName(setup.charName);
+
+        return {
+          started: true,
+          charName: finalName,
+          gender: setup.gender,
+          path: setup.path,
+          genre: setup.genre,
+          difficulty: setup.difficulty,
+          avatarCfg: Object.assign({}, setup.avatarCfg),
+          day: 1,
+          maxDays: 180,
+          hub: cfg.hubs[0].id,
+          theme: defaultTheme,
+          cash: diff.startCash,
+          debt: diff.startDebt,
+          vault: 0,
+          baseCap: 25,
+          upgrades: [],
+          inventory: {},
+          prices: {},
+          unlockedChapters: 1,
+          news: `📖 ${finalName}'s "${arc.title}" (${diff.label}) — Buy low, travel to flip high!`,
+          tab: "market"
+        };
+      }
+
+      let state = createFreshState(null);
+      let undoAvailable = false;
 
       async function computeHash(payloadStr) {
         const enc = new TextEncoder().encode(payloadStr + "::" + INTEGRITY_SALT);
@@ -519,38 +1253,85 @@
           const data = JSON.stringify(state);
           const sig = await computeHash(data);
           localStorage.setItem(STORAGE_KEY, JSON.stringify({ data, sig }));
-        } catch (e) {
-          // Ignore storage quota errors
-        }
+        } catch (e) {}
+      }
+
+      async function saveUndoBackup(snapshotState) {
+        try {
+          const data = JSON.stringify(snapshotState);
+          const sig = await computeHash(data);
+          localStorage.setItem(BACKUP_KEY, JSON.stringify({ data, sig }));
+          undoAvailable = true;
+        } catch (e) {}
+      }
+
+      async function restoreUndoBackup() {
+        try {
+          const raw = localStorage.getItem(BACKUP_KEY);
+          if (!raw) return;
+          const parsed = JSON.parse(raw);
+          const expectedSig = await computeHash(parsed.data);
+          if (parsed.sig !== expectedSig) return;
+          state = JSON.parse(parsed.data);
+          localStorage.removeItem(BACKUP_KEY);
+          undoAvailable = false;
+          state.news = `↩️ ${state.charName}'s empire restored! Your 1-time Undo has been used.`;
+          await saveGame();
+          render();
+        } catch (e) {}
       }
 
       async function loadGame() {
         try {
-          const raw = localStorage.getItem(STORAGE_KEY);
-          if (!raw) {
-            rollPrices();
-            return;
+          const backupRaw = localStorage.getItem(BACKUP_KEY);
+          if (backupRaw) {
+            const parsedB = JSON.parse(backupRaw);
+            if ((await computeHash(parsedB.data)) === parsedB.sig) {
+              undoAvailable = true;
+            }
           }
+
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return;
           const parsed = JSON.parse(raw);
           const expectedSig = await computeHash(parsed.data);
           if (parsed.sig !== expectedSig) {
-            alert("Save file integrity check failed. Starting a fresh verified empire.");
-            rollPrices();
+            alert("Save file integrity check failed. Starting fresh.");
+            state = createFreshState(null);
             await saveGame();
             return;
           }
-          state = Object.assign(state, JSON.parse(parsed.data));
+          state = Object.assign(createFreshState(null), JSON.parse(parsed.data));
+          if (state.started && Object.keys(state.prices).length === 0) {
+            rollPrices();
+          }
         } catch (e) {
-          rollPrices();
+          state = createFreshState(null);
         }
       }
 
+      function getCfg() { return PATH_DATA[state.path]; }
+      function getDiff() { return DIFFICULTIES[state.difficulty] || DIFFICULTIES.normal; }
+      function getStoryArc() { return STORY_ARCS[state.gender][state.path][state.genre]; }
+      function formatStoryText(tpl, name) { return tpl.replace(/\{NAME\}/g, sanitizeName(name)); }
+      function getNetWorth() { return state.cash + state.vault - state.debt; }
+
       function getCapacity() {
+        const cfg = getCfg();
         const bonus = state.upgrades.reduce((sum, uId) => {
-          const found = UPGRADES.find(u => u.id === uId);
+          const found = cfg.upgrades.find(u => u.id === uId);
           return sum + (found ? found.capBonus : 0);
         }, 0);
         return state.baseCap + bonus;
+      }
+
+      function getSellMultiplier() {
+        const cfg = getCfg();
+        const bonus = state.upgrades.reduce((sum, uId) => {
+          const found = cfg.upgrades.find(u => u.id === uId);
+          return sum + (found ? found.sellBonus : 0);
+        }, 0);
+        return 1.0 + bonus;
       }
 
       function getUsedCapacity() {
@@ -558,27 +1339,41 @@
       }
 
       function getTierLabel() {
-        const netWorth = state.cash + state.vault - state.debt;
-        if (netWorth >= 500000) return "Tier 6: Global Empire Icon";
-        if (netWorth >= 150000) return "Tier 5: Lifestyle & Cookware Brand";
-        if (netWorth >= 50000) return "Tier 4: Multi-City Network";
-        if (netWorth >= 15000) return "Tier 3: Bistro & Viral Star";
-        if (netWorth >= 4000) return "Tier 2: Food Truck & Micro-Mogul";
-        return "Tier 1: Bedroom Hustler";
+        const cfg = getCfg();
+        const nw = getNetWorth();
+        const tier = cfg.tiers.find(t => nw >= t.min);
+        return tier ? tier.name : cfg.tiers[cfg.tiers.length - 1].name;
+      }
+
+      function checkStoryProgression() {
+        const arc = getStoryArc();
+        const nw = getNetWorth();
+        let highestUnlocked = 1;
+        arc.chapters.forEach((ch, idx) => {
+          if (nw >= ch.netWorth) highestUnlocked = idx + 1;
+        });
+        if (highestUnlocked > state.unlockedChapters) {
+          state.unlockedChapters = highestUnlocked;
+          const ch = arc.chapters[highestUnlocked - 1];
+          document.getElementById("story-modal-title").textContent = `📖 ${ch.heading}`;
+          document.getElementById("story-modal-body").textContent = formatStoryText(ch.text, state.charName);
+          document.getElementById("story-modal").classList.add("open");
+        }
       }
 
       function rollPrices() {
-        const hubObj = HUBS.find(h => h.id === state.hub) || HUBS[0];
+        const cfg = getCfg();
+        const hubObj = cfg.hubs.find(h => h.id === state.hub) || cfg.hubs[0];
         const nextPrices = {};
         let spikeNote = "";
 
-        COMMODITIES.forEach(c => {
+        cfg.commodities.forEach(c => {
           let price = Math.round((c.min + Math.random() * (c.max - c.min)) * hubObj.mult);
           const roll = Math.random();
-          if (roll < 0.14) {
+          if (roll < 0.15) {
             price = Math.round(price * 2.1);
-            spikeNote = `🔥 VIRAL SURGE: ${c.name} prices skyrocketed in ${hubObj.name}!`;
-          } else if (roll > 0.86) {
+            spikeNote = `🔥 DEMAND SURGE: ${c.name} prices skyrocketed in ${hubObj.name}!`;
+          } else if (roll > 0.85) {
             price = Math.max(15, Math.round(price * 0.52));
             spikeNote = `💸 FLASH DIP: Oversupply crashed ${c.name} prices!`;
           }
@@ -596,13 +1391,42 @@
       function applyTheme(themeName) {
         state.theme = themeName;
         document.documentElement.setAttribute("data-theme", themeName);
-        document.querySelectorAll(".pill-btn").forEach(btn => {
-          btn.classList.toggle("active", btn.dataset.setTheme === themeName);
-        });
+      }
+
+      function launchNewRun() {
+        state = createFreshState(draftSetup);
+        rollPrices();
+        saveGame();
+        render();
+        const arc = getStoryArc();
+        document.getElementById("story-modal-title").textContent = `📖 ${arc.title} — ${arc.chapters[0].heading}`;
+        document.getElementById("story-modal-body").textContent = formatStoryText(arc.chapters[0].text, state.charName);
+        document.getElementById("story-modal").classList.add("open");
+      }
+
+      async function triggerResetWithUndo() {
+        if (state.started) {
+          await saveUndoBackup(JSON.parse(JSON.stringify(state)));
+          draftSetup = {
+            charName: state.charName,
+            gender: state.gender,
+            path: state.path,
+            genre: state.genre,
+            difficulty: state.difficulty,
+            avatarCfg: Object.assign({}, state.avatarCfg)
+          };
+        }
+        state = createFreshState(null);
+        state.theme = draftSetup.gender === "female" ? "queen" : "king";
+        state.news = "Game reset! Customize your character & story below—or tap Undo above if that was an accident.";
+        await saveGame();
+        render();
       }
 
       function triggerLessonModal() {
-        const lesson = LESSONS[Math.floor(Math.random() * LESSONS.length)];
+        const cfg = getCfg();
+        const diff = getDiff();
+        const lesson = cfg.lessons[Math.floor(Math.random() * cfg.lessons.length)];
         const modal = document.getElementById("event-modal");
         document.getElementById("modal-title").textContent = "🎓 " + lesson.title;
         document.getElementById("modal-desc").textContent = lesson.desc;
@@ -615,13 +1439,16 @@
           btn.textContent = ch.text;
           btn.onclick = () => {
             if (ch.correct) {
-              state.cash += ch.reward;
-              state.news = `✅ +${fmt(ch.reward)} Bonus! ${ch.note}`;
+              const bonus = Math.round(ch.reward * diff.lessonBonusMult);
+              state.cash += bonus;
+              state.news = `✅ +${fmt(bonus)} Bonus! ${ch.note}`;
             } else {
-              state.cash = Math.max(0, state.cash - ch.penalty);
-              state.news = `⚠️ -${fmt(ch.penalty)} Loss! ${ch.note}`;
+              const loss = Math.round(ch.penalty * diff.lessonPenaltyMult);
+              state.cash = Math.max(0, state.cash - loss);
+              state.news = `⚠️ -${fmt(loss)} Loss! ${ch.note}`;
             }
             modal.classList.remove("open");
+            checkStoryProgression();
             saveGame();
             render();
           };
@@ -652,12 +1479,12 @@
         const existing = state.inventory[id];
         if (!existing || existing.qty <= 0) return;
         const actualQty = Math.min(qty, existing.qty);
-        const sellBonus = state.upgrades.includes("rig") ? 1.05 : 1.0;
-        const revenue = Math.round(actualQty * state.prices[id] * sellBonus);
+        const revenue = Math.round(actualQty * state.prices[id] * getSellMultiplier());
 
         existing.qty -= actualQty;
         if (existing.qty === 0) delete state.inventory[id];
         state.cash += revenue;
+        checkStoryProgression();
         saveGame();
         render();
       }
@@ -665,16 +1492,17 @@
       function travelTo(hubId) {
         if (hubId === state.hub) return;
         if (state.day >= state.maxDays) {
-          alert(`180-Day Season Complete! Final Net Worth: ${fmt(state.cash + state.vault - state.debt)}`);
+          alert(`180-Day Season Complete for ${state.charName}! Final Net Worth: ${fmt(getNetWorth())}`);
           return;
         }
+        const diff = getDiff();
         state.hub = hubId;
         state.day += 1;
-        // Daily compound debt (4%) and vault yield (1.5%)
-        if (state.debt > 0) state.debt = Math.round(state.debt * 1.04);
-        if (state.vault > 0) state.vault = Math.round(state.vault * 1.015);
+        if (state.debt > 0) state.debt = Math.round(state.debt * diff.debtRate);
+        if (state.vault > 0) state.vault = Math.round(state.vault * diff.vaultRate);
 
         rollPrices();
+        checkStoryProgression();
 
         if (Math.random() < 0.38) {
           triggerLessonModal();
@@ -683,34 +1511,324 @@
         render();
       }
 
+      function renderUndoBanner() {
+        const undoContainer = document.getElementById("undo-container");
+        undoContainer.innerHTML = "";
+        if (!undoAvailable) return;
+
+        const banner = document.createElement("div");
+        banner.className = "undo-banner";
+        banner.innerHTML = `
+          <span>Accidentally reset? Restore your previous save (1 Undo left).</span>
+          <button class="btn btn-success" id="undo-reset-btn">↩️ Undo Reset</button>
+        `;
+        undoContainer.appendChild(banner);
+        banner.querySelector("#undo-reset-btn").onclick = restoreUndoBackup;
+      }
+
+      function renderAvatarControls(parentEl, targetAvatarCfg, targetGender, onChange) {
+        const wrap = document.createElement("div");
+
+        // 1. Body Shape (7 templates)
+        wrap.innerHTML += `
+          <div class="setup-section">
+            <span class="setup-label">Body Shape &amp; Size (7 Templates)</span>
+            <div class="theme-pills" id="tpl-body"></div>
+          </div>
+          <div class="setup-section">
+            <span class="setup-label">Skin Tone (7 Shades)</span>
+            <div class="swatch-row" id="tpl-skin"></div>
+          </div>
+          <div class="setup-section">
+            <span class="setup-label">Hair Style (7 Styles)</span>
+            <div class="theme-pills" id="tpl-hair-style"></div>
+          </div>
+          <div class="setup-section">
+            <span class="setup-label">Hair Color (7 Shades)</span>
+            <div class="swatch-row" id="tpl-hair-color"></div>
+          </div>
+          <div class="setup-section">
+            <span class="setup-label">Signature Outfit (7 Looks)</span>
+            <div class="theme-pills" id="tpl-outfit"></div>
+          </div>
+          <div class="setup-section">
+            <span class="setup-label">Accessory &amp; Prop (7 Gear Items)</span>
+            <div class="theme-pills" id="tpl-acc"></div>
+          </div>
+        `;
+
+        const bodyBox = wrap.querySelector("#tpl-body");
+        AVATAR_TEMPLATES.bodyShape.forEach(item => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "pill-btn" + (targetAvatarCfg.bodyShape === item.id ? " active" : "");
+          b.textContent = item.label;
+          b.onclick = () => { targetAvatarCfg.bodyShape = item.id; onChange(); };
+          bodyBox.appendChild(b);
+        });
+
+        const skinBox = wrap.querySelector("#tpl-skin");
+        AVATAR_TEMPLATES.skinTone.forEach(item => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.title = item.label;
+          b.className = "swatch-btn" + (targetAvatarCfg.skinTone === item.id ? " active" : "");
+          b.style.backgroundColor = item.hex;
+          b.onclick = () => { targetAvatarCfg.skinTone = item.id; onChange(); };
+          skinBox.appendChild(b);
+        });
+
+        const hairStyleBox = wrap.querySelector("#tpl-hair-style");
+        AVATAR_TEMPLATES.hairStyle.forEach(item => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "pill-btn" + (targetAvatarCfg.hairStyle === item.id ? " active" : "");
+          b.textContent = item.label;
+          b.onclick = () => { targetAvatarCfg.hairStyle = item.id; onChange(); };
+          hairStyleBox.appendChild(b);
+        });
+
+        const hairColorBox = wrap.querySelector("#tpl-hair-color");
+        AVATAR_TEMPLATES.hairColor.forEach(item => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.title = item.label;
+          b.className = "swatch-btn" + (targetAvatarCfg.hairColor === item.id ? " active" : "");
+          b.style.backgroundColor = item.hex;
+          b.onclick = () => { targetAvatarCfg.hairColor = item.id; onChange(); };
+          hairColorBox.appendChild(b);
+        });
+
+        const outfitBox = wrap.querySelector("#tpl-outfit");
+        AVATAR_TEMPLATES.outfit.forEach(item => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "pill-btn" + (targetAvatarCfg.outfit === item.id ? " active" : "");
+          b.textContent = item.label;
+          b.onclick = () => { targetAvatarCfg.outfit = item.id; onChange(); };
+          outfitBox.appendChild(b);
+        });
+
+        const accBox = wrap.querySelector("#tpl-acc");
+        AVATAR_TEMPLATES.accessory.forEach(item => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "pill-btn" + (targetAvatarCfg.accessory === item.id ? " active" : "");
+          b.textContent = item.label;
+          b.onclick = () => { targetAvatarCfg.accessory = item.id; onChange(); };
+          accBox.appendChild(b);
+        });
+
+        parentEl.appendChild(wrap);
+      }
+
+      function renderCharacterBuilder(container) {
+        const previewTheme = draftSetup.gender === "female" ? "queen" : "king";
+        applyTheme(previewTheme);
+
+        const previewArc = STORY_ARCS[draftSetup.gender][draftSetup.path][draftSetup.genre];
+        const previewDiff = DIFFICULTIES[draftSetup.difficulty];
+        const previewCfg = PATH_DATA[draftSetup.path];
+        const displayName = sanitizeName(draftSetup.charName);
+        const avatarSVG = renderAvatarSVG(draftSetup.avatarCfg, draftSetup.gender);
+
+        document.getElementById("avatar-display").innerHTML = avatarSVG;
+        document.getElementById("player-title").textContent = displayName;
+        document.getElementById("tier-subtitle").textContent = `${previewDiff.label} Mode • ${previewCfg.label}`;
+        document.getElementById("debt-label").textContent = previewCfg.debtLabel;
+        document.getElementById("stat-cash").textContent = fmt(previewDiff.startCash);
+        document.getElementById("stat-debt").textContent = fmt(previewDiff.startDebt);
+        document.getElementById("stat-vault").textContent = "$0";
+        document.getElementById("stat-cap").textContent = "0 / 25";
+
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <h2><span>🎭 Character &amp; Story Builder</span></h2>
+
+          <div class="avatar-studio-stage">
+            <div class="avatar-preview-frame" id="live-avatar-stage">${avatarSVG}</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-weight:800;font-size:0.95rem;color:var(--accent);" id="stage-name-label">${displayName}</div>
+              <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:6px;">
+                ${draftSetup.gender === "female" ? "Female" : "Male"} • ${previewCfg.label}
+              </div>
+              <button type="button" class="pill-btn" id="randomize-avatar-btn">🎲 Randomize Look</button>
+            </div>
+          </div>
+
+          <div class="setup-section">
+            <span class="setup-label">
+              <span>1. Name Your Character</span>
+              <span id="char-count-label">${draftSetup.charName.length} / 20</span>
+            </span>
+            <div class="name-input-wrap">
+              <input type="text" maxlength="20" class="text-input" id="char-name-input" placeholder="Enter character name (max 20)..." value="${draftSetup.charName.replace(/"/g, "&quot;")}" />
+            </div>
+          </div>
+
+          <div class="setup-section">
+            <span class="setup-label">2. Select Gender</span>
+            <div class="choice-grid-2">
+              <button class="select-tile ${draftSetup.gender === "female" ? "selected" : ""}" data-g="female">
+                <span class="tile-title">👩 Female</span>
+                <span class="tile-sub">Queen Glam aesthetic &amp; female-lead storylines</span>
+              </button>
+              <button class="select-tile ${draftSetup.gender === "male" ? "selected" : ""}" data-g="male">
+                <span class="tile-title">👨 Male</span>
+                <span class="tile-sub">King Gold aesthetic &amp; male-lead storylines</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="avatar-template-mount"></div>
+
+          <div class="setup-section">
+            <span class="setup-label">3. Select Career Path</span>
+            <div class="choice-grid-2">
+              <button class="select-tile ${draftSetup.path === "social" ? "selected" : ""}" data-p="social">
+                <span class="tile-title">🤳 Social Media Guru</span>
+                <span class="tile-sub">Viral audio, brand deals &amp; media network equity</span>
+              </button>
+              <button class="select-tile ${draftSetup.path === "chef" ? "selected" : ""}" data-p="chef">
+                <span class="tile-title">🍳 Homecook to Chef</span>
+                <span class="tile-sub">Truffles, A5 Wagyu, bistros &amp; cookware lines</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="setup-section">
+            <span class="setup-label">4. Select Story Genre &amp; Style</span>
+            <div class="choice-grid-3">
+              <button class="select-tile ${draftSetup.genre === "glam" ? "selected" : ""}" data-s="glam">
+                <span class="tile-title">💎 Glam</span>
+                <span class="tile-sub">VIP luxury &amp; prestige</span>
+              </button>
+              <button class="select-tile ${draftSetup.genre === "underdog" ? "selected" : ""}" data-s="underdog">
+                <span class="tile-title">🔥 Underdog</span>
+                <span class="tile-sub">Zero-to-hero grit</span>
+              </button>
+              <button class="select-tile ${draftSetup.genre === "thriller" ? "selected" : ""}" data-s="thriller">
+                <span class="tile-title">🕵️ Thriller</span>
+                <span class="tile-sub">Sabotage &amp; revenge</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="setup-section">
+            <span class="setup-label">5. Select Difficulty</span>
+            <div class="choice-grid-3">
+              <button class="select-tile ${draftSetup.difficulty === "easy" ? "selected" : ""}" data-d="easy">
+                <span class="tile-title">🟢 Easy</span>
+                <span class="tile-sub">$3.5k cash, 2% debt</span>
+              </button>
+              <button class="select-tile ${draftSetup.difficulty === "normal" ? "selected" : ""}" data-d="normal">
+                <span class="tile-title">🟡 Normal</span>
+                <span class="tile-sub">$2k cash, 4% debt</span>
+              </button>
+              <button class="select-tile ${draftSetup.difficulty === "difficult" ? "selected" : ""}" data-d="difficult">
+                <span class="tile-title">🔴 Difficult</span>
+                <span class="tile-sub">$1.2k cash, 7% debt</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="story-preview-box">
+            <div class="story-preview-title">📖 Story Plot: "${previewArc.title}"</div>
+            <div class="story-preview-text" id="story-preview-live">${formatStoryText(previewArc.chapters[0].text, displayName)}</div>
+          </div>
+
+          <button class="btn btn-buy btn-full" id="start-empire-btn">🚀 Start ${displayName}'s 180-Day Empire</button>
+        `;
+
+        container.appendChild(card);
+
+        renderAvatarControls(card.querySelector("#avatar-template-mount"), draftSetup.avatarCfg, draftSetup.gender, render);
+
+        const nameInput = card.querySelector("#char-name-input");
+        nameInput.oninput = () => {
+          draftSetup.charName = nameInput.value.slice(0, 20);
+          const clean = sanitizeName(draftSetup.charName);
+          card.querySelector("#char-count-label").textContent = `${draftSetup.charName.length} / 20`;
+          card.querySelector("#stage-name-label").textContent = clean;
+          document.getElementById("player-title").textContent = clean;
+          card.querySelector("#story-preview-live").textContent = formatStoryText(previewArc.chapters[0].text, clean);
+          card.querySelector("#start-empire-btn").textContent = `🚀 Start ${clean}'s 180-Day Empire`;
+        };
+
+        card.querySelector("#randomize-avatar-btn").onclick = () => {
+          const pick = arr => arr[Math.floor(Math.random() * arr.length)].id;
+          draftSetup.avatarCfg = {
+            bodyShape: pick(AVATAR_TEMPLATES.bodyShape),
+            skinTone: pick(AVATAR_TEMPLATES.skinTone),
+            hairStyle: pick(AVATAR_TEMPLATES.hairStyle),
+            hairColor: pick(AVATAR_TEMPLATES.hairColor),
+            outfit: pick(AVATAR_TEMPLATES.outfit),
+            accessory: pick(AVATAR_TEMPLATES.accessory)
+          };
+          render();
+        };
+
+        card.querySelectorAll("[data-g]").forEach(b => b.onclick = () => {
+          draftSetup.gender = b.dataset.g;
+          draftSetup.avatarCfg = defaultAvatarConfig(draftSetup.gender, draftSetup.path);
+          render();
+        });
+        card.querySelectorAll("[data-p]").forEach(b => b.onclick = () => {
+          draftSetup.path = b.dataset.p;
+          draftSetup.avatarCfg.outfit = draftSetup.path === "chef" ? "chef_white" : "blazer";
+          draftSetup.avatarCfg.accessory = draftSetup.path === "chef" ? "chef_hat" : "crown";
+          render();
+        });
+        card.querySelectorAll("[data-s]").forEach(b => b.onclick = () => { draftSetup.genre = b.dataset.s; render(); });
+        card.querySelectorAll("[data-d]").forEach(b => b.onclick = () => { draftSetup.difficulty = b.dataset.d; render(); });
+        card.querySelector("#start-empire-btn").onclick = launchNewRun;
+      }
+
       function render() {
+        renderUndoBanner();
+
+        const navBar = document.getElementById("bottom-nav");
+        const container = document.getElementById("view-container");
+        container.innerHTML = "";
+        document.getElementById("news-feed").textContent = state.news;
+
+        if (!state.started) {
+          navBar.style.display = "none";
+          renderCharacterBuilder(container);
+          return;
+        }
+
         applyTheme(state.theme);
-        document.getElementById("avatar-display").textContent = state.avatar;
-        document.getElementById("player-title").textContent = `${state.name} (${state.pathFocus})`;
+        const cfg = getCfg();
+        const diff = getDiff();
+        const arc = getStoryArc();
+        const avatarSVG = renderAvatarSVG(state.avatarCfg, state.gender);
+
+        navBar.style.display = "grid";
+        document.getElementById("avatar-display").innerHTML = avatarSVG;
+        document.getElementById("player-title").textContent = `${state.charName} • ${cfg.label}`;
         document.getElementById("tier-subtitle").textContent = `Day ${state.day} / ${state.maxDays} • ${getTierLabel()}`;
+        document.getElementById("debt-label").textContent = cfg.debtLabel;
         document.getElementById("stat-cash").textContent = fmt(state.cash);
         document.getElementById("stat-debt").textContent = fmt(state.debt);
         document.getElementById("stat-vault").textContent = fmt(state.vault);
         document.getElementById("stat-cap").textContent = `${getUsedCapacity()} / ${getCapacity()}`;
-        document.getElementById("news-feed").textContent = state.news;
 
         document.querySelectorAll(".nav-btn").forEach(b => {
           b.classList.toggle("active", b.dataset.tab === state.tab);
         });
 
-        const container = document.getElementById("view-container");
-        container.innerHTML = "";
-
         if (state.tab === "market") {
           const card = document.createElement("div");
           card.className = "card";
-          const currentHub = HUBS.find(h => h.id === state.hub);
-          card.innerHTML = `<h2><span>📍 ${currentHub.name}</span><span style="font-size:0.75rem;color:var(--text-secondary)">Live Exchange</span></h2>`;
+          const currentHub = cfg.hubs.find(h => h.id === state.hub) || cfg.hubs[0];
+          card.innerHTML = `<h2><span>📍 ${currentHub.name}</span><span style="font-size:0.74rem;color:var(--text-secondary)">${cfg.capLabel}</span></h2>`;
 
           const list = document.createElement("div");
           list.className = "market-list";
 
-          COMMODITIES.forEach(c => {
+          cfg.commodities.forEach(c => {
             const price = state.prices[c.id];
             const owned = state.inventory[c.id];
             const isHot = price > c.max * 1.25;
@@ -726,7 +1844,7 @@
                   ${isDeal ? '<span class="tag tag-deal">Low</span>' : ""}
                 </div>
                 <div class="item-sub">
-                  ${c.path} • Owned: <strong>${owned ? owned.qty : 0}</strong>
+                  Owned: <strong>${owned ? owned.qty : 0}</strong>
                   ${owned ? ` (Avg: ${fmt(owned.avgCost)})` : ""}
                 </div>
               </div>
@@ -753,11 +1871,11 @@
         if (state.tab === "travel") {
           const card = document.createElement("div");
           card.className = "card";
-          card.innerHTML = `<h2><span>✈️ Travel &amp; Advance Day</span><span style="font-size:0.75rem;color:var(--text-secondary)">+1 Day per trip</span></h2>`;
+          card.innerHTML = `<h2><span>✈️ Travel &amp; Advance Day</span><span style="font-size:0.74rem;color:var(--text-secondary)">+1 Day per trip</span></h2>`;
           const grid = document.createElement("div");
           grid.className = "hub-grid";
 
-          HUBS.forEach(h => {
+          cfg.hubs.forEach(h => {
             const btn = document.createElement("button");
             btn.className = "hub-btn" + (h.id === state.hub ? " current" : "");
             btn.innerHTML = `<span class="hub-name">${h.name}</span><span class="hub-meta">${h.risk} • Price Mult ${h.mult}x</span>`;
@@ -769,17 +1887,48 @@
           container.appendChild(card);
         }
 
+        if (state.tab === "story") {
+          const card = document.createElement("div");
+          card.className = "card";
+          const genreObj = GENRES[state.genre];
+          card.innerHTML = `
+            <h2><span>📖 ${arc.title}</span><span style="font-size:0.73rem;color:var(--text-secondary)">${genreObj.label}</span></h2>
+            <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:10px;">
+              Starring <strong>${state.charName}</strong> • Net Worth: <strong>${fmt(getNetWorth())}</strong>
+            </p>
+          `;
+
+          arc.chapters.forEach((ch, idx) => {
+            const unlocked = idx + 1 <= state.unlockedChapters;
+            const box = document.createElement("div");
+            box.className = "story-chapter-card" + (unlocked ? "" : " locked");
+            box.innerHTML = `
+              <div style="font-weight:800;font-size:0.84rem;color:var(--accent);margin-bottom:4px;">
+                ${unlocked ? "🔓" : "🔒"} ${ch.heading} ${!unlocked ? `(Requires ${fmt(ch.netWorth)} Net Worth)` : ""}
+              </div>
+              <div style="font-size:0.8rem;color:var(--text-primary);">
+                ${unlocked ? formatStoryText(ch.text, state.charName) : "Keep building your net worth to unlock this chapter of your story."}
+              </div>
+            `;
+            card.appendChild(box);
+          });
+
+          container.appendChild(card);
+        }
+
         if (state.tab === "finance") {
           const bankCard = document.createElement("div");
           bankCard.className = "card";
+          const debtPct = Math.round((diff.debtRate - 1) * 100);
+          const vaultPct = ((diff.vaultRate - 1) * 100).toFixed(1);
           bankCard.innerHTML = `
-            <h2><span>🏦 Agency Debt &amp; High-Yield Vault</span></h2>
+            <h2><span>🏦 ${cfg.debtLabel} &amp; High-Yield Vault</span></h2>
             <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:10px;">
-              Starter loan charges 4% daily interest. Vault savings earn 1.5% daily compound yield.
+              ${diff.label} Mode: Loan charges <strong>${debtPct}% daily interest</strong>. Vault earns <strong>${vaultPct}% daily yield</strong>.
             </p>
-            <div class="btn-group" style="margin-bottom:8px;">
+            <div class="btn-group">
               <button class="btn btn-buy" id="pay-debt-btn" style="flex:1">Pay Off Debt</button>
-              <button class="btn btn-sell" id="dep-vault-btn" style="flex:1">Deposit All to Vault</button>
+              <button class="btn btn-sell" id="dep-vault-btn" style="flex:1">Deposit All</button>
               <button class="btn btn-sell" id="wd-vault-btn" style="flex:1">Withdraw Vault</button>
             </div>
           `;
@@ -789,6 +1938,7 @@
             const pay = Math.min(state.cash, state.debt);
             state.cash -= pay;
             state.debt -= pay;
+            checkStoryProgression();
             saveGame();
             render();
           };
@@ -807,11 +1957,11 @@
 
           const gearCard = document.createElement("div");
           gearCard.className = "card";
-          gearCard.innerHTML = `<h2><span>🔪 Pro Equipment &amp; Studio Upgrades</span></h2>`;
+          gearCard.innerHTML = `<h2><span>⚡ ${cfg.label} Upgrades</span></h2>`;
           const list = document.createElement("div");
           list.className = "market-list";
 
-          UPGRADES.forEach(u => {
+          cfg.upgrades.forEach(u => {
             const owned = state.upgrades.includes(u.id);
             const row = document.createElement("div");
             row.className = "item-row";
@@ -831,7 +1981,7 @@
 
           gearCard.querySelectorAll("[data-upg]").forEach(b => {
             b.onclick = () => {
-              const u = UPGRADES.find(x => x.id === b.dataset.upg);
+              const u = cfg.upgrades.find(x => x.id === b.dataset.upg);
               if (u && state.cash >= u.cost && !state.upgrades.includes(u.id)) {
                 state.cash -= u.cost;
                 state.upgrades.push(u.id);
@@ -842,46 +1992,74 @@
           });
         }
 
-        if (state.tab === "profile") {
+        if (state.tab === "settings") {
           const card = document.createElement("div");
           card.className = "card";
-          const avatars = ["👑", "👩‍🍳", "👨‍🍳", "🤳", "💅", "🤵", "🔥", "💎"];
           card.innerHTML = `
-            <h2><span>🎭 Avatar &amp; Empire Path</span></h2>
-            <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:10px;">Select your persona icon:</p>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;" id="av-picker"></div>
-            <button class="btn btn-sell btn-full" id="reset-game-btn" style="color:var(--danger);">Reset Empire Progress</button>
+            <h2><span>⚙️ Wardrobe, Name &amp; Settings</span></h2>
+
+            <div class="avatar-studio-stage">
+              <div class="avatar-preview-frame">${avatarSVG}</div>
+              <div style="flex:1;min-width:0;">
+                <span class="setup-label"><span>Character Name</span><span>${state.charName.length}/20</span></span>
+                <input type="text" maxlength="20" class="text-input" id="settings-name-input" value="${state.charName.replace(/"/g, "&quot;")}" />
+              </div>
+            </div>
+
+            <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:6px;">Interface Aesthetic:</p>
+            <div class="theme-pills" style="margin-bottom:14px;">
+              <button class="pill-btn ${state.theme === "queen" ? "active" : ""}" data-set-theme="queen">👑 Queen Glam</button>
+              <button class="pill-btn ${state.theme === "king" ? "active" : ""}" data-set-theme="king">🤵 King Gold</button>
+              <button class="pill-btn ${state.theme === "neon" ? "active" : ""}" data-set-theme="neon">⚡ Studio Neon</button>
+            </div>
+
+            <div id="settings-avatar-mount"></div>
+
+            <button class="btn btn-sell btn-full" id="settings-help-btn">📖 Open How to Play Guide</button>
+
+            <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+              <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:8px;">
+                Want to switch <strong>Gender, Path, Story Genre, or Difficulty</strong>? Resetting returns to the Character Builder and saves a <strong>1-time Undo backup</strong>.
+              </p>
+              <button class="btn btn-danger btn-full" id="reset-game-btn">🔄 Reset Game &amp; Return to Character Builder</button>
+              ${undoAvailable ? '<button class="btn btn-success btn-full" id="settings-undo-btn" style="margin-top:8px;">↩️ Undo Last Reset (Restore Save)</button>' : ""}
+            </div>
           `;
-          const picker = card.querySelector("#av-picker");
-          avatars.forEach(av => {
-            const b = document.createElement("button");
-            b.className = "pill-btn" + (state.avatar === av ? " active" : "");
-            b.style.fontSize = "1.2rem";
-            b.textContent = av;
-            b.onclick = () => {
-              state.avatar = av;
+
+          renderAvatarControls(card.querySelector("#settings-avatar-mount"), state.avatarCfg, state.gender, () => {
+            saveGame();
+            render();
+          });
+
+          const sNameInput = card.querySelector("#settings-name-input");
+          sNameInput.onchange = () => {
+            state.charName = sanitizeName(sNameInput.value);
+            saveGame();
+            render();
+          };
+
+          card.querySelectorAll("[data-set-theme]").forEach(btn => {
+            btn.onclick = () => {
+              applyTheme(btn.dataset.setTheme);
               saveGame();
               render();
             };
-            picker.appendChild(b);
           });
-          card.querySelector("#reset-game-btn").onclick = () => {
-            if (confirm("Start a brand new 180-day run?")) {
-              localStorage.removeItem(STORAGE_KEY);
-              location.reload();
-            }
+
+          card.querySelector("#settings-help-btn").onclick = () => {
+            document.getElementById("help-modal").classList.add("open");
           };
+
+          card.querySelector("#reset-game-btn").onclick = triggerResetWithUndo;
+
+          const undoBtn = card.querySelector("#settings-undo-btn");
+          if (undoBtn) {
+            undoBtn.onclick = restoreUndoBackup;
+          }
+
           container.appendChild(card);
         }
       }
-
-      // Wire static controls
-      document.querySelectorAll("[data-set-theme]").forEach(btn => {
-        btn.onclick = () => {
-          applyTheme(btn.dataset.setTheme);
-          saveGame();
-        };
-      });
 
       document.querySelectorAll("[data-tab]").forEach(btn => {
         btn.onclick = () => {
@@ -889,6 +2067,19 @@
           render();
         };
       });
+
+      document.getElementById("open-help-btn").onclick = () => {
+        document.getElementById("help-modal").classList.add("open");
+      };
+      document.getElementById("close-help-top").onclick = () => {
+        document.getElementById("help-modal").classList.remove("open");
+      };
+      document.getElementById("close-help-bottom").onclick = () => {
+        document.getElementById("help-modal").classList.remove("open");
+      };
+      document.getElementById("close-story-modal").onclick = () => {
+        document.getElementById("story-modal").classList.remove("open");
+      };
 
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
