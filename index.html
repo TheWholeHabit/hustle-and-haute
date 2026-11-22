@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#0f172a" id="meta-theme-color" />
-  <meta name="description" content="Hustle & Haute: Empire Simulator — Interactive Character Studio, Missions & Tasks, Leveling System, Side Gigs, and Telltale Stories." />
+  <meta name="description" content="Hustle & Haute: Empire Simulator — Cinematic Mini-Videos, Menu Progression & Backstock Flash Sales, Interactive Doll Studio, Missions, and Telltale Stories." />
   <title>Hustle &amp; Haute: Empire Simulator</title>
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
@@ -118,9 +118,9 @@
     }
 
     .avatar-circle svg {
-      width: 122%;
-      height: 122%;
-      margin-top: 10px;
+      width: 124%;
+      height: 124%;
+      margin-top: 12px;
       display: block;
     }
 
@@ -213,7 +213,7 @@
       border: 1px solid var(--border);
       padding: 6px 10px;
       border-radius: 999px;
-      font-size: 0.72rem;
+      font-size: 0.71rem;
       font-weight: 600;
       cursor: pointer;
     }
@@ -278,6 +278,14 @@
       align-items: center;
       gap: 10px;
       font-size: 0.8rem;
+    }
+
+    /* Backstock Flash Sale Banner (Chef Menu Upgrade / Social Trend Shift) */
+    .flash-clearance-card {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.18), rgba(245, 158, 11, 0.16));
+      border: 2px solid var(--danger);
+      border-radius: var(--radius);
+      padding: 13px;
     }
 
     /* Clicker Hustle Card */
@@ -364,9 +372,7 @@
       border-color: var(--success);
       background: rgba(16, 185, 129, 0.08);
     }
-    .mission-card.claimed {
-      opacity: 0.55;
-    }
+    .mission-card.claimed { opacity: 0.55; }
     .mission-header {
       display: flex;
       justify-content: space-between;
@@ -374,11 +380,7 @@
       gap: 8px;
       margin-bottom: 6px;
     }
-    .mission-title {
-      font-weight: 800;
-      font-size: 0.86rem;
-      color: var(--text-primary);
-    }
+    .mission-title { font-weight: 800; font-size: 0.86rem; color: var(--text-primary); }
     .mission-reward-pill {
       font-size: 0.7rem;
       font-weight: 800;
@@ -401,9 +403,7 @@
       background: var(--accent);
       transition: width 0.25s ease;
     }
-    .mission-card.ready .mission-progress-fill {
-      background: var(--success);
-    }
+    .mission-card.ready .mission-progress-fill { background: var(--success); }
 
     /* Mini-Games Arena */
     .minigame-box {
@@ -537,8 +537,8 @@
     }
 
     .doll-preview-frame {
-      width: 152px;
-      height: 186px;
+      width: 154px;
+      height: 192px;
       flex-shrink: 0;
       border-radius: 14px;
       background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%);
@@ -553,20 +553,18 @@
       transition: transform 0.12s ease;
     }
 
-    .doll-preview-frame:active {
-      transform: scale(0.97);
-    }
+    .doll-preview-frame:active { transform: scale(0.97); }
 
     .doll-tap-hint {
       position: absolute;
       bottom: 5px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(9, 13, 22, 0.8);
+      background: rgba(9, 13, 22, 0.85);
       color: var(--accent);
       font-size: 0.62rem;
       font-weight: 800;
-      padding: 2px 7px;
+      padding: 2px 8px;
       border-radius: 999px;
       white-space: nowrap;
       border: 1px solid rgba(255,255,255,0.12);
@@ -764,7 +762,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.82);
+      background: rgba(0, 0, 0, 0.85);
       display: none;
       align-items: center;
       justify-content: center;
@@ -780,7 +778,7 @@
       padding: 18px;
       width: 100%;
       max-width: 460px;
-      max-height: 88vh;
+      max-height: 90vh;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
@@ -797,6 +795,91 @@
       cursor: pointer;
     }
     .choice-btn:hover { border-color: var(--accent); }
+
+    /* 30-Second Mini-Video Reel Player Modal */
+    .cine-stage {
+      background: radial-gradient(circle at 50% 25%, rgba(245, 158, 11, 0.25), #070b14 82%);
+      border: 2px solid var(--accent);
+      border-radius: 14px;
+      padding: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cine-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .rec-pill {
+      background: rgba(239, 68, 68, 0.22);
+      color: #fca5a5;
+      border: 1px solid var(--danger);
+      font-size: 0.68rem;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .rec-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--danger);
+      animation: pulseRec 1s infinite;
+    }
+    @keyframes pulseRec {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.25; }
+    }
+    .cine-visual-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+    .cine-avatar-box {
+      width: 112px;
+      height: 136px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      border: 2px solid var(--accent);
+      background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%);
+      overflow: hidden;
+      animation: cineZoom 5s ease-in-out infinite alternate;
+    }
+    .cine-avatar-box svg { width: 100%; height: 100%; display: block; }
+    @keyframes cineZoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.06); }
+    }
+    .cine-caption-card {
+      flex: 1;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .cine-timeline {
+      width: 100%;
+      height: 6px;
+      background: #0f172a;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .cine-timeline-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--success));
+      transition: width 0.25s linear;
+    }
+    .cine-burst-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
 
     .guide-step {
       background: var(--bg-primary);
@@ -857,7 +940,7 @@
 
     <div class="ticker">
       <span>📡</span>
-      <span id="news-feed">Customize your doll-style character, tap the portrait to cycle expressions, and start your empire!</span>
+      <span id="news-feed">Customize your face shape, tailored fashion, and hairstyles—then launch your empire!</span>
     </div>
 
     <main id="view-container"></main>
@@ -872,15 +955,51 @@
     <button class="nav-btn" data-tab="missions" id="nav-missions-btn"><span>🎯</span>Missions</button>
     <button class="nav-btn" data-tab="gigs"><span>🎮</span>Gigs</button>
     <button class="nav-btn" data-tab="travel"><span>✈️</span>Travel</button>
-    <button class="nav-btn" data-tab="story"><span>📖</span>Story</button>
+    <button class="nav-btn" data-tab="story"><span>🎬</span>Story</button>
     <button class="nav-btn" data-tab="finance"><span>🏦</span>Bank</button>
     <button class="nav-btn" data-tab="settings"><span>⚙️</span>Style</button>
   </nav>
 
-  <!-- Real-World Lesson Event Modal -->
+  <!-- 30-Second Mini-Video Reel / Level-Up & Story Cutscene Modal (with Skip Option) -->
+  <div class="modal-backdrop" id="cine-modal">
+    <div class="modal-box">
+      <div class="cine-header">
+        <span class="rec-pill"><span class="rec-dot"></span><span id="cine-timer-label">30s STORY REEL • 0:30</span></span>
+        <button type="button" class="pill-btn" id="cine-skip-btn">⏭️ Skip Video</button>
+      </div>
+
+      <div class="cine-stage">
+        <div class="cine-visual-row">
+          <div class="cine-avatar-box" id="cine-avatar-mount"></div>
+          <div class="cine-caption-card">
+            <div style="font-size:0.7rem;font-weight:800;color:var(--accent);text-transform:uppercase;margin-bottom:3px;" id="cine-scene-tag">Scene 1 / 5</div>
+            <div style="font-weight:800;font-size:0.9rem;margin-bottom:4px;" id="cine-title">Level Up Milestone!</div>
+            <div style="font-size:0.78rem;color:var(--text-primary);line-height:1.4;" id="cine-caption">...</div>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--text-secondary);">
+          <span id="cine-metric-left">📸 Likes: +12.5K</span>
+          <span id="cine-metric-right" style="color:var(--success);font-weight:800;">Bonus: +$500</span>
+        </div>
+
+        <div class="cine-timeline"><div class="cine-timeline-fill" id="cine-timeline-fill" style="width:0%"></div></div>
+
+        <div class="cine-burst-row">
+          <button type="button" class="btn btn-buy" style="flex:1;" id="cine-hype-btn">📸 Snap / Plate Bonus (+$75)</button>
+          <button type="button" class="btn btn-sell" id="cine-next-slide-btn">Next Scene &rarr;</button>
+        </div>
+      </div>
+
+      <div id="cine-menu-upgrade-box" style="display:none;background:var(--bg-primary);border:1px solid var(--success);border-radius:10px;padding:10px;font-size:0.79rem;"></div>
+    </div>
+  </div>
+
+  <!-- Real-World Career Scenario Event Modal -->
   <div class="modal-backdrop" id="event-modal">
     <div class="modal-box">
-      <h3 id="modal-title">Real-World Challenge</h3>
+      <span class="telltale-badge">💼 Real-World Career Scenario</span>
+      <h3 id="modal-title">Career Decision</h3>
       <p id="modal-desc" style="font-size:0.85rem; color:var(--text-secondary);"></p>
       <div id="modal-choices" style="display:flex; flex-direction:column; gap:8px;"></div>
     </div>
@@ -900,27 +1019,23 @@
   <div class="modal-backdrop" id="help-modal">
     <div class="modal-box">
       <div style="display:flex;justify-content:space-between;align-items:center;">
-        <h3>📖 How to Play, Level Up &amp; Earn Fast</h3>
+        <h3>📖 How to Play, Level Up &amp; Clear Backstock</h3>
         <button class="pill-btn" id="close-help-top">✕</button>
       </div>
       <p style="font-size:0.82rem;color:var(--text-secondary);">
-        Complete <strong>Missions</strong> and <strong>Side Gigs</strong> to earn <strong>XP</strong> and <strong>Level Up</strong>! Every Level permanently increases your cash payouts across clicker taps and mini-games.
+        Complete <strong>Missions</strong> and <strong>Side Gigs</strong> to earn <strong>XP</strong> and <strong>Level Up</strong>! Every Level triggers a <strong>30-second playable Story Reel</strong> (skippable anytime) and unlocks higher-tier menus &amp; brand tiers.
       </p>
       <div class="guide-step">
-        <strong>1. Complete Missions for Cash &amp; XP (Missions Tab)</strong>
-        Check your active career tasks (selling dishes/clips, flipping market deals, clearing debt, playing side gigs). Claiming a completed mission awards big cash + XP!
+        <strong>1. Menu Upgrades &amp; Backstock Flash Sales (Chef &amp; Creator)</strong>
+        When you Level Up, your active menu or content tier upgrades! Any leftover backstock ingredients/plates from your previous menu must be cleared via a <strong>-30% Flash Sale</strong> on the Market tab so your kitchen/studio stays fresh.
       </div>
       <div class="guide-step">
-        <strong>2. Level Up for Permanent Income Multipliers</strong>
-        Each Level boosts your <strong>Dollars-per-Tap</strong> and <strong>Side-Gig</strong> rewards by <strong>+15%</strong>, helping you scale from thousands to $500,000+ rapidly.
+        <strong>2. Watch or Skip 30-Second Story Mini-Videos</strong>
+        Every Level Up and Telltale milestone plays a 30-second visual memory reel starring your custom avatar. Tap <strong>Snap / Plate Bonus</strong> during the reel for extra cash, or tap <strong>Skip Video</strong> anytime!
       </div>
       <div class="guide-step">
-        <strong>3. Tap to Earn &amp; Play Side Gigs (Market &amp; Gigs Tabs)</strong>
-        Tap your live hustle button on the <strong>Market</strong> tab or play the 3 mini-games in <strong>Gigs</strong> anytime with zero travel days used.
-      </div>
-      <div class="guide-step">
-        <strong>4. Shape Your Telltale Story (Story Tab)</strong>
-        Unlock interactive Telltale scenes at Net Worth milestones where your dialogue decisions shape your reputation and cash rewards.
+        <strong>3. Complete Missions &amp; Real-Life Career Scenarios</strong>
+        Claim rewards in <strong>🎯 Missions</strong> and make smart real-world decisions during travel events (health inspections, supplier shortages, copyright claims, brand exclusivity) to grow fast.
       </div>
       <button class="btn btn-buy btn-full" id="close-help-bottom">Got It — Let's Build!</button>
     </div>
@@ -930,20 +1045,29 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v7";
-      const BACKUP_KEY = "hh_empire_undo_backup_v7";
+      const STORAGE_KEY = "hh_empire_save_v8";
+      const BACKUP_KEY = "hh_empire_undo_backup_v8";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
-      // Highly Detailed Contemporary Fashion & Profession Doll Avatar Catalog
+      // Expanded Character Studio with Face Shapes, Tailored Head-Fitted Hairstyles & Accurate Draped Fashion
       const AVATAR_TEMPLATES = {
+        faceShape: [
+          { id: "oval", label: "Oval Classic", rx: 25, ry: 28, jawW: 13 },
+          { id: "heart", label: "Heart Glam", rx: 26, ry: 27, jawW: 9 },
+          { id: "square", label: "Chiseled Jaw", rx: 26, ry: 27, jawW: 18 },
+          { id: "diamond", label: "Runway Diamond", rx: 27, ry: 28, jawW: 11 },
+          { id: "round", label: "Soft Round", rx: 27, ry: 26, jawW: 15 },
+          { id: "long", label: "Editorial Long", rx: 24, ry: 30, jawW: 12 },
+          { id: "almond", label: "Sculpted V-Line", rx: 25, ry: 28, jawW: 10 }
+        ],
         bodyShape: [
-          { id: "petite", label: "Petite", shoulderW: 54, waistW: 34, hipW: 46, headRx: 25, headRy: 27 },
-          { id: "slim", label: "Slim", shoulderW: 60, waistW: 38, hipW: 50, headRx: 26, headRy: 28 },
-          { id: "athletic", label: "Athletic", shoulderW: 72, waistW: 48, hipW: 54, headRx: 26, headRy: 28 },
-          { id: "hourglass", label: "Hourglass", shoulderW: 62, waistW: 36, hipW: 60, headRx: 26, headRy: 28 },
-          { id: "broad", label: "Broad", shoulderW: 80, waistW: 56, hipW: 60, headRx: 27, headRy: 29 },
-          { id: "runway", label: "Runway", shoulderW: 64, waistW: 40, hipW: 52, headRx: 25, headRy: 28 },
-          { id: "curvy_bold", label: "Curvy Bold", shoulderW: 76, waistW: 54, hipW: 72, headRx: 27, headRy: 29 }
+          { id: "petite", label: "Petite", shoulderW: 56, waistW: 36, hipW: 48 },
+          { id: "slim", label: "Slim", shoulderW: 62, waistW: 40, hipW: 52 },
+          { id: "athletic", label: "Athletic", shoulderW: 74, waistW: 50, hipW: 56 },
+          { id: "hourglass", label: "Hourglass", shoulderW: 64, waistW: 38, hipW: 62 },
+          { id: "broad", label: "Broad", shoulderW: 82, waistW: 58, hipW: 62 },
+          { id: "runway", label: "Runway", shoulderW: 66, waistW: 42, hipW: 54 },
+          { id: "curvy_bold", label: "Curvy Bold", shoulderW: 78, waistW: 56, hipW: 74 }
         ],
         skinTone: [
           { id: "porcelain", label: "Porcelain", hex: "#fde2d2", mid: "#f2c6ae", shadow: "#d99f82", blush: "#f43f5e" },
@@ -981,7 +1105,7 @@
           { id: "beauty_mark", label: "Glam Beauty Mark", slit: false, facial: "mark" },
           { id: "bold_straight", label: "Editorial Straight", slit: false, facial: "none" }
         ],
-        // Upgraded Contemporary Fashion & Professional Hairstyles (Layered highlights, baby hairs, braids, fades, waves)
+        // Head-Fitted Haircuts & Updos (dynamically anchor to face rx/ry)
         hairStyle: [
           { id: "braided_crown", label: "Braided Crown Updo" },
           { id: "silk_press_layers", label: "Silk Press Curtain Layers" },
@@ -989,7 +1113,9 @@
           { id: "tapered_crop_fade", label: "Textured Crop & Skin Fade" },
           { id: "sleek_editorial_bob", label: "Glass-Hair Blunt Bob" },
           { id: "curly_pineapple", label: "High Curl Puff & Edges" },
-          { id: "goddess_braids", label: "Goddess Knotless Braids" }
+          { id: "goddess_braids", label: "Goddess Knotless Braids" },
+          { id: "slick_back_bun", label: "Slick-Back Executive Bun" },
+          { id: "side_swept_pomp", label: "Tailored Side Pompadour" }
         ],
         hairColor: [
           { id: "jet", label: "Obsidian Jet", hex: "#141418", hi: "#4b5563" },
@@ -1000,15 +1126,16 @@
           { id: "copper", label: "Sunset Copper", hex: "#9a3412", hi: "#f97316" },
           { id: "rose_velvet", label: "Rose Velvet", hex: "#be185d", hi: "#f472b6" }
         ],
-        // Contemporary Fashion & Profession Outfits
+        // Tailored Professional & Contemporary Fashion Outfits (fitted collars, seams, lapels, aprons)
         outfit: [
-          { id: "chef_piped", label: "Crimson-Piped Chef Coat", primary: "#f8fafc", secondary: "#881337", trim: "#be123c" },
+          { id: "chef_piped", label: "Double-Breasted Chef Coat", primary: "#f8fafc", secondary: "#881337", trim: "#be123c" },
           { id: "baroque_blazer", label: "Baroque Hoodie + Blazer", primary: "#172554", secondary: "#0f172a", trim: "#eab308" },
           { id: "chef_obsidian", label: "Michelin Black Chef Tunic", primary: "#111827", secondary: "#b91c1c", trim: "#f59e0b" },
-          { id: "corset_suit", label: "Satin Corset Power Suit", primary: "#701a75", secondary: "#fdf2f8", trim: "#f472b6" },
-          { id: "turtleneck_trench", label: "Cashmere Turtleneck & Coat", primary: "#292524", secondary: "#d6d3d1", trim: "#eab308" },
-          { id: "emerald_street", label: "Emerald Tech-Luxe Jacket", primary: "#064e3b", secondary: "#022c22", trim: "#34d399" },
-          { id: "sommelier_vest", label: "Tailored Bistro Vest & Tie", primary: "#1e293b", secondary: "#f8fafc", trim: "#f59e0b" }
+          { id: "corset_suit", label: "Tailored Satin Power Suit", primary: "#701a75", secondary: "#fdf2f8", trim: "#f472b6" },
+          { id: "turtleneck_trench", label: "Cashmere Turtleneck & Coat", primary: "#292524", secondary: "#e7e5e4", trim: "#eab308" },
+          { id: "emerald_street", label: "Emerald Studio Bomber", primary: "#064e3b", secondary: "#022c22", trim: "#34d399" },
+          { id: "sommelier_vest", label: "Executive Bistro Vest & Tie", primary: "#1e293b", secondary: "#f8fafc", trim: "#f59e0b" },
+          { id: "silk_blouse_blazer", label: "Silk Bow Blouse & Tweed", primary: "#31102f", secondary: "#fce7f3", trim: "#f43f5e" }
         ],
         accessory: [
           { id: "none", label: "Clean Editorial" },
@@ -1031,6 +1158,24 @@
         glam: { label: "Glam & Luxury" },
         underdog: { label: "Underdog Comeback" },
         thriller: { label: "Drama & Thriller" }
+      };
+
+      // Menu / Content Tiers that evolve on every Level Up!
+      const LEVEL_MENUS = {
+        chef: [
+          { lvl: 1, menuName: "Level 1 Menu: Cottage Market Plates & Artisanal Sauces", dishName: "Truffle Brioche Slider" },
+          { lvl: 2, menuName: "Level 2 Menu: Street-Gourmet Food Truck Lineup", dishName: "Wagyu Smash & Saffron Aioli" },
+          { lvl: 3, menuName: "Level 3 Menu: Downtown Bistro Seasonal Supper", dishName: "Pan-Seared Scallops & Herb Velouté" },
+          { lvl: 4, menuName: "Level 4 Menu: Five-Star Fine Dining Tasting Course", dishName: "A5 Miyazaki Strip & Black Truffle Jus" },
+          { lvl: 5, menuName: "Level 5 Menu: Michelin Flagship & Private Jet Charter", dishName: "24K Gold-Leaf Caviar & Lobster Medallion" }
+        ],
+        social: [
+          { lvl: 1, menuName: "Level 1 Feed: Bedroom Tutorials & Viral Audio Clips", dishName: "15s Viral Hook Reel" },
+          { lvl: 2, menuName: "Level 2 Feed: Sponsored UGC & Live Shopping Drops", dishName: "Sponsored Product Breakdown" },
+          { lvl: 3, menuName: "Level 3 Feed: LA Content House Flagship Series", dishName: "Multi-Cam Studio Episode" },
+          { lvl: 4, menuName: "Level 4 Feed: National Brand Ambassador Campaigns", dishName: "Prime-Time Brand Commercial" },
+          { lvl: 5, menuName: "Level 5 Feed: Global Media Network & Red Carpet Live", dishName: "Global Broadcast Keynote" }
+        ]
       };
 
       const TELLTALE_EPISODES = {
@@ -1504,28 +1649,37 @@
               reward: 700
             }
           },
+          // Real-Life Creator Career Scenarios
           lessons: [
             {
-              title: "Brand Sponsorship Contract Trap",
-              desc: "A brand offers $3,000 for one Reel, but Clause 9 asks for 'Perpetual Worldwide Paid-Ad Whitelisting Rights.' What is the smart Mogul move?",
+              title: "Real-Life Scenario: FTC Sponsorship Disclosure Audit",
+              desc: "A luxury skincare brand pays you $4,000 for a TikTok review and asks you to 'leave off #ad so it looks organic.' What is the smart Mogul move?",
               choices: [
-                { text: "Limit usage to 30 days & charge +50% usage fee", correct: true, reward: 1800, note: "Pro move! Never give away perpetual ad rights for free—license usage in 30-day windows." },
-                { text: "Sign immediately so they don't walk away", correct: false, penalty: 600, note: "Perpetual rights let them run your face in ads forever without paying you again." }
+                { text: "Insist on clear #ad disclosure to avoid FTC fines & account bans", correct: true, reward: 1600, note: "Real-world rule: Undisclosed paid posts violate FTC guidelines and platform rules, risking $50K+ fines and demonetization." },
+                { text: "Hide the #ad tag to keep the sponsor happy", correct: false, penalty: 800, note: "Your post got flagged for undisclosed sponsorship—costing you $800 in forfeited payouts!" }
               ]
             },
             {
-              title: "Hook & Retention Optimization",
-              desc: "Your latest video has 100,000 impressions, but 75% of viewers swipe away in the first 2 seconds. What should you fix first?",
+              title: "Real-Life Scenario: Trending Music Copyright Strike",
+              desc: "You used a chart-topping pop song in a paid brand sponsorship video without a commercial sync license. The label files a copyright claim.",
               choices: [
-                { text: "Rewrite the 3-second visual + spoken hook", correct: true, reward: 1100, note: "Correct! Fixing early retention boosts algorithm distribution far more than hashtags." },
-                { text: "Add 40 trending hashtags to the caption", correct: false, penalty: 450, note: "Hashtags can't save a weak opening hook—viewers decide in the first 3 seconds." }
+                { text: "Swap to royalty-free commercial audio & clear the claim", correct: true, reward: 1200, note: "Smart! Commercial brand posts require cleared sync rights—personal trending sounds can trigger lawsuits." },
+                { text: "Ignore the strike and boost the post with paid ads", correct: false, penalty: 950, note: "Running paid ads on unlicensed music triggered an immediate label takedown and $950 legal fee!" }
               ]
             },
             {
-              title: "Quarterly 1099 Creator Taxes",
+              title: "Real-Life Scenario: Exclusivity Clause Trap",
+              desc: "A beverage startup offers $3,000 for 1 Reel, with a 12-month exclusivity clause blocking you from working with ANY food or drink brand.",
+              choices: [
+                { text: "Narrow exclusivity to 30 days for energy drinks only (+$1,500 fee)", correct: true, reward: 1800, note: "Pro negotiation! Always narrow category exclusivity and charge extra when locking up your calendar." },
+                { text: "Sign the 12-month blanket ban for $3,000", correct: false, penalty: 700, note: "That broad clause forced you to turn down two $5,000 restaurant sponsors!" }
+              ]
+            },
+            {
+              title: "Real-Life Scenario: Quarterly 1099 Creator Taxes",
               desc: "You just netted $10,000 in 1099 brand deals and creator payouts. How much should you sweep into your Tax Vault?",
               choices: [
-                { text: "Set aside 25%–30% ($2,500–$3,000)", correct: true, reward: 1500, note: "Smart! Setting aside 25–30% for self-employment and income taxes prevents cash crunches." },
+                { text: "Set aside 25%–30% ($2,500–$3,000)", correct: true, reward: 1500, note: "Smart! Setting aside 25–30% for self-employment and income taxes prevents quarterly cash crunches." },
                 { text: "Spend 100% on designer props", correct: false, penalty: 900, note: "Spending your tax reserve triggers an IRS underpayment penalty!" }
               ]
             }
@@ -1603,9 +1757,26 @@
               reward: 700
             }
           },
+          // Real-Life Culinary Career Scenarios
           lessons: [
             {
-              title: "Food Costing Margin Check",
+              title: "Real-Life Scenario: Surprise Health Inspection",
+              desc: "A city health inspector walks into your prep kitchen during lunch rush and checks your walk-in cooler log. Your line cooler is reading 44°F (above the 41°F safe limit).",
+              choices: [
+                { text: "Immediately ice-bath perishables, call refrigeration tech & log corrective action", correct: true, reward: 1500, note: "A-Grade Inspection! Demonstrating active temperature control and immediate corrective action saves your permit and earns VIP trust." },
+                { text: "Tell the inspector you'll fix it after dinner rush", correct: false, penalty: 850, note: "Leaving potentially hazardous food above 41°F earned a critical violation and $850 fine!" }
+              ]
+            },
+            {
+              title: "Real-Life Scenario: Menu Rebrand & Backstock Surplus",
+              desc: "You are upgrading your seasonal menu and still have 40 portions of last week's braised short rib prepped in cold storage.",
+              choices: [
+                { text: "Run a -30% Chef's Flash Special tonight to convert backstock into cash", correct: true, reward: 1350, note: "Smart kitchen economics! Recovering 70% cash on expiring prep beats 100% trash loss every time." },
+                { text: "Freeze everything indefinitely and hope to use it next month", correct: false, penalty: 650, note: "Freezer burn ruined the texture and tied up $650 in dead inventory!" }
+              ]
+            },
+            {
+              title: "Real-Life Scenario: Food Costing Margin Check",
               desc: "A supplier offers A5 Wagyu dishes costing $28 per plate in ingredients. To hit a healthy restaurant food-cost target of 28%, what should you price the menu dish at?",
               choices: [
                 { text: "$100 ($28 is 28% of $100)", correct: true, reward: 1200, note: "Spot on! Menu Price = Ingredient Cost ÷ Target Food Cost % ($28 ÷ 0.28 = $100)." },
@@ -1613,15 +1784,7 @@
               ]
             },
             {
-              title: "FIFO Inventory & Cold Chain",
-              desc: "You receive a fresh crate of truffles while older stock is still in the prep fridge. How do you stock the shelves?",
-              choices: [
-                { text: "FIFO: Move older stock to the front, new stock behind", correct: true, reward: 950, note: "First-In, First-Out (FIFO) prevents spoilage waste and protects your profit margin." },
-                { text: "Stack new crates on top for faster access", correct: false, penalty: 500, note: "LIFO causes buried ingredients to spoil—costing you $500 in ruined inventory." }
-              ]
-            },
-            {
-              title: "Prep Yield & Trim Loss Math",
+              title: "Real-Life Scenario: Prep Yield & Trim Loss Math",
               desc: "You buy 10 lbs of whole beef tenderloin at $20/lb ($200 total), and trimming yields 8 lbs of usable steaks. What is your true usable cost per pound?",
               choices: [
                 { text: "$25.00/lb ($200 ÷ 8 usable lbs)", correct: true, reward: 1400, note: "Exact! Always calculate menu pricing using post-trim yield cost ($200 ÷ 8 lbs = $25/lb)." },
@@ -1632,8 +1795,9 @@
         }
       };
 
-      // Highly Detailed Expressive Contemporary Doll Vector Renderer
+      // Highly Detailed Expressive Contemporary Doll Vector Renderer with Face Shapes & Head-Fitted Hair
       function renderAvatarSVG(avatarCfg, gender) {
+        const face = AVATAR_TEMPLATES.faceShape.find(x => x.id === avatarCfg.faceShape) || AVATAR_TEMPLATES.faceShape[0];
         const body = AVATAR_TEMPLATES.bodyShape.find(x => x.id === avatarCfg.bodyShape) || AVATAR_TEMPLATES.bodyShape[3];
         const skin = AVATAR_TEMPLATES.skinTone.find(x => x.id === avatarCfg.skinTone) || AVATAR_TEMPLATES.skinTone[3];
         const expr = avatarCfg.expression || "confident_smile";
@@ -1647,8 +1811,9 @@
         const uid = Math.random().toString(36).slice(2, 7);
         const cx = 80;
         const headY = 64;
-        const rx = body.headRx;
-        const ry = body.headRy;
+        const rx = face.rx;
+        const ry = face.ry;
+        const jawW = face.jawW;
         const shW = body.shoulderW;
         const waistW = body.waistW;
         const hipW = body.hipW;
@@ -1659,130 +1824,165 @@
              <circle cx="${cx + 26}" cy="${headY + 6}" r="44" fill="none" stroke="#38bdf8" stroke-width="12" opacity="0.3" />`
           : "";
 
-        // Contemporary Multi-Layered Back Hair
+        // Head-Fitted Multi-Layered Back Hair
         let backHair = "";
         if (hairStyle === "silk_press_layers") {
           backHair = `
-            <path d="M ${cx - rx - 6} ${headY - 4} Q ${cx - rx - 14} 110 ${cx - rx + 1} 152 L ${cx + rx - 1} 152 Q ${cx + rx + 14} 110 ${cx + rx + 6} ${headY - 4} Z" fill="${hairColor.hex}" />
-            <path d="M ${cx - rx - 4} ${headY + 12} Q ${cx - rx - 9} 78 ${cx - rx} 142" fill="none" stroke="${hairColor.hi}" stroke-width="3" opacity="0.5" />
-            <path d="M ${cx + rx + 4} ${headY + 12} Q ${cx + rx + 9} 78 ${cx + rx} 142" fill="none" stroke="${hairColor.hi}" stroke-width="3" opacity="0.5" />
+            <path d="M ${cx - rx - 4} ${headY - 6} Q ${cx - rx - 12} 112 ${cx - rx + 1} 154 L ${cx + rx - 1} 154 Q ${cx + rx + 12} 112 ${cx + rx + 4} ${headY - 6} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - rx - 2} ${headY + 10} Q ${cx - rx - 7} 78 ${cx} 144" fill="none" stroke="${hairColor.hi}" stroke-width="2.8" opacity="0.45" />
+            <path d="M ${cx + rx + 2} ${headY + 10} Q ${cx + rx + 7} 78 ${cx} 144" fill="none" stroke="${hairColor.hi}" stroke-width="2.8" opacity="0.45" />
           `;
         } else if (hairStyle === "hollywood_glam") {
           backHair = `
-            <path d="M ${cx - rx - 8} ${headY - 6} C ${cx - rx - 22} 95, ${cx - rx - 6} 125, ${cx - rx - 14} 156 L ${cx + rx + 14} 156 C ${cx + rx + 6} 125, ${cx + rx + 22} 95, ${cx + rx + 8} ${headY - 6} Z" fill="${hairColor.hex}" />
-            <path d="M ${cx - rx - 6} ${headY + 18} Q ${cx - rx - 14} 88 ${cx - rx - 4} 118 T ${cx - rx - 6} 150" fill="none" stroke="${hairColor.hi}" stroke-width="3.2" opacity="0.55" />
-            <path d="M ${cx + rx + 6} ${headY + 18} Q ${cx + rx + 14} 88 ${cx + rx + 4} 118 T ${cx + rx + 6} 150" fill="none" stroke="${hairColor.hi}" stroke-width="3.2" opacity="0.55" />
+            <path d="M ${cx - rx - 6} ${headY - 6} C ${cx - rx - 20} 95, ${cx - rx - 5} 125, ${cx - rx - 12} 156 L ${cx + rx + 12} 156 C ${cx + rx + 5} 125, ${cx + rx + 20} 95, ${cx + rx + 6} ${headY - 6} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - rx - 5} ${headY + 18} Q ${cx - rx - 13} 88 ${cx - rx - 3} 118 T ${cx - rx - 5} 150" fill="none" stroke="${hairColor.hi}" stroke-width="3.2" opacity="0.55" />
+            <path d="M ${cx + rx + 5} ${headY + 18} Q ${cx + rx + 13} 88 ${cx + rx + 3} 118 T ${cx + rx + 5} 150" fill="none" stroke="${hairColor.hi}" stroke-width="3.2" opacity="0.55" />
           `;
         } else if (hairStyle === "curly_pineapple") {
           backHair = `
-            <circle cx="${cx}" cy="${headY - ry - 12}" r="22" fill="${hairColor.hex}" />
-            <circle cx="${cx - 14}" cy="${headY - ry - 6}" r="14" fill="${hairColor.hex}" />
-            <circle cx="${cx + 14}" cy="${headY - ry - 6}" r="14" fill="${hairColor.hex}" />
-            <circle cx="${cx - 6}" cy="${headY - ry - 18}" r="11" fill="${hairColor.hi}" opacity="0.25" />
-            <circle cx="${cx + 8}" cy="${headY - ry - 14}" r="9" fill="${hairColor.hi}" opacity="0.22" />
+            <circle cx="${cx}" cy="${headY - ry - 11}" r="21" fill="${hairColor.hex}" />
+            <circle cx="${cx - 14}" cy="${headY - ry - 5}" r="13" fill="${hairColor.hex}" />
+            <circle cx="${cx + 14}" cy="${headY - ry - 5}" r="13" fill="${hairColor.hex}" />
+            <circle cx="${cx - 6}" cy="${headY - ry - 17}" r="10" fill="${hairColor.hi}" opacity="0.25" />
+            <circle cx="${cx + 8}" cy="${headY - ry - 13}" r="8" fill="${hairColor.hi}" opacity="0.22" />
           `;
         } else if (hairStyle === "goddess_braids") {
           backHair = `
-            <rect x="${cx - rx - 8}" y="${headY - 2}" width="6.5" height="90" rx="3.2" fill="${hairColor.hex}" />
-            <rect x="${cx - rx - 1}" y="${headY + 2}" width="6" height="92" rx="3" fill="${hairColor.hex}" />
-            <rect x="${cx + rx - 5}" y="${headY + 2}" width="6" height="92" rx="3" fill="${hairColor.hex}" />
-            <rect x="${cx + rx + 1.5}" y="${headY - 2}" width="6.5" height="90" rx="3.2" fill="${hairColor.hex}" />
-            <!-- Gold Braid Cuffs & Curled Ends -->
-            <rect x="${cx - rx - 8}" y="${headY + 42}" width="6.5" height="3.5" fill="#eab308" />
-            <rect x="${cx + rx + 1.5}" y="${headY + 42}" width="6.5" height="3.5" fill="#eab308" />
-            <path d="M ${cx - rx - 5} ${headY + 86} Q ${cx - rx - 11} ${headY + 96} ${cx - rx - 3} ${headY + 102}" fill="none" stroke="${hairColor.hi}" stroke-width="2.5" stroke-linecap="round" />
-            <path d="M ${cx + rx + 5} ${headY + 86} Q ${cx + rx + 11} ${headY + 96} ${cx + rx + 3} ${headY + 102}" fill="none" stroke="${hairColor.hi}" stroke-width="2.5" stroke-linecap="round" />
+            <rect x="${cx - rx - 6}" y="${headY - 2}" width="6" height="90" rx="3" fill="${hairColor.hex}" />
+            <rect x="${cx - rx}" y="${headY + 2}" width="5.5" height="92" rx="2.7" fill="${hairColor.hex}" />
+            <rect x="${cx + rx - 5.5}" y="${headY + 2}" width="5.5" height="92" rx="2.7" fill="${hairColor.hex}" />
+            <rect x="${cx + rx}" y="${headY - 2}" width="6" height="90" rx="3" fill="${hairColor.hex}" />
+            <rect x="${cx - rx - 6}" y="${headY + 42}" width="6" height="3.5" fill="#eab308" />
+            <rect x="${cx + rx}" y="${headY + 42}" width="6" height="3.5" fill="#eab308" />
+            <path d="M ${cx - rx - 3} ${headY + 86} Q ${cx - rx - 9} ${headY + 96} ${cx - rx - 2} ${headY + 102}" fill="none" stroke="${hairColor.hi}" stroke-width="2.4" stroke-linecap="round" />
+            <path d="M ${cx + rx + 3} ${headY + 86} Q ${cx + rx + 9} ${headY + 96} ${cx + rx + 2} ${headY + 102}" fill="none" stroke="${hairColor.hi}" stroke-width="2.4" stroke-linecap="round" />
           `;
-        } else if (hairStyle === "braided_crown") {
+        } else if (hairStyle === "braided_crown" || hairStyle === "slick_back_bun") {
+          const isBraided = hairStyle === "braided_crown";
           backHair = `
-            <ellipse cx="${cx}" cy="${headY - ry - 11}" rx="18" ry="16" fill="${hairColor.hex}" />
-            <path d="M ${cx - 15} ${headY - ry - 13} Q ${cx} ${headY - ry - 22} ${cx + 15} ${headY - ry - 13}" fill="none" stroke="${hairColor.hi}" stroke-width="3.2" stroke-linecap="round" />
-            <path d="M ${cx - 13} ${headY - ry - 6} Q ${cx} ${headY - ry - 14} ${cx + 13} ${headY - ry - 6}" fill="none" stroke="${hairColor.hi}" stroke-width="2.6" stroke-linecap="round" />
-            <!-- Signature Face-Framing Braided Tendril -->
-            <path d="M ${cx - rx + 2} ${headY - 8} Q ${cx - rx - 5} ${headY + 28} ${cx - rx + 3} ${headY + 64}" fill="none" stroke="${hairColor.hex}" stroke-width="4.4" stroke-linecap="round" />
-            <path d="M ${cx - rx + 2} ${headY - 8} Q ${cx - rx - 5} ${headY + 28} ${cx - rx + 3} ${headY + 64}" fill="none" stroke="${hairColor.hi}" stroke-width="1.5" stroke-dasharray="3 3" />
+            <ellipse cx="${cx}" cy="${headY - ry - 10}" rx="17" ry="15" fill="${hairColor.hex}" />
+            <path d="M ${cx - 14} ${headY - ry - 12} Q ${cx} ${headY - ry - 21} ${cx + 14} ${headY - ry - 12}" fill="none" stroke="${hairColor.hi}" stroke-width="${isBraided ? "3.2" : "1.8"}" stroke-linecap="round" />
+            ${isBraided ? `
+              <path d="M ${cx - rx + 2} ${headY - 8} Q ${cx - rx - 5} ${headY + 28} ${cx - rx + 3} ${headY + 64}" fill="none" stroke="${hairColor.hex}" stroke-width="4.2" stroke-linecap="round" />
+              <path d="M ${cx - rx + 2} ${headY - 8} Q ${cx - rx - 5} ${headY + 28} ${cx - rx + 3} ${headY + 64}" fill="none" stroke="${hairColor.hi}" stroke-width="1.4" stroke-dasharray="3 3" />
+            ` : ""}
           `;
         }
 
-        // Contemporary Fashion & Professional Outfits
+        // Tailored Professional & Contemporary Outfits (draped collar seams, tailored sleeves & buttons)
         let outfitDetails = "";
         if (outfit.id === "chef_piped" || outfit.id === "chef_obsidian") {
           outfitDetails = `
-            <path d="M ${cx - 13} 98 L ${cx - 4} 115 L ${cx + 12} 98" fill="none" stroke="${outfit.trim}" stroke-width="2.5" />
-            <line x1="${cx - 4}" y1="115" x2="${cx - 4}" y2="162" stroke="${outfit.trim}" stroke-width="2.2" />
-            <circle cx="${cx - 10}" cy="119" r="2.3" fill="${outfit.secondary}" />
-            <circle cx="${cx + 4}" cy="119" r="2.3" fill="${outfit.secondary}" />
-            <circle cx="${cx - 10}" cy="132" r="2.3" fill="${outfit.secondary}" />
-            <circle cx="${cx + 4}" cy="132" r="2.3" fill="${outfit.secondary}" />
+            <!-- Crisp Stand Mandarin Chef Collar -->
+            <path d="M ${cx - 12} 96 L ${cx} 105 L ${cx + 12} 96 L ${cx + 10} 103 L ${cx} 112 L ${cx - 10} 103 Z" fill="${outfit.secondary}" stroke="${outfit.trim}" stroke-width="1.4" />
+            <!-- Double-Breasted Placket & Piping -->
+            <path d="M ${cx - 10} 103 L ${cx - 4} 116 L ${cx - 4} 152" fill="none" stroke="${outfit.trim}" stroke-width="2.2" />
+            <circle cx="${cx - 11}" cy="118" r="2.2" fill="${outfit.trim}" />
+            <circle cx="${cx + 4}" cy="118" r="2.2" fill="${outfit.trim}" />
+            <circle cx="${cx - 11}" cy="131" r="2.2" fill="${outfit.trim}" />
+            <circle cx="${cx + 4}" cy="131" r="2.2" fill="${outfit.trim}" />
+            <!-- Tailored Bistro Waist Apron -->
             <path d="M ${cx - waistW/2 - 1} 145 L ${cx + waistW/2 + 1} 145 L ${cx + hipW/2 + 2} 184 L ${cx - hipW/2 - 2} 184 Z" fill="#1e293b" />
             <rect x="${cx - waistW/2 - 2}" y="143" width="${waistW + 4}" height="7" rx="3" fill="${outfit.trim}" />
-            <path d="M ${cx - 6} 148 L ${cx - 11} 162 M ${cx + 6} 148 L ${cx + 11} 162" stroke="${outfit.trim}" stroke-width="3" stroke-linecap="round" />
+            <path d="M ${cx - 5} 148 L ${cx - 10} 162 M ${cx + 5} 148 L ${cx + 10} 162" stroke="${outfit.trim}" stroke-width="2.8" stroke-linecap="round" />
           `;
         } else if (outfit.id === "baroque_blazer" || outfit.id === "emerald_street") {
           outfitDetails = `
-            <polygon points="${cx - 14},98 ${cx + 14},98 ${cx + 10},166 ${cx - 10},166" fill="${outfit.secondary}" />
-            <path d="M ${cx - 8} 104 L ${cx - 8} 162 M ${cx + 8} 104 L ${cx + 8} 162" stroke="${outfit.trim}" stroke-width="2.4" stroke-dasharray="4 2" />
-            <circle cx="${cx}" cy="122" r="3" fill="none" stroke="${outfit.trim}" stroke-width="1.6" />
-            <circle cx="${cx}" cy="136" r="3" fill="none" stroke="${outfit.trim}" stroke-width="1.6" />
-            <polygon points="${cx - 15},98 ${cx - 8},148 ${cx - 22},126" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.3" />
-            <polygon points="${cx + 15},98 ${cx + 8},148 ${cx + 22},126" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.3" />
+            <polygon points="${cx - 14},97 ${cx + 14},97 ${cx + 10},166 ${cx - 10},166" fill="${outfit.secondary}" />
+            <path d="M ${cx - 7.5} 103 L ${cx - 7.5} 162 M ${cx + 7.5} 103 L ${cx + 7.5} 162" stroke="${outfit.trim}" stroke-width="2.3" stroke-dasharray="4 2" />
+            <circle cx="${cx}" cy="122" r="2.8" fill="none" stroke="${outfit.trim}" stroke-width="1.5" />
+            <circle cx="${cx}" cy="136" r="2.8" fill="none" stroke="${outfit.trim}" stroke-width="1.5" />
+            <!-- Structured Peak Lapels -->
+            <polygon points="${cx - 15},97 ${cx - 7},148 ${cx - 23},125" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.3" />
+            <polygon points="${cx + 15},97 ${cx + 7},148 ${cx + 23},125" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.3" />
             <line x1="${cx + 13}" y1="132" x2="${cx + 22}" y2="130" stroke="${outfit.trim}" stroke-width="2.5" />
           `;
         } else if (outfit.id === "corset_suit") {
           outfitDetails = `
-            <path d="M ${cx - 16} 98 Q ${cx} 118 ${cx + 16} 98" fill="${skin.hex}" stroke="${outfit.trim}" stroke-width="2.4" />
-            <rect x="${cx - waistW/2 + 2}" y="122" width="${waistW - 4}" height="24" rx="4" fill="${outfit.secondary}" opacity="0.2" stroke="${outfit.trim}" stroke-width="1.5" />
-            <line x1="${cx - 6}" y1="122" x2="${cx - 6}" y2="146" stroke="${outfit.trim}" stroke-width="1.4" />
-            <line x1="${cx + 6}" y1="122" x2="${cx + 6}" y2="146" stroke="${outfit.trim}" stroke-width="1.4" />
+            <path d="M ${cx - 15} 97 Q ${cx} 116 ${cx + 15} 97" fill="${skin.hex}" stroke="${outfit.trim}" stroke-width="2.3" />
+            <rect x="${cx - waistW/2 + 2}" y="121" width="${waistW - 4}" height="24" rx="4" fill="${outfit.secondary}" opacity="0.22" stroke="${outfit.trim}" stroke-width="1.5" />
+            <line x1="${cx - 6}" y1="121" x2="${cx - 6}" y2="145" stroke="${outfit.trim}" stroke-width="1.4" />
+            <line x1="${cx + 6}" y1="121" x2="${cx + 6}" y2="145" stroke="${outfit.trim}" stroke-width="1.4" />
           `;
         } else if (outfit.id === "turtleneck_trench") {
           outfitDetails = `
-            <rect x="${cx - 10}" y="94" width="20" height="14" rx="4" fill="${outfit.secondary}" />
-            <polygon points="${cx - 10},108 ${cx + 10},108 ${cx + 8},184 ${cx - 8},184" fill="${outfit.secondary}" />
-            <polygon points="${cx - 16},98 ${cx - 8},146 ${cx - 24},124" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.4" />
-            <polygon points="${cx + 16},98 ${cx + 8},146 ${cx + 24},124" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.4" />
+            <rect x="${cx - 10}" y="93" width="20" height="14" rx="4" fill="${outfit.secondary}" />
+            <polygon points="${cx - 10},107 ${cx + 10},107 ${cx + 8},184 ${cx - 8},184" fill="${outfit.secondary}" />
+            <polygon points="${cx - 16},97 ${cx - 8},146 ${cx - 24},124" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.4" />
+            <polygon points="${cx + 16},97 ${cx + 8},146 ${cx + 24},124" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.4" />
             <rect x="${cx - waistW/2 - 1}" y="142" width="${waistW + 2}" height="6" rx="2" fill="${outfit.trim}" />
+          `;
+        } else if (outfit.id === "silk_blouse_blazer") {
+          outfitDetails = `
+            <polygon points="${cx - 14},97 ${cx + 14},97 ${cx + 9},152 ${cx - 9},152" fill="${outfit.secondary}" />
+            <!-- Silk Pussy-Bow Tie -->
+            <path d="M ${cx} 105 L ${cx - 8} 101 L ${cx - 6} 109 Z M ${cx} 105 L ${cx + 8} 101 L ${cx + 6} 109 Z" fill="${outfit.trim}" />
+            <line x1="${cx - 2}" y1="106" x2="${cx - 4}" y2="124" stroke="${outfit.trim}" stroke-width="2.2" />
+            <line x1="${cx + 2}" y1="106" x2="${cx + 4}" y2="124" stroke="${outfit.trim}" stroke-width="2.2" />
+            <polygon points="${cx - 15},97 ${cx - 7},148 ${cx - 22},125" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.3" />
+            <polygon points="${cx + 15},97 ${cx + 7},148 ${cx + 22},125" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.3" />
           `;
         } else {
           // Sommelier / Executive Bistro Vest & Tie
           outfitDetails = `
-            <polygon points="${cx - 13},98 ${cx + 13},98 ${cx + 8},144 ${cx - 8},144" fill="${outfit.secondary}" />
-            <polygon points="${cx - 2.5},102 ${cx + 2.5},102 ${cx + 3.5},136 ${cx},141 ${cx - 3.5},136" fill="${outfit.trim}" />
+            <polygon points="${cx - 13},97 ${cx + 13},97 ${cx + 8},144 ${cx - 8},144" fill="${outfit.secondary}" />
+            <polygon points="${cx - 2.5},101 ${cx + 2.5},101 ${cx + 3.5},136 ${cx},141 ${cx - 3.5},136" fill="${outfit.trim}" />
             <circle cx="${cx}" cy="148" r="2.2" fill="${outfit.trim}" />
             <circle cx="${cx}" cy="158" r="2.2" fill="${outfit.trim}" />
           `;
         }
 
-        // Front Hair Layer with Contemporary Curtain Bangs, Fades & Baby-Hair Edges
+        // Head-Fitted Front Hair Cap (follows exact head rx/ry hairline contour so hair never floats)
         let frontHair = "";
-        if (hairStyle === "braided_crown" || hairStyle === "curly_pineapple" || hairStyle === "goddess_braids") {
+        if (hairStyle === "braided_crown" || hairStyle === "curly_pineapple" || hairStyle === "goddess_braids" || hairStyle === "slick_back_bun") {
           frontHair = `
-            <path d="M ${cx - rx - 1} ${headY - 2} Q ${cx - rx + 2} ${headY - ry - 8} ${cx} ${headY - ry - 8} Q ${cx + rx - 2} ${headY - ry - 8} ${cx + rx + 1} ${headY - 2} Q ${cx + rx - 6} ${headY - 15} ${cx} ${headY - 15} Q ${cx - rx + 6} ${headY - 15} ${cx - rx - 1} ${headY - 2} Z" fill="${hairColor.hex}" />
-            <!-- Sculpted Baby-Hair Edges -->
-            <path d="M ${cx - 15} ${headY - 16} Q ${cx - 9} ${headY - 11.5} ${cx - 4} ${headY - 16}" fill="none" stroke="${hairColor.hex}" stroke-width="1.6" stroke-linecap="round" />
-            <path d="M ${cx + 4} ${headY - 16} Q ${cx + 9} ${headY - 11.5} ${cx + 15} ${headY - 16}" fill="none" stroke="${hairColor.hex}" stroke-width="1.6" stroke-linecap="round" />
+            <path d="M ${cx - rx - 0.5} ${headY - 2}
+                     C ${cx - rx - 1} ${headY - ry - 7}, ${cx + rx + 1} ${headY - ry - 7}, ${cx + rx + 0.5} ${headY - 2}
+                     Q ${cx + rx - 5} ${headY - 15} ${cx} ${headY - 15.5}
+                     Q ${cx - rx + 5} ${headY - 15} ${cx - rx - 0.5} ${headY - 2} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - 14} ${headY - 16} Q ${cx - 8} ${headY - 12} ${cx - 3} ${headY - 16}" fill="none" stroke="${hairColor.hex}" stroke-width="1.5" stroke-linecap="round" />
+            <path d="M ${cx + 3} ${headY - 16} Q ${cx + 8} ${headY - 12} ${cx + 14} ${headY - 16}" fill="none" stroke="${hairColor.hex}" stroke-width="1.5" stroke-linecap="round" />
           `;
         } else if (hairStyle === "silk_press_layers") {
           frontHair = `
-            <path d="M ${cx - rx - 3} ${headY + 14} Q ${cx - rx - 2} ${headY - ry - 8} ${cx} ${headY - ry - 8} Q ${cx + rx + 2} ${headY - ry - 8} ${cx + rx + 3} ${headY + 14} Q ${cx + 6} ${headY - 12} ${cx} ${headY - 17} Q ${cx - 6} ${headY - 12} ${cx - rx - 3} ${headY + 14} Z" fill="${hairColor.hex}" />
-            <path d="M ${cx - 4} ${headY - 17} Q ${cx - 14} ${headY - 6} ${cx - rx - 1} ${headY + 10}" fill="none" stroke="${hairColor.hi}" stroke-width="2.2" opacity="0.6" />
-            <path d="M ${cx + 4} ${headY - 17} Q ${cx + 14} ${headY - 6} ${cx + rx + 1} ${headY + 10}" fill="none" stroke="${hairColor.hi}" stroke-width="2.2" opacity="0.6" />
+            <path d="M ${cx - rx - 2} ${headY + 15}
+                     C ${cx - rx - 2} ${headY - ry - 7}, ${cx + rx + 2} ${headY - ry - 7}, ${cx + rx + 2} ${headY + 15}
+                     Q ${cx + 6} ${headY - 12} ${cx} ${headY - 17}
+                     Q ${cx - 6} ${headY - 12} ${cx - rx - 2} ${headY + 15} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - 4} ${headY - 17} Q ${cx - 13} ${headY - 6} ${cx - rx} ${headY + 11}" fill="none" stroke="${hairColor.hi}" stroke-width="2" opacity="0.6" />
+            <path d="M ${cx + 4} ${headY - 17} Q ${cx + 13} ${headY - 6} ${cx + rx} ${headY + 11}" fill="none" stroke="${hairColor.hi}" stroke-width="2" opacity="0.6" />
           `;
         } else if (hairStyle === "hollywood_glam") {
           frontHair = `
-            <path d="M ${cx - rx - 2} ${headY + 6} Q ${cx - 8} ${headY - ry - 12} ${cx + rx + 3} ${headY + 2} Q ${cx + rx - 5} ${headY - 14} ${cx - 4} ${headY - 15} Q ${cx - rx + 4} ${headY - 10} ${cx - rx - 2} ${headY + 6} Z" fill="${hairColor.hex}" />
-            <path d="M ${cx - 6} ${headY - 19} Q ${cx + 10} ${headY - 18} ${cx + rx - 2} ${headY - 4}" fill="none" stroke="${hairColor.hi}" stroke-width="2.6" opacity="0.55" />
+            <path d="M ${cx - rx - 1.5} ${headY + 5}
+                     C ${cx - rx} ${headY - ry - 9}, ${cx + rx + 2} ${headY - ry - 8}, ${cx + rx + 2} ${headY + 3}
+                     Q ${cx + rx - 5} ${headY - 14} ${cx - 4} ${headY - 15}
+                     Q ${cx - rx + 4} ${headY - 10} ${cx - rx - 1.5} ${headY + 5} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - 5} ${headY - 19} Q ${cx + 9} ${headY - 18} ${cx + rx - 2} ${headY - 4}" fill="none" stroke="${hairColor.hi}" stroke-width="2.5" opacity="0.55" />
           `;
         } else if (hairStyle === "tapered_crop_fade") {
           frontHair = `
-            <path d="M ${cx - rx + 1} ${headY - 6} Q ${cx - rx} ${headY - ry - 9} ${cx} ${headY - ry - 9} Q ${cx + rx} ${headY - ry - 9} ${cx + rx - 1} ${headY - 6} L ${cx + rx - 2} ${headY - 13} Q ${cx} ${headY - 19} ${cx - rx + 2} ${headY - 13} Z" fill="${hairColor.hex}" />
-            <path d="M ${cx - rx + 5} ${headY - 18} Q ${cx} ${headY - ry - 7} ${cx + rx - 5} ${headY - 18}" fill="none" stroke="${hairColor.hi}" stroke-width="3.2" opacity="0.6" />
+            <path d="M ${cx - rx + 0.5} ${headY - 5}
+                     C ${cx - rx} ${headY - ry - 8}, ${cx + rx} ${headY - ry - 8}, ${cx + rx - 0.5} ${headY - 5}
+                     L ${cx + rx - 2} ${headY - 13} Q ${cx} ${headY - 18.5} ${cx - rx + 2} ${headY - 13} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - rx + 5} ${headY - 18} Q ${cx} ${headY - ry - 6} ${cx + rx - 5} ${headY - 18}" fill="none" stroke="${hairColor.hi}" stroke-width="3" opacity="0.58" />
           `;
         } else if (hairStyle === "sleek_editorial_bob") {
           frontHair = `
-            <path d="M ${cx - rx - 5} ${headY + 28} L ${cx - rx - 2} ${headY - 8} Q ${cx} ${headY - ry - 9} ${cx + rx + 2} ${headY - 8} L ${cx + rx + 5} ${headY + 28} L ${cx + rx - 2} ${headY + 28} Q ${cx + rx - 2} ${headY - 13} ${cx} ${headY - 15} Q ${cx - rx + 2} ${headY - 13} ${cx - rx + 2} ${headY + 28} Z" fill="${hairColor.hex}" />
-            <path d="M ${cx - rx + 2} ${headY - 4} L ${cx - rx + 1} ${headY + 24}" fill="none" stroke="${hairColor.hi}" stroke-width="2.4" opacity="0.5" />
-            <path d="M ${cx + rx - 2} ${headY - 4} L ${cx + rx - 1} ${headY + 24}" fill="none" stroke="${hairColor.hi}" stroke-width="2.4" opacity="0.5" />
+            <path d="M ${cx - rx - 4} ${headY + 27}
+                     L ${cx - rx - 1} ${headY - 7}
+                     C ${cx - rx} ${headY - ry - 8}, ${cx + rx} ${headY - ry - 8}, ${cx + rx + 1} ${headY - 7}
+                     L ${cx + rx + 4} ${headY + 27}
+                     L ${cx + rx - 1.5} ${headY + 27}
+                     Q ${cx + rx - 2} ${headY - 13} ${cx} ${headY - 15}
+                     Q ${cx - rx + 2} ${headY - 13} ${cx - rx + 1.5} ${headY + 27} Z" fill="${hairColor.hex}" />
+          `;
+        } else if (hairStyle === "side_swept_pomp") {
+          frontHair = `
+            <path d="M ${cx - rx + 0.5} ${headY - 4}
+                     C ${cx - rx - 2} ${headY - ry - 15}, ${cx + rx + 3} ${headY - ry - 12}, ${cx + rx - 0.5} ${headY - 4}
+                     Q ${cx + 4} ${headY - 16.5} ${cx - rx + 0.5} ${headY - 4} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - 8} ${headY - ry - 5} Q ${cx + 6} ${headY - ry - 6} ${cx + rx - 4} ${headY - 11}" fill="none" stroke="${hairColor.hi}" stroke-width="2.4" opacity="0.55" />
           `;
         }
 
@@ -1790,28 +1990,27 @@
         let facialExtras = "";
         if (brow.facial === "freckles") {
           facialExtras = `
-            <circle cx="${cx - 13}" cy="${headY + 7}" r="0.9" fill="${skin.shadow}" />
-            <circle cx="${cx - 10}" cy="${headY + 9}" r="0.9" fill="${skin.shadow}" />
-            <circle cx="${cx + 13}" cy="${headY + 7}" r="0.9" fill="${skin.shadow}" />
-            <circle cx="${cx + 10}" cy="${headY + 9}" r="0.9" fill="${skin.shadow}" />
+            <circle cx="${cx - 12}" cy="${headY + 7}" r="0.9" fill="${skin.shadow}" />
+            <circle cx="${cx - 9}" cy="${headY + 9}" r="0.9" fill="${skin.shadow}" />
+            <circle cx="${cx + 12}" cy="${headY + 7}" r="0.9" fill="${skin.shadow}" />
+            <circle cx="${cx + 9}" cy="${headY + 9}" r="0.9" fill="${skin.shadow}" />
           `;
         } else if (brow.facial === "beard") {
           facialExtras = `
-            <path d="M ${cx - rx + 3} ${headY + 4} Q ${cx - rx + 4} ${headY + ry + 1} ${cx} ${headY + ry + 1} Q ${cx + rx - 4} ${headY + ry + 1} ${cx + rx - 3} ${headY + 4} Q ${cx + rx - 7} ${headY + 18} ${cx} ${headY + 19} Q ${cx - rx + 7} ${headY + 18} ${cx - rx + 3} ${headY + 4} Z" fill="${hairColor.hex}" opacity="0.72" />
+            <path d="M ${cx - rx + 3} ${headY + 4} Q ${cx - jawW} ${headY + ry + 1} ${cx} ${headY + ry + 1} Q ${cx + jawW} ${headY + ry + 1} ${cx + rx - 3} ${headY + 4} Q ${cx + rx - 7} ${headY + 18} ${cx} ${headY + 19} Q ${cx - rx + 7} ${headY + 18} ${cx - rx + 3} ${headY + 4} Z" fill="${hairColor.hex}" opacity="0.72" />
           `;
         } else if (brow.facial === "stubble") {
           facialExtras = `
             <path d="M ${cx - rx + 4} ${headY + 6} Q ${cx} ${headY + ry + 2} ${cx + rx - 4} ${headY + 6} Q ${cx} ${headY + 21} ${cx - rx + 4} ${headY + 6} Z" fill="${hairColor.hex}" opacity="0.28" />
           `;
         } else if (brow.facial === "mark") {
-          facialExtras = `<circle cx="${cx + 13}" cy="${headY + 11}" r="1.4" fill="#27160c" />`;
+          facialExtras = `<circle cx="${cx + 12}" cy="${headY + 11}" r="1.4" fill="#27160c" />`;
         }
 
         const browSlitSVG = brow.slit
           ? `<line x1="${cx + 11}" y1="${headY - 12}" x2="${cx + 13}" y2="${headY - 7}" stroke="${skin.hex}" stroke-width="2" />`
           : "";
 
-        // Expressive Mouth & Eye Variations
         let mouthSVG = "";
         if (expr === "fierce_smirk" || expr === "sly_charm") {
           mouthSVG = `
@@ -1829,11 +2028,8 @@
             <ellipse cx="${cx}" cy="${headY + 15}" rx="2.2" ry="0.8" fill="#ffffff" opacity="0.65" />
           `;
         } else if (expr === "boss_focus") {
-          mouthSVG = `
-            <path d="M ${cx - 6} ${headY + 13} L ${cx + 6} ${headY + 13}" stroke="#4c0519" stroke-width="1.8" stroke-linecap="round" />
-          `;
+          mouthSVG = `<path d="M ${cx - 6} ${headY + 13} L ${cx + 6} ${headY + 13}" stroke="#4c0519" stroke-width="1.8" stroke-linecap="round" />`;
         } else {
-          // Confident Smile / Playful Wink
           mouthSVG = `
             <path d="M ${cx - 6.5} ${headY + 12.5} Q ${cx - 2.5} ${headY + 10.5} ${cx} ${headY + 11.8} Q ${cx + 2.5} ${headY + 10.5} ${cx + 6.5} ${headY + 12.5} Q ${cx} ${headY + 17.5} ${cx - 6.5} ${headY + 12.5} Z" fill="${skin.blush}" opacity="0.76" />
             <path d="M ${cx - 6.5} ${headY + 12.5} Q ${cx} ${headY + 14.4} ${cx + 6.5} ${headY + 12.5}" fill="none" stroke="#4c0519" stroke-width="1.1" />
@@ -1851,7 +2047,6 @@
               <circle cx="1.2" cy="1.1" r="0.55" fill="#ffffff" />
             </g>`;
 
-        // Accessories & Props
         let accFront = "";
         if (acc === "chef_cap") {
           accFront = `
@@ -1920,6 +2115,7 @@
             <path d="M ${cx - 9} ${headY + ry - 5} L ${cx - 10} 102 L ${cx + 10} 102 L ${cx + 9} ${headY + ry - 5} Z" fill="${skin.shadow}" />
             <ellipse cx="${cx}" cy="${headY + ry - 2}" rx="9" ry="4" fill="rgba(0,0,0,0.22)" />
 
+            <!-- Tailored Jacket / Chef Coat Silhouette with Seams -->
             <path d="M ${cx - shW/2} 122
                      Q ${cx - shW/2 + 2} 98 ${cx - 13} 96
                      L ${cx + 13} 96
@@ -1930,15 +2126,20 @@
                      L ${cx - waistW/2} 146 Z"
                   fill="${outfit.primary}" />
 
+            <!-- Tailored Princess / Suit Dart Seams -->
+            <path d="M ${cx - shW/2 + 10} 112 Q ${cx - waistW/2 + 4} 135 ${cx - hipW/2 + 8} 178" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="1.3" />
+            <path d="M ${cx + shW/2 - 10} 112 Q ${cx + waistW/2 - 4} 135 ${cx + hipW/2 - 8} 178" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="1.3" />
+
             <path d="M ${cx - shW/2} 112 L ${cx - shW/2 - 8} 152 L ${cx - waistW/2 - 2} 166 L ${cx - waistW/2 + 4} 154 L ${cx - shW/2 + 6} 124 Z" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.2" />
             <path d="M ${cx + shW/2} 112 L ${cx + shW/2 + 8} 152 L ${cx + waistW/2 + 2} 166 L ${cx + waistW/2 - 4} 154 L ${cx + shW/2 - 6} 124 Z" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.2" />
 
             ${outfitDetails}
 
+            <!-- Custom Face Shape Contour (Oval, Heart, Square, Diamond, Round, Long, V-Line) -->
             <path d="M ${cx - rx} ${headY - 4}
                      C ${cx - rx} ${headY - ry - 2}, ${cx + rx} ${headY - ry - 2}, ${cx + rx} ${headY - 4}
-                     C ${cx + rx} ${headY + ry * 0.65}, ${cx + rx * 0.45} ${headY + ry}, ${cx} ${headY + ry}
-                     C ${cx - rx * 0.45} ${headY + ry}, ${cx - rx} ${headY + ry * 0.65}, ${cx - rx} ${headY - 4} Z"
+                     C ${cx + rx} ${headY + ry * 0.52}, ${cx + jawW} ${headY + ry * 0.92}, ${cx} ${headY + ry}
+                     C ${cx - jawW} ${headY + ry * 0.92}, ${cx - rx} ${headY + ry * 0.52}, ${cx - rx} ${headY - 4} Z"
                   fill="url(#skinGrad_${uid})" />
 
             <ellipse cx="${cx - 13}" cy="${headY + 6}" rx="5.5" ry="3" fill="${skin.blush}" opacity="0.22" />
@@ -1971,6 +2172,7 @@
       function defaultAvatarConfig(gender, path) {
         if (gender === "female") {
           return {
+            faceShape: "heart",
             bodyShape: "hourglass",
             skinTone: "caramel",
             expression: "confident_smile",
@@ -1978,11 +2180,12 @@
             browFeature: "arched_glam",
             hairStyle: path === "chef" ? "braided_crown" : "silk_press_layers",
             hairColor: "jet",
-            outfit: path === "chef" ? "chef_piped" : "corset_suit",
+            outfit: path === "chef" ? "chef_piped" : "silk_blouse_blazer",
             accessory: path === "chef" ? "chef_cap" : "hoops_mic"
           };
         }
         return {
+          faceShape: "square",
           bodyShape: "athletic",
           skinTone: "olive",
           expression: "fierce_smirk",
@@ -2033,6 +2236,7 @@
             upgrades: [],
             inventory: {},
             prices: {},
+            backstockBatch: null, // { oldMenuName, units, unitValue } created on Level Up!
             hustleCount: 0,
             hustleStreak: 0,
             gigsCompleted: 0,
@@ -2040,7 +2244,7 @@
             claimedMissions: [],
             storyLog: [],
             triggeredEpisodes: [],
-            news: "Design your contemporary doll-style mogul, tap the portrait to test expressions, and launch your empire!",
+            news: "Customize your face shape, tailored fashion, and hairstyles—then launch your empire!",
             tab: "market"
           };
         }
@@ -2072,6 +2276,7 @@
           upgrades: [],
           inventory: {},
           prices: {},
+          backstockBatch: null,
           hustleCount: 0,
           hustleStreak: 0,
           gigsCompleted: 0,
@@ -2089,6 +2294,8 @@
       let activeMiniGame = null;
       let miniGameTimer = null;
       let settingsWardrobeTab = "hair";
+      let cineInterval = null;
+      let cineData = null;
 
       async function computeHash(payloadStr) {
         const enc = new TextEncoder().encode(payloadStr + "::" + INTEGRITY_SALT);
@@ -2159,6 +2366,12 @@
       function formatStoryText(tpl, name) { return tpl.replace(/\{NAME\}/g, sanitizeName(name)); }
       function getNetWorth() { return state.cash + state.vault - state.debt; }
 
+      function getCurrentMenuObj() {
+        const list = LEVEL_MENUS[state.path] || LEVEL_MENUS.chef;
+        const idx = Math.min(list.length - 1, state.level - 1);
+        return list[idx];
+      }
+
       function getXpNeeded(lvl) {
         return lvl * 100;
       }
@@ -2167,17 +2380,137 @@
         return 1 + (state.level - 1) * 0.15;
       }
 
+      // 30-Second Interactive Story Reel / Cutscene Player (with Skip Option)
+      function openStoryReelModal(config) {
+        if (cineInterval) clearInterval(cineInterval);
+
+        cineData = {
+          secondsLeft: 30,
+          sceneIdx: 0,
+          bonusEarned: 0,
+          scenes: config.scenes,
+          menuUpgradeInfo: config.menuUpgradeInfo || null
+        };
+
+        const modal = document.getElementById("cine-modal");
+        const avatarMount = document.getElementById("cine-avatar-mount");
+        avatarMount.innerHTML = renderAvatarSVG(state.avatarCfg, state.gender);
+
+        const menuBox = document.getElementById("cine-menu-upgrade-box");
+        if (cineData.menuUpgradeInfo) {
+          menuBox.style.display = "block";
+          menuBox.innerHTML = cineData.menuUpgradeInfo;
+        } else {
+          menuBox.style.display = "none";
+        }
+
+        const updateSlideUI = () => {
+          if (!cineData) return;
+          const sc = cineData.scenes[cineData.sceneIdx % cineData.scenes.length];
+          document.getElementById("cine-scene-tag").textContent = `Memory Reel • Scene ${(cineData.sceneIdx % cineData.scenes.length) + 1} / ${cineData.scenes.length}`;
+          document.getElementById("cine-title").textContent = sc.title;
+          document.getElementById("cine-caption").textContent = formatStoryText(sc.text, state.charName);
+          document.getElementById("cine-metric-left").textContent = sc.statLabel;
+          document.getElementById("cine-metric-right").textContent = `Reel Bonus: +${fmt(cineData.bonusEarned)}`;
+
+          const secStr = cineData.secondsLeft < 10 ? `0${cineData.secondsLeft}` : `${cineData.secondsLeft}`;
+          document.getElementById("cine-timer-label").textContent = `30s STORY REEL • 0:${secStr}`;
+          const pct = Math.round(((30 - cineData.secondsLeft) / 30) * 100);
+          document.getElementById("cine-timeline-fill").style.width = `${pct}%`;
+        };
+
+        updateSlideUI();
+        modal.classList.add("open");
+
+        cineInterval = setInterval(() => {
+          if (!cineData) return;
+          cineData.secondsLeft -= 1;
+          if (cineData.secondsLeft > 0 && cineData.secondsLeft % 6 === 0) {
+            cineData.sceneIdx += 1;
+          }
+          if (cineData.secondsLeft <= 0) {
+            closeStoryReelModal();
+            return;
+          }
+          updateSlideUI();
+        }, 1000);
+      }
+
+      function closeStoryReelModal() {
+        if (cineInterval) {
+          clearInterval(cineInterval);
+          cineInterval = null;
+        }
+        cineData = null;
+        document.getElementById("cine-modal").classList.remove("open");
+        render();
+      }
+
       function awardXP(amount) {
         state.xp += amount;
         let leveledUp = false;
+        const prevLevel = state.level;
+        const prevMenu = getCurrentMenuObj();
+
         while (state.xp >= getXpNeeded(state.level)) {
           state.xp -= getXpNeeded(state.level);
           state.level += 1;
           leveledUp = true;
         }
+
         if (leveledUp) {
+          const newMenu = getCurrentMenuObj();
           const pctBonus = Math.round((getLevelIncomeMultiplier() - 1) * 100);
-          state.news = `🎉 LEVEL UP! ${state.charName} reached Level ${state.level}! All Hustle & Gig payouts now +${pctBonus}%!`;
+
+          // Generate leftover backstock ingredients/plates from the previous menu to sell at a -30% discount!
+          const backstockUnits = 8 + prevLevel * 4;
+          const unitVal = Math.round((45 + prevLevel * 35) * 0.7);
+          state.backstockBatch = {
+            oldMenuName: prevMenu.menuName,
+            units: backstockUnits,
+            unitValue: unitVal
+          };
+
+          state.news = `🎉 LEVEL ${state.level} UNLOCKED! ${newMenu.menuName} is live (+${pctBonus}% Pay)! Clear backstock on Market!`;
+
+          const pastMemories = state.storyLog.map(entry => ({
+            title: `Memory: ${entry.chapter}`,
+            text: entry.outcome,
+            statLabel: `🏆 Reputation: ${entry.choiceTag}`
+          }));
+
+          const levelScenes = state.path === "chef"
+            ? [
+                {
+                  title: `🍽️ Plating Showcase: ${newMenu.dishName}`,
+                  text: `{NAME} steps onto the pass in crisp chef whites, plating ${newMenu.dishName} with precision tweezers as VIP cameras flash!`,
+                  statLabel: `⭐ Kitchen Rating: Level ${state.level}`
+                },
+                {
+                  title: `📋 Menu Evolution: ${newMenu.menuName}`,
+                  text: `Critics praise {NAME}'s upgraded seasonal menu (+${pctBonus}% dish revenue). Clear your ${backstockUnits} leftover backstock plates at a -30% Flash Sale!`,
+                  statLabel: `🔥 Demand Multiplier: +${pctBonus}%`
+                },
+                ...pastMemories
+              ]
+            : [
+                {
+                  title: `📸 30-Second Studio Photo Shoot (Lvl ${state.level})`,
+                  text: `Studio ring lights flare as {NAME} strikes signature editorial poses for your ${newMenu.menuName} campaign (+12.5K Likes)!`,
+                  statLabel: `❤️ Likes Surge: +${(state.level * 12.5).toFixed(1)}K`
+                },
+                {
+                  title: `🚀 Empire Milestone: ${newMenu.menuName}`,
+                  text: `Sponsors upgrade {NAME}'s rate card (+${pctBonus}% per clip). Clear your ${backstockUnits} leftover promo slots at a -30% Flash Sale!`,
+                  statLabel: `📈 Popularity: Level ${state.level}`
+                },
+                ...pastMemories
+              ];
+
+          openStoryReelModal({
+            scenes: levelScenes,
+            menuUpgradeInfo: `<strong>🔄 Menu / Tier Upgraded to Level ${state.level}:</strong> ${newMenu.menuName}<br/><span style="color:#fca5a5;">⚠️ ${backstockUnits} leftover backstock items from "${prevMenu.menuName}" must be sold at a -30% Flash Discount on the Market tab!</span>`
+          });
         }
       }
 
@@ -2262,7 +2595,6 @@
           btn.onclick = () => {
             const finalCash = Math.round(opt.cashDelta * getDiff().mult);
             state.cash += finalCash;
-            awardXP(50);
             const resolvedOutcome = formatStoryText(opt.outcome, state.charName);
             state.storyLog.push({
               chapter: ep.chapter,
@@ -2272,8 +2604,27 @@
             });
             state.news = `🎭 [${opt.tag}] +${fmt(finalCash)} & +50 XP! ${resolvedOutcome}`;
             modal.classList.remove("open");
+            awardXP(50);
             saveGame();
             render();
+
+            // Play the mini-video memory reel for this story chapter if Level Up didn't already open it
+            if (!document.getElementById("cine-modal").classList.contains("open")) {
+              openStoryReelModal({
+                scenes: [
+                  {
+                    title: ep.chapter,
+                    text: resolvedOutcome,
+                    statLabel: `🎭 Reputation: ${opt.tag}`
+                  },
+                  {
+                    title: `${state.charName}'s Empire Rising`,
+                    text: `Word spreads across every hub about {NAME}'s bold move (+${fmt(finalCash)}). Keep building your net worth to unlock the next chapter!`,
+                    statLabel: `💰 Net Worth: ${fmt(getNetWorth())}`
+                  }
+                ]
+              });
+            }
           };
           choicesBox.appendChild(btn);
         });
@@ -2348,7 +2699,7 @@
         const diff = getDiff();
         const lesson = cfg.lessons[Math.floor(Math.random() * cfg.lessons.length)];
         const modal = document.getElementById("event-modal");
-        document.getElementById("modal-title").textContent = "🎓 " + lesson.title;
+        document.getElementById("modal-title").textContent = lesson.title;
         document.getElementById("modal-desc").textContent = lesson.desc;
         const box = document.getElementById("modal-choices");
         box.innerHTML = "";
@@ -2361,8 +2712,8 @@
             if (ch.correct) {
               const bonus = Math.round(ch.reward * diff.mult);
               state.cash += bonus;
-              awardXP(40);
               state.news = `✅ +${fmt(bonus)} & +40 XP! ${ch.note}`;
+              awardXP(40);
             } else {
               const loss = Math.round(ch.penalty / diff.mult);
               state.cash = Math.max(0, state.cash - loss);
@@ -2428,7 +2779,7 @@
         rollPrices();
         checkTelltaleProgression();
 
-        if (Math.random() < 0.35 && !document.getElementById("telltale-modal").classList.contains("open")) {
+        if (Math.random() < 0.38 && !document.getElementById("telltale-modal").classList.contains("open") && !document.getElementById("cine-modal").classList.contains("open")) {
           triggerLessonModal();
         }
         saveGame();
@@ -2468,7 +2819,7 @@
         state.cash += earned;
         state.hustleCount += 1;
         state.hustleStreak = Math.min(40, state.hustleStreak + 1);
-        awardXP(3);
+        awardXP(4);
 
         document.getElementById("stat-cash").textContent = fmt(state.cash);
         updateHeaderLevelUI();
@@ -2490,7 +2841,7 @@
 
         const pop = document.createElement("span");
         pop.className = "float-pop";
-        pop.textContent = `+${fmt(earned)} • +3 XP`;
+        pop.textContent = `+${fmt(earned)} • +4 XP`;
         const rect = cardEl.getBoundingClientRect();
         const x = event && event.clientX ? event.clientX - rect.left : rect.width / 2;
         const y = event && event.clientY ? event.clientY - rect.top : 45;
@@ -2513,7 +2864,7 @@
         card.innerHTML = `
           <h2><span>🎯 Career Missions &amp; Tasks</span><span style="font-size:0.73rem;color:var(--accent)">Level ${state.level} (+${bonusPct}% Pay)</span></h2>
           <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:10px;">
-            Complete tasks and side gigs to earn instant cash and XP. Every Level Up permanently boosts your hustle &amp; gig payouts!
+            Complete tasks and side gigs to earn instant cash and XP. Every Level Up triggers a 30s Story Reel and upgrades your menu/tier!
           </p>
           <div id="missions-list"></div>
         `;
@@ -2622,7 +2973,7 @@
             if (activeMiniGame.timeLeft <= 0) {
               clearMiniGameTimer();
               const payout = Math.max(0, Math.round(activeMiniGame.score * gigs.reflex.payPerHit * diff.mult * lvlMult));
-              const xpEarned = Math.max(15, activeMiniGame.score * 4);
+              const xpEarned = Math.max(20, activeMiniGame.score * 5);
               state.cash += payout;
               state.gigsCompleted += 1;
               state.news = `⚡ Side Gig Complete! +${fmt(payout)} & +${xpEarned} XP!`;
@@ -2718,7 +3069,7 @@
             const inSweet = p >= 36 && p <= 62;
             const mult = inSweet ? 2.5 : 0.6;
             const reward = Math.round(gigs.timing.baseReward * mult * diff.mult * lvlMult);
-            const xpEarned = inSweet ? 45 : 15;
+            const xpEarned = inSweet ? 50 : 20;
             state.cash += reward;
             state.gigsCompleted += 1;
             state.news = inSweet
@@ -2760,7 +3111,7 @@
               activeMiniGame.qIdx += 1;
               if (activeMiniGame.qIdx >= gigs.trivia.questions.length) {
                 const earned = Math.round((activeMiniGame.correctCount / 3) * gigs.trivia.reward * diff.mult * lvlMult);
-                const xpEarned = 20 + activeMiniGame.correctCount * 15;
+                const xpEarned = 25 + activeMiniGame.correctCount * 15;
                 state.cash += earned;
                 state.gigsCompleted += 1;
                 state.news = `💼 Audit Gig Finished (${activeMiniGame.correctCount}/3)! +${fmt(earned)} & +${xpEarned} XP!`;
@@ -2795,13 +3146,12 @@
         banner.querySelector("#undo-reset-btn").onclick = restoreUndoBackup;
       }
 
-      // Interactive Contemporary Wardrobe Studio Controls
       function renderAvatarControls(parentEl, targetAvatarCfg, activeSubTab, onTabSwitch, onChange) {
         const wrap = document.createElement("div");
         wrap.innerHTML = `
           <div class="wardrobe-tabs">
             <button type="button" class="w-tab-btn ${activeSubTab === "hair" ? "active" : ""}" data-wtab="hair">💇 Hair Studio</button>
-            <button type="button" class="w-tab-btn ${activeSubTab === "face" ? "active" : ""}" data-wtab="face">👁️ Face &amp; Mood</button>
+            <button type="button" class="w-tab-btn ${activeSubTab === "face" ? "active" : ""}" data-wtab="face">👁️ Face &amp; Shape</button>
             <button type="button" class="w-tab-btn ${activeSubTab === "style" ? "active" : ""}" data-wtab="style">🧥 Fashion &amp; Pro</button>
             <button type="button" class="w-tab-btn ${activeSubTab === "body" ? "active" : ""}" data-wtab="body">🧍 Body &amp; Skin</button>
           </div>
@@ -2817,7 +3167,7 @@
         const addPills = (label, list, key) => {
           const sec = document.createElement("div");
           sec.className = "setup-section";
-          sec.innerHTML = `<span class="setup-label">${label} (7 Styles)</span><div class="theme-pills"></div>`;
+          sec.innerHTML = `<span class="setup-label">${label} (${list.length} Styles)</span><div class="theme-pills"></div>`;
           const box = sec.querySelector(".theme-pills");
           list.forEach(item => {
             const b = document.createElement("button");
@@ -2833,7 +3183,7 @@
         const addSwatches = (label, list, key, colorProp) => {
           const sec = document.createElement("div");
           sec.className = "setup-section";
-          sec.innerHTML = `<span class="setup-label">${label} (7 Shades)</span><div class="swatch-row"></div>`;
+          sec.innerHTML = `<span class="setup-label">${label} (${list.length} Shades)</span><div class="swatch-row"></div>`;
           const box = sec.querySelector(".swatch-row");
           list.forEach(item => {
             const b = document.createElement("button");
@@ -2848,14 +3198,15 @@
         };
 
         if (activeSubTab === "hair") {
-          addPills("Contemporary Hairstyles", AVATAR_TEMPLATES.hairStyle, "hairStyle");
+          addPills("Head-Fitted Contemporary Hairstyles", AVATAR_TEMPLATES.hairStyle, "hairStyle");
           addSwatches("Hair Color & Balayage", AVATAR_TEMPLATES.hairColor, "hairColor", "hex");
         } else if (activeSubTab === "face") {
+          addPills("Face & Jawline Shape", AVATAR_TEMPLATES.faceShape, "faceShape");
           addPills("Facial Expression & Mood", AVATAR_TEMPLATES.expression, "expression");
           addSwatches("Doll Eye Color", AVATAR_TEMPLATES.eyeStyle, "eyeStyle", "color");
           addPills("Brows, Beard & Details", AVATAR_TEMPLATES.browFeature, "browFeature");
         } else if (activeSubTab === "style") {
-          addPills("Contemporary & Pro Outfits", AVATAR_TEMPLATES.outfit, "outfit");
+          addPills("Tailored Fashion & Pro Outfits", AVATAR_TEMPLATES.outfit, "outfit");
           addPills("Accessories & Studio Gear", AVATAR_TEMPLATES.accessory, "accessory");
         } else if (activeSubTab === "body") {
           addPills("Body Silhouette", AVATAR_TEMPLATES.bodyShape, "bodyShape");
@@ -2940,7 +3291,7 @@
           </div>
 
           <div class="setup-section">
-            <span class="setup-label">3. Hairstyles, Expression &amp; Fashion Studio</span>
+            <span class="setup-label">3. Face Shapes, Hairstyles &amp; Tailored Fashion</span>
             <div id="avatar-template-mount"></div>
           </div>
 
@@ -2949,11 +3300,11 @@
             <div class="choice-grid-2">
               <button class="select-tile ${draftSetup.path === "social" ? "selected" : ""}" data-p="social">
                 <span class="tile-title">🤳 Social Media Guru</span>
-                <span class="tile-sub">Viral clips clicker, brand missions &amp; media equity</span>
+                <span class="tile-sub">30s photo shoots, viral clips &amp; brand missions</span>
               </button>
               <button class="select-tile ${draftSetup.path === "chef" ? "selected" : ""}" data-p="chef">
                 <span class="tile-title">🍳 Homecook to Chef</span>
-                <span class="tile-sub">Sell dishes clicker, culinary missions &amp; bistros</span>
+                <span class="tile-sub">Plating challenges, evolving menus &amp; bistros</span>
               </button>
             </div>
           </div>
@@ -3030,6 +3381,7 @@
         card.querySelector("#randomize-avatar-btn").onclick = () => {
           const pick = arr => arr[Math.floor(Math.random() * arr.length)].id;
           draftSetup.avatarCfg = {
+            faceShape: pick(AVATAR_TEMPLATES.faceShape),
             bodyShape: pick(AVATAR_TEMPLATES.bodyShape),
             skinTone: pick(AVATAR_TEMPLATES.skinTone),
             expression: pick(AVATAR_TEMPLATES.expression),
@@ -3083,6 +3435,7 @@
         const diff = getDiff();
         const arc = getStoryArc();
         const avatarSVG = renderAvatarSVG(state.avatarCfg, state.gender);
+        const activeMenu = getCurrentMenuObj();
 
         navBar.style.display = "grid";
         document.getElementById("avatar-display").innerHTML = avatarSVG;
@@ -3099,6 +3452,36 @@
         });
 
         if (state.tab === "market") {
+          // Backstock Flash Sale Banner when a Level Up upgraded the menu/tier!
+          if (state.backstockBatch && state.backstockBatch.units > 0) {
+            const flashCard = document.createElement("div");
+            flashCard.className = "flash-clearance-card";
+            const totalClearance = state.backstockBatch.units * state.backstockBatch.unitValue;
+            flashCard.innerHTML = `
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                <strong style="font-size:0.86rem;color:#fca5a5;">🔥 Backstock Flash Sale (-30% Discount)</strong>
+                <span class="tag tag-hot">${state.backstockBatch.units} Left</span>
+              </div>
+              <p style="font-size:0.76rem;color:var(--text-primary);margin-bottom:8px;">
+                Menu upgraded to <strong>${activeMenu.menuName}</strong>! Sell off leftover backstock from <em>${state.backstockBatch.oldMenuName}</em> at -30% discount to clear kitchen/studio storage.
+              </p>
+              <button type="button" class="btn btn-buy btn-full" id="clear-backstock-btn">
+                💸 Host Flash Sale — Sell All Backstock (+${fmt(totalClearance)})
+              </button>
+            `;
+            flashCard.querySelector("#clear-backstock-btn").onclick = () => {
+              state.cash += totalClearance;
+              state.news = `💸 Backstock Cleared! Earned +${fmt(totalClearance)} from -30% Flash Sale!`;
+              state.backstockBatch = null;
+              awardXP(25);
+              checkTelltaleProgression();
+              saveGame();
+              render();
+            };
+            container.appendChild(flashCard);
+          }
+
+          // Active Menu & Clicker Hustle Card
           const clickCard = document.createElement("div");
           clickCard.className = "hustle-clicker-card";
           const perTap = getClickPayout();
@@ -3106,8 +3489,11 @@
           const streakPct = ((state.hustleStreak % 10) / 10) * 100 || (state.hustleStreak >= 40 ? 100 : 0);
 
           clickCard.innerHTML = `
+            <div style="font-size:0.71rem;font-weight:800;color:var(--accent);margin-bottom:4px;">
+              📋 ${activeMenu.menuName}
+            </div>
             <div class="hustle-top">
-              <strong style="font-size:0.86rem;">${cfg.clickerTitle}</strong>
+              <strong style="font-size:0.86rem;">Featured: ${activeMenu.dishName}</strong>
               <span class="hustle-metric">${cfg.clickerUnitLabel}: <strong id="hustle-units-val">${totalUnits}</strong></span>
             </div>
             <button type="button" class="big-click-btn" id="hustle-tap-btn">
@@ -3119,6 +3505,7 @@
           clickCard.querySelector("#hustle-tap-btn").onclick = (e) => handleHustleClick(e, clickCard);
           container.appendChild(clickCard);
 
+          // Live Commodity Exchange
           const card = document.createElement("div");
           card.className = "card";
           const currentHub = cfg.hubs.find(h => h.id === state.hub) || cfg.hubs[0];
@@ -3199,11 +3586,29 @@
           card.className = "card";
           const genreObj = GENRES[state.genre];
           card.innerHTML = `
-            <h2><span>📖 ${arc.title}</span><span style="font-size:0.73rem;color:var(--text-secondary)">${genreObj.label}</span></h2>
+            <h2><span>🎬 ${arc.title}</span><span style="font-size:0.73rem;color:var(--text-secondary)">${genreObj.label}</span></h2>
             <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:10px;">
-              Starring <strong>${state.charName}</strong> • Telltale choices shape your path as your Net Worth crosses <strong>$15K</strong> and <strong>$100K</strong>.
+              Starring <strong>${state.charName}</strong> • Replay your 30-second memory reel anytime or unlock new Telltale chapters as your Net Worth grows.
             </p>
+            <button type="button" class="btn btn-buy btn-full" id="replay-memory-reel-btn" style="margin-bottom:12px;">
+              🎬 Play 30-Second Story Memory Reel
+            </button>
           `;
+
+          card.querySelector("#replay-memory-reel-btn").onclick = () => {
+            const memories = state.storyLog.length > 0
+              ? state.storyLog.map(entry => ({
+                  title: entry.chapter,
+                  text: entry.outcome,
+                  statLabel: `🏆 Choice: ${entry.choiceTag}`
+                }))
+              : [{
+                  title: `${state.charName}'s Empire Begins`,
+                  text: `Starting on the ${cfg.label} path, {NAME} is building a $500,000+ empire from the ground up!`,
+                  statLabel: `⭐ Level ${state.level} • ${activeMenu.menuName}`
+                }];
+            openStoryReelModal({ scenes: memories });
+          };
 
           arc.episodes.forEach(ep => {
             const recorded = state.storyLog.find(entry => entry.chapter === ep.chapter);
@@ -3386,6 +3791,27 @@
           container.appendChild(card);
         }
       }
+
+      // Wire 30s Story Reel controls
+      document.getElementById("cine-skip-btn").onclick = closeStoryReelModal;
+      document.getElementById("cine-hype-btn").onclick = () => {
+        if (!cineData) return;
+        const tapBonus = Math.round(75 * getLevelIncomeMultiplier());
+        state.cash += tapBonus;
+        cineData.bonusEarned += tapBonus;
+        document.getElementById("cine-metric-right").textContent = `Reel Bonus: +${fmt(cineData.bonusEarned)}`;
+        document.getElementById("stat-cash").textContent = fmt(state.cash);
+        saveGame();
+      };
+      document.getElementById("cine-next-slide-btn").onclick = () => {
+        if (!cineData) return;
+        cineData.sceneIdx += 1;
+        const sc = cineData.scenes[cineData.sceneIdx % cineData.scenes.length];
+        document.getElementById("cine-scene-tag").textContent = `Memory Reel • Scene ${(cineData.sceneIdx % cineData.scenes.length) + 1} / ${cineData.scenes.length}`;
+        document.getElementById("cine-title").textContent = sc.title;
+        document.getElementById("cine-caption").textContent = formatStoryText(sc.text, state.charName);
+        document.getElementById("cine-metric-left").textContent = sc.statLabel;
+      };
 
       document.querySelectorAll("[data-tab]").forEach(btn => {
         btn.onclick = () => {
