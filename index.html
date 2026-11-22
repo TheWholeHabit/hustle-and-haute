@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#0f172a" id="meta-theme-color" />
-  <meta name="description" content="Hustle & Haute: Empire Simulator — Cinematic Mini-Videos, Menu Progression & Backstock Flash Sales, Interactive Doll Studio, Missions, and Telltale Stories." />
+  <meta name="description" content="Hustle & Haute: Empire Simulator — 10 Tailored Outfits x 5 Colorways, Custom Season Length, Real-World Career Scenarios, and Extended 5-Episode Telltale Stories." />
   <title>Hustle &amp; Haute: Empire Simulator</title>
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
@@ -280,7 +280,6 @@
       font-size: 0.8rem;
     }
 
-    /* Backstock Flash Sale Banner (Chef Menu Upgrade / Social Trend Shift) */
     .flash-clearance-card {
       background: linear-gradient(135deg, rgba(239, 68, 68, 0.18), rgba(245, 158, 11, 0.16));
       border: 2px solid var(--danger);
@@ -288,7 +287,6 @@
       padding: 13px;
     }
 
-    /* Clicker Hustle Card */
     .hustle-clicker-card {
       background: linear-gradient(135deg, var(--bg-card), var(--accent-soft));
       border: 2px solid var(--accent);
@@ -360,7 +358,6 @@
       100% { opacity: 0; transform: translateY(-38px) scale(1.15); }
     }
 
-    /* Missions & Tasks Cards */
     .mission-card {
       background: var(--bg-primary);
       border: 1px solid var(--border);
@@ -405,7 +402,6 @@
     }
     .mission-card.ready .mission-progress-fill { background: var(--success); }
 
-    /* Mini-Games Arena */
     .minigame-box {
       background: var(--bg-primary);
       border: 1px solid var(--accent);
@@ -523,7 +519,13 @@
 
     .text-input:focus { border-color: var(--accent); }
 
-    /* Interactive Modern Doll Studio Stage */
+    .range-slider {
+      width: 100%;
+      accent-color: var(--accent);
+      margin-top: 6px;
+      cursor: pointer;
+    }
+
     .doll-studio-stage {
       background: radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.1), var(--bg-primary) 78%);
       border: 2px solid var(--accent);
@@ -611,8 +613,34 @@
       transform: scale(1.08);
     }
 
+    .colorway-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .colorway-chip.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--text-primary);
+    }
+    .cw-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+
     .choice-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
     .choice-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+    .choice-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
 
     .select-tile {
       background: var(--bg-primary);
@@ -940,7 +968,7 @@
 
     <div class="ticker">
       <span>📡</span>
-      <span id="news-feed">Customize your face shape, tailored fashion, and hairstyles—then launch your empire!</span>
+      <span id="news-feed">Style 10 tailored outfits in 5 colorways, pick your season length, and build your $500K empire!</span>
     </div>
 
     <main id="view-container"></main>
@@ -960,7 +988,7 @@
     <button class="nav-btn" data-tab="settings"><span>⚙️</span>Style</button>
   </nav>
 
-  <!-- 30-Second Mini-Video Reel / Level-Up & Story Cutscene Modal (with Skip Option) -->
+  <!-- 30-Second Mini-Video Reel / Level-Up & Story Cutscene Modal -->
   <div class="modal-backdrop" id="cine-modal">
     <div class="modal-box">
       <div class="cine-header">
@@ -1019,23 +1047,23 @@
   <div class="modal-backdrop" id="help-modal">
     <div class="modal-box">
       <div style="display:flex;justify-content:space-between;align-items:center;">
-        <h3>📖 How to Play, Level Up &amp; Clear Backstock</h3>
+        <h3>📖 How to Play &amp; Timeline Challenge</h3>
         <button class="pill-btn" id="close-help-top">✕</button>
       </div>
       <p style="font-size:0.82rem;color:var(--text-secondary);">
-        Complete <strong>Missions</strong> and <strong>Side Gigs</strong> to earn <strong>XP</strong> and <strong>Level Up</strong>! Every Level triggers a <strong>30-second playable Story Reel</strong> (skippable anytime) and unlocks higher-tier menus &amp; brand tiers.
+        Reach <strong>$500,000+ Net Worth</strong> before your chosen <strong>Season Timeline</strong> expires! Shorter timelines boost market volatility and challenge intensity—even on Easy, Normal, and Difficult modes.
       </p>
       <div class="guide-step">
-        <strong>1. Menu Upgrades &amp; Backstock Flash Sales (Chef &amp; Creator)</strong>
-        When you Level Up, your active menu or content tier upgrades! Any leftover backstock ingredients/plates from your previous menu must be cleared via a <strong>-30% Flash Sale</strong> on the Market tab so your kitchen/studio stays fresh.
+        <strong>1. Custom Season Timeline (30 to 180 Days)</strong>
+        Choosing a shorter run (like <strong>30-Day Sprint</strong> or <strong>60-Day Rush</strong>) increases daily pressure and speeds up story milestones, requiring sharp arbitrage and fast quiz bonuses to hit $500K in time.
       </div>
       <div class="guide-step">
-        <strong>2. Watch or Skip 30-Second Story Mini-Videos</strong>
-        Every Level Up and Telltale milestone plays a 30-second visual memory reel starring your custom avatar. Tap <strong>Snap / Plate Bonus</strong> during the reel for extra cash, or tap <strong>Skip Video</strong> anytime!
+        <strong>2. High-Payout Real-World Mini-Quizzes (Gigs Tab)</strong>
+        Play the <strong>Pro Audit Quiz</strong> in <strong>🎮 Gigs</strong> to master real culinary food-costing, health codes, FTC sponsorship rules, and contract negotiation—earning massive cash + XP boosts!
       </div>
       <div class="guide-step">
-        <strong>3. Complete Missions &amp; Real-Life Career Scenarios</strong>
-        Claim rewards in <strong>🎯 Missions</strong> and make smart real-world decisions during travel events (health inspections, supplier shortages, copyright claims, brand exclusivity) to grow fast.
+        <strong>3. Menu Evolution &amp; Backstock Flash Sales</strong>
+        Leveling up upgrades your menu/feed and triggers a <strong>30s Story Reel</strong> (skippable anytime). Liquidate old backstock at a <strong>-30% Flash Sale</strong> on the Market tab.
       </div>
       <button class="btn btn-buy btn-full" id="close-help-bottom">Got It — Let's Build!</button>
     </div>
@@ -1045,11 +1073,33 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v8";
-      const BACKUP_KEY = "hh_empire_undo_backup_v8";
+      const STORAGE_KEY = "hh_empire_save_v9";
+      const BACKUP_KEY = "hh_empire_undo_backup_v9";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
-      // Expanded Character Studio with Face Shapes, Tailored Head-Fitted Hairstyles & Accurate Draped Fashion
+      // 5 Curated Contemporary Colorways for Styling All 10 Tailored Outfits
+      const OUTFIT_COLORWAYS = [
+        { id: "obsidian_gold", label: "Obsidian & Gold", primary: "#111827", secondary: "#1f2937", trim: "#eab308", accent: "#facc15" },
+        { id: "ivory_crimson", label: "Crisp Ivory & Crimson", primary: "#f8fafc", secondary: "#881337", trim: "#be123c", accent: "#fda4af" },
+        { id: "midnight_cobalt", label: "Midnight Cobalt", primary: "#172554", secondary: "#0f172a", trim: "#38bdf8", accent: "#bae6fd" },
+        { id: "emerald_noir", label: "Emerald & Noir", primary: "#064e3b", secondary: "#090d16", trim: "#10b981", accent: "#6ee7b7" },
+        { id: "burgundy_champagne", label: "Burgundy & Champagne", primary: "#500724", secondary: "#fdf2f8", trim: "#f43f5e", accent: "#fbcfe8" }
+      ];
+
+      // 10 Body-Fitting, Aesthetically Appealing, Real-World Inspired Modern & Professional Outfits
+      const OUTFIT_STYLES = [
+        { id: "double_breasted_blazer", label: "1. Tailored Double-Breasted Blazer" },
+        { id: "executive_chef_coat", label: "2. Piped Mandarin-Collar Chef Coat" },
+        { id: "silk_bow_suit", label: "3. Silk Tie-Neck Blouse & Suit" },
+        { id: "turtleneck_overcoat", label: "4. Cashmere Turtleneck & Wool Coat" },
+        { id: "sculpted_wrap_dress", label: "5. Structured Midi Wrap Dress" },
+        { id: "baroque_hoodie_blazer", label: "6. Luxe Hoodie Under Structured Blazer" },
+        { id: "bistro_apron_shirt", label: "7. Rolled-Sleeve Oxford & Bistro Apron" },
+        { id: "cropped_tweed_set", label: "8. Cropped Bouclé Tweed Jacket Set" },
+        { id: "sleeveless_mockneck", label: "9. Fitted Mock-Neck & High-Waist Trouser" },
+        { id: "sommelier_waistcoat", label: "10. Tailored Three-Piece Waistcoat" }
+      ];
+
       const AVATAR_TEMPLATES = {
         faceShape: [
           { id: "oval", label: "Oval Classic", rx: 25, ry: 28, jawW: 13 },
@@ -1105,7 +1155,6 @@
           { id: "beauty_mark", label: "Glam Beauty Mark", slit: false, facial: "mark" },
           { id: "bold_straight", label: "Editorial Straight", slit: false, facial: "none" }
         ],
-        // Head-Fitted Haircuts & Updos (dynamically anchor to face rx/ry)
         hairStyle: [
           { id: "braided_crown", label: "Braided Crown Updo" },
           { id: "silk_press_layers", label: "Silk Press Curtain Layers" },
@@ -1126,23 +1175,12 @@
           { id: "copper", label: "Sunset Copper", hex: "#9a3412", hi: "#f97316" },
           { id: "rose_velvet", label: "Rose Velvet", hex: "#be185d", hi: "#f472b6" }
         ],
-        // Tailored Professional & Contemporary Fashion Outfits (fitted collars, seams, lapels, aprons)
-        outfit: [
-          { id: "chef_piped", label: "Double-Breasted Chef Coat", primary: "#f8fafc", secondary: "#881337", trim: "#be123c" },
-          { id: "baroque_blazer", label: "Baroque Hoodie + Blazer", primary: "#172554", secondary: "#0f172a", trim: "#eab308" },
-          { id: "chef_obsidian", label: "Michelin Black Chef Tunic", primary: "#111827", secondary: "#b91c1c", trim: "#f59e0b" },
-          { id: "corset_suit", label: "Tailored Satin Power Suit", primary: "#701a75", secondary: "#fdf2f8", trim: "#f472b6" },
-          { id: "turtleneck_trench", label: "Cashmere Turtleneck & Coat", primary: "#292524", secondary: "#e7e5e4", trim: "#eab308" },
-          { id: "emerald_street", label: "Emerald Studio Bomber", primary: "#064e3b", secondary: "#022c22", trim: "#34d399" },
-          { id: "sommelier_vest", label: "Executive Bistro Vest & Tie", primary: "#1e293b", secondary: "#f8fafc", trim: "#f59e0b" },
-          { id: "silk_blouse_blazer", label: "Silk Bow Blouse & Tweed", primary: "#31102f", secondary: "#fce7f3", trim: "#f43f5e" }
-        ],
         accessory: [
           { id: "none", label: "Clean Editorial" },
-          { id: "chef_cap", label: "Crimson Garrison Chef Cap" },
+          { id: "chef_cap", label: "Garrison Chef Cap" },
           { id: "collar_shades", label: "Collar Gold Aviators" },
-          { id: "chef_knife", label: "Japanese Damascus Knife" },
-          { id: "ring_halo", label: "Creator Studio Ring Light" },
+          { id: "chef_knife", label: "Japanese Damascus Blade" },
+          { id: "ring_halo", label: "Creator Ring Light" },
           { id: "royal_crown", label: "Sovereign Gold Crown" },
           { id: "hoops_mic", label: "Gold Hoops & Lavalier Mic" }
         ]
@@ -1160,7 +1198,6 @@
         thriller: { label: "Drama & Thriller" }
       };
 
-      // Menu / Content Tiers that evolve on every Level Up!
       const LEVEL_MENUS = {
         chef: [
           { lvl: 1, menuName: "Level 1 Menu: Cottage Market Plates & Artisanal Sauces", dishName: "Truffle Brioche Slider" },
@@ -1178,6 +1215,7 @@
         ]
       };
 
+      // Extended 5-Episode Rich Telltale Story Arcs (scales automatically to chosen maxDays timeline)
       const TELLTALE_EPISODES = {
         female: {
           social: {
@@ -1185,30 +1223,48 @@
               title: "Queen of the Front Row",
               episodes: [
                 {
-                  threshold: -999999,
+                  pct: 0,
                   chapter: "Episode 1: The Cropped Gala Photo",
-                  prompt: "At Paris Fashion Week, your ex-best friend crops {NAME} out of the viral VIP photo and captions it 'No Plus-Ones.' Cameras are rolling right outside the velvet rope. How do you respond?",
+                  prompt: "At Paris Fashion Week, your former best friend crops {NAME} out of the viral VIP photo and captions it 'No Plus-Ones.' Press photographers are stationed right outside the velvet rope as snow begins to fall. How do you turn the snub into leverage?",
                   options: [
-                    { label: "Host an impromptu street-style livestream right outside (+$850 Cash, Bold Rep)", tag: "Bold Mogul", cashDelta: 850, outcome: "{NAME} turned the sidewalk into a runway! Your live stream hit 400K viewers and luxury sponsors wired $850 immediately." },
-                    { label: "Leak the original uncropped photo with receipts (+$500 Cash, Ruthless Rep)", tag: "Calculated", cashDelta: 500, outcome: "Drama channels exploded over {NAME}'s receipts, driving massive traffic and $500 in instant creator payouts." }
+                    { label: "Host an impromptu street-style livestream right outside (+$850 Cash, Bold Mogul)", tag: "Bold Mogul", cashDelta: 850, outcome: "{NAME} turned the cobblestone sidewalk into a high-fashion runway! Your live stream hit 400K viewers and luxury sponsors wired $850 immediately." },
+                    { label: "Leak the original uncropped photo with timestamped receipts (+$550 Cash, Calculated)", tag: "Calculated", cashDelta: 550, outcome: "Fashion commentary channels exploded over {NAME}'s receipts, driving massive traffic and $550 in instant creator payouts." }
                   ]
                 },
                 {
-                  threshold: 15000,
+                  pct: 0.03,
                   chapter: "Episode 2: The Exclusive Showroom Ambush",
-                  prompt: "A top Milan designer offers {NAME} a $4,000 ambassador deal—on the condition that you publicly trash your rival's upcoming launch. What's your move?",
+                  prompt: "A top Milan creative director invites {NAME} to a private penthouse fitting and offers a $4,500 campaign—on the condition that you publicly trash your rival's upcoming capsule drop. What is your play?",
                   options: [
-                    { label: "Refuse the smear & counter-pitch a luxury solo campaign (+$4,500 Cash, Icon Rep)", tag: "Class & Leverage", cashDelta: 4500, outcome: "The designer respected {NAME}'s poise so much they upgraded the contract to $4,500 without the petty clause!" },
-                    { label: "Take the deal and drop a subtle shade video (+$3,000 Cash, Savage Rep)", tag: "Ruthless", cashDelta: 3000, outcome: "{NAME} pocketed $3,000 fast and dominated trending topics all week." }
+                    { label: "Refuse the smear & counter-pitch a luxury solo editorial (+$4,800 Cash, Icon)", tag: "Class & Leverage", cashDelta: 4800, outcome: "The creative director respected {NAME}'s poise so much they upgraded the contract to $4,800 without the petty clause!" },
+                    { label: "Take the deal and drop a razor-sharp 'style critique' video (+$3,400 Cash, Savage)", tag: "Ruthless", cashDelta: 3400, outcome: "{NAME} pocketed $3,400 fast and dominated trending fashion topics all week." }
                   ]
                 },
                 {
-                  threshold: 100000,
-                  chapter: "Episode 3: Acquisition War in Soho",
-                  prompt: "Your rival's talent agency is running out of cash and quietly shopping their top beauty roster. {NAME} has the capital to strike.",
+                  pct: 0.12,
+                  chapter: "Episode 3: The Counterfeit Brand Crisis",
+                  prompt: "A fast-fashion knockoff factory steals {NAME}'s signature aesthetic and floods social ads with cheap imitations using your face without permission. Your legal retainer awaits orders.",
                   options: [
-                    { label: "Poach their top 3 creators with fair 80/20 splits (+$18,000 Cash, Empire Builder)", tag: "Empire Builder", cashDelta: 18000, outcome: "Creators flocked to {NAME}'s transparent studio, generating $18,000 in immediate Q1 brand commissions!" },
-                    { label: "Buy their debt and take over their Penthouse HQ (+$12,000 Cash, Sovereign)", tag: "Hostile Takeover", cashDelta: 12000, outcome: "{NAME} walked into the Soho penthouse as the new owner, clearing $12,000 in instant asset value." }
+                    { label: "File an emergency DMCA + right-of-publicity strike & drop your real capsule (+$11,000 Cash)", tag: "IP Sovereign", cashDelta: 11000, outcome: "{NAME} shut down the counterfeit ads within 12 hours and converted angry shoppers into $11,000 in authentic sales!" },
+                    { label: "Film a side-by-side quality expose comparing luxury vs. knockoff (+$8,500 Cash)", tag: "Viral Educator", cashDelta: 8500, outcome: "The comparison hit 3M views, cementing {NAME}'s authority and bringing in $8,500." }
+                  ]
+                },
+                {
+                  pct: 0.30,
+                  chapter: "Episode 4: Acquisition War in Soho",
+                  prompt: "Your rival's talent agency is bleeding cash after a failed influencer trip and quietly shopping their top beauty roster. {NAME} has the capital to strike.",
+                  options: [
+                    { label: "Poach their top 3 creators with transparent 80/20 splits (+$22,000 Cash, Empire Builder)", tag: "Empire Builder", cashDelta: 22000, outcome: "Top creators flocked to {NAME}'s studio, generating $22,000 in immediate Q1 brand commissions!" },
+                    { label: "Buy their debt and take over their Soho Penthouse HQ (+$16,500 Cash, Sovereign)", tag: "Hostile Takeover", cashDelta: 16500, outcome: "{NAME} walked into the Soho penthouse as the new majority owner, clearing $16,500 in instant asset value." }
+                  ]
+                },
+                {
+                  pct: 0.70,
+                  chapter: "Episode 5: Empress of Global Culture",
+                  prompt: "Met-level gala organizers offer {NAME} the official global livestream broadcast rights—the very event that locked you out at the start of your journey.",
+                  options: [
+                    { label: "Co-produce the broadcast & launch your flagship beauty line live (+$45,000 Cash, Legend)", tag: "Cultural Empress", cashDelta: 45000, outcome: "{NAME} made history with a record-breaking broadcast and $45,000 in launch-night orders!" },
+                    { label: "License the broadcast rights for a guaranteed seven-figure retainer (+$35,000 Cash, Titan)", tag: "Media Titan", cashDelta: 35000, outcome: "{NAME} locked in an ironclad $35,000 executive payout and crowned your empire." }
                   ]
                 }
               ]
@@ -1217,30 +1273,48 @@
               title: "Wi-Fi & A Dream",
               episodes: [
                 {
-                  threshold: -999999,
+                  pct: 0,
                   chapter: "Episode 1: Cracked Screen, Zero Quit",
-                  prompt: "Filming on a cracked phone in a cramped apartment, {NAME}'s raw tutorial unexpectedly hits 250K views. A shady MCN offers $600 cash today for 50% of your channel forever.",
+                  prompt: "Filming on a cracked phone in a cramped apartment between shifts, {NAME}'s raw tutorial unexpectedly hits 250K views. A predatory MCN offers $600 cash today for 50% of your channel forever.",
                   options: [
-                    { label: "Reject the predatory contract & launch direct affiliate links (+$750 Cash, Independent)", tag: "Self-Made", cashDelta: 750, outcome: "{NAME} kept 100% ownership and earned $750 in direct community sales within 24 hours!" },
-                    { label: "Negotiate a 30-day one-off ad read instead (+$900 Cash, Hustler)", tag: "Street Smart", cashDelta: 900, outcome: "{NAME} walked away with $900 upfront and zero long-term strings attached." }
+                    { label: "Reject the predatory contract & launch direct affiliate links (+$800 Cash, Independent)", tag: "Self-Made", cashDelta: 800, outcome: "{NAME} kept 100% ownership and earned $800 in direct community sales within 24 hours!" },
+                    { label: "Negotiate a 30-day one-off ad read with zero IP transfer (+$950 Cash, Hustler)", tag: "Street Smart", cashDelta: 950, outcome: "{NAME} walked away with $950 upfront and zero long-term strings attached." }
                   ]
                 },
                 {
-                  threshold: 15000,
-                  chapter: "Episode 2: Hometown Comeback",
-                  prompt: "Your local community college invites {NAME} to keynote, while a major tech brand offers $4,000 for a sponsored vlog the same weekend.",
+                  pct: 0.03,
+                  chapter: "Episode 2: Hometown Keynote vs. Studio Shoot",
+                  prompt: "Your local community college invites {NAME} to inspire students, while a major tech brand offers $4,000 for a sponsored vlog the exact same weekend.",
                   options: [
                     { label: "Film the keynote as a brand-sponsored documentary (+$4,800 Cash, Visionary)", tag: "Win-Win Mogul", cashDelta: 4800, outcome: "Genius move! {NAME} inspired the crowd AND delivered a viral sponsor piece worth $4,800." },
-                    { label: "Focus 100% on the commercial studio shoot (+$3,500 Cash, Pro)", tag: "Laser Focus", cashDelta: 3500, outcome: "{NAME} delivered early and banked $3,500 straight into working capital." }
+                    { label: "Focus 100% on the commercial studio shoot (+$3,600 Cash, Pro)", tag: "Laser Focus", cashDelta: 3600, outcome: "{NAME} delivered early and banked $3,600 straight into working capital." }
                   ]
                 },
                 {
-                  threshold: 100000,
-                  chapter: "Episode 3: Creator-Owned Flagship",
-                  prompt: "{NAME} is ready to launch an independent creator fund and product line. How do you debut it?",
+                  pct: 0.12,
+                  chapter: "Episode 3: Algorithm Crash & Pivot",
+                  prompt: "A sudden platform algorithm update cuts short-form reach by 60% overnight. Creators everywhere are panicking, while {NAME} spots a shift toward deep-dive live shopping.",
                   options: [
-                    { label: "Pre-sell limited drops directly to your day-one followers (+$20,000 Cash, Legend)", tag: "Community Queen", cashDelta: 20000, outcome: "Sold out in 11 minutes! {NAME} netted $20,000 in zero-middleman profit." },
-                    { label: "Partner with a national retail distributor (+$15,000 Cash, Mogul)", tag: "Scale Master", cashDelta: 15000, outcome: "{NAME}'s brand hit shelves nationwide with a $15,000 upfront licensing check." }
+                    { label: "Launch a weekly interactive Live Shopping & Q&A show (+$10,500 Cash, Pioneer)", tag: "Early Adopter", cashDelta: 10500, outcome: "Conversion rates tripled! {NAME} turned a smaller view count into $10,500 in high-ticket sales." },
+                    { label: "Syndicate your catalog across three platforms simultaneously (+$8,000 Cash, Diversified)", tag: "Multi-Channel", cashDelta: 8000, outcome: "{NAME} insulated your income and banked $8,000 in cross-platform AdSense." }
+                  ]
+                },
+                {
+                  pct: 0.30,
+                  chapter: "Episode 4: Buying Back Your Masters",
+                  prompt: "{NAME} is ready to launch a creator-owned product line and hire your hometown friends onto a full-time production team.",
+                  options: [
+                    { label: "Pre-sell limited drops directly to your day-one community (+$21,000 Cash, Legend)", tag: "Community Queen", cashDelta: 21000, outcome: "Sold out in 11 minutes! {NAME} netted $21,000 in zero-middleman profit." },
+                    { label: "Partner with a national retail distributor (+$16,000 Cash, Mogul)", tag: "Scale Master", cashDelta: 16000, outcome: "{NAME}'s brand hit shelves nationwide with a $16,000 upfront licensing check." }
+                  ]
+                },
+                {
+                  pct: 0.70,
+                  chapter: "Episode 5: Self-Made Media Queen",
+                  prompt: "Forbes invites {NAME} to headline their Creator Economy Summit as the benchmark for independent ownership.",
+                  options: [
+                    { label: "Announce a $100K Creator Grant Fund & studio network (+$42,000 Cash, Icon)", tag: "Generational Icon", cashDelta: 42000, outcome: "Sponsors rushed to co-fund the initiative, awarding {NAME} $42,000 in headline partnerships!" },
+                    { label: "Close a strategic brand equity partnership on stage (+$34,000 Cash, Titan)", tag: "Equity Mogul", cashDelta: 34000, outcome: "{NAME} cemented generational wealth with a $34,000 equity payout." }
                   ]
                 }
               ]
@@ -1249,30 +1323,48 @@
               title: "Algorithm Assassin",
               episodes: [
                 {
-                  threshold: -999999,
+                  pct: 0,
                   chapter: "Episode 1: The Shadowban Leak",
-                  prompt: "Someone inside your former agency leaked {NAME}'s private drafts to sabotage your launch. You trace the IP address to an insider.",
+                  prompt: "Someone inside your former talent agency leaked {NAME}'s private drafts to sabotage your launch. You trace the IP address to an insider.",
                   options: [
                     { label: "Turn the leaked draft into a viral 'Behind the Sabotage' series (+$950 Cash, Fearless)", tag: "Plot Twist", cashDelta: 950, outcome: "Viewers binged every episode! {NAME} turned the ambush into $950 in overnight ad revenue." },
-                    { label: "Quietly lock down trademarks & pitch their biggest rival (+$700 Cash, Tactical)", tag: "Shadow Strategist", cashDelta: 700, outcome: "{NAME} secured full IP ownership and landed a $700 retainer before they knew what hit them." }
+                    { label: "Quietly lock down trademarks & pitch their biggest rival (+$750 Cash, Tactical)", tag: "Shadow Strategist", cashDelta: 750, outcome: "{NAME} secured full IP ownership and landed a $750 retainer before they knew what hit them." }
                   ]
                 },
                 {
-                  threshold: 15000,
+                  pct: 0.03,
                   chapter: "Episode 2: The Hidden Royalty Ledger",
-                  prompt: "An anonymous whistleblower sends {NAME} proof that your old agency skimmed 40% of creator sponsorships off the books.",
+                  prompt: "An anonymous whistleblower sends {NAME} encrypted spreadsheets proving your old agency skimmed 40% of creator sponsorships off the books.",
                   options: [
-                    { label: "Use the leverage to force a direct settlement payout (+$4,200 Cash, Enforcer)", tag: "Checkmate", cashDelta: 4200, outcome: "Terrified of exposure, the executives wired {NAME} $4,200 in hush-free back royalties." },
-                    { label: "Publish an investigative breakdown that breaks the internet (+$3,600 Cash, Truthseeker)", tag: "Viral Justice", cashDelta: 3600, outcome: "{NAME} became the most trusted voice in digital media, netting $3,600 in creator support." }
+                    { label: "Serve legal notice & force an immediate settlement wire (+$4,400 Cash, Enforcer)", tag: "Checkmate", cashDelta: 4400, outcome: "Terrified of exposure, the executives wired {NAME} $4,400 in back royalties." },
+                    { label: "Publish an investigative breakdown that breaks the internet (+$3,700 Cash, Truthseeker)", tag: "Viral Justice", cashDelta: 3700, outcome: "{NAME} became the most trusted voice in digital media, netting $3,700 in creator support." }
                   ]
                 },
                 {
-                  threshold: 100000,
-                  chapter: "Episode 3: Hostile Boardroom Takeover",
-                  prompt: "The scandal tanks your rival network's valuation. {NAME} steps into the boardroom with a buyout offer.",
+                  pct: 0.12,
+                  chapter: "Episode 3: Bot-Farm Smear Campaign",
+                  prompt: "Minutes before a major brand signing, thousands of fake bot accounts flood {NAME}'s comments to trigger an automated safety review.",
                   options: [
-                    { label: "Acquire controlling shares & install creator-first contracts (+$19,000 Cash, Apex Mogul)", tag: "Apex Mogul", cashDelta: 19000, outcome: "{NAME} took the CEO chair and unlocked $19,000 in immediate restructuring bonuses." },
-                    { label: "Strip their top sponsor contracts for your own network (+$14,500 Cash, Merciless)", tag: "Merciless", cashDelta: 14500, outcome: "{NAME} walked away with every flagship account and $14,500 in signing fees." }
+                    { label: "Deploy forensic analytics & expose the bot farm live (+$11,500 Cash, Cyber Mogul)", tag: "Counter-Strike", cashDelta: 11500, outcome: "The sponsor doubled down on {NAME}'s transparency, wiring $11,500 on the spot!" },
+                    { label: "Lock comments to verified subscribers & close privately (+$8,500 Cash, Composed)", tag: "Bulletproof", cashDelta: 8500, outcome: "{NAME} protected the deal and cleared $8,500 without breaking a sweat." }
+                  ]
+                },
+                {
+                  pct: 0.30,
+                  chapter: "Episode 4: Hostile Boardroom Takeover",
+                  prompt: "The scandal tanks your rival network's valuation. {NAME} steps into the boardroom with a controlling buyout offer.",
+                  options: [
+                    { label: "Acquire controlling shares & install creator-first contracts (+$21,000 Cash, Apex Mogul)", tag: "Apex Mogul", cashDelta: 21000, outcome: "{NAME} took the CEO chair and unlocked $21,000 in immediate restructuring bonuses." },
+                    { label: "Strip their top sponsor contracts for your own network (+$16,000 Cash, Merciless)", tag: "Merciless", cashDelta: 16000, outcome: "{NAME} walked away with every flagship account and $16,000 in signing fees." }
+                  ]
+                },
+                {
+                  pct: 0.70,
+                  chapter: "Episode 5: Sovereign of the Network",
+                  prompt: "Your former rival asks for a seat at {NAME}'s new media conglomerate.",
+                  options: [
+                    { label: "Hire them as a junior analyst under strict audit rules (+$40,000 Cash, Supreme)", tag: "Poetic Justice", cashDelta: 40000, outcome: "{NAME} sealed total industry dominance and banked $40,000 in Q4 profits!" },
+                    { label: "Close the door & expand into international media hubs (+$35,000 Cash, Untouchable)", tag: "Untouchable", cashDelta: 35000, outcome: "{NAME} expanded across London, Tokyo, and NYC with $35,000 net gain." }
                   ]
                 }
               ]
@@ -1283,30 +1375,48 @@
               title: "Haute Couture Cuisine",
               episodes: [
                 {
-                  threshold: -999999,
+                  pct: 0,
                   chapter: "Episode 1: The Critic's Snub",
-                  prompt: "A notorious food critic walks past {NAME}'s pop-up table calling home cooks 'amateurs.' A Michelin-starred chef nearby watches your plating.",
+                  prompt: "A notorious food critic walks past {NAME}'s pop-up table calling home cooks 'amateurs.' A Michelin-starred chef nearby watches your tweezers plating.",
                   options: [
                     { label: "Plate your signature truffle amuse-bouche for the Michelin chef (+$850 Cash, Culinary Artist)", tag: "Bold Plating", cashDelta: 850, outcome: "Impressed by {NAME}'s technique, the chef booked you for a $850 private VIP tasting!" },
-                    { label: "Turn the critic's remark into a sold-out 'Rebel Supper Club' (+$700 Cash, Trendsetter)", tag: "VIP Buzz", cashDelta: 700, outcome: "Every seat sold out in an hour, netting {NAME} $700 in immediate ticket sales." }
+                    { label: "Turn the critic's remark into a sold-out 'Rebel Supper Club' (+$750 Cash, Trendsetter)", tag: "VIP Buzz", cashDelta: 750, outcome: "Every seat sold out in an hour, netting {NAME} $750 in immediate ticket sales." }
                   ]
                 },
                 {
-                  threshold: 15000,
+                  pct: 0.03,
                   chapter: "Episode 2: Yacht Gala Tasting",
                   prompt: "A billionaire art collector hires {NAME} for a Monaco-style yacht dinner, but your saffron shipment gets delayed at customs.",
                   options: [
-                    { label: "Pivot to a smoked black-truffle & wagyu reduction (+$4,500 Cash, Master Improviser)", tag: "Michelin Instinct", cashDelta: 4500, outcome: "Guests gave {NAME} a standing ovation and tipped $4,500 on top of your catering fee!" },
-                    { label: "Pay a courier to air-freight reserve saffron (+$3,100 Cash, Perfectionist)", tag: "Zero Compromise", cashDelta: 3100, outcome: "{NAME} delivered the exact promised menu and cleared $3,100 net profit." }
+                    { label: "Pivot to a smoked black-truffle & wagyu reduction (+$4,600 Cash, Master Improviser)", tag: "Michelin Instinct", cashDelta: 4600, outcome: "Guests gave {NAME} a standing ovation and tipped $4,600 on top of your catering fee!" },
+                    { label: "Pay a courier to air-freight reserve saffron (+$3,300 Cash, Perfectionist)", tag: "Zero Compromise", cashDelta: 3300, outcome: "{NAME} delivered the exact promised menu and cleared $3,300 net profit." }
                   ]
                 },
                 {
-                  threshold: 100000,
-                  chapter: "Episode 3: Flagship Opening Night",
+                  pct: 0.12,
+                  chapter: "Episode 3: Luxury Cookware Line Launch",
+                  prompt: "A heritage French copperware manufacturer approaches {NAME} to co-design a signature chef knife and pan collection.",
+                  options: [
+                    { label: "Negotiate a 15% gross royalty + design credit (+$11,000 Cash, Brand Mogul)", tag: "Royalty Queen", cashDelta: 11000, outcome: "First run sold out nationwide, wiring {NAME} $11,000 in initial royalties!" },
+                    { label: "Take a $8,500 upfront licensing retainer (+$8,500 Cash, Executive)", tag: "Cashflow Pro", cashDelta: 8500, outcome: "{NAME} banked $8,500 immediately to fund your restaurant expansion." }
+                  ]
+                },
+                {
+                  pct: 0.30,
+                  chapter: "Episode 4: Flagship Opening Night",
                   prompt: "Opening night at {NAME}'s flagship dining room—and the critic who once mocked you asks for a last-minute table.",
                   options: [
-                    { label: "Seat them at the Chef's Counter & serve a 9-course masterpiece (+$18,500 Cash, Sovereign)", tag: "Total Triumph", cashDelta: 18500, outcome: "A glowing 5-star review sent reservations soaring—netting {NAME} $18,500 in opening-week deposits!" },
-                    { label: "Politely offer a table next month—tonight is for loyal regulars (+$14,000 Cash, Icon)", tag: "Loyalty First", cashDelta: 14000, outcome: "Press loved {NAME}'s integrity, driving $14,000 in signature cookware orders." }
+                    { label: "Seat them at the Chef's Counter & serve a 9-course masterpiece (+$21,000 Cash, Sovereign)", tag: "Total Triumph", cashDelta: 21000, outcome: "A glowing 5-star review sent reservations soaring—netting {NAME} $21,000 in opening-week deposits!" },
+                    { label: "Politely offer a table next month—tonight is for loyal regulars (+$16,000 Cash, Icon)", tag: "Loyalty First", cashDelta: 16000, outcome: "Press loved {NAME}'s integrity, driving $16,000 in signature cookware orders." }
+                  ]
+                },
+                {
+                  pct: 0.70,
+                  chapter: "Episode 5: Three Michelin Stars",
+                  prompt: "The international culinary guide announces its highest honors in Paris, with {NAME} seated in the front row.",
+                  options: [
+                    { label: "Accept Three Stars & announce your global hospitality group (+$44,000 Cash, Culinary Royalty)", tag: "Three-Star Legend", cashDelta: 44000, outcome: "{NAME} became a global culinary icon with $44,000 in immediate private dining bookings!" },
+                    { label: "Launch an international culinary academy & flagship hotel (+$36,000 Cash, Visionary)", tag: "Empire Builder", cashDelta: 36000, outcome: "{NAME} cemented a global hospitality dynasty and banked $36,000." }
                   ]
                 }
               ]
@@ -1315,30 +1425,48 @@
               title: "Grandma's Secret Ledger",
               episodes: [
                 {
-                  threshold: -999999,
+                  pct: 0,
                   chapter: "Episode 1: Dawn at the Farmers Market",
                   prompt: "With a handwritten family recipe book and a tight budget, {NAME} sets up a dawn stall next to big commercial vendors.",
                   options: [
-                    { label: "Offer warm free samples to early commuters (+$800 Cash, Crowd Favorite)", tag: "Generous Hustle", cashDelta: 800, outcome: "A line formed down the block! {NAME} sold every jar and plate for $800." },
-                    { label: "Pitch a local café owner on a wholesale pastry & sauce supply (+$900 Cash, B2B Pro)", tag: "Smart Operator", cashDelta: 900, outcome: "{NAME} locked in a $900 standing weekly order before 9 AM." }
+                    { label: "Offer warm free samples to early commuters (+$850 Cash, Crowd Favorite)", tag: "Generous Hustle", cashDelta: 850, outcome: "A line formed down the block! {NAME} sold every jar and plate for $850." },
+                    { label: "Pitch a local café owner on a wholesale pastry & sauce supply (+$950 Cash, B2B Pro)", tag: "Smart Operator", cashDelta: 950, outcome: "{NAME} locked in a $950 standing weekly order before 9 AM." }
                   ]
                 },
                 {
-                  threshold: 15000,
+                  pct: 0.03,
                   chapter: "Episode 2: Food Truck Festival Showdown",
                   prompt: "Heavy rain threatens the city food truck festival where {NAME} prepped 300 portions.",
                   options: [
-                    { label: "Launch 'Rainy Day Comfort Bowls' with office delivery bundles (+$4,200 Cash, Grit)", tag: "Unstoppable", cashDelta: 4200, outcome: "While other trucks closed early, {NAME} sold all 300 portions for $4,200!" },
-                    { label: "Vacuum-seal & flash-chill stock using FIFO for tomorrow (+$2,900 Cash, Zero Waste)", tag: "Margin Master", cashDelta: 2900, outcome: "Zero spoilage! {NAME} sold the entire batch next day at full 72% gross margin." }
+                    { label: "Launch 'Rainy Day Comfort Bowls' with office delivery bundles (+$4,400 Cash, Grit)", tag: "Unstoppable", cashDelta: 4400, outcome: "While other trucks closed early, {NAME} sold all 300 portions for $4,400!" },
+                    { label: "Vacuum-seal & flash-chill stock using FIFO for tomorrow (+$3,100 Cash, Zero Waste)", tag: "Margin Master", cashDelta: 3100, outcome: "Zero spoilage! {NAME} sold the entire batch next day at full 72% gross margin." }
                   ]
                 },
                 {
-                  threshold: 100000,
-                  chapter: "Episode 3: The Family Bistro Lease",
+                  pct: 0.12,
+                  chapter: "Episode 3: Grocery Chain Distribution Deal",
+                  prompt: "A regional supermarket buyer loves {NAME}'s signature sauce, but demands a 45% slotting fee discount.",
+                  options: [
+                    { label: "Negotiate a 30-store trial with end-cap displays at 32% margin (+$10,500 Cash, Dealmaker)", tag: "Margin Defender", cashDelta: 10500, outcome: "The end-cap display sold out in 48 hours, earning {NAME} $10,500 in reorders!" },
+                    { label: "Sell direct-to-consumer online bundles at full retail price (+$8,500 Cash, D2C Pro)", tag: "Direct Profit", cashDelta: 8500, outcome: "{NAME} kept 100% of retail margins and banked $8,500." }
+                  ]
+                },
+                {
+                  pct: 0.30,
+                  chapter: "Episode 4: The Family Bistro Lease",
                   prompt: "A historic corner storefront goes up for lease in {NAME}'s old neighborhood.",
                   options: [
-                    { label: "Buy the building outright & open your flagship bistro (+$19,000 Cash, Legacy)", tag: "Hometown Hero", cashDelta: 19000, outcome: "{NAME} turned a neighborhood dream into a $19,000-a-week culinary landmark." },
-                    { label: "Launch a ghost-kitchen + retail sauce empire first (+$15,500 Cash, Mogul)", tag: "Cashflow Queen", cashDelta: 15500, outcome: "{NAME} scaled nationwide with $15,500 in instant retail purchase orders." }
+                    { label: "Buy the building outright & open your flagship bistro (+$21,000 Cash, Legacy)", tag: "Hometown Hero", cashDelta: 21000, outcome: "{NAME} turned a neighborhood dream into a $21,000-a-week culinary landmark." },
+                    { label: "Launch a ghost-kitchen + retail sauce empire first (+$16,500 Cash, Mogul)", tag: "Cashflow Queen", cashDelta: 16500, outcome: "{NAME} scaled nationwide with $16,500 in instant retail purchase orders." }
+                  ]
+                },
+                {
+                  pct: 0.70,
+                  chapter: "Episode 5: Global Pantry & Hospitality Icon",
+                  prompt: "{NAME}'s family recipes are now stocked in 2,000 stores alongside your award-winning restaurants.",
+                  options: [
+                    { label: "Publish Grandma's Ledger cookbook & expand nationally (+$42,000 Cash, Legend)", tag: "Living Legend", cashDelta: 42000, outcome: "Bestseller list #1! {NAME} earned $42,000 in launch advances and bookings." },
+                    { label: "Open three sister bistros across major culinary cities (+$35,000 Cash, Titan)", tag: "Restaurant Titan", cashDelta: 35000, outcome: "{NAME} built a debt-free restaurant group worth $500K+!" }
                   ]
                 }
               ]
@@ -1347,30 +1475,48 @@
               title: "Midnight Kitchen Syndicate",
               episodes: [
                 {
-                  threshold: -999999,
+                  pct: 0,
                   chapter: "Episode 1: Sabotaged Prep Line",
                   prompt: "Hours before an investor tasting, a rival sabotages {NAME}'s walk-in cooler. Your prime ingredients are ruined.",
                   options: [
-                    { label: "Sprint to the Farmers Market & craft an open-fire tasting menu (+$900 Cash, Iron Chef)", tag: "Clutch Pivot", cashDelta: 900, outcome: "Investors were blown away by {NAME}'s composure under pressure, wiring $900 on the spot." },
+                    { label: "Sprint to the Farmers Market & craft an open-fire tasting menu (+$950 Cash, Iron Chef)", tag: "Clutch Pivot", cashDelta: 950, outcome: "Investors were blown away by {NAME}'s composure under pressure, wiring $950 on the spot." },
                     { label: "Check security footage & demand restitution from the culprit (+$750 Cash, Enforcer)", tag: "No Mercy", cashDelta: 750, outcome: "Caught red-handed! {NAME} collected $750 in immediate damages." }
                   ]
                 },
                 {
-                  threshold: 15000,
+                  pct: 0.03,
                   chapter: "Episode 2: Supplier Exclusivity War",
                   prompt: "A rival restaurant group tries to lock out {NAME} from buying winter truffles in the Bistro District.",
                   options: [
-                    { label: "Fly directly to the source & sign an exclusive co-op deal (+$4,400 Cash, Kingpin)", tag: "Supply Master", cashDelta: 4400, outcome: "{NAME} now controls the truffle supply—netting $4,400 selling surplus to local chefs!" },
-                    { label: "Outmaneuver them with high-margin Wagyu pop-ups (+$3,300 Cash, Tactician)", tag: "Agile", cashDelta: 3300, outcome: "{NAME} bypassed the blockade and pocketed $3,300." }
+                    { label: "Fly directly to the source & sign an exclusive co-op deal (+$4,500 Cash, Kingpin)", tag: "Supply Master", cashDelta: 4500, outcome: "{NAME} now controls the truffle supply—netting $4,500 selling surplus to local chefs!" },
+                    { label: "Outmaneuver them with high-margin Wagyu pop-ups (+$3,400 Cash, Tactician)", tag: "Agile", cashDelta: 3400, outcome: "{NAME} bypassed the blockade and pocketed $3,400." }
                   ]
                 },
                 {
-                  threshold: 100000,
-                  chapter: "Episode 3: Foreclosure Auction",
+                  pct: 0.12,
+                  chapter: "Episode 3: Fake Review Ambush",
+                  prompt: "On the eve of a Michelin inspector visit, a rival syndicate floods {NAME}'s restaurant page with 200 fake 1-star health-scare reviews.",
+                  options: [
+                    { label: "Publish your A+ Health Dept score & host an open-kitchen livestream (+$11,000 Cash)", tag: "Transparent Boss", cashDelta: 11000, outcome: "Diners booked every table for three months straight, netting {NAME} $11,000!" },
+                    { label: "Trace the review farm & serve cease-and-desist orders (+$8,500 Cash)", tag: "Legal Strike", cashDelta: 8500, outcome: "The fake reviews vanished and {NAME} collected $8,500 in defamation settlement." }
+                  ]
+                },
+                {
+                  pct: 0.30,
+                  chapter: "Episode 4: Foreclosure Auction",
                   prompt: "Your rival's over-leveraged restaurant hits the auction block. {NAME} holds the winning bid.",
                   options: [
-                    { label: "Acquire their kitchen & rebrand it under your empire (+$18,000 Cash, Apex Chef)", tag: "Total Takeover", cashDelta: 18000, outcome: "{NAME} absorbed their prime location and cleared $18,000 in first-week bookings." },
-                    { label: "Buy their rare equipment at 20 cents on the dollar (+$15,000 Cash, Shark)", tag: "Deal Shark", cashDelta: 15000, outcome: "{NAME} flipped the surplus assets for an instant $15,000 windfall." }
+                    { label: "Acquire their kitchen & rebrand it under your empire (+$20,000 Cash, Apex Chef)", tag: "Total Takeover", cashDelta: 20000, outcome: "{NAME} absorbed their prime location and cleared $20,000 in first-week bookings." },
+                    { label: "Buy their rare equipment at 20 cents on the dollar (+$16,000 Cash, Shark)", tag: "Deal Shark", cashDelta: 16000, outcome: "{NAME} flipped the surplus assets for an instant $16,000 windfall." }
+                  ]
+                },
+                {
+                  pct: 0.70,
+                  chapter: "Episode 5: Undisputed Culinary Sovereign",
+                  prompt: "{NAME} controls the premier dining rooms and rare ingredient supply chains across the coast.",
+                  options: [
+                    { label: "Consolidate into a luxury hospitality holding group (+$42,000 Cash, Sovereign)", tag: "Culinary Sovereign", cashDelta: 42000, outcome: "{NAME} crowned a $500K+ culinary empire with $42,000 in quarterly dividends!" },
+                    { label: "Launch an exclusive invite-only Michelin tasting club (+$36,000 Cash, Icon)", tag: "VIP Legend", cashDelta: 36000, outcome: "Memberships sold out immediately for $36,000 net profit." }
                   ]
                 }
               ]
@@ -1383,30 +1529,48 @@
               title: "King of the Penthouse Feed",
               episodes: [
                 {
-                  threshold: -999999,
+                  pct: 0,
                   chapter: "Episode 1: Velvet Rope Snub",
                   prompt: "At a Miami yacht launch, a tech-bro media mogul laughs off {NAME}'s starter channel in front of sponsors. How do you play it?",
                   options: [
                     { label: "Drop a viral breakdown of his overpriced watch right from the dock (+$850 Cash, Alpha Creator)", tag: "Viral Strike", cashDelta: 850, outcome: "1.2M views overnight! Watch brands immediately sponsored {NAME} for $850." },
-                    { label: "Network with the event's luxury sponsors one-on-one (+$700 Cash, Dealmaker)", tag: "Smooth Operator", cashDelta: 700, outcome: "{NAME} walked off the pier with two brand contracts worth $700." }
+                    { label: "Network with the event's luxury sponsors one-on-one (+$750 Cash, Dealmaker)", tag: "Smooth Operator", cashDelta: 750, outcome: "{NAME} walked off the pier with two brand contracts worth $750." }
                   ]
                 },
                 {
-                  threshold: 15000,
+                  pct: 0.03,
                   chapter: "Episode 2: Beverly Hills Penthouse Pitch",
                   prompt: "A luxury automaker wants {NAME} to headline their LA launch—if you drop your smaller indie sponsors.",
                   options: [
-                    { label: "Negotiate a non-exclusive 'Title Partner' tier at +50% rate (+$4,500 Cash, Mogul)", tag: "Contract King", cashDelta: 4500, outcome: "{NAME} kept every existing sponsor AND closed the automaker for $4,500!" },
-                    { label: "Sign the exclusive headline contract (+$3,400 Cash, Star)", tag: "Big League", cashDelta: 3400, outcome: "{NAME} banked $3,400 and hit billboard campaigns across LA." }
+                    { label: "Negotiate a non-exclusive 'Title Partner' tier at +50% rate (+$4,600 Cash, Mogul)", tag: "Contract King", cashDelta: 4600, outcome: "{NAME} kept every existing sponsor AND closed the automaker for $4,600!" },
+                    { label: "Sign the exclusive headline contract (+$3,500 Cash, Star)", tag: "Big League", cashDelta: 3500, outcome: "{NAME} banked $3,500 and hit billboard campaigns across LA." }
                   ]
                 },
                 {
-                  threshold: 100000,
-                  chapter: "Episode 3: Media Network Crown",
+                  pct: 0.12,
+                  chapter: "Episode 3: Luxury Menswear Capsule Drop",
+                  prompt: "Italian tailors invite {NAME} to launch a limited-edition blazer & eyewear collection.",
+                  options: [
+                    { label: "Run a 48-hour VIP drop with numbered collector editions (+$11,500 Cash, Style Icon)", tag: "Sold Out", cashDelta: 11500, outcome: "Every piece sold out in 9 minutes, netting {NAME} $11,500!" },
+                    { label: "License the collection to luxury department stores (+$8,500 Cash, Executive)", tag: "Retail Boss", cashDelta: 8500, outcome: "{NAME} banked $8,500 in guaranteed wholesale royalties." }
+                  ]
+                },
+                {
+                  pct: 0.30,
+                  chapter: "Episode 4: Media Network Crown",
                   prompt: "{NAME}'s production house is outperforming legacy agencies across NYC and LA.",
                   options: [
-                    { label: "Launch your own creator equity fund & merch empire (+$19,000 Cash, Media King)", tag: "Empire Sovereign", cashDelta: 19000, outcome: "{NAME} closed $19,000 in founding brand partnerships on launch day." },
-                    { label: "Acquire your rival's struggling LA studio (+$15,000 Cash, Conqueror)", tag: "Takeover", cashDelta: 15000, outcome: "{NAME} took over the rooftop studio and netted $15,000 in immediate bookings." }
+                    { label: "Launch your own creator equity fund & merch empire (+$21,000 Cash, Media King)", tag: "Empire Sovereign", cashDelta: 21000, outcome: "{NAME} closed $21,000 in founding brand partnerships on launch day." },
+                    { label: "Acquire your rival's struggling LA studio (+$16,500 Cash, Conqueror)", tag: "Takeover", cashDelta: 16500, outcome: "{NAME} took over the rooftop studio and netted $16,500 in immediate bookings." }
+                  ]
+                },
+                {
+                  pct: 0.70,
+                  chapter: "Episode 5: Undisputed Media King",
+                  prompt: "Global media networks bid for {NAME}'s flagship original series.",
+                  options: [
+                    { label: "Retain 100% IP & syndicate globally (+$44,000 Cash, Media Sovereign)", tag: "Global King", cashDelta: 44000, outcome: "{NAME} closed a $44,000 global syndication deal while keeping full ownership!" },
+                    { label: "Acquire a controlling stake in a streaming network (+$36,000 Cash, Titan)", tag: "Network Owner", cashDelta: 36000, outcome: "{NAME} cemented a $500K+ media empire!" }
                   ]
                 }
               ]
@@ -1415,30 +1579,48 @@
               title: "Garage Mic to Media Mogul",
               episodes: [
                 {
-                  threshold: -999999,
+                  pct: 0,
                   chapter: "Episode 1: Midnight Car Voiceovers",
                   prompt: "Recording in a parked car after night shifts with a $20 mic, {NAME} gets offered $600 to sell your viral clip rights forever.",
                   options: [
                     { label: "License 30-day usage only & keep full IP ownership (+$850 Cash, Smart Owner)", tag: "Ownership First", cashDelta: 850, outcome: "{NAME} earned $850 upfront and kept licensing the clip to three more outlets!" },
-                    { label: "Double down on daily uploads & affiliate links (+$700 Cash, Grinder)", tag: "Relentless", cashDelta: 700, outcome: "{NAME}'s consistency paid off with $700 in week-one commissions." }
+                    { label: "Double down on daily uploads & affiliate links (+$750 Cash, Grinder)", tag: "Relentless", cashDelta: 750, outcome: "{NAME}'s consistency paid off with $750 in week-one commissions." }
                   ]
                 },
                 {
-                  threshold: 15000,
+                  pct: 0.03,
                   chapter: "Episode 2: Quitting the Day Job",
                   prompt: "{NAME}'s channel is booming, and a major gear company offers a $4,000 annual ambassadorship.",
                   options: [
-                    { label: "Counter with performance royalties + $4,500 base (+$4,500 Cash, Negotiator)", tag: "Pro Mogul", cashDelta: 4500, outcome: "They signed! {NAME} banked $4,500 and unlocked passive royalty payouts." },
+                    { label: "Counter with performance royalties + $4,600 base (+$4,600 Cash, Negotiator)", tag: "Pro Mogul", cashDelta: 4600, outcome: "They signed! {NAME} banked $4,600 and unlocked passive royalty payouts." },
                     { label: "Take the clean $3,600 upfront check (+$3,600 Cash, Focused)", tag: "Cashflow", cashDelta: 3600, outcome: "{NAME} cleared all starter debt and upgraded to a 4K cinema rig." }
                   ]
                 },
                 {
-                  threshold: 100000,
-                  chapter: "Episode 3: Hall of Fame Mogul",
+                  pct: 0.12,
+                  chapter: "Episode 3: Surviving the Ad-Rate Dip",
+                  prompt: "Q1 AdSense rates drop 40% across the industry, squeezing creators who rely solely on views.",
+                  options: [
+                    { label: "Launch a paid pro-creator masterclass & gear kit (+$11,000 Cash, Educator)", tag: "High Margin", cashDelta: 11000, outcome: "{NAME} built a recession-proof digital product bringing in $11,000!" },
+                    { label: "Lock in multi-month direct brand retainers (+$8,500 Cash, Operator)", tag: "Steady Cash", cashDelta: 8500, outcome: "{NAME} bypassed AdSense swings with $8,500 in guaranteed retainers." }
+                  ]
+                },
+                {
+                  pct: 0.30,
+                  chapter: "Episode 4: Hall of Fame Mogul",
                   prompt: "From a $20 garage mic to six figures—how does {NAME} cement the empire?",
                   options: [
-                    { label: "Launch a creator-owned tech & studio gear brand (+$20,000 Cash, Legend)", tag: "Self-Made King", cashDelta: 20000, outcome: "{NAME}'s gear drop sold out in minutes for $20,000 net profit!" },
-                    { label: "Build a multi-channel media network (+$16,000 Cash, Titan)", tag: "Network Boss", cashDelta: 16000, outcome: "{NAME} signed five rising stars and banked $16,000 in launch deals." }
+                    { label: "Launch a creator-owned tech & studio gear brand (+$21,000 Cash, Legend)", tag: "Self-Made King", cashDelta: 21000, outcome: "{NAME}'s gear drop sold out in minutes for $21,000 net profit!" },
+                    { label: "Build a multi-channel media network (+$16,500 Cash, Titan)", tag: "Network Boss", cashDelta: 16500, outcome: "{NAME} signed five rising stars and banked $16,500 in launch deals." }
+                  ]
+                },
+                {
+                  pct: 0.70,
+                  chapter: "Episode 5: Generational Wealth",
+                  prompt: "{NAME} stands atop the creator economy, debt-free and independent.",
+                  options: [
+                    { label: "Open a venture studio backing emerging creators (+$42,000 Cash, Icon)", tag: "Venture Mogul", cashDelta: 42000, outcome: "{NAME} turned daily discipline into a $500K+ empire and $42,000 in returns!" },
+                    { label: "Expand your flagship studio across NYC and LA (+$35,000 Cash, Sovereign)", tag: "Coast-to-Coast", cashDelta: 35000, outcome: "{NAME} claimed the crown with $35,000 in launch partnerships." }
                   ]
                 }
               ]
@@ -1447,7 +1629,7 @@
               title: "Shadow Network",
               episodes: [
                 {
-                  threshold: -999999,
+                  pct: 0,
                   chapter: "Episode 1: Locked Out of Main",
                   prompt: "A corrupt MCN executive freezes {NAME}'s original channel payouts. Starting from a burner account, you strike back.",
                   options: [
@@ -1456,21 +1638,39 @@
                   ]
                 },
                 {
-                  threshold: 15000,
+                  pct: 0.03,
                   chapter: "Episode 2: The Audit Trail",
                   prompt: "{NAME} uncovers uncollected ad royalties owed to you by the rival network.",
                   options: [
-                    { label: "Serve legal notice & collect full back-pay with interest (+$4,300 Cash, Enforcer)", tag: "Checkmate", cashDelta: 4300, outcome: "Settled out of court! {NAME} deposited $4,300 into your war chest." },
-                    { label: "Use the momentum to poach their biggest sponsor (+$3,500 Cash, Shark)", tag: "Predator", cashDelta: 3500, outcome: "{NAME} closed the sponsor for $3,500 on the spot." }
+                    { label: "Serve legal notice & collect full back-pay with interest (+$4,400 Cash, Enforcer)", tag: "Checkmate", cashDelta: 4400, outcome: "Settled out of court! {NAME} deposited $4,400 into your war chest." },
+                    { label: "Use the momentum to poach their biggest sponsor (+$3,600 Cash, Shark)", tag: "Predator", cashDelta: 3600, outcome: "{NAME} closed the sponsor for $3,600 on the spot." }
                   ]
                 },
                 {
-                  threshold: 100000,
-                  chapter: "Episode 3: Hostile Acquisition",
+                  pct: 0.12,
+                  chapter: "Episode 3: Sabotaged Live Keynote",
+                  prompt: "During {NAME}'s live sponsor showcase, an insider cuts the main feed.",
+                  options: [
+                    { label: "Switch to backup cellular rig & turn it into a viral thriller moment (+$11,000 Cash)", tag: "Unshakeable", cashDelta: 11000, outcome: "Viewers loved the raw grit—{NAME} closed $11,000 in live orders!" },
+                    { label: "Trace the server breach & extract a settlement (+$8,500 Cash)", tag: "Enforcer", cashDelta: 8500, outcome: "{NAME} collected $8,500 in damages before sunrise." }
+                  ]
+                },
+                {
+                  pct: 0.30,
+                  chapter: "Episode 4: Hostile Acquisition",
                   prompt: "Your old agency is on the brink of bankruptcy. {NAME} walks into the buyout meeting.",
                   options: [
-                    { label: "Buy the network & reclaim every channel (+$19,000 Cash, Sovereign)", tag: "Total Victory", cashDelta: 19000, outcome: "{NAME} took control of the entire network and cleared $19,000." },
-                    { label: "Acquire their prime NYC studio lease for pennies (+$15,000 Cash, Mogul)", tag: "Real Estate Win", cashDelta: 15000, outcome: "{NAME} locked in a flagship NYC hub and $15,000 in signing bonuses." }
+                    { label: "Buy the network & reclaim every channel (+$21,000 Cash, Sovereign)", tag: "Total Victory", cashDelta: 21000, outcome: "{NAME} took control of the entire network and cleared $21,000." },
+                    { label: "Acquire their prime NYC studio lease for pennies (+$16,000 Cash, Mogul)", tag: "Real Estate Win", cashDelta: 16000, outcome: "{NAME} locked in a flagship NYC hub and $16,000 in signing bonuses." }
+                  ]
+                },
+                {
+                  pct: 0.70,
+                  chapter: "Episode 5: Undisputed Media Kingpin",
+                  prompt: "{NAME} owns the distribution, the studios, and the top talent roster.",
+                  options: [
+                    { label: "Take your media network public on your own terms (+$42,000 Cash, Apex)", tag: "Apex Sovereign", cashDelta: 42000, outcome: "{NAME} cemented a $500K+ empire with $42,000 in closing bonuses!" },
+                    { label: "Acquire rival distribution channels globally (+$36,000 Cash, Conqueror)", tag: "Global Mogul", cashDelta: 36000, outcome: "{NAME} dominated every market for $36,000." }
                   ]
                 }
               ]
@@ -1481,7 +1681,7 @@
               title: "King of Michelin Row",
               episodes: [
                 {
-                  threshold: -999999,
+                  pct: 0,
                   chapter: "Episode 1: Fired from the Five-Star Line",
                   prompt: "An arrogant celebrity restaurateur fires {NAME} for upgrading his stale tasting menu. Outside, a food producer asks what happened.",
                   options: [
@@ -1490,21 +1690,39 @@
                   ]
                 },
                 {
-                  threshold: 15000,
+                  pct: 0.03,
                   chapter: "Episode 2: Private Jet Charter Contract",
                   prompt: "An international aviation firm wants {NAME} to design their first-class Wagyu & truffle menu.",
                   options: [
-                    { label: "Structure a per-flight royalty + $4,500 retainer (+$4,500 Cash, Culinary Mogul)", tag: "High Margin", cashDelta: 4500, outcome: "{NAME} locked in $4,500 upfront and lucrative recurring flight royalties!" },
-                    { label: "Accept the flat $3,400 executive fee (+$3,400 Cash, Chef)", tag: "Clean Deal", cashDelta: 3400, outcome: "{NAME} delivered an unforgettable menu and banked $3,400." }
+                    { label: "Structure a per-flight royalty + $4,600 retainer (+$4,600 Cash, Culinary Mogul)", tag: "High Margin", cashDelta: 4600, outcome: "{NAME} locked in $4,600 upfront and lucrative recurring flight royalties!" },
+                    { label: "Accept the flat $3,500 executive fee (+$3,500 Cash, Chef)", tag: "Clean Deal", cashDelta: 3500, outcome: "{NAME} delivered an unforgettable menu and banked $3,500." }
                   ]
                 },
                 {
-                  threshold: 100000,
-                  chapter: "Episode 3: Three-Star Sovereign",
+                  pct: 0.12,
+                  chapter: "Episode 3: Luxury Tasting Residency",
+                  prompt: "A five-star hotel offers {NAME} a 30-day rooftop residency during Fashion Week.",
+                  options: [
+                    { label: "Offer a $350/seat wine-paired tasting menu (+$11,500 Cash, Virtuoso)", tag: "Sold Out", cashDelta: 11500, outcome: "Every single night sold out, netting {NAME} $11,500 in profit!" },
+                    { label: "Co-brand the residency with a luxury champagne house (+$9,000 Cash, Dealmaker)", tag: "VIP Sponsor", cashDelta: 9000, outcome: "{NAME} banked $9,000 in sponsorship + ticket revenue." }
+                  ]
+                },
+                {
+                  pct: 0.30,
+                  chapter: "Episode 4: Three-Star Sovereign",
                   prompt: "{NAME}'s flagship dining room is the toughest reservation in the city.",
                   options: [
-                    { label: "Launch your Obsidian Damascus Knife & Cookware line (+$19,500 Cash, Icon)", tag: "Global Brand", cashDelta: 19500, outcome: "First production run sold out in 20 minutes, netting {NAME} $19,500!" },
-                    { label: "Open a second flagship in Paris Culinary Row (+$16,000 Cash, Empire)", tag: "Expansion", cashDelta: 16000, outcome: "{NAME}'s international debut cleared $16,000 in opening-week bookings." }
+                    { label: "Launch your Obsidian Damascus Knife & Cookware line (+$21,000 Cash, Icon)", tag: "Global Brand", cashDelta: 21000, outcome: "First production run sold out in 20 minutes, netting {NAME} $21,000!" },
+                    { label: "Open a second flagship in Paris Culinary Row (+$16,500 Cash, Empire)", tag: "Expansion", cashDelta: 16500, outcome: "{NAME}'s international debut cleared $16,500 in opening-week bookings." }
+                  ]
+                },
+                {
+                  pct: 0.70,
+                  chapter: "Episode 5: Global Culinary Sovereign",
+                  prompt: "{NAME} receives the Lifetime Culinary Innovator Award in Paris.",
+                  options: [
+                    { label: "Unveil your global luxury dining & cookware group (+$44,000 Cash, Legend)", tag: "Three-Star King", cashDelta: 44000, outcome: "{NAME} built a $500K+ culinary empire with $44,000 in launch bookings!" },
+                    { label: "Acquire a historic vineyard & private dining estate (+$36,000 Cash, Mogul)", tag: "Estate Owner", cashDelta: 36000, outcome: "{NAME} secured generational hospitality assets and $36,000 net profit." }
                   ]
                 }
               ]
@@ -1513,7 +1731,7 @@
               title: "Cast Iron & Grit",
               episodes: [
                 {
-                  threshold: -999999,
+                  pct: 0,
                   chapter: "Episode 1: One Skillet & A Loan",
                   prompt: "Starting at the local farmers market with one cast-iron skillet and a steep kitchen loan, {NAME} faces a slow morning.",
                   options: [
@@ -1522,21 +1740,39 @@
                   ]
                 },
                 {
-                  threshold: 15000,
+                  pct: 0.03,
                   chapter: "Episode 2: Late-Night Food Truck Rush",
                   prompt: "A stadium concert lets out right next to {NAME}'s food truck lot—300 hungry fans rush the window.",
                   options: [
-                    { label: "Run a streamlined 3-item flash menu for 30-second service (+$4,400 Cash, Line General)", tag: "Speed & Margin", cashDelta: 4400, outcome: "{NAME} served every single customer without bottlenecking, banking $4,400!" },
-                    { label: "Offer double-portion VIP combos (+$3,500 Cash, Upseller)", tag: "High Ticket", cashDelta: 3500, outcome: "{NAME} crushed your nightly record with $3,500 in sales." }
+                    { label: "Run a streamlined 3-item flash menu for 30-second service (+$4,500 Cash, Line General)", tag: "Speed & Margin", cashDelta: 4500, outcome: "{NAME} served every single customer without bottlenecking, banking $4,500!" },
+                    { label: "Offer double-portion VIP combos (+$3,600 Cash, Upseller)", tag: "High Ticket", cashDelta: 3600, outcome: "{NAME} crushed your nightly record with $3,600 in sales." }
                   ]
                 },
                 {
-                  threshold: 100000,
-                  chapter: "Episode 3: Brick-and-Mortar Landmark",
+                  pct: 0.12,
+                  chapter: "Episode 3: Supply Chain Price Spike",
+                  prompt: "Beef and truffle wholesale prices jump 35% overnight due to freight delays.",
+                  options: [
+                    { label: "Re-engineer plate portions & feature high-margin braised cuts (+$10,500 Cash, Chef)", tag: "Menu Engineer", cashDelta: 10500, outcome: "{NAME} held a 28% food cost while competitors bled money—netting $10,500!" },
+                    { label: "Lock in bulk co-op pricing with local farms (+$8,500 Cash, Operator)", tag: "Smart Buyer", cashDelta: 8500, outcome: "{NAME} stabilized costs and banked $8,500." }
+                  ]
+                },
+                {
+                  pct: 0.30,
+                  chapter: "Episode 4: Brick-and-Mortar Landmark",
                   prompt: "{NAME} has the capital to open your own neighborhood steakhouse & bistro.",
                   options: [
-                    { label: "Buy the property & launch your signature dry-aged program (+$19,000 Cash, Titan)", tag: "Owner-Operator", cashDelta: 19000, outcome: "{NAME} packed the dining room every night for $19,000 in first-week profit." },
-                    { label: "Franchise your winning food truck fleet (+$15,500 Cash, Scaler)", tag: "Multi-Unit Boss", cashDelta: 15500, outcome: "{NAME} sold three franchise territories for $15,500 upfront." }
+                    { label: "Buy the property & launch your signature dry-aged program (+$21,000 Cash, Titan)", tag: "Owner-Operator", cashDelta: 21000, outcome: "{NAME} packed the dining room every night for $21,000 in first-week profit." },
+                    { label: "Franchise your winning food truck fleet (+$16,500 Cash, Scaler)", tag: "Multi-Unit Boss", cashDelta: 16500, outcome: "{NAME} sold three franchise territories for $16,500 upfront." }
+                  ]
+                },
+                {
+                  pct: 0.70,
+                  chapter: "Episode 5: Self-Made Culinary Titan",
+                  prompt: "From one cast-iron skillet to a multi-city restaurant group—{NAME} is an inspiration.",
+                  options: [
+                    { label: "Launch a culinary trade scholarship & flagship steakhouse (+$42,000 Cash, Icon)", tag: "Hometown Legend", cashDelta: 42000, outcome: "{NAME} built a $500K+ hospitality group and cleared $42,000!" },
+                    { label: "Roll out your signature dry-rub & sauce line nationwide (+$35,000 Cash, Mogul)", tag: "National Brand", cashDelta: 35000, outcome: "{NAME} stocked 1,500 grocers and earned $35,000." }
                   ]
                 }
               ]
@@ -1545,7 +1781,7 @@
               title: "The Saffron Cartel",
               episodes: [
                 {
-                  threshold: -999999,
+                  pct: 0,
                   chapter: "Episode 1: Sabotaged Opening",
                   prompt: "A rival syndicate bribes your distributor to cancel {NAME}'s opening-night delivery. You have 2 hours before doors open.",
                   options: [
@@ -1554,21 +1790,39 @@
                   ]
                 },
                 {
-                  threshold: 15000,
+                  pct: 0.03,
                   chapter: "Episode 2: Cold-Chain Ambush",
                   prompt: "Rivals try to corner the Bistro District's A5 Wagyu supply to squeeze {NAME}'s margins.",
                   options: [
-                    { label: "Buy out the flash-dip import shipment & set the market price (+$4,500 Cash, Kingpin)", tag: "Market Corner", cashDelta: 4500, outcome: "{NAME} flipped the surplus Wagyu to desperate competitors for $4,500 profit!" },
-                    { label: "Lock in direct farm contracts outside their reach (+$3,400 Cash, Strategist)", tag: "Direct Source", cashDelta: 3400, outcome: "{NAME} cut ingredient costs by 20% and banked $3,400." }
+                    { label: "Buy out the flash-dip import shipment & set the market price (+$4,600 Cash, Kingpin)", tag: "Market Corner", cashDelta: 4600, outcome: "{NAME} flipped the surplus Wagyu to desperate competitors for $4,600 profit!" },
+                    { label: "Lock in direct farm contracts outside their reach (+$3,500 Cash, Strategist)", tag: "Direct Source", cashDelta: 3500, outcome: "{NAME} cut ingredient costs by 20% and banked $3,500." }
                   ]
                 },
                 {
-                  threshold: 100000,
-                  chapter: "Episode 3: Hostile Buyout",
+                  pct: 0.12,
+                  chapter: "Episode 3: Poached Sous-Chef Showdown",
+                  prompt: "Your rival tries to bribe your top sous-chef to walk out mid-service on Saturday night.",
+                  options: [
+                    { label: "Promote your sous-chef to Chef de Cuisine with profit-sharing (+$11,000 Cash, Leader)", tag: "Loyal Brigade", cashDelta: 11000, outcome: "Your brigade crushed a 400-cover night, netting {NAME} $11,000!" },
+                    { label: "Step onto the line yourself & run the pass flawlessly (+$8,500 Cash, Iron Chef)", tag: "Hands-On Boss", cashDelta: 8500, outcome: "{NAME} led from the front and cleared $8,500." }
+                  ]
+                },
+                {
+                  pct: 0.30,
+                  chapter: "Episode 4: Hostile Buyout",
                   prompt: "Your rival's flagship restaurant goes into receivership. {NAME} steps up to the table.",
                   options: [
-                    { label: "Buy their flagship & turn it into your crown jewel (+$18,500 Cash, Sovereign)", tag: "Total Dominance", cashDelta: 18500, outcome: "{NAME} took over the prime corner location and cleared $18,500." },
-                    { label: "Acquire their cold-storage commissary & supplier contracts (+$15,000 Cash, Mogul)", tag: "Supply Empire", cashDelta: 15000, outcome: "{NAME} now controls the city's culinary supply chain with $15,000 net gain." }
+                    { label: "Buy their flagship & turn it into your crown jewel (+$20,000 Cash, Sovereign)", tag: "Total Dominance", cashDelta: 20000, outcome: "{NAME} took over the prime corner location and cleared $20,000." },
+                    { label: "Acquire their cold-storage commissary & supplier contracts (+$16,000 Cash, Mogul)", tag: "Supply Empire", cashDelta: 16000, outcome: "{NAME} now controls the city's culinary supply chain with $16,000 net gain." }
+                  ]
+                },
+                {
+                  pct: 0.70,
+                  chapter: "Episode 5: King of the Culinary Underworld",
+                  prompt: "{NAME} commands the finest dining rooms and rarest imports across every major city.",
+                  options: [
+                    { label: "Form an untouchable luxury hospitality syndicate (+$42,000 Cash, Sovereign)", tag: "Apex Sovereign", cashDelta: 42000, outcome: "{NAME} crowned a $500K+ culinary empire with $42,000 in quarterly returns!" },
+                    { label: "Buy out the regional import exchange (+$36,000 Cash, Kingpin)", tag: "Market Maker", cashDelta: 36000, outcome: "{NAME} secured permanent supply dominance and $36,000." }
                   ]
                 }
               ]
@@ -1617,11 +1871,11 @@
           ],
           missions: [
             { id: "m1", title: "Viral Debut: Post 15 Clips", desc: "Tap 'Post Viral Clip' 15 times on the Market tab.", metric: "hustleCount", target: 15, cashReward: 650, xpReward: 60 },
-            { id: "m2", title: "Side Hustle Grind: Complete 2 Gigs", desc: "Finish any 2 Side Gigs in the Gigs tab.", metric: "gigsCompleted", target: 2, cashReward: 1100, xpReward: 90 },
-            { id: "m3", title: "Market Flipper: Close 3 Asset Sales", desc: "Sell inventory on the Market 3 times.", metric: "salesCount", target: 3, cashReward: 1800, xpReward: 120 },
-            { id: "m4", title: "Debt-Free Creator: Clear Agency Loan", desc: "Pay off your entire Agency Debt in Bank.", metric: "debtCleared", target: 1, cashReward: 2500, xpReward: 160 },
-            { id: "m5", title: "Studio Mogul: Reach Level 3", desc: "Complete tasks and mini-games to hit Level 3.", metric: "levelReached", target: 3, cashReward: 4000, xpReward: 200 },
-            { id: "m6", title: "Trendsetter: Post 60 Viral Clips", desc: "Reach 60 total viral clips posted.", metric: "hustleCount", target: 60, cashReward: 6500, xpReward: 260 },
+            { id: "m2", title: "Side Hustle Grind: Complete 2 Gigs", desc: "Finish any 2 Side Gigs in the Gigs tab.", metric: "gigsCompleted", target: 2, cashReward: 1200, xpReward: 90 },
+            { id: "m3", title: "Market Flipper: Close 3 Asset Sales", desc: "Sell inventory on the Market 3 times.", metric: "salesCount", target: 3, cashReward: 1900, xpReward: 120 },
+            { id: "m4", title: "Debt-Free Creator: Clear Agency Loan", desc: "Pay off your entire Agency Debt in Bank.", metric: "debtCleared", target: 1, cashReward: 2600, xpReward: 160 },
+            { id: "m5", title: "Studio Mogul: Reach Level 3", desc: "Complete tasks and mini-games to hit Level 3.", metric: "levelReached", target: 3, cashReward: 4200, xpReward: 200 },
+            { id: "m6", title: "Trendsetter: Post 60 Viral Clips", desc: "Reach 60 total viral clips posted.", metric: "hustleCount", target: 60, cashReward: 6800, xpReward: 260 },
             { id: "m7", title: "Six-Figure Network: $100K Net Worth", desc: "Grow your Net Worth to $100,000+.", metric: "netWorth", target: 100000, cashReward: 18000, xpReward: 400 }
           ],
           gigs: {
@@ -1630,32 +1884,34 @@
               desc: "Tap the glowing 🔥 Trending Audio pad as fast as possible! Avoid the 🚫 Shadowban traps.",
               goodIcon: "🔥",
               badIcon: "🚫",
-              payPerHit: 50
+              payPerHit: 55
             },
             timing: {
               title: "🎬 3-Second Hook Drop",
               desc: "Tap 'LOCK HOOK' while the cursor is inside the green Viral Sweetspot to maximize AdSense payout!",
               btnLabel: "🎯 LOCK HOOK",
-              baseReward: 350
+              baseReward: 380
             },
+            // Expanded High-Reward Real-World Creator Mini-Quiz (5 questions per round, big cash + XP!)
             trivia: {
-              title: "💼 Brand Deal Speed Negotiation",
-              desc: "Answer 3 rapid-fire creator business questions to close a sponsorship bonus!",
+              title: "💼 High-Stakes Creator Business & Contract Audit",
+              desc: "Pass 5 real-world creator business scenarios to earn a massive sponsorship & XP payout!",
               questions: [
-                { q: "A brand wants 'Perpetual Paid-Ad Usage' on your Reel. What do you do?", a: ["License 30 days + 50% fee", "Give it free forever"], ok: 0 },
-                { q: "75% of viewers swipe away in 2 seconds. What needs fixing?", a: ["Add 30 hashtags", "Rewrite the 3-second hook"], ok: 1 },
-                { q: "How much of 1099 creator income should go to your Tax Vault?", a: ["25%–30%", "0% until April"], ok: 0 }
+                { q: "A brand pays $4,000 for a TikTok and asks you to omit '#ad' so it looks organic. Best move?", a: ["Include clear #ad disclosure (FTC rule)", "Hide #ad to please the sponsor"], ok: 0, lesson: "FTC requires clear disclosure on paid endorsements." },
+                { q: "A contract asks for 'Perpetual Worldwide Paid-Ad Whitelisting Rights' at base rate. Best move?", a: ["Sign immediately", "Limit to 30 days & charge +50% usage fee"], ok: 1, lesson: "Never give away perpetual ad usage rights for free." },
+                { q: "Can you use a chart-topping pop song from your personal feed in a paid commercial ad?", a: ["No—requires a commercial sync license", "Yes—all trending sounds are free for ads"], ok: 0, lesson: "Commercial ads require cleared music sync licenses." },
+                { q: "75% of viewers swipe away in the first 2 seconds of your video. What should you fix first?", a: ["Rewrite the 3-second visual hook", "Add 40 hashtags to the caption"], ok: 0, lesson: "Early 3-second retention drives algorithmic reach." },
+                { q: "What percentage of 1099 creator income should be swept into your Tax Vault?", a: ["5% once a year", "25%–30% quarterly"], ok: 1, lesson: "Setting aside 25–30% covers self-employment & income taxes." }
               ],
-              reward: 700
+              reward: 1650
             }
           },
-          // Real-Life Creator Career Scenarios
           lessons: [
             {
               title: "Real-Life Scenario: FTC Sponsorship Disclosure Audit",
               desc: "A luxury skincare brand pays you $4,000 for a TikTok review and asks you to 'leave off #ad so it looks organic.' What is the smart Mogul move?",
               choices: [
-                { text: "Insist on clear #ad disclosure to avoid FTC fines & account bans", correct: true, reward: 1600, note: "Real-world rule: Undisclosed paid posts violate FTC guidelines and platform rules, risking $50K+ fines and demonetization." },
+                { text: "Insist on clear #ad disclosure to avoid FTC fines & account bans", correct: true, reward: 1600, note: "Real-world rule: Undisclosed paid posts violate FTC guidelines and platform rules, risking fines and demonetization." },
                 { text: "Hide the #ad tag to keep the sponsor happy", correct: false, penalty: 800, note: "Your post got flagged for undisclosed sponsorship—costing you $800 in forfeited payouts!" }
               ]
             },
@@ -1725,11 +1981,11 @@
           ],
           missions: [
             { id: "m1", title: "Lunch Rush: Sell 15 Signature Dishes", desc: "Tap 'Sell Signature Dish' 15 times on the Market tab.", metric: "hustleCount", target: 15, cashReward: 650, xpReward: 60 },
-            { id: "m2", title: "Catering Hustle: Complete 2 Side Gigs", desc: "Finish any 2 Side Gigs in the Gigs tab.", metric: "gigsCompleted", target: 2, cashReward: 1100, xpReward: 90 },
-            { id: "m3", title: "Ingredient Arbitrage: Close 3 Sales", desc: "Sell culinary inventory on the Market 3 times.", metric: "salesCount", target: 3, cashReward: 1800, xpReward: 120 },
-            { id: "m4", title: "Debt-Free Kitchen: Pay Off Loan", desc: "Clear your entire Kitchen Loan in Bank.", metric: "debtCleared", target: 1, cashReward: 2500, xpReward: 160 },
-            { id: "m5", title: "Sous-Chef Promotion: Reach Level 3", desc: "Complete tasks and mini-games to hit Level 3.", metric: "levelReached", target: 3, cashReward: 4000, xpReward: 200 },
-            { id: "m6", title: "Packed House: Sell 60 Dishes", desc: "Reach 60 total signature plates sold.", metric: "hustleCount", target: 60, cashReward: 6500, xpReward: 260 },
+            { id: "m2", title: "Catering Hustle: Complete 2 Side Gigs", desc: "Finish any 2 Side Gigs in the Gigs tab.", metric: "gigsCompleted", target: 2, cashReward: 1200, xpReward: 90 },
+            { id: "m3", title: "Ingredient Arbitrage: Close 3 Sales", desc: "Sell culinary inventory on the Market 3 times.", metric: "salesCount", target: 3, cashReward: 1900, xpReward: 120 },
+            { id: "m4", title: "Debt-Free Kitchen: Pay Off Loan", desc: "Clear your entire Kitchen Loan in Bank.", metric: "debtCleared", target: 1, cashReward: 2600, xpReward: 160 },
+            { id: "m5", title: "Sous-Chef Promotion: Reach Level 3", desc: "Complete tasks and mini-games to hit Level 3.", metric: "levelReached", target: 3, cashReward: 4200, xpReward: 200 },
+            { id: "m6", title: "Packed House: Sell 60 Dishes", desc: "Reach 60 total signature plates sold.", metric: "hustleCount", target: 60, cashReward: 6800, xpReward: 260 },
             { id: "m7", title: "Hospitality Mogul: $100K Net Worth", desc: "Grow your Net Worth to $100,000+.", metric: "netWorth", target: 100000, cashReward: 18000, xpReward: 400 }
           ],
           gigs: {
@@ -1738,26 +1994,28 @@
               desc: "Tap the glowing 🍽️ Hot Ticket order as fast as possible! Avoid the 🧯 Burnt Pan traps.",
               goodIcon: "🍽️",
               badIcon: "🧯",
-              payPerHit: 50
+              payPerHit: 55
             },
             timing: {
               title: "🥩 Perfect Medium-Rare Sear",
               desc: "Tap 'PLATE STEAK' while the thermometer bar is inside the green Sweetspot for maximum VIP tips!",
               btnLabel: "🔪 PLATE STEAK",
-              baseReward: 350
+              baseReward: 380
             },
+            // Expanded High-Reward Real-World Culinary Business & Safety Mini-Quiz (5 questions)
             trivia: {
-              title: "📋 Executive Chef Kitchen Audit",
-              desc: "Pass 3 rapid-fire restaurant math & food-safety checks to earn a catering bonus!",
+              title: "📋 Executive Chef Food Costing & Health Audit",
+              desc: "Pass 5 real-world restaurant costing, yield, and food-safety scenarios for a huge catering bonus!",
               questions: [
-                { q: "Ingredients cost $28/plate. At a 28% food-cost target, what is the menu price?", a: ["$100", "$56"], ok: 0 },
-                { q: "How should you rotate fresh truffles into the walk-in cooler?", a: ["New stock in front", "FIFO: Old stock in front"], ok: 1 },
-                { q: "10 lbs tenderloin ($200) trims to 8 usable lbs. True cost per usable lb?", a: ["$25.00/lb", "$20.00/lb"], ok: 0 }
+                { q: "Ingredients cost $28/plate. At a 28% food-cost target, what should the menu price be?", a: ["$100", "$56"], ok: 0, lesson: "Menu Price = Ingredient Cost ÷ Target Food Cost %." },
+                { q: "What is the maximum safe cold-holding temperature for walk-in coolers?", a: ["48°F (9°C)", "41°F (5°C) or below"], ok: 1, lesson: "41°F (5°C) or below stops bacterial growth in the Danger Zone." },
+                { q: "How should you rotate fresh truffles and proteins into cold storage?", a: ["FIFO: Oldest stock in front", "LIFO: Newest stock in front"], ok: 0, lesson: "First-In, First-Out (FIFO) prevents spoilage waste." },
+                { q: "10 lbs tenderloin ($200) trims to 8 usable lbs. What is your true usable cost per lb?", a: ["$20.00/lb", "$25.00/lb"], ok: 1, lesson: "Always price plates using post-trim yield cost ($200 ÷ 8 lbs)." },
+                { q: "You upgrade your menu and have 40 prepped portions of the old dish left. Smartest move?", a: ["Run a -30% Flash Special today", "Freeze indefinitely for next season"], ok: 0, lesson: "Discount flash sales recover cash before quality degrades." }
               ],
-              reward: 700
+              reward: 1650
             }
           },
-          // Real-Life Culinary Career Scenarios
           lessons: [
             {
               title: "Real-Life Scenario: Surprise Health Inspection",
@@ -1795,7 +2053,8 @@
         }
       };
 
-      // Highly Detailed Expressive Contemporary Doll Vector Renderer with Face Shapes & Head-Fitted Hair
+      // Highly Detailed Body-Fitting Contemporary Doll Vector Renderer
+      // 10 Distinct Real-World Outfits x 5 Curated Colorways
       function renderAvatarSVG(avatarCfg, gender) {
         const face = AVATAR_TEMPLATES.faceShape.find(x => x.id === avatarCfg.faceShape) || AVATAR_TEMPLATES.faceShape[0];
         const body = AVATAR_TEMPLATES.bodyShape.find(x => x.id === avatarCfg.bodyShape) || AVATAR_TEMPLATES.bodyShape[3];
@@ -1804,7 +2063,8 @@
         const eye = AVATAR_TEMPLATES.eyeStyle.find(x => x.id === avatarCfg.eyeStyle) || AVATAR_TEMPLATES.eyeStyle[0];
         const brow = AVATAR_TEMPLATES.browFeature.find(x => x.id === avatarCfg.browFeature) || AVATAR_TEMPLATES.browFeature[0];
         const hairColor = AVATAR_TEMPLATES.hairColor.find(x => x.id === avatarCfg.hairColor) || AVATAR_TEMPLATES.hairColor[0];
-        const outfit = AVATAR_TEMPLATES.outfit.find(x => x.id === avatarCfg.outfit) || AVATAR_TEMPLATES.outfit[0];
+        const outfitId = avatarCfg.outfit || "double_breasted_blazer";
+        const cw = OUTFIT_COLORWAYS.find(x => x.id === avatarCfg.outfitColor) || OUTFIT_COLORWAYS[0];
         const hairStyle = avatarCfg.hairStyle;
         const acc = avatarCfg.accessory;
 
@@ -1869,70 +2129,131 @@
           `;
         }
 
-        // Tailored Professional & Contemporary Outfits (draped collar seams, tailored sleeves & buttons)
+        // 10 Real-World Tailored Body-Fitting Outfits rendered with the selected 5-Colorway Palette
+        let baseTorsoFill = cw.primary;
+        let sleeveFill = cw.primary;
+        let sleeveBorder = cw.trim;
         let outfitDetails = "";
-        if (outfit.id === "chef_piped" || outfit.id === "chef_obsidian") {
+
+        if (outfitId === "double_breasted_blazer") {
+          // 1. Tailored Double-Breasted Peak-Lapel Blazer & Silk Camisole
           outfitDetails = `
-            <!-- Crisp Stand Mandarin Chef Collar -->
-            <path d="M ${cx - 12} 96 L ${cx} 105 L ${cx + 12} 96 L ${cx + 10} 103 L ${cx} 112 L ${cx - 10} 103 Z" fill="${outfit.secondary}" stroke="${outfit.trim}" stroke-width="1.4" />
-            <!-- Double-Breasted Placket & Piping -->
-            <path d="M ${cx - 10} 103 L ${cx - 4} 116 L ${cx - 4} 152" fill="none" stroke="${outfit.trim}" stroke-width="2.2" />
-            <circle cx="${cx - 11}" cy="118" r="2.2" fill="${outfit.trim}" />
-            <circle cx="${cx + 4}" cy="118" r="2.2" fill="${outfit.trim}" />
-            <circle cx="${cx - 11}" cy="131" r="2.2" fill="${outfit.trim}" />
-            <circle cx="${cx + 4}" cy="131" r="2.2" fill="${outfit.trim}" />
-            <!-- Tailored Bistro Waist Apron -->
-            <path d="M ${cx - waistW/2 - 1} 145 L ${cx + waistW/2 + 1} 145 L ${cx + hipW/2 + 2} 184 L ${cx - hipW/2 - 2} 184 Z" fill="#1e293b" />
-            <rect x="${cx - waistW/2 - 2}" y="143" width="${waistW + 4}" height="7" rx="3" fill="${outfit.trim}" />
-            <path d="M ${cx - 5} 148 L ${cx - 10} 162 M ${cx + 5} 148 L ${cx + 10} 162" stroke="${outfit.trim}" stroke-width="2.8" stroke-linecap="round" />
+            <polygon points="${cx - 13},97 ${cx + 13},97 ${cx + 8},142 ${cx - 8},142" fill="${cw.secondary}" />
+            <path d="M ${cx - 13} 102 Q ${cx} 110 ${cx + 13} 102" fill="none" stroke="${cw.accent}" stroke-width="1.5" />
+            <polygon points="${cx - 15},97 ${cx - 6},144 ${cx - 23},123" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.3" />
+            <polygon points="${cx + 15},97 ${cx + 6},144 ${cx + 23},123" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.3" />
+            <circle cx="${cx - 7}" cy="134" r="2.2" fill="${cw.trim}" />
+            <circle cx="${cx + 7}" cy="134" r="2.2" fill="${cw.trim}" />
+            <circle cx="${cx - 7}" cy="146" r="2.2" fill="${cw.trim}" />
+            <circle cx="${cx + 7}" cy="146" r="2.2" fill="${cw.trim}" />
+            <line x1="${cx + 12}" y1="126" x2="${cx + 21}" y2="124" stroke="${cw.accent}" stroke-width="2.5" />
           `;
-        } else if (outfit.id === "baroque_blazer" || outfit.id === "emerald_street") {
+        } else if (outfitId === "executive_chef_coat") {
+          // 2. Piped Mandarin-Collar Executive Chef Coat & Bistro Wrap
           outfitDetails = `
-            <polygon points="${cx - 14},97 ${cx + 14},97 ${cx + 10},166 ${cx - 10},166" fill="${outfit.secondary}" />
-            <path d="M ${cx - 7.5} 103 L ${cx - 7.5} 162 M ${cx + 7.5} 103 L ${cx + 7.5} 162" stroke="${outfit.trim}" stroke-width="2.3" stroke-dasharray="4 2" />
-            <circle cx="${cx}" cy="122" r="2.8" fill="none" stroke="${outfit.trim}" stroke-width="1.5" />
-            <circle cx="${cx}" cy="136" r="2.8" fill="none" stroke="${outfit.trim}" stroke-width="1.5" />
-            <!-- Structured Peak Lapels -->
-            <polygon points="${cx - 15},97 ${cx - 7},148 ${cx - 23},125" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.3" />
-            <polygon points="${cx + 15},97 ${cx + 7},148 ${cx + 23},125" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.3" />
-            <line x1="${cx + 13}" y1="132" x2="${cx + 22}" y2="130" stroke="${outfit.trim}" stroke-width="2.5" />
+            <path d="M ${cx - 12} 96 L ${cx} 105 L ${cx + 12} 96 L ${cx + 10} 103 L ${cx} 112 L ${cx - 10} 103 Z" fill="${cw.secondary}" stroke="${cw.trim}" stroke-width="1.4" />
+            <path d="M ${cx - 10} 103 L ${cx - 4} 116 L ${cx - 4} 148" fill="none" stroke="${cw.trim}" stroke-width="2.2" />
+            <circle cx="${cx - 11}" cy="118" r="2.2" fill="${cw.trim}" />
+            <circle cx="${cx + 4}" cy="118" r="2.2" fill="${cw.trim}" />
+            <circle cx="${cx - 11}" cy="131" r="2.2" fill="${cw.trim}" />
+            <circle cx="${cx + 4}" cy="131" r="2.2" fill="${cw.trim}" />
+            <path d="M ${cx - waistW/2 - 1} 145 L ${cx + waistW/2 + 1} 145 L ${cx + hipW/2 + 2} 184 L ${cx - hipW/2 - 2} 184 Z" fill="${cw.secondary}" />
+            <rect x="${cx - waistW/2 - 2}" y="143" width="${waistW + 4}" height="7" rx="3" fill="${cw.trim}" />
+            <path d="M ${cx - 5} 148 L ${cx - 10} 162 M ${cx + 5} 148 L ${cx + 10} 162" stroke="${cw.accent}" stroke-width="2.6" stroke-linecap="round" />
           `;
-        } else if (outfit.id === "corset_suit") {
+        } else if (outfitId === "silk_bow_suit") {
+          // 3. Silk Tie-Neck Bow Blouse & Fitted Tailored Suit
           outfitDetails = `
-            <path d="M ${cx - 15} 97 Q ${cx} 116 ${cx + 15} 97" fill="${skin.hex}" stroke="${outfit.trim}" stroke-width="2.3" />
-            <rect x="${cx - waistW/2 + 2}" y="121" width="${waistW - 4}" height="24" rx="4" fill="${outfit.secondary}" opacity="0.22" stroke="${outfit.trim}" stroke-width="1.5" />
-            <line x1="${cx - 6}" y1="121" x2="${cx - 6}" y2="145" stroke="${outfit.trim}" stroke-width="1.4" />
-            <line x1="${cx + 6}" y1="121" x2="${cx + 6}" y2="145" stroke="${outfit.trim}" stroke-width="1.4" />
+            <polygon points="${cx - 14},97 ${cx + 14},97 ${cx + 9},152 ${cx - 9},152" fill="${cw.secondary}" />
+            <path d="M ${cx} 105 L ${cx - 9} 101 L ${cx - 7} 109 Z M ${cx} 105 L ${cx + 9} 101 L ${cx + 7} 109 Z" fill="${cw.trim}" />
+            <line x1="${cx - 2}" y1="106" x2="${cx - 4}" y2="126" stroke="${cw.trim}" stroke-width="2.2" />
+            <line x1="${cx + 2}" y1="106" x2="${cx + 4}" y2="126" stroke="${cw.trim}" stroke-width="2.2" />
+            <polygon points="${cx - 15},97 ${cx - 7},148 ${cx - 22},125" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.3" />
+            <polygon points="${cx + 15},97 ${cx + 7},148 ${cx + 22},125" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.3" />
           `;
-        } else if (outfit.id === "turtleneck_trench") {
+        } else if (outfitId === "turtleneck_overcoat") {
+          // 4. Fine-Knit Cashmere Turtleneck & Draped Wool Overcoat
           outfitDetails = `
-            <rect x="${cx - 10}" y="93" width="20" height="14" rx="4" fill="${outfit.secondary}" />
-            <polygon points="${cx - 10},107 ${cx + 10},107 ${cx + 8},184 ${cx - 8},184" fill="${outfit.secondary}" />
-            <polygon points="${cx - 16},97 ${cx - 8},146 ${cx - 24},124" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.4" />
-            <polygon points="${cx + 16},97 ${cx + 8},146 ${cx + 24},124" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.4" />
-            <rect x="${cx - waistW/2 - 1}" y="142" width="${waistW + 2}" height="6" rx="2" fill="${outfit.trim}" />
+            <rect x="${cx - 10}" y="93" width="20" height="14" rx="4" fill="${cw.secondary}" />
+            <polygon points="${cx - 11},107 ${cx + 11},107 ${cx + 9},184 ${cx - 9},184" fill="${cw.secondary}" />
+            <polygon points="${cx - 17},97 ${cx - 8},148 ${cx - 25},126" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.4" />
+            <polygon points="${cx + 17},97 ${cx + 8},148 ${cx + 25},126" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.4" />
+            <rect x="${cx - waistW/2 - 1}" y="142" width="${waistW + 2}" height="6" rx="2.5" fill="${cw.trim}" />
+            <rect x="${cx - 4}" y="141" width="8" height="8" rx="1.5" fill="none" stroke="${cw.accent}" stroke-width="1.5" />
           `;
-        } else if (outfit.id === "silk_blouse_blazer") {
+        } else if (outfitId === "sculpted_wrap_dress") {
+          // 5. Structured V-Neck Midi Wrap Dress with Belted Waist
           outfitDetails = `
-            <polygon points="${cx - 14},97 ${cx + 14},97 ${cx + 9},152 ${cx - 9},152" fill="${outfit.secondary}" />
-            <!-- Silk Pussy-Bow Tie -->
-            <path d="M ${cx} 105 L ${cx - 8} 101 L ${cx - 6} 109 Z M ${cx} 105 L ${cx + 8} 101 L ${cx + 6} 109 Z" fill="${outfit.trim}" />
-            <line x1="${cx - 2}" y1="106" x2="${cx - 4}" y2="124" stroke="${outfit.trim}" stroke-width="2.2" />
-            <line x1="${cx + 2}" y1="106" x2="${cx + 4}" y2="124" stroke="${outfit.trim}" stroke-width="2.2" />
-            <polygon points="${cx - 15},97 ${cx - 7},148 ${cx - 22},125" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.3" />
-            <polygon points="${cx + 15},97 ${cx + 7},148 ${cx + 22},125" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.3" />
+            <polygon points="${cx - 14},97 ${cx},124 ${cx + 14},97" fill="${skin.hex}" />
+            <path d="M ${cx - 14} 97 L ${cx + 6} 142 L ${cx - waistW/2} 142 Z" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.4" />
+            <path d="M ${cx + 14} 97 L ${cx - 4} 142 L ${cx + waistW/2} 142 Z" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.4" />
+            <rect x="${cx - waistW/2 - 1}" y="140" width="${waistW + 2}" height="6.5" rx="3" fill="${cw.secondary}" stroke="${cw.trim}" stroke-width="1.2" />
+            <circle cx="${cx}" cy="143.2" r="3" fill="${cw.accent}" />
+          `;
+        } else if (outfitId === "baroque_hoodie_blazer") {
+          // 6. Contemporary Luxury Hoodie Under Structured Blazer
+          outfitDetails = `
+            <polygon points="${cx - 14},97 ${cx + 14},97 ${cx + 10},166 ${cx - 10},166" fill="${cw.secondary}" />
+            <path d="M ${cx - 7.5} 103 L ${cx - 7.5} 162 M ${cx + 7.5} 103 L ${cx + 7.5} 162" stroke="${cw.trim}" stroke-width="2.3" stroke-dasharray="4 2" />
+            <circle cx="${cx}" cy="122" r="2.8" fill="none" stroke="${cw.accent}" stroke-width="1.5" />
+            <circle cx="${cx}" cy="136" r="2.8" fill="none" stroke="${cw.accent}" stroke-width="1.5" />
+            <polygon points="${cx - 15},97 ${cx - 7},148 ${cx - 23},125" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.3" />
+            <polygon points="${cx + 15},97 ${cx + 7},148 ${cx + 23},125" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.3" />
+          `;
+        } else if (outfitId === "bistro_apron_shirt") {
+          // 7. Rolled-Sleeve Crisp Oxford Shirt & Cross-Back Bistro Apron
+          sleeveFill = skin.mid;
+          sleeveBorder = "none";
+          outfitDetails = `
+            <!-- Short Rolled Oxford Sleeves -->
+            <path d="M ${cx - shW/2} 112 L ${cx - shW/2 - 5} 130 L ${cx - shW/2 + 5} 132 L ${cx - shW/2 + 6} 118 Z" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.2" />
+            <path d="M ${cx + shW/2} 112 L ${cx + shW/2 + 5} 130 L ${cx + shW/2 - 5} 132 L ${cx + shW/2 - 6} 118 Z" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.2" />
+            <!-- Open Collar -->
+            <polygon points="${cx - 11},97 ${cx},112 ${cx + 11},97" fill="${skin.hex}" />
+            <!-- Full Bib Apron -->
+            <path d="M ${cx - waistW/2 + 2} 114 L ${cx + waistW/2 - 2} 114 L ${cx + hipW/2 - 2} 184 L ${cx - hipW/2 + 2} 184 Z" fill="${cw.secondary}" stroke="${cw.trim}" stroke-width="1.5" />
+            <line x1="${cx - 12}" y1="97" x2="${cx - waistW/2 + 4}" y2="114" stroke="${cw.trim}" stroke-width="3" />
+            <line x1="${cx + 12}" y1="97" x2="${cx + waistW/2 - 4}" y2="114" stroke="${cw.trim}" stroke-width="3" />
+            <rect x="${cx - 10}" y="150" width="20" height="14" rx="2" fill="none" stroke="${cw.accent}" stroke-width="1.3" />
+          `;
+        } else if (outfitId === "cropped_tweed_set") {
+          // 8. Cropped Bouclé Tweed Jacket & High-Waist Skirt/Trouser
+          outfitDetails = `
+            <path d="M ${cx - 12} 97 Q ${cx} 107 ${cx + 12} 97" fill="${skin.hex}" stroke="${cw.trim}" stroke-width="2" />
+            <!-- Cropped Jacket Hem at Waist -->
+            <rect x="${cx - waistW/2 - 1}" y="136" width="${waistW + 2}" height="5" rx="2" fill="${cw.trim}" />
+            <!-- High-Waist Lower Skirt/Trouser -->
+            <path d="M ${cx - waistW/2} 141 L ${cx + waistW/2} 141 L ${cx + hipW/2} 184 L ${cx - hipW/2} 184 Z" fill="${cw.secondary}" />
+            <line x1="${cx}" y1="103" x2="${cx}" y2="136" stroke="${cw.trim}" stroke-width="2.2" />
+            <circle cx="${cx}" cy="112" r="2.2" fill="${cw.accent}" />
+            <circle cx="${cx}" cy="123" r="2.2" fill="${cw.accent}" />
+            <circle cx="${cx}" cy="133" r="2.2" fill="${cw.accent}" />
+          `;
+        } else if (outfitId === "sleeveless_mockneck") {
+          // 9. Fitted Sleeveless Mock-Neck Top & High-Waist Tailored Trousers
+          sleeveFill = skin.mid;
+          sleeveBorder = "none";
+          outfitDetails = `
+            <rect x="${cx - 10}" y="93" width="20" height="8" rx="3" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.2" />
+            <!-- High-Waist Belted Trousers -->
+            <path d="M ${cx - waistW/2} 138 L ${cx + waistW/2} 138 L ${cx + hipW/2} 184 L ${cx - hipW/2} 184 Z" fill="${cw.secondary}" />
+            <rect x="${cx - waistW/2 - 1}" y="136" width="${waistW + 2}" height="6" rx="2" fill="${cw.trim}" />
+            <line x1="${cx}" y1="142" x2="${cx}" y2="184" stroke="rgba(0,0,0,0.3)" stroke-width="1.5" />
           `;
         } else {
-          // Sommelier / Executive Bistro Vest & Tie
+          // 10. Tailored Three-Piece Executive Waistcoat & Crisp Dress Shirt
+          sleeveFill = cw.secondary;
+          sleeveBorder = cw.trim;
           outfitDetails = `
-            <polygon points="${cx - 13},97 ${cx + 13},97 ${cx + 8},144 ${cx - 8},144" fill="${outfit.secondary}" />
-            <polygon points="${cx - 2.5},101 ${cx + 2.5},101 ${cx + 3.5},136 ${cx},141 ${cx - 3.5},136" fill="${outfit.trim}" />
-            <circle cx="${cx}" cy="148" r="2.2" fill="${outfit.trim}" />
-            <circle cx="${cx}" cy="158" r="2.2" fill="${outfit.trim}" />
+            <polygon points="${cx - 13},97 ${cx + 13},97 ${cx + 8},144 ${cx - 8},144" fill="${cw.secondary}" />
+            <polygon points="${cx - 2.5},101 ${cx + 2.5},101 ${cx + 3.5},136 ${cx},141 ${cx - 3.5},136" fill="${cw.trim}" />
+            <circle cx="${cx}" cy="148" r="2.2" fill="${cw.accent}" />
+            <circle cx="${cx}" cy="158" r="2.2" fill="${cw.accent}" />
+            <path d="M ${cx - 11} 152 Q ${cx - 5} 158 ${cx} 152" fill="none" stroke="${cw.accent}" stroke-width="1.3" />
           `;
         }
 
-        // Head-Fitted Front Hair Cap (follows exact head rx/ry hairline contour so hair never floats)
+        // Head-Fitted Front Hair Cap
         let frontHair = "";
         if (hairStyle === "braided_crown" || hairStyle === "curly_pineapple" || hairStyle === "goddess_braids" || hairStyle === "slick_back_bun") {
           frontHair = `
@@ -2115,27 +2436,28 @@
             <path d="M ${cx - 9} ${headY + ry - 5} L ${cx - 10} 102 L ${cx + 10} 102 L ${cx + 9} ${headY + ry - 5} Z" fill="${skin.shadow}" />
             <ellipse cx="${cx}" cy="${headY + ry - 2}" rx="9" ry="4" fill="rgba(0,0,0,0.22)" />
 
-            <!-- Tailored Jacket / Chef Coat Silhouette with Seams -->
+            <!-- Body-Fitting Tailored Silhouette -->
             <path d="M ${cx - shW/2} 122
                      Q ${cx - shW/2 + 2} 98 ${cx - 13} 96
                      L ${cx + 13} 96
                      Q ${cx + shW/2 - 2} 98 ${cx + shW/2} 122
-                     L ${cx + waistW/2} 146
+                     L ${cx + waistW/2} 144
                      L ${cx + hipW/2} 184
                      L ${cx - hipW/2} 184
-                     L ${cx - waistW/2} 146 Z"
-                  fill="${outfit.primary}" />
+                     L ${cx - waistW/2} 144 Z"
+                  fill="${baseTorsoFill}" />
 
             <!-- Tailored Princess / Suit Dart Seams -->
             <path d="M ${cx - shW/2 + 10} 112 Q ${cx - waistW/2 + 4} 135 ${cx - hipW/2 + 8} 178" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="1.3" />
             <path d="M ${cx + shW/2 - 10} 112 Q ${cx + waistW/2 - 4} 135 ${cx + hipW/2 - 8} 178" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="1.3" />
 
-            <path d="M ${cx - shW/2} 112 L ${cx - shW/2 - 8} 152 L ${cx - waistW/2 - 2} 166 L ${cx - waistW/2 + 4} 154 L ${cx - shW/2 + 6} 124 Z" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.2" />
-            <path d="M ${cx + shW/2} 112 L ${cx + shW/2 + 8} 152 L ${cx + waistW/2 + 2} 166 L ${cx + waistW/2 - 4} 154 L ${cx + shW/2 - 6} 124 Z" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.2" />
+            <!-- Fitted Sleeves / Arms -->
+            <path d="M ${cx - shW/2} 112 L ${cx - shW/2 - 8} 152 L ${cx - waistW/2 - 2} 166 L ${cx - waistW/2 + 4} 154 L ${cx - shW/2 + 6} 124 Z" fill="${sleeveFill}" ${sleeveBorder !== "none" ? `stroke="${sleeveBorder}" stroke-width="1.2"` : ""} />
+            <path d="M ${cx + shW/2} 112 L ${cx + shW/2 + 8} 152 L ${cx + waistW/2 + 2} 166 L ${cx + waistW/2 - 4} 154 L ${cx + shW/2 - 6} 124 Z" fill="${sleeveFill}" ${sleeveBorder !== "none" ? `stroke="${sleeveBorder}" stroke-width="1.2"` : ""} />
 
             ${outfitDetails}
 
-            <!-- Custom Face Shape Contour (Oval, Heart, Square, Diamond, Round, Long, V-Line) -->
+            <!-- Custom Face Shape Contour -->
             <path d="M ${cx - rx} ${headY - 4}
                      C ${cx - rx} ${headY - ry - 2}, ${cx + rx} ${headY - ry - 2}, ${cx + rx} ${headY - 4}
                      C ${cx + rx} ${headY + ry * 0.52}, ${cx + jawW} ${headY + ry * 0.92}, ${cx} ${headY + ry}
@@ -2180,7 +2502,8 @@
             browFeature: "arched_glam",
             hairStyle: path === "chef" ? "braided_crown" : "silk_press_layers",
             hairColor: "jet",
-            outfit: path === "chef" ? "chef_piped" : "silk_blouse_blazer",
+            outfit: path === "chef" ? "executive_chef_coat" : "silk_bow_suit",
+            outfitColor: path === "chef" ? "ivory_crimson" : "burgundy_champagne",
             accessory: path === "chef" ? "chef_cap" : "hoops_mic"
           };
         }
@@ -2193,7 +2516,8 @@
           browFeature: "sharp_slit",
           hairStyle: "tapered_crop_fade",
           hairColor: path === "chef" ? "jet" : "platinum",
-          outfit: path === "chef" ? "chef_obsidian" : "baroque_blazer",
+          outfit: path === "chef" ? "executive_chef_coat" : "baroque_hoodie_blazer",
+          outfitColor: "obsidian_gold",
           accessory: path === "chef" ? "chef_knife" : "collar_shades"
         };
       }
@@ -2209,7 +2533,8 @@
         path: "social",
         genre: "glam",
         difficulty: "normal",
-        wardrobeTab: "hair",
+        maxDays: 90,
+        wardrobeTab: "style",
         avatarCfg: defaultAvatarConfig("female", "social")
       };
 
@@ -2226,7 +2551,7 @@
             level: 1,
             xp: 0,
             day: 1,
-            maxDays: 180,
+            maxDays: 90,
             hub: "",
             theme: "queen",
             cash: 2000,
@@ -2236,7 +2561,7 @@
             upgrades: [],
             inventory: {},
             prices: {},
-            backstockBatch: null, // { oldMenuName, units, unitValue } created on Level Up!
+            backstockBatch: null,
             hustleCount: 0,
             hustleStreak: 0,
             gigsCompleted: 0,
@@ -2244,7 +2569,7 @@
             claimedMissions: [],
             storyLog: [],
             triggeredEpisodes: [],
-            news: "Customize your face shape, tailored fashion, and hairstyles—then launch your empire!",
+            news: "Style 10 tailored outfits in 5 colorways, pick your season length, and build your $500K empire!",
             tab: "market"
           };
         }
@@ -2254,6 +2579,7 @@
         const arc = TELLTALE_EPISODES[setup.gender][setup.path][setup.genre];
         const defaultTheme = setup.gender === "female" ? "queen" : "king";
         const finalName = sanitizeName(setup.charName);
+        const clampedDays = Math.max(20, Math.min(365, Number(setup.maxDays) || 90));
 
         return {
           started: true,
@@ -2266,7 +2592,7 @@
           level: 1,
           xp: 0,
           day: 1,
-          maxDays: 180,
+          maxDays: clampedDays,
           hub: cfg.hubs[0].id,
           theme: defaultTheme,
           cash: diff.startCash,
@@ -2284,7 +2610,7 @@
           claimedMissions: [],
           storyLog: [],
           triggeredEpisodes: [],
-          news: `📖 ${finalName}'s "${arc.title}" (${diff.label}) — Complete Missions & Gigs to Level Up!`,
+          news: `📖 ${finalName}'s "${arc.title}" (${diff.label} • ${clampedDays}-Day Run) — Reach $500K before Day ${clampedDays}!`,
           tab: "market"
         };
       }
@@ -2293,7 +2619,7 @@
       let undoAvailable = false;
       let activeMiniGame = null;
       let miniGameTimer = null;
-      let settingsWardrobeTab = "hair";
+      let settingsWardrobeTab = "style";
       let cineInterval = null;
       let cineData = null;
 
@@ -2366,6 +2692,15 @@
       function formatStoryText(tpl, name) { return tpl.replace(/\{NAME\}/g, sanitizeName(name)); }
       function getNetWorth() { return state.cash + state.vault - state.debt; }
 
+      // Timeline Pressure Factor: Shorter runs (e.g. 30 or 60 days vs 180 days) increase difficulty & volatility!
+      function getTimelinePressure(days) {
+        const d = days || state.maxDays || 90;
+        if (d <= 30) return { label: "Extreme Sprint", debtMult: 1.03, spikeChance: 0.24, feeMult: 1.35 };
+        if (d <= 60) return { label: "Fast-Track Rush", debtMult: 1.015, spikeChance: 0.20, feeMult: 1.18 };
+        if (d <= 120) return { label: "Standard Season", debtMult: 1.005, spikeChance: 0.16, feeMult: 1.05 };
+        return { label: "Full Empire Marathon", debtMult: 1.0, spikeChance: 0.14, feeMult: 1.0 };
+      }
+
       function getCurrentMenuObj() {
         const list = LEVEL_MENUS[state.path] || LEVEL_MENUS.chef;
         const idx = Math.min(list.length - 1, state.level - 1);
@@ -2380,7 +2715,6 @@
         return 1 + (state.level - 1) * 0.15;
       }
 
-      // 30-Second Interactive Story Reel / Cutscene Player (with Skip Option)
       function openStoryReelModal(config) {
         if (cineInterval) clearInterval(cineInterval);
 
@@ -2462,7 +2796,6 @@
           const newMenu = getCurrentMenuObj();
           const pctBonus = Math.round((getLevelIncomeMultiplier() - 1) * 100);
 
-          // Generate leftover backstock ingredients/plates from the previous menu to sell at a -30% discount!
           const backstockUnits = 8 + prevLevel * 4;
           const unitVal = Math.round((45 + prevLevel * 35) * 0.7);
           state.backstockBatch = {
@@ -2483,7 +2816,7 @@
             ? [
                 {
                   title: `🍽️ Plating Showcase: ${newMenu.dishName}`,
-                  text: `{NAME} steps onto the pass in crisp chef whites, plating ${newMenu.dishName} with precision tweezers as VIP cameras flash!`,
+                  text: `{NAME} steps onto the pass in tailored chef attire, plating ${newMenu.dishName} with precision tweezers as VIP cameras flash!`,
                   statLabel: `⭐ Kitchen Rating: Level ${state.level}`
                 },
                 {
@@ -2570,10 +2903,17 @@
         return tier ? tier.name : cfg.tiers[cfg.tiers.length - 1].name;
       }
 
+      // Episode thresholds scale dynamically to the player's chosen maxDays timeline!
+      function getEpisodeThreshold(ep) {
+        const timelineFactor = Math.min(1.0, (state.maxDays || 90) / 150);
+        if (ep.pct <= 0) return -999999;
+        return Math.round(500000 * ep.pct * timelineFactor);
+      }
+
       function checkTelltaleProgression() {
         const arc = getStoryArc();
         const nw = getNetWorth();
-        const nextIdx = arc.episodes.findIndex((ep, idx) => !state.triggeredEpisodes.includes(idx) && nw >= ep.threshold);
+        const nextIdx = arc.episodes.findIndex((ep, idx) => !state.triggeredEpisodes.includes(idx) && nw >= getEpisodeThreshold(ep));
         if (nextIdx === -1) return;
 
         const ep = arc.episodes[nextIdx];
@@ -2581,7 +2921,7 @@
         saveGame();
 
         const modal = document.getElementById("telltale-modal");
-        document.getElementById("tt-badge").textContent = `🎭 ${arc.title} • Choice Shapes Your Story`;
+        document.getElementById("tt-badge").textContent = `🎭 ${arc.title} • Episode ${nextIdx + 1} of ${arc.episodes.length}`;
         document.getElementById("tt-title").textContent = ep.chapter;
         document.getElementById("tt-desc").textContent = formatStoryText(ep.prompt, state.charName);
 
@@ -2608,7 +2948,6 @@
             saveGame();
             render();
 
-            // Play the mini-video memory reel for this story chapter if Level Up didn't already open it
             if (!document.getElementById("cine-modal").classList.contains("open")) {
               openStoryReelModal({
                 scenes: [
@@ -2619,7 +2958,7 @@
                   },
                   {
                     title: `${state.charName}'s Empire Rising`,
-                    text: `Word spreads across every hub about {NAME}'s bold move (+${fmt(finalCash)}). Keep building your net worth to unlock the next chapter!`,
+                    text: `Word spreads across every hub about {NAME}'s bold move (+${fmt(finalCash)}). Day ${state.day} of ${state.maxDays} — push toward $500K!`,
                     statLabel: `💰 Net Worth: ${fmt(getNetWorth())}`
                   }
                 ]
@@ -2635,16 +2974,17 @@
       function rollPrices() {
         const cfg = getCfg();
         const hubObj = cfg.hubs.find(h => h.id === state.hub) || cfg.hubs[0];
+        const pressure = getTimelinePressure();
         const nextPrices = {};
         let spikeNote = "";
 
         cfg.commodities.forEach(c => {
           let price = Math.round((c.min + Math.random() * (c.max - c.min)) * hubObj.mult);
           const roll = Math.random();
-          if (roll < 0.15) {
-            price = Math.round(price * 2.1);
+          if (roll < pressure.spikeChance) {
+            price = Math.round(price * 2.15);
             spikeNote = `🔥 DEMAND SURGE: ${c.name} prices skyrocketed in ${hubObj.name}!`;
-          } else if (roll > 0.85) {
+          } else if (roll > 1 - pressure.spikeChance) {
             price = Math.max(15, Math.round(price * 0.52));
             spikeNote = `💸 FLASH DIP: Oversupply crashed ${c.name} prices!`;
           }
@@ -2683,13 +3023,14 @@
             path: state.path,
             genre: state.genre,
             difficulty: state.difficulty,
-            wardrobeTab: "hair",
+            maxDays: state.maxDays,
+            wardrobeTab: "style",
             avatarCfg: Object.assign({}, state.avatarCfg)
           };
         }
         state = createFreshState(null);
         state.theme = draftSetup.gender === "female" ? "queen" : "king";
-        state.news = "Game reset! Customize your character & story below—or tap Undo above if that was an accident.";
+        state.news = "Game reset! Customize your wardrobe, timeline & story below—or tap Undo above.";
         await saveGame();
         render();
       }
@@ -2697,6 +3038,7 @@
       function triggerLessonModal() {
         const cfg = getCfg();
         const diff = getDiff();
+        const pressure = getTimelinePressure();
         const lesson = cfg.lessons[Math.floor(Math.random() * cfg.lessons.length)];
         const modal = document.getElementById("event-modal");
         document.getElementById("modal-title").textContent = lesson.title;
@@ -2712,10 +3054,10 @@
             if (ch.correct) {
               const bonus = Math.round(ch.reward * diff.mult);
               state.cash += bonus;
-              state.news = `✅ +${fmt(bonus)} & +40 XP! ${ch.note}`;
-              awardXP(40);
+              state.news = `✅ +${fmt(bonus)} & +45 XP! ${ch.note}`;
+              awardXP(45);
             } else {
-              const loss = Math.round(ch.penalty / diff.mult);
+              const loss = Math.round((ch.penalty / diff.mult) * pressure.feeMult);
               state.cash = Math.max(0, state.cash - loss);
               state.news = `⚠️ -${fmt(loss)} Loss! ${ch.note}`;
             }
@@ -2766,20 +3108,29 @@
       function travelTo(hubId) {
         if (hubId === state.hub) return;
         if (state.day >= state.maxDays) {
-          alert(`180-Day Season Complete for ${state.charName}! Final Net Worth: ${fmt(getNetWorth())}`);
+          const nw = getNetWorth();
+          const won = nw >= 500000;
+          alert(
+            won
+              ? `🏆 VICTORY! ${state.charName} built a ${fmt(nw)} Empire within ${state.maxDays} days!`
+              : `⏱️ ${state.maxDays}-Day Season Complete! Final Net Worth: ${fmt(nw)} (Target: $500,000). Try a new run or longer timeline!`
+          );
           return;
         }
         const diff = getDiff();
+        const pressure = getTimelinePressure();
         state.hub = hubId;
         state.day += 1;
         state.hustleStreak = 0;
-        if (state.debt > 0) state.debt = Math.round(state.debt * diff.debtRate);
+
+        // Shorter timelines compound debt slightly faster, raising challenge across all difficulty modes
+        if (state.debt > 0) state.debt = Math.round(state.debt * diff.debtRate * pressure.debtMult);
         if (state.vault > 0) state.vault = Math.round(state.vault * diff.vaultRate);
 
         rollPrices();
         checkTelltaleProgression();
 
-        if (Math.random() < 0.38 && !document.getElementById("telltale-modal").classList.contains("open") && !document.getElementById("cine-modal").classList.contains("open")) {
+        if (Math.random() < 0.40 && !document.getElementById("telltale-modal").classList.contains("open") && !document.getElementById("cine-modal").classList.contains("open")) {
           triggerLessonModal();
         }
         saveGame();
@@ -2932,7 +3283,7 @@
         card.innerHTML = `
           <h2><span>🎮 ${cfg.label} Side Gigs</span><span style="font-size:0.73rem;color:var(--text-secondary)">Cash + XP • 0 Days</span></h2>
           <p style="font-size:0.79rem;color:var(--text-secondary);margin-bottom:10px;">
-            Play quick side-gig mini-games to earn cash and XP toward your next Level Up!
+            Play quick side-gig mini-games or the 5-Question Pro Audit Quiz for huge cash &amp; XP payouts!
           </p>
           <div class="choice-grid-3">
             <button class="select-tile ${activeMiniGame && activeMiniGame.type === "reflex" ? "selected" : ""}" id="start-mg-reflex">
@@ -2945,7 +3296,7 @@
             </button>
             <button class="select-tile ${activeMiniGame && activeMiniGame.type === "trivia" ? "selected" : ""}" id="start-mg-trivia">
               <span class="tile-title">💼 Pro Quiz</span>
-              <span class="tile-sub">3-Q audit + XP</span>
+              <span class="tile-sub">5-Q high payout</span>
             </button>
           </div>
           <div id="minigame-arena"></div>
@@ -3005,7 +3356,7 @@
 
         card.querySelector("#start-mg-trivia").onclick = () => {
           clearMiniGameTimer();
-          activeMiniGame = { type: "trivia", qIdx: 0, correctCount: 0 };
+          activeMiniGame = { type: "trivia", qIdx: 0, correctCount: 0, lastNote: "" };
           render();
         };
 
@@ -3090,14 +3441,16 @@
         }
 
         if (activeMiniGame.type === "trivia") {
+          const totalQ = gigs.trivia.questions.length;
           const qObj = gigs.trivia.questions[activeMiniGame.qIdx];
           const box = document.createElement("div");
           box.className = "minigame-box";
           box.innerHTML = `
             <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
               <strong style="font-size:0.84rem;color:var(--accent);">${gigs.trivia.title}</strong>
-              <span style="font-size:0.75rem;color:var(--text-secondary);">Q${activeMiniGame.qIdx + 1}/3</span>
+              <span style="font-size:0.75rem;color:var(--text-secondary);">Q${activeMiniGame.qIdx + 1}/${totalQ} • Score: ${activeMiniGame.correctCount}</span>
             </div>
+            ${activeMiniGame.lastNote ? `<div style="font-size:0.74rem;color:var(--success);margin-bottom:6px;">${activeMiniGame.lastNote}</div>` : ""}
             <p style="font-size:0.82rem;margin-bottom:8px;">${qObj.q}</p>
             <div style="display:flex;flex-direction:column;gap:6px;" id="trivia-opts"></div>
           `;
@@ -3107,18 +3460,20 @@
             b.className = "choice-btn";
             b.textContent = ans;
             b.onclick = () => {
-              if (idx === qObj.ok) activeMiniGame.correctCount += 1;
+              const isRight = idx === qObj.ok;
+              if (isRight) activeMiniGame.correctCount += 1;
+              activeMiniGame.lastNote = (isRight ? "✅ Correct! " : "❌ Tip: ") + qObj.lesson;
               activeMiniGame.qIdx += 1;
-              if (activeMiniGame.qIdx >= gigs.trivia.questions.length) {
-                const earned = Math.round((activeMiniGame.correctCount / 3) * gigs.trivia.reward * diff.mult * lvlMult);
-                const xpEarned = 25 + activeMiniGame.correctCount * 15;
+              if (activeMiniGame.qIdx >= totalQ) {
+                const earned = Math.round((activeMiniGame.correctCount / totalQ) * gigs.trivia.reward * diff.mult * lvlMult);
+                const xpEarned = 35 + activeMiniGame.correctCount * 18;
                 state.cash += earned;
                 state.gigsCompleted += 1;
-                state.news = `💼 Audit Gig Finished (${activeMiniGame.correctCount}/3)! +${fmt(earned)} & +${xpEarned} XP!`;
+                state.news = `💼 Pro Audit Finished (${activeMiniGame.correctCount}/${totalQ})! +${fmt(earned)} & +${xpEarned} XP!`;
                 awardXP(xpEarned);
                 activeMiniGame = {
                   type: "done",
-                  summary: `Scored ${activeMiniGame.correctCount}/3 for +${fmt(earned)} & +${xpEarned} XP!`
+                  summary: `You scored ${activeMiniGame.correctCount}/${totalQ} and earned +${fmt(earned)} & +${xpEarned} XP!`
                 };
                 saveGame();
                 checkTelltaleProgression();
@@ -3150,9 +3505,9 @@
         const wrap = document.createElement("div");
         wrap.innerHTML = `
           <div class="wardrobe-tabs">
+            <button type="button" class="w-tab-btn ${activeSubTab === "style" ? "active" : ""}" data-wtab="style">🧥 10 Outfits</button>
             <button type="button" class="w-tab-btn ${activeSubTab === "hair" ? "active" : ""}" data-wtab="hair">💇 Hair Studio</button>
             <button type="button" class="w-tab-btn ${activeSubTab === "face" ? "active" : ""}" data-wtab="face">👁️ Face &amp; Shape</button>
-            <button type="button" class="w-tab-btn ${activeSubTab === "style" ? "active" : ""}" data-wtab="style">🧥 Fashion &amp; Pro</button>
             <button type="button" class="w-tab-btn ${activeSubTab === "body" ? "active" : ""}" data-wtab="body">🧍 Body &amp; Skin</button>
           </div>
           <div id="wardrobe-panel"></div>
@@ -3197,7 +3552,25 @@
           panel.appendChild(sec);
         };
 
-        if (activeSubTab === "hair") {
+        if (activeSubTab === "style") {
+          // 5 Colorway Chips + 10 Modern & Professional Outfit Styles
+          const cwSec = document.createElement("div");
+          cwSec.className = "setup-section";
+          cwSec.innerHTML = `<span class="setup-label">Outfit Colorway (5 Designer Palettes)</span><div class="theme-pills"></div>`;
+          const cwBox = cwSec.querySelector(".theme-pills");
+          OUTFIT_COLORWAYS.forEach(cwItem => {
+            const chip = document.createElement("button");
+            chip.type = "button";
+            chip.className = "colorway-chip" + (targetAvatarCfg.outfitColor === cwItem.id ? " active" : "");
+            chip.innerHTML = `<span class="cw-dot" style="background:linear-gradient(135deg, ${cwItem.primary} 50%, ${cwItem.trim} 50%);"></span><span>${cwItem.label}</span>`;
+            chip.onclick = () => { targetAvatarCfg.outfitColor = cwItem.id; onChange(); };
+            cwBox.appendChild(chip);
+          });
+          panel.appendChild(cwSec);
+
+          addPills("Modern & Professional Outfits", OUTFIT_STYLES, "outfit");
+          addPills("Accessories & Studio Gear", AVATAR_TEMPLATES.accessory, "accessory");
+        } else if (activeSubTab === "hair") {
           addPills("Head-Fitted Contemporary Hairstyles", AVATAR_TEMPLATES.hairStyle, "hairStyle");
           addSwatches("Hair Color & Balayage", AVATAR_TEMPLATES.hairColor, "hairColor", "hex");
         } else if (activeSubTab === "face") {
@@ -3205,9 +3578,6 @@
           addPills("Facial Expression & Mood", AVATAR_TEMPLATES.expression, "expression");
           addSwatches("Doll Eye Color", AVATAR_TEMPLATES.eyeStyle, "eyeStyle", "color");
           addPills("Brows, Beard & Details", AVATAR_TEMPLATES.browFeature, "browFeature");
-        } else if (activeSubTab === "style") {
-          addPills("Tailored Fashion & Pro Outfits", AVATAR_TEMPLATES.outfit, "outfit");
-          addPills("Accessories & Studio Gear", AVATAR_TEMPLATES.accessory, "accessory");
         } else if (activeSubTab === "body") {
           addPills("Body Silhouette", AVATAR_TEMPLATES.bodyShape, "bodyShape");
           addSwatches("Skin Tone", AVATAR_TEMPLATES.skinTone, "skinTone", "hex");
@@ -3233,10 +3603,11 @@
         const displayName = sanitizeName(draftSetup.charName);
         const avatarSVG = renderAvatarSVG(draftSetup.avatarCfg, draftSetup.gender);
         const exprObj = AVATAR_TEMPLATES.expression.find(e => e.id === draftSetup.avatarCfg.expression) || AVATAR_TEMPLATES.expression[0];
+        const pressure = getTimelinePressure(draftSetup.maxDays);
 
         document.getElementById("avatar-display").innerHTML = avatarSVG;
         document.getElementById("player-title").textContent = displayName;
-        document.getElementById("tier-subtitle").textContent = `${previewDiff.label} Mode • ${previewCfg.label}`;
+        document.getElementById("tier-subtitle").textContent = `${previewDiff.label} • ${draftSetup.maxDays}-Day Run`;
         document.getElementById("debt-label").textContent = previewCfg.debtLabel;
         document.getElementById("stat-cash").textContent = fmt(previewDiff.startCash);
         document.getElementById("stat-debt").textContent = fmt(previewDiff.startDebt);
@@ -3281,17 +3652,17 @@
             <div class="choice-grid-2">
               <button class="select-tile ${draftSetup.gender === "female" ? "selected" : ""}" data-g="female">
                 <span class="tile-title">👩 Female</span>
-                <span class="tile-sub">Queen Glam &amp; female-lead Telltale episodes</span>
+                <span class="tile-sub">Queen Glam &amp; 5-episode female-lead story</span>
               </button>
               <button class="select-tile ${draftSetup.gender === "male" ? "selected" : ""}" data-g="male">
                 <span class="tile-title">👨 Male</span>
-                <span class="tile-sub">King Gold &amp; male-lead Telltale episodes</span>
+                <span class="tile-sub">King Gold &amp; 5-episode male-lead story</span>
               </button>
             </div>
           </div>
 
           <div class="setup-section">
-            <span class="setup-label">3. Face Shapes, Hairstyles &amp; Tailored Fashion</span>
+            <span class="setup-label">3. 10 Modern Outfits (5 Colorways), Hair &amp; Face</span>
             <div id="avatar-template-mount"></div>
           </div>
 
@@ -3345,12 +3716,29 @@
             </div>
           </div>
 
+          <div class="setup-section">
+            <span class="setup-label">
+              <span>7. Season Timeline (Days to Hit $500K)</span>
+              <span id="days-badge-label">${draftSetup.maxDays} Days (${pressure.label})</span>
+            </span>
+            <div class="choice-grid-4" style="margin-bottom:6px;">
+              <button type="button" class="pill-btn ${draftSetup.maxDays === 30 ? "active" : ""}" data-days="30">30d Sprint</button>
+              <button type="button" class="pill-btn ${draftSetup.maxDays === 60 ? "active" : ""}" data-days="60">60d Rush</button>
+              <button type="button" class="pill-btn ${draftSetup.maxDays === 90 ? "active" : ""}" data-days="90">90d Pro</button>
+              <button type="button" class="pill-btn ${draftSetup.maxDays === 180 ? "active" : ""}" data-days="180">180d Epic</button>
+            </div>
+            <input type="range" min="20" max="180" step="5" value="${draftSetup.maxDays}" class="range-slider" id="days-slider" />
+            <div style="font-size:0.71rem;color:var(--text-secondary);margin-top:3px;">
+              Shorter timelines raise debt pressure and market volatility—making even Easy &amp; Normal a true race to $500,000!
+            </div>
+          </div>
+
           <div class="story-preview-box">
-            <div class="story-preview-title">🎭 Interactive Telltale Story: "${previewArc.title}"</div>
+            <div class="story-preview-title">🎭 5-Episode Telltale Arc: "${previewArc.title}"</div>
             <div class="story-preview-text" id="story-preview-live">${formatStoryText(previewArc.episodes[0].prompt, displayName)}</div>
           </div>
 
-          <button class="btn btn-buy btn-full" id="start-empire-btn">🚀 Start ${displayName}'s 180-Day Empire</button>
+          <button class="btn btn-buy btn-full" id="start-empire-btn">🚀 Start ${displayName}'s ${draftSetup.maxDays}-Day Empire</button>
         `;
 
         container.appendChild(card);
@@ -3375,7 +3763,23 @@
           card.querySelector("#stage-name-label").textContent = clean;
           document.getElementById("player-title").textContent = clean;
           card.querySelector("#story-preview-live").textContent = formatStoryText(previewArc.episodes[0].prompt, clean);
-          card.querySelector("#start-empire-btn").textContent = `🚀 Start ${clean}'s 180-Day Empire`;
+          card.querySelector("#start-empire-btn").textContent = `🚀 Start ${clean}'s ${draftSetup.maxDays}-Day Empire`;
+        };
+
+        card.querySelectorAll("[data-days]").forEach(btn => {
+          btn.onclick = () => {
+            draftSetup.maxDays = Number(btn.dataset.days);
+            render();
+          };
+        });
+
+        const slider = card.querySelector("#days-slider");
+        slider.oninput = () => {
+          draftSetup.maxDays = Number(slider.value);
+          const p = getTimelinePressure(draftSetup.maxDays);
+          card.querySelector("#days-badge-label").textContent = `${draftSetup.maxDays} Days (${p.label})`;
+          document.getElementById("tier-subtitle").textContent = `${previewDiff.label} • ${draftSetup.maxDays}-Day Run`;
+          card.querySelector("#start-empire-btn").textContent = `🚀 Start ${sanitizeName(draftSetup.charName)}'s ${draftSetup.maxDays}-Day Empire`;
         };
 
         card.querySelector("#randomize-avatar-btn").onclick = () => {
@@ -3389,7 +3793,8 @@
             browFeature: pick(AVATAR_TEMPLATES.browFeature),
             hairStyle: pick(AVATAR_TEMPLATES.hairStyle),
             hairColor: pick(AVATAR_TEMPLATES.hairColor),
-            outfit: pick(AVATAR_TEMPLATES.outfit),
+            outfit: pick(OUTFIT_STYLES),
+            outfitColor: pick(OUTFIT_COLORWAYS),
             accessory: pick(AVATAR_TEMPLATES.accessory)
           };
           render();
@@ -3452,7 +3857,6 @@
         });
 
         if (state.tab === "market") {
-          // Backstock Flash Sale Banner when a Level Up upgraded the menu/tier!
           if (state.backstockBatch && state.backstockBatch.units > 0) {
             const flashCard = document.createElement("div");
             flashCard.className = "flash-clearance-card";
@@ -3481,7 +3885,6 @@
             container.appendChild(flashCard);
           }
 
-          // Active Menu & Clicker Hustle Card
           const clickCard = document.createElement("div");
           clickCard.className = "hustle-clicker-card";
           const perTap = getClickPayout();
@@ -3505,7 +3908,6 @@
           clickCard.querySelector("#hustle-tap-btn").onclick = (e) => handleHustleClick(e, clickCard);
           container.appendChild(clickCard);
 
-          // Live Commodity Exchange
           const card = document.createElement("div");
           card.className = "card";
           const currentHub = cfg.hubs.find(h => h.id === state.hub) || cfg.hubs[0];
@@ -3565,7 +3967,8 @@
         if (state.tab === "travel") {
           const card = document.createElement("div");
           card.className = "card";
-          card.innerHTML = `<h2><span>✈️ Travel &amp; Advance Day</span><span style="font-size:0.74rem;color:var(--text-secondary)">+1 Day per trip</span></h2>`;
+          const daysLeft = Math.max(0, state.maxDays - state.day);
+          card.innerHTML = `<h2><span>✈️ Travel &amp; Advance Day</span><span style="font-size:0.74rem;color:var(--text-secondary)">${daysLeft} Days Left</span></h2>`;
           const grid = document.createElement("div");
           grid.className = "hub-grid";
 
@@ -3586,9 +3989,9 @@
           card.className = "card";
           const genreObj = GENRES[state.genre];
           card.innerHTML = `
-            <h2><span>🎬 ${arc.title}</span><span style="font-size:0.73rem;color:var(--text-secondary)">${genreObj.label}</span></h2>
+            <h2><span>🎬 ${arc.title}</span><span style="font-size:0.73rem;color:var(--text-secondary)">${genreObj.label} • 5 Episodes</span></h2>
             <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:10px;">
-              Starring <strong>${state.charName}</strong> • Replay your 30-second memory reel anytime or unlock new Telltale chapters as your Net Worth grows.
+              Starring <strong>${state.charName}</strong> • Replay your 30-second memory reel anytime or unlock all 5 Telltale episodes as your Net Worth grows.
             </p>
             <button type="button" class="btn btn-buy btn-full" id="replay-memory-reel-btn" style="margin-bottom:12px;">
               🎬 Play 30-Second Story Memory Reel
@@ -3604,7 +4007,7 @@
                 }))
               : [{
                   title: `${state.charName}'s Empire Begins`,
-                  text: `Starting on the ${cfg.label} path, {NAME} is building a $500,000+ empire from the ground up!`,
+                  text: `Starting on the ${cfg.label} path, {NAME} has ${state.maxDays} days to build a $500,000+ empire!`,
                   statLabel: `⭐ Level ${state.level} • ${activeMenu.menuName}`
                 }];
             openStoryReelModal({ scenes: memories });
@@ -3612,6 +4015,7 @@
 
           arc.episodes.forEach(ep => {
             const recorded = state.storyLog.find(entry => entry.chapter === ep.chapter);
+            const reqNetWorth = getEpisodeThreshold(ep);
             const box = document.createElement("div");
             box.className = "story-chapter-card" + (recorded ? "" : " locked");
             if (recorded) {
@@ -3625,7 +4029,7 @@
             } else {
               box.innerHTML = `
                 <div style="font-weight:800;font-size:0.84rem;color:var(--text-secondary);margin-bottom:4px;">
-                  🔒 ${ep.chapter} (Unlocks at ${fmt(ep.threshold)} Net Worth)
+                  🔒 ${ep.chapter} (Unlocks at ${fmt(reqNetWorth)} Net Worth)
                 </div>
                 <div style="font-size:0.78rem;color:var(--text-secondary);">
                   Grow your Net Worth to trigger this interactive Telltale decision!
@@ -3641,12 +4045,12 @@
         if (state.tab === "finance") {
           const bankCard = document.createElement("div");
           bankCard.className = "card";
-          const debtPct = Math.round((diff.debtRate - 1) * 100);
+          const debtPct = Math.round((diff.debtRate * getTimelinePressure().debtMult - 1) * 100);
           const vaultPct = ((diff.vaultRate - 1) * 100).toFixed(1);
           bankCard.innerHTML = `
             <h2><span>🏦 ${cfg.debtLabel} &amp; High-Yield Vault</span></h2>
             <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:10px;">
-              ${diff.label} Mode: Loan charges <strong>${debtPct}% daily interest</strong>. Vault earns <strong>${vaultPct}% daily yield</strong>.
+              ${diff.label} (${state.maxDays}d): Loan charges <strong>${debtPct}% daily interest</strong>. Vault earns <strong>${vaultPct}% daily yield</strong>.
             </p>
             <div class="btn-group">
               <button class="btn btn-buy" id="pay-debt-btn" style="flex:1">Pay Off Debt</button>
@@ -3719,7 +4123,7 @@
           const card = document.createElement("div");
           card.className = "card";
           card.innerHTML = `
-            <h2><span>⚙️ Contemporary Wardrobe &amp; Style</span></h2>
+            <h2><span>⚙️ Wardrobe (10 Styles × 5 Colors)</span></h2>
 
             <div class="doll-studio-stage">
               <div class="doll-preview-frame" id="settings-avatar-stage" title="Tap to change expression">
@@ -3745,7 +4149,7 @@
 
             <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
               <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:8px;">
-                Want to switch <strong>Gender, Path, Story Genre, or Difficulty</strong>? Resetting returns to the Character Studio and saves a <strong>1-time Undo backup</strong>.
+                Want to switch <strong>Gender, Path, Story Genre, Difficulty, or Season Days</strong>? Resetting returns to the Character Studio and saves a <strong>1-time Undo backup</strong>.
               </p>
               <button class="btn btn-danger btn-full" id="reset-game-btn">🔄 Reset Game &amp; Return to Character Studio</button>
               ${undoAvailable ? '<button class="btn btn-success btn-full" id="settings-undo-btn" style="margin-top:8px;">↩️ Undo Last Reset (Restore Save)</button>' : ""}
@@ -3792,7 +4196,6 @@
         }
       }
 
-      // Wire 30s Story Reel controls
       document.getElementById("cine-skip-btn").onclick = closeStoryReelModal;
       document.getElementById("cine-hype-btn").onclick = () => {
         if (!cineData) return;
