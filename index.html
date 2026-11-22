@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#0f172a" id="meta-theme-color" />
-  <meta name="description" content="Hustle & Haute: Empire Simulator — Modern Doll-Style Avatar Creator, Side-Gig Mini-Games, Branching Telltale Stories, and 180-Day Market Strategy." />
+  <meta name="description" content="Hustle & Haute: Empire Simulator — Interactive Character Studio, Missions & Tasks, Leveling System, Side Gigs, and Telltale Stories." />
   <title>Hustle &amp; Haute: Empire Simulator</title>
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
@@ -75,7 +75,7 @@
     #app {
       width: 100%;
       max-width: 540px;
-      padding: 14px 14px 88px;
+      padding: 14px 14px 92px;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -93,7 +93,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .profile-badge {
@@ -104,8 +104,8 @@
     }
 
     .avatar-circle {
-      width: 54px;
-      height: 54px;
+      width: 56px;
+      height: 56px;
       flex-shrink: 0;
       border-radius: 50%;
       background: radial-gradient(circle at 30% 25%, var(--accent-soft), var(--bg-primary));
@@ -118,9 +118,9 @@
     }
 
     .avatar-circle svg {
-      width: 118%;
-      height: 118%;
-      margin-top: 8px;
+      width: 122%;
+      height: 122%;
+      margin-top: 10px;
       display: block;
     }
 
@@ -135,9 +135,52 @@
     }
 
     .title-block span {
-      font-size: 0.74rem;
+      font-size: 0.73rem;
       color: var(--text-secondary);
       display: block;
+    }
+
+    .level-xp-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 6px 10px;
+    }
+
+    .lvl-badge {
+      background: var(--accent);
+      color: var(--accent-text);
+      font-weight: 900;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .xp-track {
+      flex: 1;
+      height: 8px;
+      background: var(--bg-card);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .xp-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--success));
+      transition: width 0.25s ease;
+    }
+
+    .xp-text {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      font-weight: 700;
+      white-space: nowrap;
     }
 
     .top-actions {
@@ -309,6 +352,59 @@
       100% { opacity: 0; transform: translateY(-38px) scale(1.15); }
     }
 
+    /* Missions & Tasks Cards */
+    .mission-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .mission-card.ready {
+      border-color: var(--success);
+      background: rgba(16, 185, 129, 0.08);
+    }
+    .mission-card.claimed {
+      opacity: 0.55;
+    }
+    .mission-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .mission-title {
+      font-weight: 800;
+      font-size: 0.86rem;
+      color: var(--text-primary);
+    }
+    .mission-reward-pill {
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .mission-progress-bar {
+      width: 100%;
+      height: 7px;
+      background: var(--bg-card);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 7px 0;
+    }
+    .mission-progress-fill {
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.25s ease;
+    }
+    .mission-card.ready .mission-progress-fill {
+      background: var(--success);
+    }
+
     /* Mini-Games Arena */
     .minigame-box {
       background: var(--bg-primary);
@@ -427,9 +523,9 @@
 
     .text-input:focus { border-color: var(--accent); }
 
-    /* Modern Doll Palace Character Studio Stage */
+    /* Interactive Modern Doll Studio Stage */
     .doll-studio-stage {
-      background: radial-gradient(circle at 50% 25%, rgba(255, 255, 255, 0.08), var(--bg-primary) 78%);
+      background: radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.1), var(--bg-primary) 78%);
       border: 2px solid var(--accent);
       border-radius: 16px;
       padding: 12px;
@@ -441,8 +537,8 @@
     }
 
     .doll-preview-frame {
-      width: 144px;
-      height: 176px;
+      width: 152px;
+      height: 186px;
       flex-shrink: 0;
       border-radius: 14px;
       background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%);
@@ -452,6 +548,28 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.12s ease;
+    }
+
+    .doll-preview-frame:active {
+      transform: scale(0.97);
+    }
+
+    .doll-tap-hint {
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(9, 13, 22, 0.8);
+      color: var(--accent);
+      font-size: 0.62rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 999px;
+      white-space: nowrap;
+      border: 1px solid rgba(255,255,255,0.12);
     }
 
     .doll-preview-frame svg { width: 100%; height: 100%; display: block; }
@@ -612,7 +730,7 @@
       background: var(--bg-card);
       border-top: 1px solid var(--border);
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(7, 1fr);
       padding: 8px 2px;
       z-index: 50;
     }
@@ -621,7 +739,7 @@
       background: none;
       border: none;
       color: var(--text-secondary);
-      font-size: 0.65rem;
+      font-size: 0.61rem;
       font-weight: 700;
       display: flex;
       flex-direction: column;
@@ -629,8 +747,18 @@
       gap: 2px;
       cursor: pointer;
       padding: 4px 1px;
+      position: relative;
     }
     .nav-btn.active { color: var(--accent); }
+    .nav-dot {
+      position: absolute;
+      top: 2px;
+      right: 18%;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+    }
 
     /* Modals */
     .modal-backdrop {
@@ -691,12 +819,18 @@
           <div class="avatar-circle" id="avatar-display"></div>
           <div class="title-block">
             <h1 id="player-title">Hustle &amp; Haute</h1>
-            <span id="tier-subtitle">Design Your Mogul</span>
+            <span id="tier-subtitle">Interactive Mogul Studio</span>
           </div>
         </div>
         <div class="top-actions">
           <button class="help-btn" id="open-help-btn">? Guide</button>
         </div>
+      </div>
+
+      <div class="level-xp-row" id="level-bar-row" style="display:none;">
+        <span class="lvl-badge" id="lvl-badge">LVL 1</span>
+        <div class="xp-track"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+        <span class="xp-text" id="xp-text">0 / 100 XP</span>
       </div>
 
       <div class="stats-grid">
@@ -723,7 +857,7 @@
 
     <div class="ticker">
       <span>📡</span>
-      <span id="news-feed">Design your custom doll-style avatar, name your mogul (up to 20 chars), and launch your empire!</span>
+      <span id="news-feed">Customize your doll-style character, tap the portrait to cycle expressions, and start your empire!</span>
     </div>
 
     <main id="view-container"></main>
@@ -735,11 +869,12 @@
 
   <nav class="nav-bar" id="bottom-nav">
     <button class="nav-btn active" data-tab="market"><span>📈</span>Market</button>
-    <button class="nav-btn" data-tab="gigs"><span>🎮</span>Side Gigs</button>
+    <button class="nav-btn" data-tab="missions" id="nav-missions-btn"><span>🎯</span>Missions</button>
+    <button class="nav-btn" data-tab="gigs"><span>🎮</span>Gigs</button>
     <button class="nav-btn" data-tab="travel"><span>✈️</span>Travel</button>
     <button class="nav-btn" data-tab="story"><span>📖</span>Story</button>
     <button class="nav-btn" data-tab="finance"><span>🏦</span>Bank</button>
-    <button class="nav-btn" data-tab="settings"><span>⚙️</span>Settings</button>
+    <button class="nav-btn" data-tab="settings"><span>⚙️</span>Style</button>
   </nav>
 
   <!-- Real-World Lesson Event Modal -->
@@ -765,29 +900,29 @@
   <div class="modal-backdrop" id="help-modal">
     <div class="modal-box">
       <div style="display:flex;justify-content:space-between;align-items:center;">
-        <h3>📖 How to Play &amp; Earn Fast</h3>
+        <h3>📖 How to Play, Level Up &amp; Earn Fast</h3>
         <button class="pill-btn" id="close-help-top">✕</button>
       </div>
       <p style="font-size:0.82rem;color:var(--text-secondary);">
-        Grow your Net Worth (<strong>Cash + Vault − Debt</strong>) to <strong>$500,000+</strong> before Day 180 ends, shaping your branching story along the way!
+        Complete <strong>Missions</strong> and <strong>Side Gigs</strong> to earn <strong>XP</strong> and <strong>Level Up</strong>! Every Level permanently increases your cash payouts across clicker taps and mini-games.
       </p>
       <div class="guide-step">
-        <strong>1. Tap to Earn Instant Cash (Market Tab)</strong>
-        In <strong>Chef Mode</strong>, tap <strong>Sell Signature Dish ($/Tap)</strong> to ring up orders. In <strong>Social Media Mode</strong>, tap <strong>Post Viral Clip (Views &rarr; $)</strong> to monetize views! Upgrade your click power in <strong>Bank</strong>.
+        <strong>1. Complete Missions for Cash &amp; XP (Missions Tab)</strong>
+        Check your active career tasks (selling dishes/clips, flipping market deals, clearing debt, playing side gigs). Claiming a completed mission awards big cash + XP!
       </div>
       <div class="guide-step">
-        <strong>2. Play Side-Gig Mini-Games (Side Gigs Tab)</strong>
-        Play fast reflex, timing, and trivia side gigs themed to your career path to earn quick cash bursts anytime without advancing the day.
+        <strong>2. Level Up for Permanent Income Multipliers</strong>
+        Each Level boosts your <strong>Dollars-per-Tap</strong> and <strong>Side-Gig</strong> rewards by <strong>+15%</strong>, helping you scale from thousands to $500,000+ rapidly.
       </div>
       <div class="guide-step">
-        <strong>3. Buy Low &amp; Travel to Flip High</strong>
-        Buy green <strong>LOW</strong> assets on the Market, then use <strong>Travel</strong> (1 day per trip) to sell during red <strong>SPIKE</strong> surges in high-multiplier hubs.
+        <strong>3. Tap to Earn &amp; Play Side Gigs (Market &amp; Gigs Tabs)</strong>
+        Tap your live hustle button on the <strong>Market</strong> tab or play the 3 mini-games in <strong>Gigs</strong> anytime with zero travel days used.
       </div>
       <div class="guide-step">
         <strong>4. Shape Your Telltale Story (Story Tab)</strong>
-        Every milestone unlocks an interactive <strong>Telltale Story Scene</strong> where your dialogue choice permanently alters your character's reputation, cash, and ending!
+        Unlock interactive Telltale scenes at Net Worth milestones where your dialogue decisions shape your reputation and cash rewards.
       </div>
-      <button class="btn btn-buy btn-full" id="close-help-bottom">Got It — Let's Hustle!</button>
+      <button class="btn btn-buy btn-full" id="close-help-bottom">Got It — Let's Build!</button>
     </div>
   </div>
 
@@ -795,11 +930,11 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v6";
-      const BACKUP_KEY = "hh_empire_undo_backup_v6";
+      const STORAGE_KEY = "hh_empire_save_v7";
+      const BACKUP_KEY = "hh_empire_undo_backup_v7";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
-      // Original Modern Doll-Style Avatar Catalog (7 variations per attribute, copyright-free original vector designs)
+      // Highly Detailed Contemporary Fashion & Profession Doll Avatar Catalog
       const AVATAR_TEMPLATES = {
         bodyShape: [
           { id: "petite", label: "Petite", shoulderW: 54, waistW: 34, hipW: 46, headRx: 25, headRy: 27 },
@@ -819,6 +954,15 @@
           { id: "espresso", label: "Rich Espresso", hex: "#6f4126", mid: "#572f18", shadow: "#3d1e0c", blush: "#701a3c" },
           { id: "ebony", label: "Deep Ebony", hex: "#472718", mid: "#33190d", shadow: "#210e06", blush: "#581c3c" }
         ],
+        expression: [
+          { id: "confident_smile", label: "Confident Smile" },
+          { id: "fierce_smirk", label: "Fierce Smirk" },
+          { id: "playful_wink", label: "Playful Wink" },
+          { id: "boss_focus", label: "CEO Focus" },
+          { id: "glam_pout", label: "Runway Pout" },
+          { id: "joyful_beam", label: "Radiant Beam" },
+          { id: "sly_charm", label: "Sly Charm" }
+        ],
         eyeStyle: [
           { id: "almond_luxe", label: "Almond Luxe", color: "#5c3a21" },
           { id: "doe_glam", label: "Doe Glam", color: "#3b2314" },
@@ -830,48 +974,50 @@
         ],
         browFeature: [
           { id: "arched_glam", label: "Arched Glam", slit: false, facial: "none" },
-          { id: "feathered", label: "Feathered", slit: false, facial: "freckles" },
+          { id: "feathered", label: "Feathered + Freckles", slit: false, facial: "freckles" },
           { id: "sharp_slit", label: "Brow Slit", slit: true, facial: "none" },
-          { id: "sculpted_beard", label: "Trimmed Beard", slit: false, facial: "beard" },
-          { id: "slit_stubble", label: "Slit + Stubble", slit: true, facial: "stubble" },
-          { id: "beauty_mark", label: "Beauty Mark", slit: false, facial: "mark" },
-          { id: "bold_straight", label: "Bold Straight", slit: false, facial: "none" }
+          { id: "sculpted_beard", label: "Sculpted Beard", slit: false, facial: "beard" },
+          { id: "slit_stubble", label: "Slit + Designer Stubble", slit: true, facial: "stubble" },
+          { id: "beauty_mark", label: "Glam Beauty Mark", slit: false, facial: "mark" },
+          { id: "bold_straight", label: "Editorial Straight", slit: false, facial: "none" }
         ],
+        // Upgraded Contemporary Fashion & Professional Hairstyles (Layered highlights, baby hairs, braids, fades, waves)
         hairStyle: [
-          { id: "braided_crown", label: "Braided Bun" },
-          { id: "platinum_fade", label: "Tapered Fade" },
-          { id: "glam_waves", label: "Hollywood Waves" },
-          { id: "sleek_bob", label: "Sharp Bob" },
-          { id: "afro_puff", label: "Halo Puff" },
-          { id: "textured_quiff", label: "Modern Quiff" },
-          { id: "box_braids", label: "Long Braids" }
+          { id: "braided_crown", label: "Braided Crown Updo" },
+          { id: "silk_press_layers", label: "Silk Press Curtain Layers" },
+          { id: "hollywood_glam", label: "Hollywood Side Waves" },
+          { id: "tapered_crop_fade", label: "Textured Crop & Skin Fade" },
+          { id: "sleek_editorial_bob", label: "Glass-Hair Blunt Bob" },
+          { id: "curly_pineapple", label: "High Curl Puff & Edges" },
+          { id: "goddess_braids", label: "Goddess Knotless Braids" }
         ],
         hairColor: [
-          { id: "jet", label: "Jet Black", hex: "#141418", hi: "#3f3f46" },
-          { id: "espresso", label: "Espresso", hex: "#361f12", hi: "#6b4228" },
-          { id: "chestnut", label: "Chestnut", hex: "#6b3a22", hi: "#9c5c3c" },
-          { id: "honey", label: "Honey Gold", hex: "#cfa052", hi: "#f3d08a" },
+          { id: "jet", label: "Obsidian Jet", hex: "#141418", hi: "#4b5563" },
+          { id: "espresso", label: "Mocha Espresso", hex: "#361f12", hi: "#78492a" },
+          { id: "chestnut", label: "Warm Chestnut", hex: "#6b3a22", hi: "#a86442" },
+          { id: "honey", label: "Honey Balayage", hex: "#cfa052", hi: "#fde08d" },
           { id: "platinum", label: "Icy Platinum", hex: "#e5e7eb", hi: "#ffffff" },
-          { id: "copper", label: "Copper Glow", hex: "#9a3412", hi: "#ea580c" },
+          { id: "copper", label: "Sunset Copper", hex: "#9a3412", hi: "#f97316" },
           { id: "rose_velvet", label: "Rose Velvet", hex: "#be185d", hi: "#f472b6" }
         ],
+        // Contemporary Fashion & Profession Outfits
         outfit: [
-          { id: "chef_piped", label: "Piped Chef Coat", primary: "#f8fafc", secondary: "#7f1d1d", trim: "#991b1b" },
-          { id: "baroque_blazer", label: "Baroque Blazer", primary: "#172554", secondary: "#1e1b4b", trim: "#eab308" },
-          { id: "chef_obsidian", label: "Obsidian Chef", primary: "#111827", secondary: "#7f1d1d", trim: "#f59e0b" },
-          { id: "velvet_couture", label: "Velvet Couture", primary: "#701a75", secondary: "#4a044e", trim: "#f9a8d4" },
-          { id: "street_luxe", label: "Gold Hoodie Suit", primary: "#0f172a", secondary: "#ca8a04", trim: "#facc15" },
-          { id: "emerald_exec", label: "Emerald Suit", primary: "#064e3b", secondary: "#022c22", trim: "#34d399" },
-          { id: "artisan_apron", label: "Bistro Apron", primary: "#78350f", secondary: "#f8fafc", trim: "#fbbf24" }
+          { id: "chef_piped", label: "Crimson-Piped Chef Coat", primary: "#f8fafc", secondary: "#881337", trim: "#be123c" },
+          { id: "baroque_blazer", label: "Baroque Hoodie + Blazer", primary: "#172554", secondary: "#0f172a", trim: "#eab308" },
+          { id: "chef_obsidian", label: "Michelin Black Chef Tunic", primary: "#111827", secondary: "#b91c1c", trim: "#f59e0b" },
+          { id: "corset_suit", label: "Satin Corset Power Suit", primary: "#701a75", secondary: "#fdf2f8", trim: "#f472b6" },
+          { id: "turtleneck_trench", label: "Cashmere Turtleneck & Coat", primary: "#292524", secondary: "#d6d3d1", trim: "#eab308" },
+          { id: "emerald_street", label: "Emerald Tech-Luxe Jacket", primary: "#064e3b", secondary: "#022c22", trim: "#34d399" },
+          { id: "sommelier_vest", label: "Tailored Bistro Vest & Tie", primary: "#1e293b", secondary: "#f8fafc", trim: "#f59e0b" }
         ],
         accessory: [
-          { id: "none", label: "Clean Look" },
-          { id: "chef_cap", label: "Garrison Chef Cap" },
-          { id: "collar_shades", label: "Collar Aviators" },
-          { id: "chef_knife", label: "Damascus Blade" },
-          { id: "ring_halo", label: "Creator Ring Light" },
-          { id: "royal_crown", label: "Mogul Crown" },
-          { id: "studio_mic", label: "Creator Headset" }
+          { id: "none", label: "Clean Editorial" },
+          { id: "chef_cap", label: "Crimson Garrison Chef Cap" },
+          { id: "collar_shades", label: "Collar Gold Aviators" },
+          { id: "chef_knife", label: "Japanese Damascus Knife" },
+          { id: "ring_halo", label: "Creator Studio Ring Light" },
+          { id: "royal_crown", label: "Sovereign Gold Crown" },
+          { id: "hoops_mic", label: "Gold Hoops & Lavalier Mic" }
         ]
       };
 
@@ -1294,7 +1440,7 @@
           clickerTitle: "Creator Studio Live Feed",
           clickerBtnText: "📱 Post Viral Clip",
           clickerUnitLabel: "Views Monetized",
-          baseClickPay: 25,
+          baseClickPay: 30,
           baseViewsPerClick: 1200,
           hubs: [
             { id: "bedroom", name: "Bedroom Creator Feed", risk: "Low Risk", mult: 0.9 },
@@ -1311,10 +1457,10 @@
             { id: "equity", name: "Media Network Equity", min: 3600, max: 11800 }
           ],
           upgrades: [
-            { id: "u1", name: "Pro Ring Light & Lavalier Mic", desc: "+15 Queue Cap & +$35/Tap Views", cost: 900, capBonus: 15, sellBonus: 0, clickBonus: 35 },
-            { id: "u2", name: "4K Cinema Rig & Viral Editor", desc: "+25 Cap, +5% Sales & +$90/Tap", cost: 3800, capBonus: 25, sellBonus: 0.05, clickBonus: 90 },
-            { id: "u3", name: "Automated Clipping Farm", desc: "+60 Queue Cap & +$250/Tap Views", cost: 15000, capBonus: 60, sellBonus: 0, clickBonus: 250 },
-            { id: "u4", name: "Global Ad-Sense & PR Retainer", desc: "+120 Queue Cap & +$650/Tap", cost: 55000, capBonus: 120, sellBonus: 0, clickBonus: 650 }
+            { id: "u1", name: "Pro Ring Light & Lavalier Mic", desc: "+15 Queue Cap & +$40/Tap Views", cost: 900, capBonus: 15, sellBonus: 0, clickBonus: 40 },
+            { id: "u2", name: "4K Cinema Rig & Viral Editor", desc: "+25 Cap, +5% Sales & +$100/Tap", cost: 3800, capBonus: 25, sellBonus: 0.05, clickBonus: 100 },
+            { id: "u3", name: "Automated Clipping Farm", desc: "+60 Queue Cap & +$260/Tap Views", cost: 15000, capBonus: 60, sellBonus: 0, clickBonus: 260 },
+            { id: "u4", name: "Global Ad-Sense & PR Retainer", desc: "+120 Queue Cap & +$700/Tap", cost: 55000, capBonus: 120, sellBonus: 0, clickBonus: 700 }
           ],
           tiers: [
             { min: 500000, name: "Tier 6: Global Media Titan" },
@@ -1324,19 +1470,28 @@
             { min: 4000, name: "Tier 2: Micro-Influencer" },
             { min: -Infinity, name: "Tier 1: Bedroom Creator" }
           ],
+          missions: [
+            { id: "m1", title: "Viral Debut: Post 15 Clips", desc: "Tap 'Post Viral Clip' 15 times on the Market tab.", metric: "hustleCount", target: 15, cashReward: 650, xpReward: 60 },
+            { id: "m2", title: "Side Hustle Grind: Complete 2 Gigs", desc: "Finish any 2 Side Gigs in the Gigs tab.", metric: "gigsCompleted", target: 2, cashReward: 1100, xpReward: 90 },
+            { id: "m3", title: "Market Flipper: Close 3 Asset Sales", desc: "Sell inventory on the Market 3 times.", metric: "salesCount", target: 3, cashReward: 1800, xpReward: 120 },
+            { id: "m4", title: "Debt-Free Creator: Clear Agency Loan", desc: "Pay off your entire Agency Debt in Bank.", metric: "debtCleared", target: 1, cashReward: 2500, xpReward: 160 },
+            { id: "m5", title: "Studio Mogul: Reach Level 3", desc: "Complete tasks and mini-games to hit Level 3.", metric: "levelReached", target: 3, cashReward: 4000, xpReward: 200 },
+            { id: "m6", title: "Trendsetter: Post 60 Viral Clips", desc: "Reach 60 total viral clips posted.", metric: "hustleCount", target: 60, cashReward: 6500, xpReward: 260 },
+            { id: "m7", title: "Six-Figure Network: $100K Net Worth", desc: "Grow your Net Worth to $100,000+.", metric: "netWorth", target: 100000, cashReward: 18000, xpReward: 400 }
+          ],
           gigs: {
             reflex: {
               title: "⚡ Viral Trend Catcher (12s)",
               desc: "Tap the glowing 🔥 Trending Audio pad as fast as possible! Avoid the 🚫 Shadowban traps.",
               goodIcon: "🔥",
               badIcon: "🚫",
-              payPerHit: 45
+              payPerHit: 50
             },
             timing: {
               title: "🎬 3-Second Hook Drop",
               desc: "Tap 'LOCK HOOK' while the cursor is inside the green Viral Sweetspot to maximize AdSense payout!",
               btnLabel: "🎯 LOCK HOOK",
-              baseReward: 320
+              baseReward: 350
             },
             trivia: {
               title: "💼 Brand Deal Speed Negotiation",
@@ -1346,7 +1501,7 @@
                 { q: "75% of viewers swipe away in 2 seconds. What needs fixing?", a: ["Add 30 hashtags", "Rewrite the 3-second hook"], ok: 1 },
                 { q: "How much of 1099 creator income should go to your Tax Vault?", a: ["25%–30%", "0% until April"], ok: 0 }
               ],
-              reward: 650
+              reward: 700
             }
           },
           lessons: [
@@ -1384,7 +1539,7 @@
           clickerTitle: "Chef's Pass — Live Order Window",
           clickerBtnText: "🍽️ Sell Signature Dish",
           clickerUnitLabel: "Plates Sold",
-          baseClickPay: 25,
+          baseClickPay: 30,
           baseViewsPerClick: 1,
           hubs: [
             { id: "farmers", name: "Local Farmers Market", risk: "Low Risk", mult: 0.9 },
@@ -1401,10 +1556,10 @@
             { id: "bistro_stake", name: "Restaurant Group Equity", min: 3600, max: 11800 }
           ],
           upgrades: [
-            { id: "u1", name: "Japanese Damascus Knife Roll", desc: "+15 Pantry Cap & +$35/Tap Sales", cost: 900, capBonus: 15, sellBonus: 0, clickBonus: 35 },
-            { id: "u2", name: "Commercial Sous-Vide & Prep Line", desc: "+25 Cap, +5% Margins & +$90/Tap", cost: 3800, capBonus: 25, sellBonus: 0.05, clickBonus: 90 },
-            { id: "u3", name: "Walk-In Cold-Storage Commissary", desc: "+60 Pantry Cap & +$250/Tap Sales", cost: 15000, capBonus: 60, sellBonus: 0, clickBonus: 250 },
-            { id: "u4", name: "Prime Supplier & Michelin Brigade", desc: "+120 Pantry Cap & +$650/Tap", cost: 55000, capBonus: 120, sellBonus: 0, clickBonus: 650 }
+            { id: "u1", name: "Japanese Damascus Knife Roll", desc: "+15 Pantry Cap & +$40/Tap Sales", cost: 900, capBonus: 15, sellBonus: 0, clickBonus: 40 },
+            { id: "u2", name: "Commercial Sous-Vide & Prep Line", desc: "+25 Cap, +5% Margins & +$100/Tap", cost: 3800, capBonus: 25, sellBonus: 0.05, clickBonus: 100 },
+            { id: "u3", name: "Walk-In Cold-Storage Commissary", desc: "+60 Pantry Cap & +$260/Tap Sales", cost: 15000, capBonus: 60, sellBonus: 0, clickBonus: 260 },
+            { id: "u4", name: "Prime Supplier & Michelin Brigade", desc: "+120 Pantry Cap & +$700/Tap", cost: 55000, capBonus: 120, sellBonus: 0, clickBonus: 700 }
           ],
           tiers: [
             { min: 500000, name: "Tier 6: Global Culinary Icon" },
@@ -1414,19 +1569,28 @@
             { min: 4000, name: "Tier 2: Food Truck Owner" },
             { min: -Infinity, name: "Tier 1: Cottage Homecook" }
           ],
+          missions: [
+            { id: "m1", title: "Lunch Rush: Sell 15 Signature Dishes", desc: "Tap 'Sell Signature Dish' 15 times on the Market tab.", metric: "hustleCount", target: 15, cashReward: 650, xpReward: 60 },
+            { id: "m2", title: "Catering Hustle: Complete 2 Side Gigs", desc: "Finish any 2 Side Gigs in the Gigs tab.", metric: "gigsCompleted", target: 2, cashReward: 1100, xpReward: 90 },
+            { id: "m3", title: "Ingredient Arbitrage: Close 3 Sales", desc: "Sell culinary inventory on the Market 3 times.", metric: "salesCount", target: 3, cashReward: 1800, xpReward: 120 },
+            { id: "m4", title: "Debt-Free Kitchen: Pay Off Loan", desc: "Clear your entire Kitchen Loan in Bank.", metric: "debtCleared", target: 1, cashReward: 2500, xpReward: 160 },
+            { id: "m5", title: "Sous-Chef Promotion: Reach Level 3", desc: "Complete tasks and mini-games to hit Level 3.", metric: "levelReached", target: 3, cashReward: 4000, xpReward: 200 },
+            { id: "m6", title: "Packed House: Sell 60 Dishes", desc: "Reach 60 total signature plates sold.", metric: "hustleCount", target: 60, cashReward: 6500, xpReward: 260 },
+            { id: "m7", title: "Hospitality Mogul: $100K Net Worth", desc: "Grow your Net Worth to $100,000+.", metric: "netWorth", target: 100000, cashReward: 18000, xpReward: 400 }
+          ],
           gigs: {
             reflex: {
               title: "🔥 Dinner Rush Line Expediter (12s)",
               desc: "Tap the glowing 🍽️ Hot Ticket order as fast as possible! Avoid the 🧯 Burnt Pan traps.",
               goodIcon: "🍽️",
               badIcon: "🧯",
-              payPerHit: 45
+              payPerHit: 50
             },
             timing: {
               title: "🥩 Perfect Medium-Rare Sear",
               desc: "Tap 'PLATE STEAK' while the thermometer bar is inside the green Sweetspot for maximum VIP tips!",
               btnLabel: "🔪 PLATE STEAK",
-              baseReward: 320
+              baseReward: 350
             },
             trivia: {
               title: "📋 Executive Chef Kitchen Audit",
@@ -1436,7 +1600,7 @@
                 { q: "How should you rotate fresh truffles into the walk-in cooler?", a: ["New stock in front", "FIFO: Old stock in front"], ok: 1 },
                 { q: "10 lbs tenderloin ($200) trims to 8 usable lbs. True cost per usable lb?", a: ["$25.00/lb", "$20.00/lb"], ok: 0 }
               ],
-              reward: 650
+              reward: 700
             }
           },
           lessons: [
@@ -1468,10 +1632,11 @@
         }
       };
 
-      // High-Craft "Modern Doll Palace" Layered Vector Character Renderer
+      // Highly Detailed Expressive Contemporary Doll Vector Renderer
       function renderAvatarSVG(avatarCfg, gender) {
         const body = AVATAR_TEMPLATES.bodyShape.find(x => x.id === avatarCfg.bodyShape) || AVATAR_TEMPLATES.bodyShape[3];
         const skin = AVATAR_TEMPLATES.skinTone.find(x => x.id === avatarCfg.skinTone) || AVATAR_TEMPLATES.skinTone[3];
+        const expr = avatarCfg.expression || "confident_smile";
         const eye = AVATAR_TEMPLATES.eyeStyle.find(x => x.id === avatarCfg.eyeStyle) || AVATAR_TEMPLATES.eyeStyle[0];
         const brow = AVATAR_TEMPLATES.browFeature.find(x => x.id === avatarCfg.browFeature) || AVATAR_TEMPLATES.browFeature[0];
         const hairColor = AVATAR_TEMPLATES.hairColor.find(x => x.id === avatarCfg.hairColor) || AVATAR_TEMPLATES.hairColor[0];
@@ -1487,124 +1652,141 @@
         const shW = body.shoulderW;
         const waistW = body.waistW;
         const hipW = body.hipW;
-        const eyeScaleY = eye.id === "doe_glam" ? 1.18 : (eye.id === "emerald_cat" ? 0.92 : 1.0);
+        const eyeScaleY = eye.id === "doe_glam" ? 1.18 : (eye.id === "emerald_cat" ? 0.9 : 1.0);
 
-        // Ring Light Aura behind character
         const ringLightBack = acc === "ring_halo"
-          ? `<circle cx="${cx + 26}" cy="${headY + 6}" r="42" fill="none" stroke="#ffffff" stroke-width="6" opacity="0.85" />
-             <circle cx="${cx + 26}" cy="${headY + 6}" r="42" fill="none" stroke="#38bdf8" stroke-width="11" opacity="0.28" />`
+          ? `<circle cx="${cx + 26}" cy="${headY + 6}" r="44" fill="none" stroke="#ffffff" stroke-width="6.5" opacity="0.88" />
+             <circle cx="${cx + 26}" cy="${headY + 6}" r="44" fill="none" stroke="#38bdf8" stroke-width="12" opacity="0.3" />`
           : "";
 
-        // Back Hair Layer
+        // Contemporary Multi-Layered Back Hair
         let backHair = "";
-        if (hairStyle === "glam_waves") {
+        if (hairStyle === "silk_press_layers") {
           backHair = `
-            <path d="M ${cx - rx - 7} ${headY - 4} Q ${cx - rx - 16} 115 ${cx - rx + 2} 145 L ${cx + rx - 2} 145 Q ${cx + rx + 16} 115 ${cx + rx + 7} ${headY - 4} Z" fill="${hairColor.hex}" />
-            <path d="M ${cx - rx - 3} ${headY + 20} Q ${cx - rx - 9} 85 ${cx - rx + 1} 135" fill="none" stroke="${hairColor.hi}" stroke-width="2.5" opacity="0.45" />
-            <path d="M ${cx + rx + 3} ${headY + 20} Q ${cx + rx + 9} 85 ${cx + rx - 1} 135" fill="none" stroke="${hairColor.hi}" stroke-width="2.5" opacity="0.45" />
+            <path d="M ${cx - rx - 6} ${headY - 4} Q ${cx - rx - 14} 110 ${cx - rx + 1} 152 L ${cx + rx - 1} 152 Q ${cx + rx + 14} 110 ${cx + rx + 6} ${headY - 4} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - rx - 4} ${headY + 12} Q ${cx - rx - 9} 78 ${cx - rx} 142" fill="none" stroke="${hairColor.hi}" stroke-width="3" opacity="0.5" />
+            <path d="M ${cx + rx + 4} ${headY + 12} Q ${cx + rx + 9} 78 ${cx + rx} 142" fill="none" stroke="${hairColor.hi}" stroke-width="3" opacity="0.5" />
           `;
-        } else if (hairStyle === "afro_puff") {
+        } else if (hairStyle === "hollywood_glam") {
           backHair = `
-            <circle cx="${cx}" cy="${headY - 12}" r="${rx + 17}" fill="${hairColor.hex}" />
-            <circle cx="${cx - 10}" cy="${headY - 18}" r="${rx + 8}" fill="${hairColor.hi}" opacity="0.16" />
+            <path d="M ${cx - rx - 8} ${headY - 6} C ${cx - rx - 22} 95, ${cx - rx - 6} 125, ${cx - rx - 14} 156 L ${cx + rx + 14} 156 C ${cx + rx + 6} 125, ${cx + rx + 22} 95, ${cx + rx + 8} ${headY - 6} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - rx - 6} ${headY + 18} Q ${cx - rx - 14} 88 ${cx - rx - 4} 118 T ${cx - rx - 6} 150" fill="none" stroke="${hairColor.hi}" stroke-width="3.2" opacity="0.55" />
+            <path d="M ${cx + rx + 6} ${headY + 18} Q ${cx + rx + 14} 88 ${cx + rx + 4} 118 T ${cx + rx + 6} 150" fill="none" stroke="${hairColor.hi}" stroke-width="3.2" opacity="0.55" />
           `;
-        } else if (hairStyle === "box_braids") {
+        } else if (hairStyle === "curly_pineapple") {
           backHair = `
-            <rect x="${cx - rx - 7}" y="${headY}" width="6" height="84" rx="3" fill="${hairColor.hex}" />
-            <rect x="${cx - rx - 1}" y="${headY + 4}" width="5.5" height="86" rx="2.7" fill="${hairColor.hex}" />
-            <rect x="${cx + rx - 4.5}" y="${headY + 4}" width="5.5" height="86" rx="2.7" fill="${hairColor.hex}" />
-            <rect x="${cx + rx + 1}" y="${headY}" width="6" height="84" rx="3" fill="${hairColor.hex}" />
-            <circle cx="${cx - rx - 4}" cy="${headY + 78}" r="2.2" fill="#eab308" />
-            <circle cx="${cx + rx + 4}" cy="${headY + 78}" r="2.2" fill="#eab308" />
+            <circle cx="${cx}" cy="${headY - ry - 12}" r="22" fill="${hairColor.hex}" />
+            <circle cx="${cx - 14}" cy="${headY - ry - 6}" r="14" fill="${hairColor.hex}" />
+            <circle cx="${cx + 14}" cy="${headY - ry - 6}" r="14" fill="${hairColor.hex}" />
+            <circle cx="${cx - 6}" cy="${headY - ry - 18}" r="11" fill="${hairColor.hi}" opacity="0.25" />
+            <circle cx="${cx + 8}" cy="${headY - ry - 14}" r="9" fill="${hairColor.hi}" opacity="0.22" />
+          `;
+        } else if (hairStyle === "goddess_braids") {
+          backHair = `
+            <rect x="${cx - rx - 8}" y="${headY - 2}" width="6.5" height="90" rx="3.2" fill="${hairColor.hex}" />
+            <rect x="${cx - rx - 1}" y="${headY + 2}" width="6" height="92" rx="3" fill="${hairColor.hex}" />
+            <rect x="${cx + rx - 5}" y="${headY + 2}" width="6" height="92" rx="3" fill="${hairColor.hex}" />
+            <rect x="${cx + rx + 1.5}" y="${headY - 2}" width="6.5" height="90" rx="3.2" fill="${hairColor.hex}" />
+            <!-- Gold Braid Cuffs & Curled Ends -->
+            <rect x="${cx - rx - 8}" y="${headY + 42}" width="6.5" height="3.5" fill="#eab308" />
+            <rect x="${cx + rx + 1.5}" y="${headY + 42}" width="6.5" height="3.5" fill="#eab308" />
+            <path d="M ${cx - rx - 5} ${headY + 86} Q ${cx - rx - 11} ${headY + 96} ${cx - rx - 3} ${headY + 102}" fill="none" stroke="${hairColor.hi}" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M ${cx + rx + 5} ${headY + 86} Q ${cx + rx + 11} ${headY + 96} ${cx + rx + 3} ${headY + 102}" fill="none" stroke="${hairColor.hi}" stroke-width="2.5" stroke-linecap="round" />
           `;
         } else if (hairStyle === "braided_crown") {
           backHair = `
-            <ellipse cx="${cx}" cy="${headY - ry - 10}" rx="17" ry="15" fill="${hairColor.hex}" />
-            <path d="M ${cx - 14} ${headY - ry - 12} Q ${cx} ${headY - ry - 20} ${cx + 14} ${headY - ry - 12}" fill="none" stroke="${hairColor.hi}" stroke-width="3" stroke-linecap="round" />
-            <path d="M ${cx - 12} ${headY - ry - 5} Q ${cx} ${headY - ry - 12} ${cx + 12} ${headY - ry - 5}" fill="none" stroke="${hairColor.hi}" stroke-width="2.5" stroke-linecap="round" />
-            <!-- Face-framing braided tendril -->
-            <path d="M ${cx - rx + 2} ${headY - 8} Q ${cx - rx - 4} ${headY + 25} ${cx - rx + 3} ${headY + 58}" fill="none" stroke="${hairColor.hex}" stroke-width="4.2" stroke-linecap="round" />
-            <path d="M ${cx - rx + 2} ${headY - 8} Q ${cx - rx - 4} ${headY + 25} ${cx - rx + 3} ${headY + 58}" fill="none" stroke="${hairColor.hi}" stroke-width="1.4" stroke-dasharray="3 3" />
+            <ellipse cx="${cx}" cy="${headY - ry - 11}" rx="18" ry="16" fill="${hairColor.hex}" />
+            <path d="M ${cx - 15} ${headY - ry - 13} Q ${cx} ${headY - ry - 22} ${cx + 15} ${headY - ry - 13}" fill="none" stroke="${hairColor.hi}" stroke-width="3.2" stroke-linecap="round" />
+            <path d="M ${cx - 13} ${headY - ry - 6} Q ${cx} ${headY - ry - 14} ${cx + 13} ${headY - ry - 6}" fill="none" stroke="${hairColor.hi}" stroke-width="2.6" stroke-linecap="round" />
+            <!-- Signature Face-Framing Braided Tendril -->
+            <path d="M ${cx - rx + 2} ${headY - 8} Q ${cx - rx - 5} ${headY + 28} ${cx - rx + 3} ${headY + 64}" fill="none" stroke="${hairColor.hex}" stroke-width="4.4" stroke-linecap="round" />
+            <path d="M ${cx - rx + 2} ${headY - 8} Q ${cx - rx - 5} ${headY + 28} ${cx - rx + 3} ${headY + 64}" fill="none" stroke="${hairColor.hi}" stroke-width="1.5" stroke-dasharray="3 3" />
           `;
         }
 
-        // Torso & Modern Designer Outfit Layer
+        // Contemporary Fashion & Professional Outfits
         let outfitDetails = "";
         if (outfit.id === "chef_piped" || outfit.id === "chef_obsidian") {
-          // Double-breasted piped chef coat with buttons & patterned waist wrap
           outfitDetails = `
-            <path d="M ${cx - 13} 98 L ${cx - 4} 114 L ${cx + 12} 98" fill="none" stroke="${outfit.trim}" stroke-width="2.4" />
-            <line x1="${cx - 4}" y1="114" x2="${cx - 4}" y2="162" stroke="${outfit.trim}" stroke-width="2.2" />
-            <circle cx="${cx - 10}" cy="118" r="2.2" fill="${outfit.secondary}" />
-            <circle cx="${cx + 4}" cy="118" r="2.2" fill="${outfit.secondary}" />
-            <circle cx="${cx - 10}" cy="131" r="2.2" fill="${outfit.secondary}" />
-            <circle cx="${cx + 4}" cy="131" r="2.2" fill="${outfit.secondary}" />
-            <!-- Patterned Bistro Apron Wrap -->
+            <path d="M ${cx - 13} 98 L ${cx - 4} 115 L ${cx + 12} 98" fill="none" stroke="${outfit.trim}" stroke-width="2.5" />
+            <line x1="${cx - 4}" y1="115" x2="${cx - 4}" y2="162" stroke="${outfit.trim}" stroke-width="2.2" />
+            <circle cx="${cx - 10}" cy="119" r="2.3" fill="${outfit.secondary}" />
+            <circle cx="${cx + 4}" cy="119" r="2.3" fill="${outfit.secondary}" />
+            <circle cx="${cx - 10}" cy="132" r="2.3" fill="${outfit.secondary}" />
+            <circle cx="${cx + 4}" cy="132" r="2.3" fill="${outfit.secondary}" />
             <path d="M ${cx - waistW/2 - 1} 145 L ${cx + waistW/2 + 1} 145 L ${cx + hipW/2 + 2} 184 L ${cx - hipW/2 - 2} 184 Z" fill="#1e293b" />
             <rect x="${cx - waistW/2 - 2}" y="143" width="${waistW + 4}" height="7" rx="3" fill="${outfit.trim}" />
             <path d="M ${cx - 6} 148 L ${cx - 11} 162 M ${cx + 6} 148 L ${cx + 11} 162" stroke="${outfit.trim}" stroke-width="3" stroke-linecap="round" />
           `;
-        } else if (outfit.id === "baroque_blazer" || outfit.id === "street_luxe" || outfit.id === "emerald_exec") {
-          // Tailored luxury blazer layered over gold-trim baroque hoodie
+        } else if (outfit.id === "baroque_blazer" || outfit.id === "emerald_street") {
           outfitDetails = `
-            <!-- Inner Hoodie V -->
             <polygon points="${cx - 14},98 ${cx + 14},98 ${cx + 10},166 ${cx - 10},166" fill="${outfit.secondary}" />
-            <!-- Gold Baroque Pattern Lines -->
-            <path d="M ${cx - 8} 104 L ${cx - 8} 162 M ${cx + 8} 104 L ${cx + 8} 162" stroke="${outfit.trim}" stroke-width="2.2" stroke-dasharray="4 2" />
-            <circle cx="${cx}" cy="122" r="3" fill="none" stroke="${outfit.trim}" stroke-width="1.5" />
-            <circle cx="${cx}" cy="136" r="3" fill="none" stroke="${outfit.trim}" stroke-width="1.5" />
-            <!-- Blazer Lapels -->
-            <polygon points="${cx - 15},98 ${cx - 8},148 ${cx - 22},126" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.2" />
-            <polygon points="${cx + 15},98 ${cx + 8},148 ${cx + 22},126" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.2" />
-            <!-- Pocket Square -->
+            <path d="M ${cx - 8} 104 L ${cx - 8} 162 M ${cx + 8} 104 L ${cx + 8} 162" stroke="${outfit.trim}" stroke-width="2.4" stroke-dasharray="4 2" />
+            <circle cx="${cx}" cy="122" r="3" fill="none" stroke="${outfit.trim}" stroke-width="1.6" />
+            <circle cx="${cx}" cy="136" r="3" fill="none" stroke="${outfit.trim}" stroke-width="1.6" />
+            <polygon points="${cx - 15},98 ${cx - 8},148 ${cx - 22},126" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.3" />
+            <polygon points="${cx + 15},98 ${cx + 8},148 ${cx + 22},126" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.3" />
             <line x1="${cx + 13}" y1="132" x2="${cx + 22}" y2="130" stroke="${outfit.trim}" stroke-width="2.5" />
           `;
-        } else if (outfit.id === "velvet_couture") {
+        } else if (outfit.id === "corset_suit") {
           outfitDetails = `
-            <path d="M ${cx - 18} 98 Q ${cx} 122 ${cx + 18} 98" fill="${skin.hex}" stroke="${outfit.trim}" stroke-width="2.5" />
-            <circle cx="${cx}" cy="113" r="3" fill="#facc15" />
-            <path d="M ${cx - waistW/2} 145 L ${cx + waistW/2} 145" stroke="${outfit.trim}" stroke-width="3" />
+            <path d="M ${cx - 16} 98 Q ${cx} 118 ${cx + 16} 98" fill="${skin.hex}" stroke="${outfit.trim}" stroke-width="2.4" />
+            <rect x="${cx - waistW/2 + 2}" y="122" width="${waistW - 4}" height="24" rx="4" fill="${outfit.secondary}" opacity="0.2" stroke="${outfit.trim}" stroke-width="1.5" />
+            <line x1="${cx - 6}" y1="122" x2="${cx - 6}" y2="146" stroke="${outfit.trim}" stroke-width="1.4" />
+            <line x1="${cx + 6}" y1="122" x2="${cx + 6}" y2="146" stroke="${outfit.trim}" stroke-width="1.4" />
+          `;
+        } else if (outfit.id === "turtleneck_trench") {
+          outfitDetails = `
+            <rect x="${cx - 10}" y="94" width="20" height="14" rx="4" fill="${outfit.secondary}" />
+            <polygon points="${cx - 10},108 ${cx + 10},108 ${cx + 8},184 ${cx - 8},184" fill="${outfit.secondary}" />
+            <polygon points="${cx - 16},98 ${cx - 8},146 ${cx - 24},124" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.4" />
+            <polygon points="${cx + 16},98 ${cx + 8},146 ${cx + 24},124" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.4" />
+            <rect x="${cx - waistW/2 - 1}" y="142" width="${waistW + 2}" height="6" rx="2" fill="${outfit.trim}" />
           `;
         } else {
-          // Artisan Apron
+          // Sommelier / Executive Bistro Vest & Tie
           outfitDetails = `
-            <rect x="${cx - waistW/2 + 2}" y="114" width="${waistW - 4}" height="70" rx="4" fill="#92400e" stroke="${outfit.trim}" stroke-width="1.6" />
-            <line x1="${cx - 12}" y1="98" x2="${cx - 10}" y2="114" stroke="#92400e" stroke-width="3.5" />
-            <line x1="${cx + 12}" y1="98" x2="${cx + 10}" y2="114" stroke="#92400e" stroke-width="3.5" />
+            <polygon points="${cx - 13},98 ${cx + 13},98 ${cx + 8},144 ${cx - 8},144" fill="${outfit.secondary}" />
+            <polygon points="${cx - 2.5},102 ${cx + 2.5},102 ${cx + 3.5},136 ${cx},141 ${cx - 3.5},136" fill="${outfit.trim}" />
+            <circle cx="${cx}" cy="148" r="2.2" fill="${outfit.trim}" />
+            <circle cx="${cx}" cy="158" r="2.2" fill="${outfit.trim}" />
           `;
         }
 
-        // Front Hair Layer
+        // Front Hair Layer with Contemporary Curtain Bangs, Fades & Baby-Hair Edges
         let frontHair = "";
-        if (hairStyle === "braided_crown" || hairStyle === "glam_waves") {
+        if (hairStyle === "braided_crown" || hairStyle === "curly_pineapple" || hairStyle === "goddess_braids") {
           frontHair = `
             <path d="M ${cx - rx - 1} ${headY - 2} Q ${cx - rx + 2} ${headY - ry - 8} ${cx} ${headY - ry - 8} Q ${cx + rx - 2} ${headY - ry - 8} ${cx + rx + 1} ${headY - 2} Q ${cx + rx - 6} ${headY - 15} ${cx} ${headY - 15} Q ${cx - rx + 6} ${headY - 15} ${cx - rx - 1} ${headY - 2} Z" fill="${hairColor.hex}" />
-            <path d="M ${cx - 14} ${headY - 16} Q ${cx - 8} ${headY - 12} ${cx - 4} ${headY - 16}" fill="none" stroke="${hairColor.hex}" stroke-width="1.6" />
+            <!-- Sculpted Baby-Hair Edges -->
+            <path d="M ${cx - 15} ${headY - 16} Q ${cx - 9} ${headY - 11.5} ${cx - 4} ${headY - 16}" fill="none" stroke="${hairColor.hex}" stroke-width="1.6" stroke-linecap="round" />
+            <path d="M ${cx + 4} ${headY - 16} Q ${cx + 9} ${headY - 11.5} ${cx + 15} ${headY - 16}" fill="none" stroke="${hairColor.hex}" stroke-width="1.6" stroke-linecap="round" />
           `;
-        } else if (hairStyle === "platinum_fade") {
+        } else if (hairStyle === "silk_press_layers") {
           frontHair = `
-            <path d="M ${cx - rx + 1} ${headY - 6} Q ${cx - rx} ${headY - ry - 9} ${cx} ${headY - ry - 9} Q ${cx + rx} ${headY - ry - 9} ${cx + rx - 1} ${headY - 6} L ${cx + rx - 2} ${headY - 12} Q ${cx} ${headY - 19} ${cx - rx + 2} ${headY - 12} Z" fill="${hairColor.hex}" />
-            <path d="M ${cx - rx + 4} ${headY - 18} Q ${cx} ${headY - ry - 7} ${cx + rx - 4} ${headY - 18}" fill="none" stroke="${hairColor.hi}" stroke-width="3" opacity="0.55" />
+            <path d="M ${cx - rx - 3} ${headY + 14} Q ${cx - rx - 2} ${headY - ry - 8} ${cx} ${headY - ry - 8} Q ${cx + rx + 2} ${headY - ry - 8} ${cx + rx + 3} ${headY + 14} Q ${cx + 6} ${headY - 12} ${cx} ${headY - 17} Q ${cx - 6} ${headY - 12} ${cx - rx - 3} ${headY + 14} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - 4} ${headY - 17} Q ${cx - 14} ${headY - 6} ${cx - rx - 1} ${headY + 10}" fill="none" stroke="${hairColor.hi}" stroke-width="2.2" opacity="0.6" />
+            <path d="M ${cx + 4} ${headY - 17} Q ${cx + 14} ${headY - 6} ${cx + rx + 1} ${headY + 10}" fill="none" stroke="${hairColor.hi}" stroke-width="2.2" opacity="0.6" />
           `;
-        } else if (hairStyle === "sleek_bob") {
+        } else if (hairStyle === "hollywood_glam") {
           frontHair = `
-            <path d="M ${cx - rx - 4} ${headY + 26} Q ${cx - rx - 6} ${headY - ry - 8} ${cx} ${headY - ry - 8} Q ${cx + rx + 6} ${headY - ry - 8} ${cx + rx + 4} ${headY + 26} Q ${cx + rx - 3} ${headY - 12} ${cx} ${headY - 14} Q ${cx - rx + 3} ${headY - 12} ${cx - rx - 4} ${headY + 26} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - rx - 2} ${headY + 6} Q ${cx - 8} ${headY - ry - 12} ${cx + rx + 3} ${headY + 2} Q ${cx + rx - 5} ${headY - 14} ${cx - 4} ${headY - 15} Q ${cx - rx + 4} ${headY - 10} ${cx - rx - 2} ${headY + 6} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - 6} ${headY - 19} Q ${cx + 10} ${headY - 18} ${cx + rx - 2} ${headY - 4}" fill="none" stroke="${hairColor.hi}" stroke-width="2.6" opacity="0.55" />
           `;
-        } else if (hairStyle === "afro_puff") {
+        } else if (hairStyle === "tapered_crop_fade") {
           frontHair = `
-            <path d="M ${cx - rx} ${headY - 5} Q ${cx} ${headY - ry - 8} ${cx + rx} ${headY - 5} Q ${cx} ${headY - 16} ${cx - rx} ${headY - 5} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - rx + 1} ${headY - 6} Q ${cx - rx} ${headY - ry - 9} ${cx} ${headY - ry - 9} Q ${cx + rx} ${headY - ry - 9} ${cx + rx - 1} ${headY - 6} L ${cx + rx - 2} ${headY - 13} Q ${cx} ${headY - 19} ${cx - rx + 2} ${headY - 13} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - rx + 5} ${headY - 18} Q ${cx} ${headY - ry - 7} ${cx + rx - 5} ${headY - 18}" fill="none" stroke="${hairColor.hi}" stroke-width="3.2" opacity="0.6" />
           `;
-        } else if (hairStyle === "textured_quiff") {
+        } else if (hairStyle === "sleek_editorial_bob") {
           frontHair = `
-            <path d="M ${cx - rx + 1} ${headY - 4} Q ${cx - 10} ${headY - ry - 18} ${cx + rx + 2} ${headY - 6} Q ${cx + 4} ${headY - 17} ${cx - rx + 1} ${headY - 4} Z" fill="${hairColor.hex}" />
-          `;
-        } else if (hairStyle === "box_braids") {
-          frontHair = `
-            <path d="M ${cx - rx - 1} ${headY - 2} Q ${cx} ${headY - ry - 9} ${cx + rx + 1} ${headY - 2} Q ${cx} ${headY - 15} ${cx - rx - 1} ${headY - 2} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - rx - 5} ${headY + 28} L ${cx - rx - 2} ${headY - 8} Q ${cx} ${headY - ry - 9} ${cx + rx + 2} ${headY - 8} L ${cx + rx + 5} ${headY + 28} L ${cx + rx - 2} ${headY + 28} Q ${cx + rx - 2} ${headY - 13} ${cx} ${headY - 15} Q ${cx - rx + 2} ${headY - 13} ${cx - rx + 2} ${headY + 28} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - rx + 2} ${headY - 4} L ${cx - rx + 1} ${headY + 24}" fill="none" stroke="${hairColor.hi}" stroke-width="2.4" opacity="0.5" />
+            <path d="M ${cx + rx - 2} ${headY - 4} L ${cx + rx - 1} ${headY + 24}" fill="none" stroke="${hairColor.hi}" stroke-width="2.4" opacity="0.5" />
           `;
         }
 
-        // Facial Details (Freckles, Beard, Stubble, Beauty Mark)
+        // Facial Details
         let facialExtras = "";
         if (brow.facial === "freckles") {
           facialExtras = `
@@ -1622,12 +1804,52 @@
             <path d="M ${cx - rx + 4} ${headY + 6} Q ${cx} ${headY + ry + 2} ${cx + rx - 4} ${headY + 6} Q ${cx} ${headY + 21} ${cx - rx + 4} ${headY + 6} Z" fill="${hairColor.hex}" opacity="0.28" />
           `;
         } else if (brow.facial === "mark") {
-          facialExtras = `<circle cx="${cx + 13}" cy="${headY + 11}" r="1.3" fill="#27160c" />`;
+          facialExtras = `<circle cx="${cx + 13}" cy="${headY + 11}" r="1.4" fill="#27160c" />`;
         }
 
         const browSlitSVG = brow.slit
           ? `<line x1="${cx + 11}" y1="${headY - 12}" x2="${cx + 13}" y2="${headY - 7}" stroke="${skin.hex}" stroke-width="2" />`
           : "";
+
+        // Expressive Mouth & Eye Variations
+        let mouthSVG = "";
+        if (expr === "fierce_smirk" || expr === "sly_charm") {
+          mouthSVG = `
+            <path d="M ${cx - 6} ${headY + 13.5} Q ${cx + 1} ${headY + 14.5} ${cx + 7.5} ${headY + 11}" fill="none" stroke="#4c0519" stroke-width="1.9" stroke-linecap="round" />
+            <ellipse cx="${cx + 1}" cy="${headY + 14.5}" rx="3" ry="1.2" fill="${skin.blush}" opacity="0.65" />
+          `;
+        } else if (expr === "joyful_beam") {
+          mouthSVG = `
+            <path d="M ${cx - 7.5} ${headY + 11.5} Q ${cx} ${headY + 19.5} ${cx + 7.5} ${headY + 11.5} Z" fill="#ffffff" stroke="#4c0519" stroke-width="1.3" />
+          `;
+        } else if (expr === "glam_pout") {
+          mouthSVG = `
+            <ellipse cx="${cx}" cy="${headY + 13.5}" rx="5.2" ry="3.3" fill="${skin.blush}" opacity="0.85" />
+            <line x1="${cx - 4.5}" y1="${headY + 13.5}" x2="${cx + 4.5}" y2="${headY + 13.5}" stroke="#4c0519" stroke-width="1.1" />
+            <ellipse cx="${cx}" cy="${headY + 15}" rx="2.2" ry="0.8" fill="#ffffff" opacity="0.65" />
+          `;
+        } else if (expr === "boss_focus") {
+          mouthSVG = `
+            <path d="M ${cx - 6} ${headY + 13} L ${cx + 6} ${headY + 13}" stroke="#4c0519" stroke-width="1.8" stroke-linecap="round" />
+          `;
+        } else {
+          // Confident Smile / Playful Wink
+          mouthSVG = `
+            <path d="M ${cx - 6.5} ${headY + 12.5} Q ${cx - 2.5} ${headY + 10.5} ${cx} ${headY + 11.8} Q ${cx + 2.5} ${headY + 10.5} ${cx + 6.5} ${headY + 12.5} Q ${cx} ${headY + 17.5} ${cx - 6.5} ${headY + 12.5} Z" fill="${skin.blush}" opacity="0.76" />
+            <path d="M ${cx - 6.5} ${headY + 12.5} Q ${cx} ${headY + 14.4} ${cx + 6.5} ${headY + 12.5}" fill="none" stroke="#4c0519" stroke-width="1.1" />
+            <ellipse cx="${cx}" cy="${headY + 14.5}" rx="2.4" ry="0.8" fill="#ffffff" opacity="0.58" />
+          `;
+        }
+
+        const rightEyeSVG = expr === "playful_wink"
+          ? `<path d="M ${cx + 5.5} ${headY - 1.5} Q ${cx + 10.5} ${headY - 5.5} ${cx + 15.5} ${headY - 1.5}" fill="none" stroke="#090d16" stroke-width="2.3" stroke-linecap="round" />`
+          : `<g transform="translate(${cx + 10.5}, ${headY - 2}) scale(1, ${eyeScaleY})">
+              <ellipse cx="0" cy="0" rx="5.4" ry="3.8" fill="#ffffff" />
+              <circle cx="0" cy="0" r="3.2" fill="${eye.color}" />
+              <circle cx="0" cy="0" r="1.6" fill="#090d16" />
+              <circle cx="-1.3" cy="-1.2" r="1.1" fill="#ffffff" />
+              <circle cx="1.2" cy="1.1" r="0.55" fill="#ffffff" />
+            </g>`;
 
         // Accessories & Props
         let accFront = "";
@@ -1659,21 +1881,20 @@
           accFront = `
             <polygon points="${cx - 14},${headY - ry + 2} ${cx - 10},${headY - ry - 13} ${cx - 4},${headY - ry - 5} ${cx},${headY - ry - 16} ${cx + 4},${headY - ry - 5} ${cx + 10},${headY - ry - 13} ${cx + 14},${headY - ry + 2}" fill="#facc15" stroke="#a16207" stroke-width="1.2" />
           `;
-        } else if (acc === "studio_mic") {
+        } else if (acc === "hoops_mic") {
           accFront = `
-            <path d="M ${cx - rx - 1} ${headY - 2} Q ${cx} ${headY - ry - 9} ${cx + rx + 1} ${headY - 2}" fill="none" stroke="#94a3b8" stroke-width="2.5" />
-            <rect x="${cx - rx - 4}" y="${headY - 6}" width="5" height="11" rx="2.5" fill="#f43f5e" />
-            <path d="M ${cx - rx - 2} ${headY + 5} Q ${cx - 12} ${headY + 14} ${cx - 5} ${headY + 13}" fill="none" stroke="#cbd5e1" stroke-width="1.8" />
+            <circle cx="${cx - rx}" cy="${headY + 10}" r="5.5" fill="none" stroke="#facc15" stroke-width="2" />
+            <circle cx="${cx + rx}" cy="${headY + 10}" r="5.5" fill="none" stroke="#facc15" stroke-width="2" />
+            <rect x="${cx - 2}" y="108" width="4" height="8" rx="1.5" fill="#18181b" stroke="#facc15" stroke-width="1" />
           `;
         }
 
         const lashes = gender === "female"
           ? `<path d="M ${cx - 16} ${headY - 4} Q ${cx - 11} ${headY - 8} ${cx - 5} ${headY - 4}" fill="none" stroke="#090d16" stroke-width="2.2" stroke-linecap="round" />
-             <path d="M ${cx + 5} ${headY - 4} Q ${cx + 11} ${headY - 8} ${cx + 16} ${headY - 4}" fill="none" stroke="#090d16" stroke-width="2.2" stroke-linecap="round" />
              <line x1="${cx - 15}" y1="${headY - 4}" x2="${cx - 18}" y2="${headY - 7}" stroke="#090d16" stroke-width="1.6" />
-             <line x1="${cx + 15}" y1="${headY - 4}" x2="${cx + 18}" y2="${headY - 7}" stroke="#090d16" stroke-width="1.6" />`
+             ${expr !== "playful_wink" ? `<path d="M ${cx + 5} ${headY - 4} Q ${cx + 11} ${headY - 8} ${cx + 16} ${headY - 4}" fill="none" stroke="#090d16" stroke-width="2.2" stroke-linecap="round" /><line x1="${cx + 15}" y1="${headY - 4}" x2="${cx + 18}" y2="${headY - 7}" stroke="#090d16" stroke-width="1.6" />` : ""}`
           : `<path d="M ${cx - 15} ${headY - 4} Q ${cx - 10} ${headY - 7} ${cx - 5} ${headY - 4}" fill="none" stroke="#090d16" stroke-width="1.8" stroke-linecap="round" />
-             <path d="M ${cx + 5} ${headY - 4} Q ${cx + 10} ${headY - 7} ${cx + 15} ${headY - 4}" fill="none" stroke="#090d16" stroke-width="1.8" stroke-linecap="round" />`;
+             ${expr !== "playful_wink" ? `<path d="M ${cx + 5} ${headY - 4} Q ${cx + 10} ${headY - 7} ${cx + 15} ${headY - 4}" fill="none" stroke="#090d16" stroke-width="1.8" stroke-linecap="round" />` : ""}`;
 
         return `
           <svg viewBox="0 0 160 184" xmlns="http://www.w3.org/2000/svg">
@@ -1693,15 +1914,12 @@
             ${ringLightBack}
             ${backHair}
 
-            <!-- Ears -->
             <ellipse cx="${cx - rx + 1}" cy="${headY + 2}" rx="4" ry="7" fill="${skin.mid}" />
             <ellipse cx="${cx + rx - 1}" cy="${headY + 2}" rx="4" ry="7" fill="${skin.mid}" />
 
-            <!-- Sculpted Neck & Collarbone -->
             <path d="M ${cx - 9} ${headY + ry - 5} L ${cx - 10} 102 L ${cx + 10} 102 L ${cx + 9} ${headY + ry - 5} Z" fill="${skin.shadow}" />
             <ellipse cx="${cx}" cy="${headY + ry - 2}" rx="9" ry="4" fill="rgba(0,0,0,0.22)" />
 
-            <!-- Modern Doll Silhouette: Shoulders -> Tapered Waist -> Hips -->
             <path d="M ${cx - shW/2} 122
                      Q ${cx - shW/2 + 2} 98 ${cx - 13} 96
                      L ${cx + 13} 96
@@ -1712,24 +1930,20 @@
                      L ${cx - waistW/2} 146 Z"
                   fill="${outfit.primary}" />
 
-            <!-- Sleeves & Forearms -->
             <path d="M ${cx - shW/2} 112 L ${cx - shW/2 - 8} 152 L ${cx - waistW/2 - 2} 166 L ${cx - waistW/2 + 4} 154 L ${cx - shW/2 + 6} 124 Z" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.2" />
             <path d="M ${cx + shW/2} 112 L ${cx + shW/2 + 8} 152 L ${cx + waistW/2 + 2} 166 L ${cx + waistW/2 - 4} 154 L ${cx + shW/2 - 6} 124 Z" fill="${outfit.primary}" stroke="${outfit.trim}" stroke-width="1.2" />
 
             ${outfitDetails}
 
-            <!-- Doll-Style Sculpted Head -->
             <path d="M ${cx - rx} ${headY - 4}
                      C ${cx - rx} ${headY - ry - 2}, ${cx + rx} ${headY - ry - 2}, ${cx + rx} ${headY - 4}
                      C ${cx + rx} ${headY + ry * 0.65}, ${cx + rx * 0.45} ${headY + ry}, ${cx} ${headY + ry}
                      C ${cx - rx * 0.45} ${headY + ry}, ${cx - rx} ${headY + ry * 0.65}, ${cx - rx} ${headY - 4} Z"
                   fill="url(#skinGrad_${uid})" />
 
-            <!-- Soft Cheek Glow -->
             <ellipse cx="${cx - 13}" cy="${headY + 6}" rx="5.5" ry="3" fill="${skin.blush}" opacity="0.22" />
             <ellipse cx="${cx + 13}" cy="${headY + 6}" rx="5.5" ry="3" fill="${skin.blush}" opacity="0.22" />
 
-            <!-- Expressive Doll Eyes with Catchlights -->
             <g transform="translate(${cx - 10.5}, ${headY - 2}) scale(1, ${eyeScaleY})">
               <ellipse cx="0" cy="0" rx="5.4" ry="3.8" fill="#ffffff" />
               <circle cx="0" cy="0" r="3.2" fill="${eye.color}" />
@@ -1737,28 +1951,16 @@
               <circle cx="-1.3" cy="-1.2" r="1.1" fill="#ffffff" />
               <circle cx="1.2" cy="1.1" r="0.55" fill="#ffffff" />
             </g>
-            <g transform="translate(${cx + 10.5}, ${headY - 2}) scale(1, ${eyeScaleY})">
-              <ellipse cx="0" cy="0" rx="5.4" ry="3.8" fill="#ffffff" />
-              <circle cx="0" cy="0" r="3.2" fill="${eye.color}" />
-              <circle cx="0" cy="0" r="1.6" fill="#090d16" />
-              <circle cx="-1.3" cy="-1.2" r="1.1" fill="#ffffff" />
-              <circle cx="1.2" cy="1.1" r="0.55" fill="#ffffff" />
-            </g>
+            ${rightEyeSVG}
             ${lashes}
 
-            <!-- Sculpted Eyebrows -->
             <path d="M ${cx - 16} ${headY - 9} Q ${cx - 10.5} ${headY - 12.5} ${cx - 5} ${headY - 9.5}" fill="none" stroke="${hairColor.hex}" stroke-width="2.2" stroke-linecap="round" />
             <path d="M ${cx + 5} ${headY - 9.5} Q ${cx + 10.5} ${headY - 12.5} ${cx + 16} ${headY - 9}" fill="none" stroke="${hairColor.hex}" stroke-width="2.2" stroke-linecap="round" />
             ${browSlitSVG}
 
-            <!-- Nose Highlight & Contour -->
             <path d="M ${cx} ${headY - 1} L ${cx - 1.5} ${headY + 5.5} Q ${cx} ${headY + 7} ${cx + 2} ${headY + 5.5}" fill="none" stroke="${skin.shadow}" stroke-width="1.4" stroke-linecap="round" />
 
-            <!-- Full Glossy Lips -->
-            <path d="M ${cx - 6.5} ${headY + 12.5} Q ${cx - 2.5} ${headY + 10.5} ${cx} ${headY + 11.8} Q ${cx + 2.5} ${headY + 10.5} ${cx + 6.5} ${headY + 12.5} Q ${cx} ${headY + 17.5} ${cx - 6.5} ${headY + 12.5} Z" fill="${skin.blush}" opacity="0.72" />
-            <path d="M ${cx - 6.5} ${headY + 12.5} Q ${cx} ${headY + 14.2} ${cx + 6.5} ${headY + 12.5}" fill="none" stroke="#4c0519" stroke-width="1.1" />
-            <ellipse cx="${cx}" cy="${headY + 14.4}" rx="2.4" ry="0.8" fill="#ffffff" opacity="0.55" />
-
+            ${mouthSVG}
             ${facialExtras}
             ${frontHair}
             ${accFront}
@@ -1771,20 +1973,22 @@
           return {
             bodyShape: "hourglass",
             skinTone: "caramel",
+            expression: "confident_smile",
             eyeStyle: "almond_luxe",
             browFeature: "arched_glam",
-            hairStyle: path === "chef" ? "braided_crown" : "glam_waves",
+            hairStyle: path === "chef" ? "braided_crown" : "silk_press_layers",
             hairColor: "jet",
-            outfit: path === "chef" ? "chef_piped" : "velvet_couture",
-            accessory: path === "chef" ? "chef_cap" : "royal_crown"
+            outfit: path === "chef" ? "chef_piped" : "corset_suit",
+            accessory: path === "chef" ? "chef_cap" : "hoops_mic"
           };
         }
         return {
           bodyShape: "athletic",
           skinTone: "olive",
+          expression: "fierce_smirk",
           eyeStyle: "amber_gold",
           browFeature: "sharp_slit",
-          hairStyle: "platinum_fade",
+          hairStyle: "tapered_crop_fade",
           hairColor: path === "chef" ? "jet" : "platinum",
           outfit: path === "chef" ? "chef_obsidian" : "baroque_blazer",
           accessory: path === "chef" ? "chef_knife" : "collar_shades"
@@ -1802,7 +2006,7 @@
         path: "social",
         genre: "glam",
         difficulty: "normal",
-        wardrobeTab: "body", // body | face | hair | style
+        wardrobeTab: "hair",
         avatarCfg: defaultAvatarConfig("female", "social")
       };
 
@@ -1816,6 +2020,8 @@
             genre: "glam",
             difficulty: "normal",
             avatarCfg: defaultAvatarConfig("female", "social"),
+            level: 1,
+            xp: 0,
             day: 1,
             maxDays: 180,
             hub: "",
@@ -1829,9 +2035,12 @@
             prices: {},
             hustleCount: 0,
             hustleStreak: 0,
+            gigsCompleted: 0,
+            salesCount: 0,
+            claimedMissions: [],
             storyLog: [],
             triggeredEpisodes: [],
-            news: "Design your modern doll-style mogul, name your character (up to 20 chars), and choose your path!",
+            news: "Design your contemporary doll-style mogul, tap the portrait to test expressions, and launch your empire!",
             tab: "market"
           };
         }
@@ -1850,6 +2059,8 @@
           genre: setup.genre,
           difficulty: setup.difficulty,
           avatarCfg: Object.assign({}, setup.avatarCfg),
+          level: 1,
+          xp: 0,
           day: 1,
           maxDays: 180,
           hub: cfg.hubs[0].id,
@@ -1863,9 +2074,12 @@
           prices: {},
           hustleCount: 0,
           hustleStreak: 0,
+          gigsCompleted: 0,
+          salesCount: 0,
+          claimedMissions: [],
           storyLog: [],
           triggeredEpisodes: [],
-          news: `📖 ${finalName}'s "${arc.title}" (${diff.label}) — Tap to earn instant cash or trade the market!`,
+          news: `📖 ${finalName}'s "${arc.title}" (${diff.label}) — Complete Missions & Gigs to Level Up!`,
           tab: "market"
         };
       }
@@ -1874,7 +2088,7 @@
       let undoAvailable = false;
       let activeMiniGame = null;
       let miniGameTimer = null;
-      let settingsWardrobeTab = "body";
+      let settingsWardrobeTab = "hair";
 
       async function computeHash(payloadStr) {
         const enc = new TextEncoder().encode(payloadStr + "::" + INTEGRITY_SALT);
@@ -1945,6 +2159,44 @@
       function formatStoryText(tpl, name) { return tpl.replace(/\{NAME\}/g, sanitizeName(name)); }
       function getNetWorth() { return state.cash + state.vault - state.debt; }
 
+      function getXpNeeded(lvl) {
+        return lvl * 100;
+      }
+
+      function getLevelIncomeMultiplier() {
+        return 1 + (state.level - 1) * 0.15;
+      }
+
+      function awardXP(amount) {
+        state.xp += amount;
+        let leveledUp = false;
+        while (state.xp >= getXpNeeded(state.level)) {
+          state.xp -= getXpNeeded(state.level);
+          state.level += 1;
+          leveledUp = true;
+        }
+        if (leveledUp) {
+          const pctBonus = Math.round((getLevelIncomeMultiplier() - 1) * 100);
+          state.news = `🎉 LEVEL UP! ${state.charName} reached Level ${state.level}! All Hustle & Gig payouts now +${pctBonus}%!`;
+        }
+      }
+
+      function getMissionProgress(m) {
+        if (m.metric === "hustleCount") return state.hustleCount;
+        if (m.metric === "gigsCompleted") return state.gigsCompleted;
+        if (m.metric === "salesCount") return state.salesCount;
+        if (m.metric === "debtCleared") return state.debt <= 0 ? 1 : 0;
+        if (m.metric === "levelReached") return state.level;
+        if (m.metric === "netWorth") return Math.max(0, getNetWorth());
+        return 0;
+      }
+
+      function hasClaimableMissions() {
+        if (!state.started) return false;
+        const cfg = getCfg();
+        return cfg.missions.some(m => !state.claimedMissions.includes(m.id) && getMissionProgress(m) >= m.target);
+      }
+
       function getCapacity() {
         const cfg = getCfg();
         const bonus = state.upgrades.reduce((sum, uId) => {
@@ -1971,7 +2223,7 @@
           return sum + (found ? found.clickBonus : 0);
         }, 0);
         const streakMult = 1 + Math.min(1.0, Math.floor(state.hustleStreak / 10) * 0.25);
-        return Math.round((cfg.baseClickPay + upgBonus) * hubObj.mult * streakMult);
+        return Math.round((cfg.baseClickPay + upgBonus) * hubObj.mult * streakMult * getLevelIncomeMultiplier());
       }
 
       function getUsedCapacity() {
@@ -2010,6 +2262,7 @@
           btn.onclick = () => {
             const finalCash = Math.round(opt.cashDelta * getDiff().mult);
             state.cash += finalCash;
+            awardXP(50);
             const resolvedOutcome = formatStoryText(opt.outcome, state.charName);
             state.storyLog.push({
               chapter: ep.chapter,
@@ -2017,7 +2270,7 @@
               outcome: resolvedOutcome,
               cashDelta: finalCash
             });
-            state.news = `🎭 [${opt.tag}] +${fmt(finalCash)}! ${resolvedOutcome}`;
+            state.news = `🎭 [${opt.tag}] +${fmt(finalCash)} & +50 XP! ${resolvedOutcome}`;
             modal.classList.remove("open");
             saveGame();
             render();
@@ -2079,7 +2332,7 @@
             path: state.path,
             genre: state.genre,
             difficulty: state.difficulty,
-            wardrobeTab: "body",
+            wardrobeTab: "hair",
             avatarCfg: Object.assign({}, state.avatarCfg)
           };
         }
@@ -2108,7 +2361,8 @@
             if (ch.correct) {
               const bonus = Math.round(ch.reward * diff.mult);
               state.cash += bonus;
-              state.news = `✅ +${fmt(bonus)} Bonus! ${ch.note}`;
+              awardXP(40);
+              state.news = `✅ +${fmt(bonus)} & +40 XP! ${ch.note}`;
             } else {
               const loss = Math.round(ch.penalty / diff.mult);
               state.cash = Math.max(0, state.cash - loss);
@@ -2151,6 +2405,8 @@
         existing.qty -= actualQty;
         if (existing.qty === 0) delete state.inventory[id];
         state.cash += revenue;
+        state.salesCount += 1;
+        awardXP(15);
         checkTelltaleProgression();
         saveGame();
         render();
@@ -2179,13 +2435,44 @@
         render();
       }
 
+      function updateHeaderLevelUI() {
+        const row = document.getElementById("level-bar-row");
+        if (!state.started) {
+          row.style.display = "none";
+          return;
+        }
+        row.style.display = "flex";
+        const needed = getXpNeeded(state.level);
+        const pct = Math.min(100, Math.round((state.xp / needed) * 100));
+        document.getElementById("lvl-badge").textContent = `LVL ${state.level}`;
+        document.getElementById("xp-fill").style.width = `${pct}%`;
+        document.getElementById("xp-text").textContent = `${state.xp} / ${needed} XP`;
+
+        const mBtn = document.getElementById("nav-missions-btn");
+        if (mBtn) {
+          const existingDot = mBtn.querySelector(".nav-dot");
+          if (hasClaimableMissions()) {
+            if (!existingDot) {
+              const dot = document.createElement("span");
+              dot.className = "nav-dot";
+              mBtn.appendChild(dot);
+            }
+          } else if (existingDot) {
+            existingDot.remove();
+          }
+        }
+      }
+
       function handleHustleClick(event, cardEl) {
         const earned = getClickPayout();
         state.cash += earned;
         state.hustleCount += 1;
         state.hustleStreak = Math.min(40, state.hustleStreak + 1);
+        awardXP(3);
 
         document.getElementById("stat-cash").textContent = fmt(state.cash);
+        updateHeaderLevelUI();
+
         const nextPay = getClickPayout();
         const cfg = getCfg();
         const btn = cardEl.querySelector("#hustle-tap-btn");
@@ -2203,17 +2490,77 @@
 
         const pop = document.createElement("span");
         pop.className = "float-pop";
-        pop.textContent = `+${fmt(earned)}`;
+        pop.textContent = `+${fmt(earned)} • +3 XP`;
         const rect = cardEl.getBoundingClientRect();
         const x = event && event.clientX ? event.clientX - rect.left : rect.width / 2;
         const y = event && event.clientY ? event.clientY - rect.top : 45;
-        pop.style.left = `${Math.max(16, Math.min(rect.width - 70, x - 20))}px`;
+        pop.style.left = `${Math.max(16, Math.min(rect.width - 110, x - 40))}px`;
         pop.style.top = `${Math.max(10, y - 18)}px`;
         cardEl.appendChild(pop);
         setTimeout(() => pop.remove(), 750);
 
         saveGame();
         checkTelltaleProgression();
+      }
+
+      function renderMissionsTab(container) {
+        const cfg = getCfg();
+        const diff = getDiff();
+        const bonusPct = Math.round((getLevelIncomeMultiplier() - 1) * 100);
+
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <h2><span>🎯 Career Missions &amp; Tasks</span><span style="font-size:0.73rem;color:var(--accent)">Level ${state.level} (+${bonusPct}% Pay)</span></h2>
+          <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:10px;">
+            Complete tasks and side gigs to earn instant cash and XP. Every Level Up permanently boosts your hustle &amp; gig payouts!
+          </p>
+          <div id="missions-list"></div>
+        `;
+
+        const list = card.querySelector("#missions-list");
+        cfg.missions.forEach(m => {
+          const claimed = state.claimedMissions.includes(m.id);
+          const prog = getMissionProgress(m);
+          const pct = Math.min(100, Math.round((prog / m.target) * 100));
+          const ready = !claimed && prog >= m.target;
+          const scaledCash = Math.round(m.cashReward * diff.mult);
+
+          const item = document.createElement("div");
+          item.className = "mission-card" + (ready ? " ready" : "") + (claimed ? " claimed" : "");
+          item.innerHTML = `
+            <div class="mission-header">
+              <div>
+                <div class="mission-title">${claimed ? "✅" : (ready ? "🎁" : "📌")} ${m.title}</div>
+                <div style="font-size:0.74rem;color:var(--text-secondary);">${m.desc}</div>
+              </div>
+              <span class="mission-reward-pill">+${fmt(scaledCash)} • +${m.xpReward} XP</span>
+            </div>
+            <div class="mission-progress-bar"><div class="mission-progress-fill" style="width:${pct}%"></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.72rem;color:var(--text-secondary);">
+              <span>Progress: ${Math.min(prog, m.target).toLocaleString()} / ${m.target.toLocaleString()}</span>
+              ${ready ? `<button class="btn btn-success" data-claim="${m.id}">Claim Reward</button>` : `<span>${claimed ? "Completed" : `${pct}%`}</span>`}
+            </div>
+          `;
+          list.appendChild(item);
+        });
+
+        card.querySelectorAll("[data-claim]").forEach(btn => {
+          btn.onclick = () => {
+            const m = cfg.missions.find(x => x.id === btn.dataset.claim);
+            if (!m || state.claimedMissions.includes(m.id)) return;
+            state.claimedMissions.push(m.id);
+            const payout = Math.round(m.cashReward * diff.mult);
+            state.cash += payout;
+            state.news = `🎯 Mission Complete: "${m.title}" (+${fmt(payout)} & +${m.xpReward} XP)!`;
+            awardXP(m.xpReward);
+            checkTelltaleProgression();
+            saveGame();
+            render();
+          };
+        });
+
+        container.appendChild(card);
       }
 
       function clearMiniGameTimer() {
@@ -2227,26 +2574,27 @@
         const cfg = getCfg();
         const diff = getDiff();
         const gigs = cfg.gigs;
+        const lvlMult = getLevelIncomeMultiplier();
 
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
-          <h2><span>🎮 ${cfg.label} Side Gigs</span><span style="font-size:0.73rem;color:var(--text-secondary)">0 Days Used</span></h2>
+          <h2><span>🎮 ${cfg.label} Side Gigs</span><span style="font-size:0.73rem;color:var(--text-secondary)">Cash + XP • 0 Days</span></h2>
           <p style="font-size:0.79rem;color:var(--text-secondary);margin-bottom:10px;">
-            Play quick side-gig mini-games to earn extra cash anytime without spending travel days!
+            Play quick side-gig mini-games to earn cash and XP toward your next Level Up!
           </p>
           <div class="choice-grid-3">
             <button class="select-tile ${activeMiniGame && activeMiniGame.type === "reflex" ? "selected" : ""}" id="start-mg-reflex">
               <span class="tile-title">⚡ Rush Tap</span>
-              <span class="tile-sub">12s reflex hustle</span>
+              <span class="tile-sub">12s reflex + XP</span>
             </button>
             <button class="select-tile ${activeMiniGame && activeMiniGame.type === "timing" ? "selected" : ""}" id="start-mg-timing">
               <span class="tile-title">🎯 Sweetspot</span>
-              <span class="tile-sub">Precision drop</span>
+              <span class="tile-sub">Precision + XP</span>
             </button>
             <button class="select-tile ${activeMiniGame && activeMiniGame.type === "trivia" ? "selected" : ""}" id="start-mg-trivia">
               <span class="tile-title">💼 Pro Quiz</span>
-              <span class="tile-sub">3-question bonus</span>
+              <span class="tile-sub">3-Q audit + XP</span>
             </button>
           </div>
           <div id="minigame-arena"></div>
@@ -2273,10 +2621,13 @@
             activeMiniGame.timeLeft -= 1;
             if (activeMiniGame.timeLeft <= 0) {
               clearMiniGameTimer();
-              const payout = Math.max(0, Math.round(activeMiniGame.score * gigs.reflex.payPerHit * diff.mult));
+              const payout = Math.max(0, Math.round(activeMiniGame.score * gigs.reflex.payPerHit * diff.mult * lvlMult));
+              const xpEarned = Math.max(15, activeMiniGame.score * 4);
               state.cash += payout;
-              state.news = `⚡ Side Gig Complete! Earned +${fmt(payout)}!`;
-              activeMiniGame = { type: "done", summary: `Time's up! You earned +${fmt(payout)}!` };
+              state.gigsCompleted += 1;
+              state.news = `⚡ Side Gig Complete! +${fmt(payout)} & +${xpEarned} XP!`;
+              awardXP(xpEarned);
+              activeMiniGame = { type: "done", summary: `Time's up! Earned +${fmt(payout)} & +${xpEarned} XP!` };
               saveGame();
               checkTelltaleProgression();
             }
@@ -2366,16 +2717,19 @@
             const p = activeMiniGame.pos;
             const inSweet = p >= 36 && p <= 62;
             const mult = inSweet ? 2.5 : 0.6;
-            const reward = Math.round(gigs.timing.baseReward * mult * diff.mult);
+            const reward = Math.round(gigs.timing.baseReward * mult * diff.mult * lvlMult);
+            const xpEarned = inSweet ? 45 : 15;
             state.cash += reward;
+            state.gigsCompleted += 1;
             state.news = inSweet
-              ? `🎯 PERFECT HIT! +${fmt(reward)} Side-Gig Bonus!`
-              : `👍 Good Effort! +${fmt(reward)} Side-Gig Payout.`;
+              ? `🎯 PERFECT HIT! +${fmt(reward)} & +${xpEarned} XP!`
+              : `👍 Good Effort! +${fmt(reward)} & +${xpEarned} XP.`;
+            awardXP(xpEarned);
             activeMiniGame = {
               type: "done",
               summary: inSweet
-                ? `BULLSEYE! You hit the sweetspot for +${fmt(reward)}!`
-                : `Missed the green zone slightly—earned +${fmt(reward)}.`
+                ? `BULLSEYE! Hit the sweetspot for +${fmt(reward)} & +${xpEarned} XP!`
+                : `Missed slightly—earned +${fmt(reward)} & +${xpEarned} XP.`
             };
             saveGame();
             checkTelltaleProgression();
@@ -2405,12 +2759,15 @@
               if (idx === qObj.ok) activeMiniGame.correctCount += 1;
               activeMiniGame.qIdx += 1;
               if (activeMiniGame.qIdx >= gigs.trivia.questions.length) {
-                const earned = Math.round((activeMiniGame.correctCount / 3) * gigs.trivia.reward * diff.mult);
+                const earned = Math.round((activeMiniGame.correctCount / 3) * gigs.trivia.reward * diff.mult * lvlMult);
+                const xpEarned = 20 + activeMiniGame.correctCount * 15;
                 state.cash += earned;
-                state.news = `💼 Audit Gig Finished (${activeMiniGame.correctCount}/3)! +${fmt(earned)}!`;
+                state.gigsCompleted += 1;
+                state.news = `💼 Audit Gig Finished (${activeMiniGame.correctCount}/3)! +${fmt(earned)} & +${xpEarned} XP!`;
+                awardXP(xpEarned);
                 activeMiniGame = {
                   type: "done",
-                  summary: `You scored ${activeMiniGame.correctCount}/3 and earned +${fmt(earned)}!`
+                  summary: `Scored ${activeMiniGame.correctCount}/3 for +${fmt(earned)} & +${xpEarned} XP!`
                 };
                 saveGame();
                 checkTelltaleProgression();
@@ -2438,15 +2795,15 @@
         banner.querySelector("#undo-reset-btn").onclick = restoreUndoBackup;
       }
 
-      // Tabbed Modern Doll Palace Wardrobe Studio Controls
+      // Interactive Contemporary Wardrobe Studio Controls
       function renderAvatarControls(parentEl, targetAvatarCfg, activeSubTab, onTabSwitch, onChange) {
         const wrap = document.createElement("div");
         wrap.innerHTML = `
           <div class="wardrobe-tabs">
-            <button type="button" class="w-tab-btn ${activeSubTab === "body" ? "active" : ""}" data-wtab="body">🧍 Body &amp; Skin</button>
-            <button type="button" class="w-tab-btn ${activeSubTab === "face" ? "active" : ""}" data-wtab="face">👁️ Eyes &amp; Face</button>
             <button type="button" class="w-tab-btn ${activeSubTab === "hair" ? "active" : ""}" data-wtab="hair">💇 Hair Studio</button>
-            <button type="button" class="w-tab-btn ${activeSubTab === "style" ? "active" : ""}" data-wtab="style">🧥 Outfit &amp; Gear</button>
+            <button type="button" class="w-tab-btn ${activeSubTab === "face" ? "active" : ""}" data-wtab="face">👁️ Face &amp; Mood</button>
+            <button type="button" class="w-tab-btn ${activeSubTab === "style" ? "active" : ""}" data-wtab="style">🧥 Fashion &amp; Pro</button>
+            <button type="button" class="w-tab-btn ${activeSubTab === "body" ? "active" : ""}" data-wtab="body">🧍 Body &amp; Skin</button>
           </div>
           <div id="wardrobe-panel"></div>
         `;
@@ -2460,7 +2817,7 @@
         const addPills = (label, list, key) => {
           const sec = document.createElement("div");
           sec.className = "setup-section";
-          sec.innerHTML = `<span class="setup-label">${label} (7 Variations)</span><div class="theme-pills"></div>`;
+          sec.innerHTML = `<span class="setup-label">${label} (7 Styles)</span><div class="theme-pills"></div>`;
           const box = sec.querySelector(".theme-pills");
           list.forEach(item => {
             const b = document.createElement("button");
@@ -2490,21 +2847,29 @@
           panel.appendChild(sec);
         };
 
-        if (activeSubTab === "body") {
-          addPills("Silhouette & Proportions", AVATAR_TEMPLATES.bodyShape, "bodyShape");
-          addSwatches("Skin Tone", AVATAR_TEMPLATES.skinTone, "skinTone", "hex");
+        if (activeSubTab === "hair") {
+          addPills("Contemporary Hairstyles", AVATAR_TEMPLATES.hairStyle, "hairStyle");
+          addSwatches("Hair Color & Balayage", AVATAR_TEMPLATES.hairColor, "hairColor", "hex");
         } else if (activeSubTab === "face") {
-          addSwatches("Doll Eye Color & Shape", AVATAR_TEMPLATES.eyeStyle, "eyeStyle", "color");
-          addPills("Brows & Facial Details", AVATAR_TEMPLATES.browFeature, "browFeature");
-        } else if (activeSubTab === "hair") {
-          addPills("Modern Haircut & Updo", AVATAR_TEMPLATES.hairStyle, "hairStyle");
-          addSwatches("Hair Color", AVATAR_TEMPLATES.hairColor, "hairColor", "hex");
+          addPills("Facial Expression & Mood", AVATAR_TEMPLATES.expression, "expression");
+          addSwatches("Doll Eye Color", AVATAR_TEMPLATES.eyeStyle, "eyeStyle", "color");
+          addPills("Brows, Beard & Details", AVATAR_TEMPLATES.browFeature, "browFeature");
         } else if (activeSubTab === "style") {
-          addPills("Designer Outfit", AVATAR_TEMPLATES.outfit, "outfit");
-          addPills("Signature Prop & Accessory", AVATAR_TEMPLATES.accessory, "accessory");
+          addPills("Contemporary & Pro Outfits", AVATAR_TEMPLATES.outfit, "outfit");
+          addPills("Accessories & Studio Gear", AVATAR_TEMPLATES.accessory, "accessory");
+        } else if (activeSubTab === "body") {
+          addPills("Body Silhouette", AVATAR_TEMPLATES.bodyShape, "bodyShape");
+          addSwatches("Skin Tone", AVATAR_TEMPLATES.skinTone, "skinTone", "hex");
         }
 
         parentEl.appendChild(wrap);
+      }
+
+      function cycleExpression(targetAvatarCfg, onDone) {
+        const list = AVATAR_TEMPLATES.expression;
+        const idx = list.findIndex(e => e.id === targetAvatarCfg.expression);
+        targetAvatarCfg.expression = list[(idx + 1) % list.length].id;
+        onDone();
       }
 
       function renderCharacterBuilder(container) {
@@ -2516,6 +2881,7 @@
         const previewCfg = PATH_DATA[draftSetup.path];
         const displayName = sanitizeName(draftSetup.charName);
         const avatarSVG = renderAvatarSVG(draftSetup.avatarCfg, draftSetup.gender);
+        const exprObj = AVATAR_TEMPLATES.expression.find(e => e.id === draftSetup.avatarCfg.expression) || AVATAR_TEMPLATES.expression[0];
 
         document.getElementById("avatar-display").innerHTML = avatarSVG;
         document.getElementById("player-title").textContent = displayName;
@@ -2529,18 +2895,24 @@
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
-          <h2><span>🎭 Design Your Mogul</span></h2>
+          <h2><span>🎭 Interactive Character Studio</span></h2>
 
           <div class="doll-studio-stage">
-            <div class="doll-preview-frame" id="live-avatar-stage">${avatarSVG}</div>
+            <div class="doll-preview-frame" id="live-avatar-stage" title="Tap character to change pose & expression">
+              ${avatarSVG}
+              <span class="doll-tap-hint">👆 Tap Pose</span>
+            </div>
             <div style="flex:1;min-width:0;">
               <div style="font-weight:900;font-size:1.05rem;color:var(--accent);" id="stage-name-label">${displayName}</div>
-              <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:8px;">
+              <div style="font-size:0.74rem;color:var(--text-secondary);margin-bottom:3px;">
                 ${draftSetup.gender === "female" ? "Female" : "Male"} • ${previewCfg.label}
+              </div>
+              <div style="font-size:0.71rem;color:var(--success);font-weight:700;margin-bottom:8px;">
+                Mood: ${exprObj.label}
               </div>
               <div style="display:flex;gap:6px;flex-wrap:wrap;">
                 <button type="button" class="pill-btn" id="randomize-avatar-btn">🎲 Randomize</button>
-                <button type="button" class="pill-btn" id="preset-look-btn">✨ Signature Look</button>
+                <button type="button" class="pill-btn" id="preset-look-btn">✨ Pro Look</button>
               </div>
             </div>
           </div>
@@ -2568,7 +2940,7 @@
           </div>
 
           <div class="setup-section">
-            <span class="setup-label">3. Customize Doll Studio Features</span>
+            <span class="setup-label">3. Hairstyles, Expression &amp; Fashion Studio</span>
             <div id="avatar-template-mount"></div>
           </div>
 
@@ -2577,11 +2949,11 @@
             <div class="choice-grid-2">
               <button class="select-tile ${draftSetup.path === "social" ? "selected" : ""}" data-p="social">
                 <span class="tile-title">🤳 Social Media Guru</span>
-                <span class="tile-sub">Tap-for-Views clicker, viral audio &amp; brand deals</span>
+                <span class="tile-sub">Viral clips clicker, brand missions &amp; media equity</span>
               </button>
               <button class="select-tile ${draftSetup.path === "chef" ? "selected" : ""}" data-p="chef">
                 <span class="tile-title">🍳 Homecook to Chef</span>
-                <span class="tile-sub">Sell-Dishes clicker, truffles, Wagyu &amp; bistros</span>
+                <span class="tile-sub">Sell dishes clicker, culinary missions &amp; bistros</span>
               </button>
             </div>
           </div>
@@ -2632,6 +3004,10 @@
 
         container.appendChild(card);
 
+        card.querySelector("#live-avatar-stage").onclick = () => {
+          cycleExpression(draftSetup.avatarCfg, render);
+        };
+
         renderAvatarControls(
           card.querySelector("#avatar-template-mount"),
           draftSetup.avatarCfg,
@@ -2656,6 +3032,7 @@
           draftSetup.avatarCfg = {
             bodyShape: pick(AVATAR_TEMPLATES.bodyShape),
             skinTone: pick(AVATAR_TEMPLATES.skinTone),
+            expression: pick(AVATAR_TEMPLATES.expression),
             eyeStyle: pick(AVATAR_TEMPLATES.eyeStyle),
             browFeature: pick(AVATAR_TEMPLATES.browFeature),
             hairStyle: pick(AVATAR_TEMPLATES.hairStyle),
@@ -2688,6 +3065,7 @@
 
       function render() {
         renderUndoBanner();
+        updateHeaderLevelUI();
 
         const navBar = document.getElementById("bottom-nav");
         const container = document.getElementById("view-container");
@@ -2708,7 +3086,7 @@
 
         navBar.style.display = "grid";
         document.getElementById("avatar-display").innerHTML = avatarSVG;
-        document.getElementById("player-title").textContent = `${state.charName} • ${cfg.label}`;
+        document.getElementById("player-title").textContent = `${state.charName} • Lvl ${state.level}`;
         document.getElementById("tier-subtitle").textContent = `Day ${state.day} / ${state.maxDays} • ${getTierLabel()}`;
         document.getElementById("debt-label").textContent = cfg.debtLabel;
         document.getElementById("stat-cash").textContent = fmt(state.cash);
@@ -2787,6 +3165,10 @@
           card.querySelectorAll("[data-buy1]").forEach(b => b.onclick = () => buyItem(b.dataset.buy1, 1));
           card.querySelectorAll("[data-buymax]").forEach(b => b.onclick = () => buyItem(b.dataset.buymax, 9999));
           card.querySelectorAll("[data-sellall]").forEach(b => b.onclick = () => sellItem(b.dataset.sellall, 9999));
+        }
+
+        if (state.tab === "missions") {
+          renderMissionsTab(container);
         }
 
         if (state.tab === "gigs") {
@@ -2920,6 +3302,7 @@
               if (u && state.cash >= u.cost && !state.upgrades.includes(u.id)) {
                 state.cash -= u.cost;
                 state.upgrades.push(u.id);
+                awardXP(30);
                 saveGame();
                 render();
               }
@@ -2931,10 +3314,13 @@
           const card = document.createElement("div");
           card.className = "card";
           card.innerHTML = `
-            <h2><span>⚙️ Doll Wardrobe, Name &amp; Settings</span></h2>
+            <h2><span>⚙️ Contemporary Wardrobe &amp; Style</span></h2>
 
             <div class="doll-studio-stage">
-              <div class="doll-preview-frame">${avatarSVG}</div>
+              <div class="doll-preview-frame" id="settings-avatar-stage" title="Tap to change expression">
+                ${avatarSVG}
+                <span class="doll-tap-hint">👆 Tap Pose</span>
+              </div>
               <div style="flex:1;min-width:0;">
                 <span class="setup-label"><span>Character Name</span><span>${state.charName.length}/20</span></span>
                 <input type="text" maxlength="20" class="text-input" id="settings-name-input" value="${state.charName.replace(/"/g, "&quot;")}" />
@@ -2954,12 +3340,16 @@
 
             <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
               <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:8px;">
-                Want to switch <strong>Gender, Path, Story Genre, or Difficulty</strong>? Resetting returns to the Character Builder and saves a <strong>1-time Undo backup</strong>.
+                Want to switch <strong>Gender, Path, Story Genre, or Difficulty</strong>? Resetting returns to the Character Studio and saves a <strong>1-time Undo backup</strong>.
               </p>
-              <button class="btn btn-danger btn-full" id="reset-game-btn">🔄 Reset Game &amp; Return to Character Builder</button>
+              <button class="btn btn-danger btn-full" id="reset-game-btn">🔄 Reset Game &amp; Return to Character Studio</button>
               ${undoAvailable ? '<button class="btn btn-success btn-full" id="settings-undo-btn" style="margin-top:8px;">↩️ Undo Last Reset (Restore Save)</button>' : ""}
             </div>
           `;
+
+          card.querySelector("#settings-avatar-stage").onclick = () => {
+            cycleExpression(state.avatarCfg, () => { saveGame(); render(); });
+          };
 
           renderAvatarControls(
             card.querySelector("#settings-avatar-mount"),

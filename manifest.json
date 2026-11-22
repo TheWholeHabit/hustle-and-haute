@@ -1,7 +1,7 @@
 {
   "name": "Hustle & Haute: Empire Simulator",
   "short_name": "Hustle & Haute",
-  "description": "Free Social Media Guru & Homecook to Chef story-driven empire simulator with modern doll avatar creator, side gigs, and Telltale choices.",
+  "description": "Free Social Media Guru & Homecook to Chef story-driven empire simulator with interactive doll avatar creator, missions, leveling, and side gigs.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
