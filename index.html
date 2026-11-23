@@ -1160,6 +1160,95 @@
       animation: subtleHeadBob 3.6s ease-in-out infinite;
     }
 
+  
+    /* Persistent Header Reputation Scorecard Meter */
+    .rep-scorecard-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 6px 10px;
+    }
+    .rep-grade-badge {
+      font-size: 0.69rem;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+      letter-spacing: 0.03em;
+    }
+    .rep-grade-high { background: rgba(16, 185, 129, 0.22); color: #6ee7b7; border: 1px solid var(--success); }
+    .rep-grade-mid  { background: rgba(56, 189, 248, 0.18); color: #7dd3fc; border: 1px solid #38bdf8; }
+    .rep-grade-low  { background: rgba(239, 68, 68, 0.22); color: #fca5a5; border: 1px solid var(--danger); }
+
+    .rep-track {
+      flex: 1;
+      height: 7px;
+      background: var(--bg-card);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .rep-fill {
+      height: 100%;
+      transition: width 0.35s ease, background 0.35s ease;
+    }
+    .rep-delta-pop {
+      font-size: 0.68rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    /* End-of-Story Slow-Scrolling Autobiography Documentary Reel & Final Rating Modal */
+    .bio-scroll-viewport {
+      max-height: 250px;
+      overflow-y: auto;
+      background: linear-gradient(180deg, #070b14 0%, #111827 100%);
+      border: 1.5px solid var(--accent);
+      border-radius: 12px;
+      padding: 14px;
+      scroll-behavior: smooth;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .bio-chapter-block {
+      border-left: 2.5px solid var(--accent);
+      padding-left: 10px;
+    }
+    .bio-chapter-title {
+      font-size: 0.78rem;
+      font-weight: 900;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 3px;
+    }
+    .bio-chapter-body {
+      font-size: 0.8rem;
+      color: var(--text-primary);
+      line-height: 1.48;
+    }
+    .final-verdict-box {
+      background: var(--bg-primary);
+      border: 2px solid var(--accent);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+    .verdict-grade-pill {
+      display: inline-block;
+      font-size: 1.05rem;
+      font-weight: 900;
+      padding: 4px 14px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+    }
+
   </style>
 </head>
 <body>
@@ -1184,6 +1273,12 @@
         <span class="lvl-badge" id="lvl-badge">LVL 1</span>
         <div class="xp-track"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
         <span class="xp-text" id="xp-text">0 / 100 XP</span>
+      </div>
+
+      <div class="rep-scorecard-bar" id="rep-scorecard-row" style="display:none;">
+        <span class="rep-grade-badge rep-grade-mid" id="rep-grade-badge">⭐ REP 50 • STEADY</span>
+        <div class="rep-track"><div class="rep-fill" id="rep-fill" style="width:50%;background:#38bdf8;"></div></div>
+        <span class="rep-delta-pop" id="rep-status-note" style="color:var(--text-secondary);">Public Standing</span>
       </div>
 
       <div class="stats-grid">
@@ -1265,6 +1360,34 @@
     </div>
   </div>
 
+
+  <!-- End-of-Story Slow-Scrolling Autobiography Reel & Gameplay Style Review Modal -->
+  <div class="modal-backdrop" id="biography-modal">
+    <div class="modal-box">
+      <div class="cine-header">
+        <span class="rec-pill"><span class="rec-dot"></span><span id="bio-reel-status">🎬 AUTOBIOGRAPHY DOCUMENTARY REEL</span></span>
+        <button type="button" class="pill-btn" id="bio-pause-btn">⏸️ Pause Scroll</button>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;background:var(--bg-primary);border:1px solid var(--border);border-radius:12px;padding:10px;">
+        <div class="cine-avatar-box" id="bio-avatar-mount" style="width:78px;height:96px;"></div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:900;font-size:0.96rem;color:var(--accent);" id="bio-doc-title">The Rise of Nova</div>
+          <div style="font-size:0.74rem;color:var(--text-secondary);" id="bio-doc-sub">Career Autobiography • Complete Timeline</div>
+        </div>
+      </div>
+
+      <div class="bio-scroll-viewport" id="bio-scroll-box"></div>
+
+      <div class="final-verdict-box" id="bio-verdict-box"></div>
+
+      <div class="btn-group">
+        <button type="button" class="btn btn-buy" style="flex:1;" id="bio-open-card-btn">🏆 View Mogul Card</button>
+        <button type="button" class="btn btn-sell" style="flex:1;" id="bio-close-btn">Continue Empire</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Shareable Mogul Victory / Business Card Modal -->
   <div class="modal-backdrop" id="victory-modal">
     <div class="modal-box">
@@ -1311,8 +1434,8 @@
         Reach <strong>$500,000+ Net Worth</strong> and overtake all <strong>3 AI Rival Moguls</strong> before your fast-paced season ends!
       </p>
       <div class="guide-step">
-        <strong>1. Flashing Live News Ribbon &amp; 1-Minute 30% Off Clearance (📈 Market)</strong>
-        Watch the live flashing news ribbon for regional shortages and <strong>🔥 30% OFF Clearance</strong> alerts with a <strong>1:00 countdown timer</strong>! Selling your clearance stock before the timer hits <code>0:00</code> earns a <strong>+5% Profit Bonus</strong>; failing to sell your stock in time costs <strong>110% of what you paid</strong> (if you hold 0 stock, you lose nothing). Also trade <strong>🔒 Hub-Exclusive Imports</strong> across cities for huge export gains.
+        <strong>1. Flashing Live News Ribbon &amp; 3-Minute 30% Off Clearance (📈 Market)</strong>
+        Watch the live flashing news ribbon for regional shortages and <strong>🔥 30% OFF Clearance</strong> alerts with a <strong>3:00 countdown timer</strong>! Selling your clearance stock before the timer hits <code>0:00</code> earns a <strong>+5% Profit Bonus</strong>; failing to sell your stock in time costs <strong>110% of what you paid</strong> (if you hold 0 stock, you lose nothing). Also trade <strong>🔒 Hub-Exclusive Imports</strong> across cities for huge export gains.
       </div>
       <div class="guide-step">
         <strong>2. Chef R&amp;D Test Kitchen &amp; Viral Labs (🎮 Gigs &rarr; 🧪 R&amp;D Lab)</strong>
@@ -1334,8 +1457,8 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v18";
-      const BACKUP_KEY = "hh_empire_undo_backup_v18";
+      const STORAGE_KEY = "hh_empire_save_v19";
+      const BACKUP_KEY = "hh_empire_undo_backup_v19";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
       // Synthesized Web Audio Engine: SFX + Soft Low-Volume Regional & Scene Background Music + Haptics
@@ -3092,6 +3215,12 @@
             shopCatalog: [],
             wonCovers: [],
             reputation: 50,
+            lastRepDelta: 0,
+            goodChoicesCount: 0,
+            badChoicesCount: 0,
+            riskWinsCount: 0,
+            riskLossesCount: 0,
+            finaleShown: false,
             expHistory: [],
             latestMagHeadline: '',
             inventory: {},
@@ -3143,6 +3272,12 @@
           shopCatalog: [],
           wonCovers: [],
             reputation: 50,
+            lastRepDelta: 0,
+            goodChoicesCount: 0,
+            badChoicesCount: 0,
+            riskWinsCount: 0,
+            riskLossesCount: 0,
+            finaleShown: false,
             expHistory: [],
             latestMagHeadline: '',
           inventory: {},
@@ -3245,6 +3380,151 @@
       function getPace() { return SEASON_PACES[state.seasonPace] || SEASON_PACES.fast; }
       function getStoryArc() { return TELLTALE_EPISODES[state.gender][state.path][state.genre]; }
       function formatStoryText(tpl, name) { return tpl.replace(/\{NAME\}/g, sanitizeName(name)); }
+
+      
+      function getReputationRank(rep) {
+        if (rep >= 85) return { label: "👑 ICONIC", cls: "rep-grade-high", color: "#10b981", summary: "Beloved Industry Icon" };
+        if (rep >= 65) return { label: "🌟 RESPECTED", cls: "rep-grade-high", color: "#34d399", summary: "Trusted Executive" };
+        if (rep >= 42) return { label: "⚖️ STEADY", cls: "rep-grade-mid", color: "#38bdf8", summary: "Balanced Standing" };
+        if (rep >= 22) return { label: "⚠️ POLARIZING", cls: "rep-grade-low", color: "#f59e0b", summary: "Controversial Press" };
+        return { label: "🔥 NOTORIOUS", cls: "rep-grade-low", color: "#ef4444", summary: "PR Crisis & Scandal" };
+      }
+
+      // Realistic Reputation Fluctuation Engine (Good choices build trust; risky/negative choices fluctuate based on real-world PR dynamics)
+      function adjustReputation(baseDelta, isRiskyChoice, succeeded) {
+        let finalDelta = baseDelta;
+        if (isRiskyChoice) {
+          if (succeeded) {
+            // Bold risky wins can either dazzle the press (+8 to +14) OR spark skepticism (-3 to +4)
+            const roll = Math.random();
+            finalDelta = roll < 0.65 ? (8 + Math.floor(Math.random() * 7)) : (-3 + Math.floor(Math.random() * 8));
+          } else {
+            // Failed risky or unethical choices trigger real-world PR backlash (-12 to -22)
+            finalDelta = -(12 + Math.floor(Math.random() * 11));
+          }
+        }
+        state.reputation = Math.max(0, Math.min(100, (state.reputation ?? 50) + finalDelta));
+        state.lastRepDelta = finalDelta;
+        return finalDelta;
+      }
+
+      // Slow-Scrolling End-of-Story Autobiography Documentary Reel + Gameplay Style Rating
+      let bioScrollTimer = null;
+      let bioScrollPaused = false;
+
+      function openEndOfStoryBiographyReel() {
+        if (bioScrollTimer) clearInterval(bioScrollTimer);
+        bioScrollPaused = false;
+        const pauseBtn = document.getElementById("bio-pause-btn");
+        if (pauseBtn) pauseBtn.textContent = "⏸️ Pause Scroll";
+
+        const cfg = getCfg();
+        const arc = getStoryArc();
+        const rep = state.reputation ?? 50;
+        const nw = getNetWorth();
+        const goodCnt = state.goodChoicesCount || 0;
+        const badCnt = state.badChoicesCount || 0;
+        const riskWins = state.riskWinsCount || 0;
+        const riskLosses = state.riskLossesCount || 0;
+        const stockedCount = (state.shopCatalog || []).length;
+        const coversCount = (state.wonCovers || []).length;
+
+        document.getElementById("bio-avatar-mount").innerHTML = renderAvatarSVG(state.avatarCfg, state.gender);
+        document.getElementById("bio-doc-title").textContent = `The ${state.charName} Chronicles`;
+        document.getElementById("bio-doc-sub").textContent = `${cfg.label} • "${arc.title}" • Final Net Worth: ${fmt(nw)}`;
+
+        const chapters = [];
+        chapters.push({
+          title: "Chapter I • Humble Beginnings",
+          body: `${state.charName} entered the ${cfg.label} arena on Day 1 in ${cfg.hubs[0].name} with ambition, grit, and a ${fmt(getDiff().startDebt)} starting balance to overcome.`
+        });
+
+        if ((state.storyLog || []).length > 0) {
+          state.storyLog.forEach((entry, i) => {
+            chapters.push({
+              title: `Chapter ${i + 2} • ${entry.chapter} [${entry.choiceTag}]`,
+              body: `${entry.outcome} (${entry.cashDelta >= 0 ? "+" : "-"}${fmt(Math.abs(entry.cashDelta))} financial impact)`
+            });
+          });
+        } else {
+          chapters.push({
+            title: "Chapter II • Independent Hustle",
+            body: `Rather than chasing boardroom drama, ${state.charName} focused relentlessly on daily hustle execution and market timing.`
+          });
+        }
+
+        if ((state.expHistory || []).length > 0) {
+          const hits = state.expHistory.filter(x => x.success).map(x => x.name);
+          const flops = state.expHistory.filter(x => !x.success).map(x => x.name);
+          chapters.push({
+            title: "R&D Innovation & Creative Legacy",
+            body: `${hits.length > 0 ? `Critics celebrated ${state.charName}'s breakthroughs (${hits.join(", ")}). ` : ""}${flops.length > 0 ? `Though early prototypes (${flops.join(", ")}) tested the budget, each setback sharpened the craft.` : ""}`
+          });
+        }
+
+        chapters.push({
+          title: "Empire & Magazine Standing",
+          body: `By Day ${state.day} of ${state.maxDays}, ${state.charName} reached Level ${state.level}, stocked ${stockedCount} pro catalog items, won ${coversCount} magazine cover${coversCount === 1 ? "" : "s"}, and closed with a Reputation Score of ${rep}/100 and ${fmt(nw)} Net Worth.`
+        });
+
+        const scrollBox = document.getElementById("bio-scroll-box");
+        scrollBox.innerHTML = chapters.map(ch => `
+          <div class="bio-chapter-block">
+            <div class="bio-chapter-title">${ch.title}</div>
+            <div class="bio-chapter-body">${ch.body}</div>
+          </div>
+        `).join("");
+        scrollBox.scrollTop = 0;
+
+        // Calculate Final Gameplay Style Rating (Heavily penalized if negative/reckless choices outweigh disciplined ones!)
+        const totalDecisions = Math.max(1, goodCnt + badCnt + riskWins + riskLosses);
+        const negativeRatio = (badCnt + riskLosses) / totalDecisions;
+        let gradeTitle = "";
+        let gradeBadgeBg = "";
+        let reviewText = "";
+
+        if (badCnt + riskLosses >= 4 || (negativeRatio > 0.5 && rep < 40)) {
+          gradeTitle = "💀 D- • RECKLESS & SCANDAL-PLAGUED";
+          gradeBadgeBg = "background:rgba(239,68,68,0.25);color:#fca5a5;border:1px solid #ef4444;";
+          reviewText = `Critic Review: "${state.charName} burned bridges, racked up avoidable liabilities (${badCnt + riskLosses} negative/failed risk calls), and left reputation in tatters (${rep}/100). A cautionary tale in short-term greed."`;
+        } else if (negativeRatio > 0.35 || rep < 50) {
+          gradeTitle = "⚠️ C+ • VOLATILE WILD-CARD";
+          gradeBadgeBg = "background:rgba(245,158,11,0.22);color:#fde68a;border:1px solid #f59e0b;";
+          reviewText = `Critic Review: "${state.charName} took heavy gambles (${badCnt + riskLosses} costly missteps vs. ${goodCnt + riskWins} wins). Profitable in bursts, but erratic PR kept true industry respect out of reach (${rep}/100 Rep)."`;
+        } else if (rep >= 80 && nw >= 250000 && badCnt === 0) {
+          gradeTitle = "👑 S+ • LEGENDARY MOGUL & ETHICAL ICON";
+          gradeBadgeBg = "background:rgba(16,185,129,0.25);color:#6ee7b7;border:1px solid #10b981;";
+          reviewText = `Critic Review: "Masterclass leadership! ${state.charName} built a powerhouse (${fmt(nw)}) with spotless integrity (${rep}/100 Rep, ${goodCnt + riskWins} strong executive calls)—the gold standard of modern moguls."`;
+        } else {
+          gradeTitle = "🌟 A • RESPECTED EXECUTIVE STRATEGIST";
+          gradeBadgeBg = "background:rgba(56,189,248,0.22);color:#7dd3fc;border:1px solid #38bdf8;";
+          reviewText = `Critic Review: "${state.charName} balanced smart growth with strong public standing (${rep}/100 Rep, ${goodCnt + riskWins} positive decisions), earning lasting acclaim across the industry."`;
+        }
+
+        document.getElementById("bio-verdict-box").innerHTML = `
+          <div class="verdict-grade-pill" style="${gradeBadgeBg}">${gradeTitle}</div>
+          <div style="font-size:0.78rem;color:var(--text-primary);line-height:1.42;margin-bottom:4px;">${reviewText}</div>
+          <div style="font-size:0.7rem;color:var(--text-secondary);">
+            Record: <strong>${goodCnt}</strong> Disciplined Calls • <strong>${riskWins}</strong> Calculated Risk Wins • <strong>${badCnt + riskLosses}</strong> Negative / Backfired Calls
+          </div>
+        `;
+
+        const modal = document.getElementById("biography-modal");
+        modal.classList.add("open");
+        updateMusicContext("story");
+
+        // Gentle slow-scrolling animation (1px every 55ms so players can comfortably read their autobiography)
+        bioScrollTimer = setInterval(() => {
+          if (bioScrollPaused) return;
+          if (scrollBox.scrollTop + scrollBox.clientHeight >= scrollBox.scrollHeight - 2) {
+            clearInterval(bioScrollTimer);
+            bioScrollTimer = null;
+            document.getElementById("bio-reel-status").textContent = "🎬 AUTOBIOGRAPHY COMPLETE";
+            return;
+          }
+          scrollBox.scrollTop += 1;
+        }, 55);
+      }
 
       function getNetWorth() {
         const cfg = getCfg();
@@ -3460,33 +3740,82 @@
             statLabel: `🏆 Reputation: ${entry.choiceTag}`
           }));
 
-          const levelScenes = state.path === "chef"
-            ? [
-                {
-                  title: `🍽️ Plating Showcase: ${newMenu.dishName}`,
-                  text: `{NAME} steps onto the pass in tailored chef attire, plating ${newMenu.dishName} with precision tweezers—tap the floating 🌿 garnish on your portrait for bonus tips!`,
-                  statLabel: `⭐ Kitchen Rating: Level ${state.level}`
-                },
-                {
-                  title: `📋 Menu Evolution: ${newMenu.menuName}`,
-                  text: `Critics praise {NAME}'s upgraded seasonal menu (+${pctBonus}% dish revenue). Clear your ${backstockUnits} leftover backstock plates at a -30% Flash Sale!`,
-                  statLabel: `🔥 Demand Multiplier: +${pctBonus}%`
-                },
-                ...pastMemories
-              ]
-            : [
-                {
-                  title: `📸 30-Second Studio Photo Shoot (Lvl ${state.level})`,
-                  text: `Studio ring lights flare as {NAME} strikes signature editorial poses—tap the floating ✨ sparkles on your portrait to boost your magazine cover rating!`,
-                  statLabel: `❤️ Likes Surge: +${(state.level * 12.5).toFixed(1)}K`
-                },
-                {
-                  title: `🚀 Empire Milestone: ${newMenu.menuName}`,
-                  text: `Sponsors upgrade {NAME}'s rate card (+${pctBonus}% per clip). Clear your ${backstockUnits} leftover promo slots at a -30% Flash Sale!`,
-                  statLabel: `📈 Popularity: Level ${state.level}`
-                },
-                ...pastMemories
-              ];
+          const repNow = state.reputation ?? 50;
+          const repSummary = getReputationRank(repNow).summary;
+          const latestChoiceNote = state.storyLog.length > 0
+            ? `Building on your "${state.storyLog[state.storyLog.length - 1].choiceTag}" turning point, `
+            : `Fresh off your early-career hustle, `;
+
+          const chefProgressionChapters = {
+            2: {
+              s1Title: `🚚 Chapter 2: From Cottage Stall to Food Truck Line`,
+              s1Text: `${latestChoiceNote}{NAME} rolls up the service window on a custom street-gourmet truck! Crowds line the block for ${newMenu.dishName}—tap the floating 🌿 garnish for VIP tips!`,
+              s2Title: `📋 Culinary Evolution: ${newMenu.menuName}`,
+              s2Text: `With ${repNow}/100 Reputation (${repSummary}), food bloggers hail {NAME} as the city's fastest-rising chef (+${pctBonus}% dish revenue).`
+            },
+            3: {
+              s1Title: `🕯️ Chapter 3: Opening Night in the Bistro District`,
+              s1Text: `${latestChoiceNote}{NAME} steps into a candlelit downtown dining room as Executive Chef, plating ${newMenu.dishName} for discerning critics!`,
+              s2Title: `🍷 Status & Menu Upgrade: ${newMenu.menuName}`,
+              s2Text: `Reservations are booked six weeks out (+${pctBonus}% revenue) as {NAME}'s reputation (${repNow}/100) reshapes the local dining scene.`
+            },
+            4: {
+              s1Title: `⭐ Chapter 4: Five-Star Tasting Room & National Press`,
+              s1Text: `${latestChoiceNote}{NAME} commands an open-kitchen chef's counter with an international brigade, unveiling ${newMenu.dishName}!`,
+              s2Title: `🏆 Prestige Tier: ${newMenu.menuName}`,
+              s2Text: `Hospitality investors court {NAME} nationwide (+${pctBonus}% revenue) while your ${repNow}/100 reputation commands top-tier table minimums.`
+            },
+            5: {
+              s1Title: `👑 Chapter 5+: Global Michelin Flagship & Jet Charter`,
+              s1Text: `${latestChoiceNote}{NAME} stands at the pinnacle of global gastronomy, curating ${newMenu.dishName} for heads of state and private jet charters!`,
+              s2Title: `🌍 Dynasty Status: ${newMenu.menuName}`,
+              s2Text: `An undisputed culinary icon (${repNow}/100 Rep • +${pctBonus}% revenue) whose legacy defines modern haute cuisine.`
+            }
+          };
+
+          const socialProgressionChapters = {
+            2: {
+              s1Title: `📱 Chapter 2: Breakout Creator & Brand Deal Surge`,
+              s1Text: `${latestChoiceNote}{NAME} upgrades from bedroom clips to sponsored live drops! Brands compete for your ${newMenu.dishName} slot—tap the floating ✨ sparkles!`,
+              s2Title: `📈 Feed Evolution: ${newMenu.menuName}`,
+              s2Text: `With ${repNow}/100 Reputation (${repSummary}), sponsors raise {NAME}'s rate card by +${pctBonus}% across every campaign.`
+            },
+            3: {
+              s1Title: `🌴 Chapter 3: LA Content House & Studio Production`,
+              s1Text: `${latestChoiceNote}{NAME} steps onto a multi-cam Hollywood production set, directing ${newMenu.dishName} with a full creative crew!`,
+              s2Title: `🎥 Status & Reach: ${newMenu.menuName}`,
+              s2Text: `Industry insiders recognize {NAME} as a flagship digital tastemaker (${repNow}/100 Rep • +${pctBonus}% payout per post).`
+            },
+            4: {
+              s1Title: `🗽 Chapter 4: National Ambassador & Madison Ave Headliner`,
+              s1Text: `${latestChoiceNote}{NAME} headlines national billboard campaigns and prime-time digital broadcasts with ${newMenu.dishName}!`,
+              s2Title: `💎 Executive Tier: ${newMenu.menuName}`,
+              s2Text: `Fortune 500 CMOs bid for {NAME}'s signature partnerships (+${pctBonus}% revenue) backed by ${repNow}/100 public standing.`
+            },
+            5: {
+              s1Title: `👑 Chapter 5+: Global Media Network & Red Carpet Keynote`,
+              s1Text: `${latestChoiceNote}{NAME} commands an international media conglomerate, broadcasting ${newMenu.dishName} to millions worldwide!`,
+              s2Title: `🌍 Cultural Dynasty: ${newMenu.menuName}`,
+              s2Text: `A generational media mogul (${repNow}/100 Rep • +${pctBonus}% revenue) setting the global standard for creator ownership.`
+            }
+          };
+
+          const lvlKey = Math.min(5, Math.max(2, state.level));
+          const chData = (state.path === "chef" ? chefProgressionChapters : socialProgressionChapters)[lvlKey];
+
+          const levelScenes = [
+            {
+              title: chData.s1Title,
+              text: chData.s1Text,
+              statLabel: `⭐ Career Level ${state.level} • ${repSummary}`
+            },
+            {
+              title: chData.s2Title,
+              text: chData.s2Text,
+              statLabel: `🔥 Revenue Mult: +${pctBonus}% • Rep ${repNow}/100`
+            },
+            ...pastMemories
+          ];
 
           openStoryReelModal({
             scenes: levelScenes,
@@ -3601,15 +3930,28 @@
 
             triggerSfx((cashChange >= 0 && debtAdded === 0) ? "good" : "bad");
             const resolvedOutcome = formatStoryText(opt.outcome, state.charName);
-            const repShift = (opt.debtDelta > 0 || opt.cashDelta < 0) ? -10 : 12;
-            state.reputation = Math.max(0, Math.min(100, (state.reputation ?? 50) + repShift));
+            const isNegativeChoice = (opt.debtDelta > 0 || opt.cashDelta < 0);
+            const isRiskyPositive = (opt.debtDelta > 0 && opt.cashDelta > 0);
+            if (isNegativeChoice && !isRiskyPositive) {
+              state.badChoicesCount = (state.badChoicesCount || 0) + 1;
+            } else if (isRiskyPositive) {
+              state.riskWinsCount = (state.riskWinsCount || 0) + 1;
+            } else {
+              state.goodChoicesCount = (state.goodChoicesCount || 0) + 1;
+            }
+            const repDelta = adjustReputation(
+              isNegativeChoice ? -14 : 11,
+              isRiskyPositive,
+              !isNegativeChoice || isRiskyPositive
+            );
+
             state.storyLog.push({
               chapter: ep.chapter,
               choiceTag: opt.tag,
               outcome: resolvedOutcome,
               cashDelta: cashChange
             });
-            const deltaStr = `${cashChange >= 0 ? "+" : "-"}${fmt(Math.abs(cashChange))}${debtAdded > 0 ? ` • +${fmt(debtAdded)} Debt` : ""}`;
+            const deltaStr = `${cashChange >= 0 ? "+" : "-"}${fmt(Math.abs(cashChange))}${debtAdded > 0 ? ` • +${fmt(debtAdded)} Debt` : ""} • Rep ${repDelta >= 0 ? "+" : ""}${repDelta}`;
             state.news = `🎭 [${opt.tag}] (${deltaStr}) ${resolvedOutcome}`;
             modal.classList.remove("open");
             updateMusicContext();
@@ -3617,17 +3959,22 @@
             saveGame();
             render();
 
-            if (!document.getElementById("cine-modal").classList.contains("open")) {
+            // If this was the final episode (Episode 5), play the Slow-Scrolling Autobiography Documentary Reel & Gameplay Rating!
+            if (nextIdx >= arc.episodes.length - 1) {
+              state.finaleShown = true;
+              saveGame();
+              openEndOfStoryBiographyReel();
+            } else if (!document.getElementById("cine-modal").classList.contains("open")) {
               openStoryReelModal({
                 scenes: [
                   {
-                    title: ep.chapter,
+                    title: `${ep.chapter} • Career Progression`,
                     text: resolvedOutcome,
-                    statLabel: `🎭 Reputation: ${opt.tag}`
+                    statLabel: `⭐ Reputation: ${state.reputation}/100 (${repDelta >= 0 ? "+" : ""}${repDelta})`
                   },
                   {
-                    title: `${state.charName}'s Empire Rising`,
-                    text: `Day ${state.day} of ${state.maxDays} — push toward $500,000 Net Worth!`,
+                    title: `${state.charName}'s Status Building (Lvl ${state.level})`,
+                    text: `Day ${state.day} of ${state.maxDays} — ${getReputationRank(state.reputation).summary} • Push toward $500,000 Net Worth!`,
                     statLabel: `💰 Net Worth: ${fmt(getNetWorth())}`
                   }
                 ]
@@ -3668,11 +4015,11 @@
 
         state.marketClearance = {
           items: itemsMap,
-          expiresAt: Date.now() + 60000 // 60 seconds (1 minute)
+          expiresAt: Date.now() + 180000 // 180 seconds (3 minutes — comfortable human pacing)
         };
 
         const names = chosen.map(c => c.name).join(" & ");
-        state.news = `🚨 30% OFF CLEARANCE (1:00): ${names}! Sell your stock before timer hits 0:00 or lose 110% of cost!`;
+        state.news = `🚨 30% OFF CLEARANCE (3:00): ${names}! Sell your stock before timer hits 0:00 or lose 110% of cost!`;
       }
 
       // Check if 1-minute clearance timer expired:
@@ -3735,8 +4082,10 @@
             evaluateClearanceExpiration();
             return;
           }
-          const secs = Math.ceil(msLeft / 1000);
-          const fmtTimer = `0:${secs < 10 ? "0" + secs : secs}`;
+          const totalSecs = Math.ceil(msLeft / 1000);
+          const mins = Math.floor(totalSecs / 60);
+          const secs = totalSecs % 60;
+          const fmtTimer = `${mins}:${secs < 10 ? "0" + secs : secs}`;
           document.querySelectorAll("[data-clearance-clock]").forEach(el => {
             el.textContent = `⏱️ ${fmtTimer}`;
           });
@@ -3770,7 +4119,7 @@
             const feedEl = document.getElementById("news-feed");
             if (feedEl) feedEl.textContent = pick;
           }
-        }, 7000);
+        }, 12000);
       }
 
       function rollPrices() {
@@ -3919,8 +4268,10 @@
             if (ch.correct) {
               const delta = ch.reward >= 0 ? Math.round(ch.reward * diff.mult) : Math.round(ch.reward / diff.mult);
               state.cash = Math.max(0, state.cash + delta);
+              state.goodChoicesCount = (state.goodChoicesCount || 0) + 1;
+              const rDelta = adjustReputation(9, false, true);
               triggerSfx("good");
-              state.news = `${delta >= 0 ? `✅ +${fmt(delta)}` : `🛡️ Paid ${fmt(Math.abs(delta))}`} & +45 XP! ${ch.note}`;
+              state.news = `${delta >= 0 ? `✅ +${fmt(delta)}` : `🛡️ Paid ${fmt(Math.abs(delta))}`} & +${rDelta} Rep! ${ch.note}`;
               awardXP(45);
             } else {
               triggerSfx("error");
@@ -3928,7 +4279,9 @@
               const debtAdded = ch.debtAdd ? Math.round((ch.debtAdd / diff.mult) * pace.feeMult) : 0;
               state.cash = Math.max(0, state.cash - loss);
               if (debtAdded > 0) state.debt += debtAdded;
-              state.news = `⚠️ -${fmt(loss)} Cash${debtAdded > 0 ? ` & +${fmt(debtAdded)} New Debt` : ""}! ${ch.note}`;
+              state.badChoicesCount = (state.badChoicesCount || 0) + 1;
+              const rDelta = adjustReputation(-14, true, false);
+              state.news = `⚠️ -${fmt(loss)} Cash${debtAdded > 0 ? ` & +${fmt(debtAdded)} Debt` : ""} (${rDelta} Rep)! ${ch.note}`;
             }
             modal.classList.remove("open");
             checkTelltaleProgression();
@@ -4038,7 +4391,7 @@
       function travelTo(hubId) {
         if (hubId === state.hub) return;
         if (state.day >= state.maxDays) {
-          openVictoryCardModal();
+          openEndOfStoryBiographyReel();
           return;
         }
         triggerSfx("tap");
@@ -4077,6 +4430,8 @@
         const row = document.getElementById("level-bar-row");
         if (!state.started) {
           row.style.display = "none";
+          const rRow = document.getElementById("rep-scorecard-row");
+          if (rRow) rRow.style.display = "none";
           return;
         }
         row.style.display = "flex";
@@ -4086,6 +4441,23 @@
         document.getElementById("lvl-badge").textContent = `LVL ${state.level}${stars}`;
         document.getElementById("xp-fill").style.width = `${pct}%`;
         document.getElementById("xp-text").textContent = `${state.xp} / ${needed} XP`;
+
+        const repRow = document.getElementById("rep-scorecard-row");
+        if (repRow) {
+          repRow.style.display = "flex";
+          const repVal = state.reputation ?? 50;
+          const rank = getReputationRank(repVal);
+          const badgeEl = document.getElementById("rep-grade-badge");
+          badgeEl.className = `rep-grade-badge ${rank.cls}`;
+          badgeEl.textContent = `${rank.label} • ${repVal}/100`;
+          const fillEl = document.getElementById("rep-fill");
+          fillEl.style.width = `${repVal}%`;
+          fillEl.style.background = rank.color;
+          const noteEl = document.getElementById("rep-status-note");
+          const d = state.lastRepDelta || 0;
+          noteEl.textContent = d !== 0 ? `${rank.summary} (${d > 0 ? "+" : ""}${d})` : rank.summary;
+          noteEl.style.color = d > 0 ? "var(--success)" : (d < 0 ? "#fca5a5" : "var(--text-secondary)");
+        }
 
         const mBtn = document.getElementById("nav-missions-btn");
         if (mBtn) {
@@ -4451,13 +4823,17 @@
               triggerSfx("good");
               const grossWin = Math.round(rt.winCash * diff.mult);
               state.cash += grossWin;
-              state.news = `🔥 VENTURE HIT! ${rt.title} paid out +${fmt(grossWin)} & +90 XP!`;
+              state.riskWinsCount = (state.riskWinsCount || 0) + 1;
+              const rDelta = adjustReputation(10, true, true);
+              state.news = `🔥 VENTURE HIT! Paid out +${fmt(grossWin)} & ${rDelta >= 0 ? "+" : ""}${rDelta} Rep!`;
               awardXP(90);
             } else {
               triggerSfx("error");
               const addedDebt = Math.round(rt.loseDebt / diff.mult);
               state.debt += addedDebt;
-              state.news = `💥 VENTURE BACKFIRED! Lost ${fmt(rt.upfrontCost)} deposit and took on +${fmt(addedDebt)} new debt!`;
+              state.riskLossesCount = (state.riskLossesCount || 0) + 1;
+              const rDelta = adjustReputation(-15, true, false);
+              state.news = `💥 VENTURE BACKFIRED! Lost ${fmt(rt.upfrontCost)}, added +${fmt(addedDebt)} debt & ${rDelta} Rep!`;
             }
             checkTelltaleProgression();
             saveGame();
@@ -5261,8 +5637,10 @@
             const isHot = !isExclusive && !clr && price > c.max * 1.25;
             const isDeal = !isExclusive && !clr && price < c.min * 0.9;
 
-            const secsLeft = clr ? Math.max(1, Math.ceil((state.marketClearance.expiresAt - Date.now()) / 1000)) : 0;
-            const clockText = clr ? `⏱️ 0:${secsLeft < 10 ? "0" + secsLeft : secsLeft}` : "";
+            const totalSecsLeft = clr ? Math.max(1, Math.ceil((state.marketClearance.expiresAt - Date.now()) / 1000)) : 0;
+            const cMins = Math.floor(totalSecsLeft / 60);
+            const cSecs = totalSecsLeft % 60;
+            const clockText = clr ? `⏱️ ${cMins}:${cSecs < 10 ? "0" + cSecs : cSecs}` : "";
 
             const row = document.createElement("div");
             row.className = "item-row" + (clr ? " clearance-active" : "");
@@ -5353,14 +5731,15 @@
               Starring <strong>${state.charName}</strong> • Replay your 30s memory reel or generate your downloadable Mogul Business Card!
             </p>
             <div class="btn-group" style="margin-bottom:12px;">
-              <button type="button" class="btn btn-buy" style="flex:1;" id="replay-memory-reel-btn">🎬 Play 30s Story Reel</button>
+              <button type="button" class="btn btn-buy" style="flex:1;" id="replay-memory-reel-btn">📜 Autobiography &amp; Rating</button>
               <button type="button" class="btn btn-sell" style="flex:1;" id="open-mogul-card-btn">🏆 Mogul Card &amp; Prestige</button>
             </div>
           `;
 
           card.querySelector("#open-mogul-card-btn").onclick = openVictoryCardModal;
 
-          card.querySelector("#replay-memory-reel-btn").onclick = () => {
+          card.querySelector("#replay-memory-reel-btn").onclick = openEndOfStoryBiographyReel;
+          const _unusedOldReel = () => {
             const memories = state.storyLog.length > 0
               ? state.storyLog.map(entry => ({
                   title: entry.chapter,
@@ -5656,6 +6035,24 @@
           container.appendChild(card);
         }
       }
+
+      
+      document.getElementById("bio-pause-btn").onclick = () => {
+        bioScrollPaused = !bioScrollPaused;
+        document.getElementById("bio-pause-btn").textContent = bioScrollPaused ? "▶️ Resume Scroll" : "⏸️ Pause Scroll";
+      };
+      document.getElementById("bio-open-card-btn").onclick = () => {
+        if (bioScrollTimer) { clearInterval(bioScrollTimer); bioScrollTimer = null; }
+        document.getElementById("biography-modal").classList.remove("open");
+        updateMusicContext();
+        openVictoryCardModal();
+      };
+      document.getElementById("bio-close-btn").onclick = () => {
+        if (bioScrollTimer) { clearInterval(bioScrollTimer); bioScrollTimer = null; }
+        document.getElementById("biography-modal").classList.remove("open");
+        updateMusicContext();
+        render();
+      };
 
       document.getElementById("cine-skip-btn").onclick = closeStoryReelModal;
       document.getElementById("cine-hype-btn").onclick = () => {
