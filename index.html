@@ -1334,35 +1334,93 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v16";
-      const BACKUP_KEY = "hh_empire_undo_backup_v16";
+      const STORAGE_KEY = "hh_empire_save_v17";
+      const BACKUP_KEY = "hh_empire_undo_backup_v17";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
-      // Synthesized Web Audio + Haptics
+      // Synthesized Web Audio Engine: SFX + Soft Low-Volume Regional & Scene Background Music + Haptics
       let audioCtx = null;
       let sfxEnabled = true;
+      let bgmEnabled = true;
+      let bgmTimer = null;
+      let bgmStep = 0;
+      let currentMusicScene = "default";
 
-      function playTone(freq, type, duration, vol, delay) {
-        if (!sfxEnabled) return;
+      function ensureAudioCtx() {
         try {
           if (!audioCtx) {
             const Ctx = window.AudioContext || window.webkitAudioContext;
             if (Ctx) audioCtx = new Ctx();
           }
-          if (!audioCtx) return;
-          if (audioCtx.state === "suspended") audioCtx.resume();
-          const now = audioCtx.currentTime + (delay || 0);
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
+          if (audioCtx && audioCtx.state === "suspended") {
+            audioCtx.resume();
+          }
+        } catch (e) {}
+        return audioCtx;
+      }
+
+      function playTone(freq, type, duration, vol, delay, isBgm) {
+        if (isBgm && !bgmEnabled) return;
+        if (!isBgm && !sfxEnabled) return;
+        try {
+          const ctx = ensureAudioCtx();
+          if (!ctx) return;
+          const now = ctx.currentTime + (delay || 0);
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
           osc.type = type || "sine";
           osc.frequency.setValueAtTime(freq, now);
-          gain.gain.setValueAtTime(vol || 0.08, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+          const peakVol = vol || 0.07;
+          gain.gain.setValueAtTime(0.0008, now);
+          gain.gain.linearRampToValueAtTime(peakVol, now + Math.min(0.04, duration * 0.25));
+          gain.gain.exponentialRampToValueAtTime(0.0005, now + duration);
           osc.connect(gain);
-          gain.connect(audioCtx.destination);
+          gain.connect(ctx.destination);
           osc.start(now);
-          osc.stop(now + duration);
+          osc.stop(now + duration + 0.02);
         } catch (e) {}
+      }
+
+      // Regional & Scene Ambient Lo-Fi Chord Palettes (Soft, low, easy on the ears)
+      const REGION_MUSIC_THEMES = {
+        // Social Hubs
+        bedroom: { notes: [261.63, 329.63, 392.00, 493.88, 392.00, 329.63], wave: "sine", tempoMs: 950 },
+        tiktok:  { notes: [293.66, 369.99, 440.00, 587.33, 440.00, 369.99], wave: "triangle", tempoMs: 780 },
+        studio:  { notes: [329.63, 415.30, 493.88, 659.25, 493.88, 415.30], wave: "sine", tempoMs: 820 },
+        nyc:     { notes: [220.00, 261.63, 329.63, 392.00, 493.88, 392.00], wave: "triangle", tempoMs: 740 },
+        // Chef Hubs
+        farmers: { notes: [261.63, 293.66, 329.63, 392.00, 440.00, 392.00], wave: "sine", tempoMs: 920 },
+        truck:   { notes: [246.94, 293.66, 369.99, 440.00, 369.99, 293.66], wave: "triangle", tempoMs: 800 },
+        bistro:  { notes: [220.00, 277.18, 329.63, 415.30, 493.88, 415.30], wave: "sine", tempoMs: 880 },
+        michelin:{ notes: [196.00, 246.94, 293.66, 369.99, 440.00, 369.99], wave: "sine", tempoMs: 960 },
+        // Special Scene Overrides
+        story:   { notes: [220.00, 261.63, 329.63, 440.00, 392.00, 329.63], wave: "sine", tempoMs: 900 },
+        reel:    { notes: [329.63, 392.00, 493.88, 587.33, 659.25, 587.33], wave: "triangle", tempoMs: 680 },
+        magazine:{ notes: [293.66, 349.23, 440.00, 523.25, 440.00, 349.23], wave: "sine", tempoMs: 840 }
+      };
+
+      function updateMusicContext(sceneOverride) {
+        const nextScene = sceneOverride || (state && state.started ? state.hub : "bedroom");
+        if (nextScene !== currentMusicScene) {
+          currentMusicScene = nextScene;
+          bgmStep = 0;
+        }
+        if (!bgmEnabled) {
+          if (bgmTimer) { clearInterval(bgmTimer); bgmTimer = null; }
+          return;
+        }
+        if (bgmTimer) clearInterval(bgmTimer);
+        const profile = REGION_MUSIC_THEMES[currentMusicScene] || REGION_MUSIC_THEMES.bedroom;
+        bgmTimer = setInterval(() => {
+          if (!bgmEnabled) return;
+          const freq = profile.notes[bgmStep % profile.notes.length];
+          // Very gentle low-volume ambient note + soft sub-octave pad every 3rd beat
+          playTone(freq, profile.wave, 0.85, 0.018, 0, true);
+          if (bgmStep % 3 === 0) {
+            playTone(freq * 0.5, "sine", 1.2, 0.015, 0, true);
+          }
+          bgmStep += 1;
+        }, profile.tempoMs);
       }
 
       function triggerSfx(kind) {
@@ -1370,22 +1428,30 @@
         try {
           if (navigator.vibrate) {
             if (kind === "tap") navigator.vibrate(12);
-            else if (kind === "cash" || kind === "level") navigator.vibrate([25, 30, 40]);
+            else if (kind === "cash" || kind === "good" || kind === "level") navigator.vibrate([22, 28, 36]);
+            else if (kind === "bad" || kind === "error") navigator.vibrate([45, 35, 65]);
           }
         } catch (e) {}
 
         if (kind === "tap") {
-          playTone(620, "triangle", 0.07, 0.06, 0);
+          playTone(620, "triangle", 0.07, 0.055, 0, false);
         } else if (kind === "cash") {
-          playTone(587.33, "sine", 0.1, 0.08, 0);
-          playTone(880, "sine", 0.18, 0.09, 0.07);
+          playTone(587.33, "sine", 0.11, 0.08, 0, false);
+          playTone(880, "sine", 0.19, 0.09, 0.07, false);
+        } else if (kind === "good") {
+          // Warm uplifting triad for positive choices & smart decisions
+          playTone(523.25, "triangle", 0.12, 0.08, 0, false);
+          playTone(659.25, "triangle", 0.14, 0.085, 0.08, false);
+          playTone(783.99, "sine", 0.24, 0.095, 0.16, false);
         } else if (kind === "level") {
-          playTone(523.25, "triangle", 0.14, 0.09, 0);
-          playTone(659.25, "triangle", 0.14, 0.09, 0.1);
-          playTone(783.99, "triangle", 0.14, 0.09, 0.2);
-          playTone(1046.5, "triangle", 0.3, 0.11, 0.3);
-        } else if (kind === "error") {
-          playTone(220, "sawtooth", 0.18, 0.07, 0);
+          playTone(523.25, "triangle", 0.14, 0.09, 0, false);
+          playTone(659.25, "triangle", 0.14, 0.09, 0.1, false);
+          playTone(783.99, "triangle", 0.14, 0.09, 0.2, false);
+          playTone(1046.5, "triangle", 0.32, 0.11, 0.3, false);
+        } else if (kind === "bad" || kind === "error") {
+          // Distinct descending low-brass/sawtooth tone when a negative risk costs cash or adds debt
+          playTone(246.94, "sawtooth", 0.16, 0.07, 0, false);
+          playTone(185.00, "sawtooth", 0.26, 0.08, 0.12, false);
         }
       }
 
@@ -3164,7 +3230,11 @@
             return;
           }
           state = Object.assign(createFreshState(null, 0), JSON.parse(parsed.data));
-          if (state.started && Object.keys(state.prices).length === 0) rollPrices();
+          if (state.started) {
+            const cfg = getCfg();
+            const missingAnyPrice = !cfg || cfg.commodities.some(c => typeof state.prices[c.id] !== "number" || isNaN(state.prices[c.id]));
+            if (missingAnyPrice) rollPrices();
+          }
         } catch (e) {
           state = createFreshState(null, 0);
         }
@@ -3329,6 +3399,7 @@
         renderReelAvatar();
         updateSlideUI();
         modal.classList.add("open");
+        updateMusicContext("reel");
 
         cineInterval = setInterval(() => {
           if (!cineData) return;
@@ -3352,6 +3423,7 @@
         }
         cineData = null;
         document.getElementById("cine-modal").classList.remove("open");
+        updateMusicContext();
         render();
       }
 
@@ -3527,7 +3599,7 @@
             state.cash = Math.max(0, state.cash + cashChange);
             if (debtAdded > 0) state.debt += debtAdded;
 
-            triggerSfx(cashChange >= 0 ? "cash" : "error");
+            triggerSfx((cashChange >= 0 && debtAdded === 0) ? "good" : "bad");
             const resolvedOutcome = formatStoryText(opt.outcome, state.charName);
             const repShift = (opt.debtDelta > 0 || opt.cashDelta < 0) ? -10 : 12;
             state.reputation = Math.max(0, Math.min(100, (state.reputation ?? 50) + repShift));
@@ -3540,6 +3612,7 @@
             const deltaStr = `${cashChange >= 0 ? "+" : "-"}${fmt(Math.abs(cashChange))}${debtAdded > 0 ? ` • +${fmt(debtAdded)} Debt` : ""}`;
             state.news = `🎭 [${opt.tag}] (${deltaStr}) ${resolvedOutcome}`;
             modal.classList.remove("open");
+            updateMusicContext();
             awardXP(50);
             saveGame();
             render();
@@ -3565,6 +3638,7 @@
         });
 
         modal.classList.add("open");
+        updateMusicContext("story");
       }
 
       
@@ -3747,6 +3821,7 @@
         state = createFreshState(draftSetup, keepPrestige);
         rollPrices();
         startNewMarketClearance(true);
+        updateMusicContext(hubId);
         saveGame();
         render();
         checkTelltaleProgression();
@@ -3844,7 +3919,7 @@
             if (ch.correct) {
               const delta = ch.reward >= 0 ? Math.round(ch.reward * diff.mult) : Math.round(ch.reward / diff.mult);
               state.cash = Math.max(0, state.cash + delta);
-              triggerSfx(delta >= 0 ? "cash" : "tap");
+              triggerSfx("good");
               state.news = `${delta >= 0 ? `✅ +${fmt(delta)}` : `🛡️ Paid ${fmt(Math.abs(delta))}`} & +45 XP! ${ch.note}`;
               awardXP(45);
             } else {
@@ -3871,19 +3946,44 @@
         return (state.marketClearance.items && state.marketClearance.items[id]) || null;
       }
 
+      function getSafeItemPrice(id) {
+        const cfg = getCfg();
+        const itemDef = cfg.commodities.find(c => c.id === id);
+        let p = Number(state.prices[id]);
+        if (!p || isNaN(p) || p <= 0) {
+          const hubObj = cfg.hubs.find(h => h.id === state.hub) || cfg.hubs[0];
+          p = itemDef ? Math.round(((itemDef.min + itemDef.max) / 2) * hubObj.mult) : 100;
+          state.prices[id] = p;
+        }
+        return p;
+      }
+
       function buyItem(id, qty) {
         const cfg = getCfg();
         const itemDef = cfg.commodities.find(c => c.id === id);
-        if (itemDef && itemDef.exclusiveBuyHub && itemDef.exclusiveBuyHub !== state.hub) {
-          triggerSfx("error");
+        if (!itemDef) return;
+        if (itemDef.exclusiveBuyHub && itemDef.exclusiveBuyHub !== state.hub) {
+          triggerSfx("bad");
           state.news = `🔒 ${itemDef.name} can only be sourced in ${itemDef.hubLabel}!`;
           render();
           return;
         }
         const clr = getActiveClearanceItem(id);
-        const price = clr ? clr.clearancePrice : state.prices[id];
-        const freeSpace = getCapacity() - getUsedCapacity();
+        const price = clr ? clr.clearancePrice : getSafeItemPrice(id);
+        const freeSpace = Math.max(0, getCapacity() - getUsedCapacity());
+        if (freeSpace <= 0) {
+          triggerSfx("bad");
+          state.news = `📦 ${cfg.capLabel} is full (${getUsedCapacity()}/${getCapacity()})! Sell stock or upgrade capacity in Empire.`;
+          render();
+          return;
+        }
         const maxAffordable = Math.floor(state.cash / price);
+        if (maxAffordable <= 0) {
+          triggerSfx("bad");
+          state.news = `💸 Not enough cash for ${itemDef.name} (${fmt(price)})! Tap your hustle button or complete a gig.`;
+          render();
+          return;
+        }
         const actualQty = Math.min(qty, freeSpace, maxAffordable);
         if (actualQty <= 0) return;
 
@@ -3894,6 +3994,7 @@
 
         state.inventory[id] = { qty: newQty, avgCost: Math.round(totalCost / newQty) };
         state.cash -= actualQty * price;
+        state.news = `🛒 Bought ${actualQty}x ${itemDef.name} for ${fmt(actualQty * price)}.`;
         saveGame();
         render();
       }
@@ -3901,9 +4002,10 @@
       function sellItem(id, qty) {
         const cfg = getCfg();
         const itemDef = cfg.commodities.find(c => c.id === id);
-        if (itemDef && itemDef.exclusiveBuyHub && itemDef.exclusiveBuyHub === state.hub) {
-          triggerSfx("error");
-          state.news = `✈️ Travel to another hub to sell ${itemDef.name} for export profits!`;
+        if (!itemDef) return;
+        if (itemDef.exclusiveBuyHub && itemDef.exclusiveBuyHub === state.hub) {
+          triggerSfx("bad");
+          state.news = `✈️ Travel to another hub to sell ${itemDef.name} for high export profits!`;
           render();
           return;
         }
@@ -3914,7 +4016,7 @@
 
         // If sold during active 1-minute clearance window: earn +5% Profit Bonus!
         const clr = getActiveClearanceItem(id);
-        const unitSellPrice = clr ? clr.clearancePrice : state.prices[id];
+        const unitSellPrice = clr ? clr.clearancePrice : getSafeItemPrice(id);
         const bonusMult = clr ? 1.05 : 1.0;
         const revenue = Math.round(actualQty * unitSellPrice * getSellMultiplier() * bonusMult);
 
@@ -3924,6 +4026,8 @@
         state.salesCount += 1;
         if (clr) {
           state.news = `⚡ BEAT THE CLOCK! Sold ${actualQty}x ${clr.name} on clearance for ${fmt(revenue)} (includes +5% Profit Bonus)!`;
+        } else {
+          state.news = `💰 Sold ${actualQty}x ${itemDef.name} for ${fmt(revenue)}!`;
         }
         awardXP(clr ? 25 : 15);
         checkTelltaleProgression();
@@ -3955,6 +4059,7 @@
 
         rollPrices();
         startNewMarketClearance(true);
+        updateMusicContext(hubId);
         const hubObj = getCfg().hubs.find(h => h.id === hubId) || getCfg().hubs[0];
         const regMsgs = (REGION_NEWS_FLASHES[state.path] && REGION_NEWS_FLASHES[state.path][hubId]) || [];
         const regSplash = regMsgs.length > 0 ? regMsgs[Math.floor(Math.random() * regMsgs.length)] : "";
@@ -4343,7 +4448,7 @@
             state.claimedRiskTasks.push(rt.id);
 
             if (Math.random() <= rt.winChance) {
-              triggerSfx("level");
+              triggerSfx("good");
               const grossWin = Math.round(rt.winCash * diff.mult);
               state.cash += grossWin;
               state.news = `🔥 VENTURE HIT! ${rt.title} paid out +${fmt(grossWin)} & +90 XP!`;
@@ -5143,13 +5248,16 @@
           const list = document.createElement("div");
           list.className = "market-list";
 
+          const freeSpaceNow = Math.max(0, getCapacity() - getUsedCapacity());
           cfg.commodities.forEach(c => {
             const clr = getActiveClearanceItem(c.id);
-            const price = clr ? clr.clearancePrice : state.prices[c.id];
+            const basePrice = getSafeItemPrice(c.id);
+            const price = clr ? clr.clearancePrice : basePrice;
             const owned = state.inventory[c.id];
             const isExclusive = Boolean(c.exclusiveBuyHub);
-            const canBuyHere = !isExclusive || c.exclusiveBuyHub === state.hub;
-            const canSellHere = Boolean(owned) && (!isExclusive || c.exclusiveBuyHub !== state.hub);
+            const inHomeHub = !isExclusive || c.exclusiveBuyHub === state.hub;
+            const canBuyHere = inHomeHub && freeSpaceNow > 0 && state.cash >= price;
+            const canSellHere = Boolean(owned && owned.qty > 0) && (!isExclusive || c.exclusiveBuyHub !== state.hub);
             const isHot = !isExclusive && !clr && price > c.max * 1.25;
             const isDeal = !isExclusive && !clr && price < c.min * 0.9;
 
@@ -5164,7 +5272,7 @@
                 <div class="item-title">
                   ${c.name}
                   ${clr ? `<span class="tag tag-clearance-flash">🔥 30% OFF CLEARANCE</span><span class="clearance-timer-pill" data-clearance-clock>${clockText}</span>` : ""}
-                  ${isExclusive ? `<span class="tag tag-exclusive">${canBuyHere ? "Buy Here Only" : "Export Sell Only"}</span>` : ""}
+                  ${isExclusive ? `<span class="tag tag-exclusive">${inHomeHub ? "Unlocked Here • Buy" : "Export Sell Only"}</span>` : ""}
                   ${isHot ? '<span class="tag tag-hot">Spike</span>' : ""}
                   ${isDeal ? '<span class="tag tag-deal">Low</span>' : ""}
                 </div>
@@ -5172,11 +5280,11 @@
                   Owned: <strong>${owned ? owned.qty : 0}</strong>
                   ${owned ? ` (Avg: ${fmt(owned.avgCost)})` : ""}
                   ${clr ? ` • <span style="color:#fca5a5;">Sell before 0:00 for <strong>+5% Bonus</strong> (or lose 110% of paid cost!)</span>` : ""}
-                  ${isExclusive ? ` • ${canBuyHere ? "Travel elsewhere to sell!" : `Sourced in ${c.hubLabel}`}` : ""}
+                  ${isExclusive ? ` • ${inHomeHub ? "Buy here, travel elsewhere to sell!" : `Buy in ${c.hubLabel}`}` : ""}
                 </div>
               </div>
               <div class="item-actions">
-                <span class="price-tag">${canBuyHere || owned ? (clr ? `<s style="opacity:0.55;font-size:0.74rem;margin-right:4px;">${fmt(clr.originalPrice)}</s>${fmt(price)}` : fmt(price)) : "Locked"}</span>
+                <span class="price-tag">${inHomeHub || owned ? (clr ? `<s style="opacity:0.55;font-size:0.74rem;margin-right:4px;">${fmt(clr.originalPrice)}</s>${fmt(price)}` : fmt(price)) : `🔒 ${c.hubLabel}`}</span>
                 <div class="btn-group">
                   <button class="btn btn-buy" data-buy1="${c.id}" ${!canBuyHere ? "disabled" : ""}>+1</button>
                   <button class="btn btn-buy" data-buymax="${c.id}" ${!canBuyHere ? "disabled" : ""}>Max</button>
@@ -5455,6 +5563,12 @@
               </div>
             </div>
 
+            <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:6px;">Audio &amp; Regional Soundtrack:</p>
+            <div class="theme-pills" style="margin-bottom:14px;">
+              <button type="button" class="pill-btn ${sfxEnabled ? "active" : ""}" id="settings-sfx-toggle">${sfxEnabled ? "🔊 Sound Effects: ON" : "🔇 Sound Effects: OFF"}</button>
+              <button type="button" class="pill-btn ${bgmEnabled ? "active" : ""}" id="settings-bgm-toggle">${bgmEnabled ? "🎵 Ambient Music: ON" : "🔇 Ambient Music: OFF"}</button>
+            </div>
+
             <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:6px;">Interface Aesthetic:</p>
             <div class="theme-pills" style="margin-bottom:14px;">
               <button class="pill-btn ${state.theme === "queen" ? "active" : ""}" data-set-theme="queen">👑 Queen Glam</button>
@@ -5508,6 +5622,19 @@
           sNameInput.onchange = () => {
             state.charName = sanitizeName(sNameInput.value);
             saveGame();
+            render();
+          };
+
+          card.querySelector("#settings-sfx-toggle").onclick = () => {
+            sfxEnabled = !sfxEnabled;
+            document.getElementById("sound-toggle-btn").textContent = sfxEnabled ? "🔊" : "🔇";
+            if (sfxEnabled) triggerSfx("good");
+            render();
+          };
+          card.querySelector("#settings-bgm-toggle").onclick = () => {
+            bgmEnabled = !bgmEnabled;
+            updateMusicContext();
+            if (sfxEnabled) triggerSfx("tap");
             render();
           };
 
@@ -5611,7 +5738,8 @@
         });
       }
 
-      loadGame().then(() => { if (state.started && !state.marketClearance) startNewMarketClearance(true); startLiveTimers(); render(); });
+      document.addEventListener("pointerdown", () => { ensureAudioCtx(); if (bgmEnabled && !bgmTimer) updateMusicContext(); }, { once: true });
+      loadGame().then(() => { if (state.started && !state.marketClearance) startNewMarketClearance(true); startLiveTimers(); updateMusicContext(); render(); });
     })();
   </script>
 </body>

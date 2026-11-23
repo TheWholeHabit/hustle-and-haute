@@ -1,4 +1,4 @@
-const CACHE_NAME = "hustle-haute-v16";
+const CACHE_NAME = "hustle-haute-v17";
 const ASSETS = [
   "/",
   "/index.html",
