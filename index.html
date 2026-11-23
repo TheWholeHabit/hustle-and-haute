@@ -954,6 +954,114 @@
 
     .footer-note { text-align: center; font-size: 0.72rem; color: var(--text-secondary); margin-top: 4px; }
     .footer-note a { color: var(--accent); text-decoration: none; }
+  
+    /* Player Magazine, Competitions & Real-World Gear Shop */
+    .mag-cover-card {
+      background: linear-gradient(155deg, #090d16 0%, #1e1b4b 55%, var(--accent-soft) 100%);
+      border: 2px solid var(--accent);
+      border-radius: 16px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.55);
+      margin-bottom: 12px;
+    }
+    .mag-masthead {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.45rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+    }
+    .mag-subhead {
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .mag-cover-grid {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .mag-portrait {
+      width: 124px;
+      height: 152px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      border: 2px solid var(--accent);
+      background: radial-gradient(circle at 50% 25%, rgba(255,255,255,0.14), #090d16 85%);
+      overflow: hidden;
+    }
+    .mag-portrait svg { width: 100%; height: 100%; display: block; }
+    .mag-headlines {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .mag-headline-main {
+      font-size: 0.94rem;
+      font-weight: 900;
+      line-height: 1.25;
+      color: #ffffff;
+    }
+    .mag-headline-sub {
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+      line-height: 1.35;
+    }
+    .trophy-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .trophy-badge {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.45;
+    }
+    .trophy-badge.earned {
+      opacity: 1;
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .trophy-icon { font-size: 1.35rem; }
+    .catalog-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px;
+      margin-bottom: 9px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .catalog-card.stocked {
+      border-color: var(--success);
+      background: rgba(16, 185, 129, 0.07);
+    }
+    .subtab-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
   </style>
 </head>
 <body>
@@ -968,8 +1076,9 @@
           </div>
         </div>
         <div class="top-actions">
-          <button class="help-btn" id="sound-toggle-btn" title="Toggle Sound & Haptics">🔊 SFX</button>
-          <button class="help-btn" id="open-help-btn">? Guide</button>
+          <button class="help-btn" id="quick-style-btn" title="Wardrobe & Story">👗 Style</button>
+          <button class="help-btn" id="sound-toggle-btn" title="Toggle Sound & Haptics">🔊</button>
+          <button class="help-btn" id="open-help-btn">?</button>
         </div>
       </div>
 
@@ -1016,12 +1125,12 @@
 
   <nav class="nav-bar" id="bottom-nav">
     <button class="nav-btn active" data-tab="market"><span>📈</span>Market</button>
-    <button class="nav-btn" data-tab="missions" id="nav-missions-btn"><span>🎯</span>Missions</button>
+    <button class="nav-btn" data-tab="missions" id="nav-missions-btn"><span>🎯</span>Tasks</button>
     <button class="nav-btn" data-tab="gigs"><span>🎮</span>Gigs</button>
+    <button class="nav-btn" data-tab="magazine"><span>📰</span>Magazine</button>
+    <button class="nav-btn" data-tab="catalog"><span>🛍️</span>Catalog</button>
     <button class="nav-btn" data-tab="travel"><span>✈️</span>Travel</button>
-    <button class="nav-btn" data-tab="story"><span>🎬</span>Story</button>
     <button class="nav-btn" data-tab="finance"><span>🏦</span>Empire</button>
-    <button class="nav-btn" data-tab="settings"><span>⚙️</span>Style</button>
   </nav>
 
   <!-- Interactive 30-Second Mini-Video Reel / Level-Up & Story Cutscene Modal -->
@@ -1128,8 +1237,8 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v10";
-      const BACKUP_KEY = "hh_empire_undo_backup_v10";
+      const STORAGE_KEY = "hh_empire_save_v11";
+      const BACKUP_KEY = "hh_empire_undo_backup_v11";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
       // Lightweight Zero-Dependency Web Audio Synthesizer + Mobile Haptics
@@ -1291,6 +1400,149 @@
           { id: "hoops_mic", label: "Gold Hoops & Lavalier Mic" }
         ]
       };
+
+      
+      // Real-World Trending Gear & Content Catalog (Grounded in 2026 Chef & Creator Searches — Purchasable with In-Game Play Money)
+      const REAL_WORLD_CATALOG = {
+        chef: [
+          {
+            id: "cw_iron_plate",
+            name: "JIU Burner-to-Table Iron Frying Plate",
+            brand: "Japanese Mill-Scale Steel",
+            price: 1400,
+            dailyShopSales: 260,
+            compScore: 15,
+            desc: "Detachable wooden handle moves straight from burner to table. Adds +$260/day shop sales & +15 Competition Score."
+          },
+          {
+            id: "cw_allclad_strainer",
+            name: "All-Clad 3-Pc Stainless Strainer Set",
+            brand: "18/10 Commercial Mesh",
+            price: 2800,
+            dailyShopSales: 520,
+            compScore: 25,
+            desc: "Graduated fine-mesh stock & sauce strainers. Adds +$520/day shop sales & +25 Competition Score."
+          },
+          {
+            id: "cw_hestan_provisions",
+            name: "Hestan Provisions 8-Pc Ultimate Tool Set",
+            brand: "Michelin-Grade 18/10 Steel + Bain Marie",
+            price: 6500,
+            dailyShopSales: 1250,
+            compScore: 45,
+            desc: "Precision fish spatula, ladle, whisk & kiln-fired porcelain holder. Adds +$1,250/day shop sales & +45 Competition Score."
+          },
+          {
+            id: "cw_anaori_kakugama",
+            name: "ANAORI Kakugama Carbon Graphite Vessel",
+            brand: "Solid Japanese Graphite + Hinoki Lid",
+            price: 16000,
+            dailyShopSales: 3100,
+            compScore: 80,
+            desc: "Even-heat carbon graphite vessel with aromatic cypress lid. Adds +$3,100/day shop sales & +80 Competition Score."
+          },
+          {
+            id: "cw_vitamix_boos",
+            name: "Vitamix 5200 + John Boos Maple Block Suite",
+            brand: "Flagship Prep Station Bundle",
+            price: 34000,
+            dailyShopSales: 6800,
+            compScore: 130,
+            desc: "High-torque emulsion blender & edge-grain butcher block. Adds +$6,800/day shop sales & +130 Competition Score."
+          },
+          {
+            id: "cw_bernal_korin",
+            name: "Korin & Bernal Hand-Forged Knife Vault",
+            brand: "Master Sushi & Pastry Blade Collection",
+            price: 75000,
+            dailyShopSales: 15500,
+            compScore: 220,
+            desc: "Collector-grade Japanese steel showcase for your shop. Adds +$15,500/day shop sales & +220 Competition Score."
+          }
+        ],
+        social: [
+          {
+            id: "cr_shiftcam_pro",
+            name: "ShiftCam SnapCreator Kit Pro (3-in-1)",
+            brand: "MagSafe Grip, Stand & Studio Light",
+            price: 1400,
+            dailyShopSales: 260,
+            compScore: 15,
+            desc: "Modular mobile storytelling rig for vertical Reels. Adds +$260/day shop sales & +15 Competition Score."
+          },
+          {
+            id: "cr_dji_osmo8",
+            name: "DJI Osmo Mobile 8 AI Tracking Gimbal",
+            brand: "3-Axis Native Tracking Stabilizer",
+            price: 2800,
+            dailyShopSales: 520,
+            compScore: 25,
+            desc: "360° pan rotation & built-in extension rod. Adds +$520/day shop sales & +25 Competition Score."
+          },
+          {
+            id: "cr_scarlett_2i2",
+            name: "Focusrite Scarlett 2i2 Studio (4th Gen)",
+            brand: "USB-C Interface, CM25 Mic & SH-450",
+            price: 6500,
+            dailyShopSales: 1250,
+            compScore: 45,
+            desc: "Auto-Gain & Clip Safe vocal studio bundle. Adds +$1,250/day shop sales & +45 Competition Score."
+          },
+          {
+            id: "cr_hamilton_xlr",
+            name: "HamiltonBuhl XLR Podcast Production Kit",
+            brand: "XLR Cardioid Mic, Mixer & Isolation Shield",
+            price: 16000,
+            dailyShopSales: 3100,
+            compScore: 80,
+            desc: "Broadcast-grade podcast & interview console. Adds +$3,100/day shop sales & +80 Competition Score."
+          },
+          {
+            id: "cr_canon_r50v",
+            name: "Canon EOS R50 V 4K Creator Kit",
+            brand: "6K-Oversampled 4K Mirrorless + Power Zoom",
+            price: 34000,
+            dailyShopSales: 6800,
+            compScore: 130,
+            desc: "Dedicated tally lamp & vertical auto-tagging cinema body. Adds +$6,800/day shop sales & +130 Competition Score."
+          },
+          {
+            id: "cr_yolobox_ultra",
+            name: "YoloLiv YoloBox Ultra 4K Live Studio",
+            brand: "Multi-Cam Switcher, Encoder & Monitor",
+            price: 75000,
+            dailyShopSales: 15500,
+            compScore: 220,
+            desc: "4-HDMI UHD 4K live broadcast production hub. Adds +$15,500/day shop sales & +220 Competition Score."
+          }
+        ]
+      };
+
+      const MAGAZINE_COMPETITIONS = {
+        chef: [
+          { id: "comp_local", title: "Rising Artisans Issue", entryFee: 500, reqScore: 30, cashPrize: 2500, xpPrize: 80, badge: "🥉 Rising Chef Feature" },
+          { id: "comp_metro", title: "Best New Bistro Cover", entryFee: 2500, reqScore: 110, cashPrize: 11000, xpPrize: 150, badge: "🥈 Bistro Cover Star" },
+          { id: "comp_national", title: "Culinary Innovator of the Year", entryFee: 10000, reqScore: 260, cashPrize: 42000, xpPrize: 280, badge: "🥇 National Cover Icon" },
+          { id: "comp_global", title: "Global Gastronomy Hall of Fame", entryFee: 30000, reqScore: 480, cashPrize: 125000, xpPrize: 500, badge: "👑 Global Cover Legend" }
+        ],
+        social: [
+          { id: "comp_local", title: "Breakout Creators Issue", entryFee: 500, reqScore: 30, cashPrize: 2500, xpPrize: 80, badge: "🥉 Breakout Creator Feature" },
+          { id: "comp_metro", title: "Digital Trendsetter Cover", entryFee: 2500, reqScore: 110, cashPrize: 11000, xpPrize: 150, badge: "🥈 Trendsetter Cover Star" },
+          { id: "comp_national", title: "Creator Mogul of the Year", entryFee: 10000, reqScore: 260, cashPrize: 42000, xpPrize: 280, badge: "🥇 National Cover Icon" },
+          { id: "comp_global", title: "Global Media Power List Cover", entryFee: 30000, reqScore: 480, cashPrize: 125000, xpPrize: 500, badge: "👑 Global Cover Legend" }
+        ]
+      };
+
+      const TROPHY_BADGES = [
+        { id: "tr_debt", icon: "💸", title: "Debt-Free Boss", desc: "Pay off your starter loan completely", check: s => s.debt <= 0 },
+        { id: "tr_shop1", icon: "🛍️", title: "Boutique Curator", desc: "Stock your first item in the Shop Catalog", check: s => (s.shopCatalog || []).length >= 1 },
+        { id: "tr_shop4", icon: "🏪", title: "Flagship Merchandiser", desc: "Stock 4+ real-world items in your Shop", check: s => (s.shopCatalog || []).length >= 4 },
+        { id: "tr_cover1", icon: "📰", title: "Cover Feature", desc: "Win your first Magazine Cover Competition", check: s => (s.wonCovers || []).length >= 1 },
+        { id: "tr_cover4", icon: "🏆", title: "Cover Royalty", desc: "Win all 4 Magazine Cover Competitions", check: s => (s.wonCovers || []).length >= 4 },
+        { id: "tr_lvl4", icon: "⚡", title: "Executive Tier", desc: "Reach Level 4 in your career path", check: s => s.level >= 4 },
+        { id: "tr_100k", icon: "💎", title: "Six-Figure Mogul", desc: "Reach $100,000+ Net Worth", check: s => getNetWorth() >= 100000 },
+        { id: "tr_500k", icon: "👑", title: "Half-Million Empire", desc: "Reach $500,000+ Net Worth", check: s => getNetWorth() >= 500000 }
+      ];
 
       const DIFFICULTIES = {
         easy: { label: "Easy", startCash: 3500, startDebt: 1500, debtRate: 1.02, vaultRate: 1.02, mult: 1.25 },
@@ -2665,6 +2917,8 @@
             baseCap: 25,
             upgrades: [],
             ownedBusinesses: [],
+            shopCatalog: [],
+            wonCovers: [],
             inventory: {},
             prices: {},
             forecast: null,
@@ -2709,6 +2963,8 @@
           baseCap: 25,
           upgrades: [],
           ownedBusinesses: [],
+            shopCatalog: [],
+            wonCovers: [],
           inventory: {},
           prices: {},
           forecast: null,
@@ -2813,12 +3069,47 @@
 
       function getDailyPassiveIncome() {
         const cfg = getCfg();
+        const catalogList = REAL_WORLD_CATALOG[state.path] || [];
         const prestigeMult = 1 + (state.prestigeStars || 0) * 0.1;
-        const base = state.ownedBusinesses.reduce((sum, bId) => {
+        const bizBase = state.ownedBusinesses.reduce((sum, bId) => {
           const found = cfg.businesses.find(b => b.id === bId);
           return sum + (found ? found.dailyYield : 0);
         }, 0);
-        return Math.round(base * prestigeMult);
+        const shopBase = (state.shopCatalog || []).reduce((sum, itemId) => {
+          const found = catalogList.find(x => x.id === itemId);
+          return sum + (found ? found.dailyShopSales : 0);
+        }, 0);
+        return Math.round((bizBase + shopBase) * prestigeMult);
+      }
+
+      // Dynamic Player Magazine Title based on Mode (Path), Style/Genre, Theme & Gender
+      function getDynamicMagazineTitle() {
+        const themeMap = {
+          queen: state.path === "chef" ? "VELVET TABLE" : "ROYAL FEED",
+          king: state.path === "chef" ? "GILDED PLATE" : "SOVEREIGN",
+          neon: state.path === "chef" ? "NEON KITCHEN" : "PULSE STUDIO"
+        };
+        const genreMap = {
+          glam: "HAUTE",
+          underdog: "GRIT & GLORY",
+          thriller: "INSIDER"
+        };
+        const lead = themeMap[state.theme] || "HAUTE";
+        const sub = genreMap[state.genre] || "EMPIRE";
+        const suffix = state.path === "chef" ? "CULINARY QUARTERLY" : "CREATOR WEEKLY";
+        return `${lead} • ${sub} ${suffix}`;
+      }
+
+      function getCompetitionScore() {
+        const catalogList = REAL_WORLD_CATALOG[state.path] || [];
+        const gearScore = (state.shopCatalog || []).reduce((sum, itemId) => {
+          const found = catalogList.find(x => x.id === itemId);
+          return sum + (found ? found.compScore : 0);
+        }, 0);
+        const levelScore = state.level * 25;
+        const prestigeScore = (state.prestigeStars || 0) * 50;
+        const storyScore = (state.storyLog || []).length * 20;
+        return gearScore + levelScore + prestigeScore + storyScore;
       }
 
       function getRivalStandings() {
@@ -3438,6 +3729,221 @@
 
         saveGame();
         checkTelltaleProgression();
+      }
+
+      
+      let magSubTab = "cover"; // cover | compete | trophies
+
+      function renderMagazineTab(container) {
+        const cfg = getCfg();
+        const arc = getStoryArc();
+        const magTitle = getDynamicMagazineTitle();
+        const avatarSVG = renderAvatarSVG(state.avatarCfg, state.gender);
+        const activeMenu = getCurrentMenuObj();
+        const compScore = getCompetitionScore();
+        const earnedTrophies = TROPHY_BADGES.filter(t => t.check(state));
+        const latestCoverId = (state.wonCovers || [])[(state.wonCovers || []).length - 1];
+        const compList = MAGAZINE_COMPETITIONS[state.path] || [];
+        const latestComp = compList.find(c => c.id === latestCoverId);
+
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <h2><span>📰 Player Magazine &amp; Trophies</span><span style="font-size:0.72rem;color:var(--accent)">Score: ${compScore} pts</span></h2>
+          <div class="subtab-bar">
+            <button type="button" class="w-tab-btn ${magSubTab === "cover" ? "active" : ""}" data-msub="cover">📸 Cover Issue</button>
+            <button type="button" class="w-tab-btn ${magSubTab === "compete" ? "active" : ""}" data-msub="compete">🏆 Compete</button>
+            <button type="button" class="w-tab-btn ${magSubTab === "trophies" ? "active" : ""}" data-msub="trophies">🎖️ Badges (${earnedTrophies.length}/${TROPHY_BADGES.length})</button>
+          </div>
+          <div id="mag-sub-mount"></div>
+        `;
+
+        card.querySelectorAll("[data-msub]").forEach(btn => {
+          btn.onclick = () => {
+            triggerSfx("tap");
+            magSubTab = btn.dataset.msub;
+            render();
+          };
+        });
+
+        const mount = card.querySelector("#mag-sub-mount");
+
+        if (magSubTab === "cover") {
+          const coverHeadline = latestComp
+            ? `COVER EXCLUSIVE: ${state.charName.toUpperCase()} WINS "${latestComp.title.toUpperCase()}"!`
+            : `RISING MOGUL SPOTLIGHT: ${state.charName.toUpperCase()} TAKES OVER ${cfg.label.toUpperCase()}`;
+
+          mount.innerHTML = `
+            <div class="mag-cover-card">
+              <div class="mag-masthead">${magTitle}</div>
+              <div class="mag-subhead">ISSUE #${state.day} • ${GENRES[state.genre].label} EDITION • ${fmt(getNetWorth())} NET WORTH</div>
+              <div class="mag-cover-grid">
+                <div class="mag-portrait">${avatarSVG}</div>
+                <div class="mag-headlines">
+                  <div class="mag-headline-main">${coverHeadline}</div>
+                  <div class="mag-headline-sub">• ${activeMenu.menuName}</div>
+                  <div class="mag-headline-sub">• Story Arc: "${arc.title}" (${state.storyLog.length}/5 Chapters)</div>
+                  <div class="mag-headline-sub">• Shop Catalog: ${(state.shopCatalog || []).length} Pro Items Stocked</div>
+                  <div class="mag-headline-sub">• Trophies Unlocked: ${earnedTrophies.length} / ${TROPHY_BADGES.length}</div>
+                </div>
+              </div>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="btn btn-buy" style="flex:1;" id="mag-play-reel-btn">🎬 Play 30s Cover Shoot Reel</button>
+              <button type="button" class="btn btn-sell" style="flex:1;" id="mag-story-episodes-btn">📖 Story Arc</button>
+              <button type="button" class="btn btn-sell" style="flex:1;" id="mag-share-card-btn">🏆 Card</button>
+            </div>
+          `;
+
+          mount.querySelector("#mag-play-reel-btn").onclick = () => {
+            const memories = state.storyLog.length > 0
+              ? state.storyLog.map(entry => ({
+                  title: entry.chapter,
+                  text: entry.outcome,
+                  statLabel: `🏆 Choice: ${entry.choiceTag}`
+                }))
+              : [{
+                  title: `${magTitle} Cover Shoot`,
+                  text: `{NAME} poses for the ${magTitle} cover issue with ${earnedTrophies.length} trophies and ${fmt(getNetWorth())} net worth!`,
+                  statLabel: `📰 Magazine Score: ${compScore} pts`
+                }];
+            openStoryReelModal({ scenes: memories });
+          };
+          mount.querySelector("#mag-story-episodes-btn").onclick = () => { triggerSfx("tap"); state.tab = "story"; render(); };
+          mount.querySelector("#mag-share-card-btn").onclick = openVictoryCardModal;
+        }
+
+        if (magSubTab === "compete") {
+          mount.innerHTML = `
+            <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:10px;">
+              Enter <strong>${magTitle}</strong> cover competitions! Boost your <strong>Competition Score (${compScore} pts)</strong> by stocking real-world gear in the <strong>🛍️ Catalog</strong> tab and leveling up.
+            </p>
+            <div id="comp-list"></div>
+          `;
+          const cList = mount.querySelector("#comp-list");
+          compList.forEach(comp => {
+            const won = (state.wonCovers || []).includes(comp.id);
+            const canEnter = !won && state.cash >= comp.entryFee;
+            const row = document.createElement("div");
+            row.className = "mission-card" + (won ? " claimed" : (compScore >= comp.reqScore ? " ready" : ""));
+            row.innerHTML = `
+              <div class="mission-header">
+                <div>
+                  <div class="mission-title">${won ? "🏆" : "📸"} ${comp.title}</div>
+                  <div style="font-size:0.74rem;color:var(--text-secondary);">
+                    Recommended Score: <strong>${comp.reqScore} pts</strong> (Yours: ${compScore} pts) • Badge: ${comp.badge}
+                  </div>
+                </div>
+                <span class="mission-reward-pill">Prize: +${fmt(comp.cashPrize)}</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+                <span style="font-size:0.73rem;color:var(--text-secondary);">Entry Fee: ${fmt(comp.entryFee)}</span>
+                <button type="button" class="btn btn-buy" data-enter-comp="${comp.id}" ${!canEnter ? "disabled" : ""}>
+                  ${won ? "Cover Won!" : `Compete (${fmt(comp.entryFee)})`}
+                </button>
+              </div>
+            `;
+            cList.appendChild(row);
+          });
+
+          mount.querySelectorAll("[data-enter-comp]").forEach(btn => {
+            btn.onclick = () => {
+              const comp = compList.find(x => x.id === btn.dataset.enterComp);
+              if (!comp || state.cash < comp.entryFee || (state.wonCovers || []).includes(comp.id)) return;
+              state.cash -= comp.entryFee;
+
+              // Win probability scales with player's Competition Score vs required score
+              const ratio = compScore / comp.reqScore;
+              const winChance = ratio >= 1.0 ? 0.92 : Math.max(0.25, ratio * 0.75);
+              if (Math.random() <= winChance) {
+                triggerSfx("level");
+                state.wonCovers.push(comp.id);
+                state.cash += comp.cashPrize;
+                state.news = `🏆 COVER WINNER! ${state.charName} featured on "${comp.title}" (+${fmt(comp.cashPrize)} & ${comp.badge})!`;
+                awardXP(comp.xpPrize);
+                magSubTab = "cover";
+              } else {
+                triggerSfx("error");
+                state.news = `📸 Runner-Up in "${comp.title}"! Stock more pro gear in Catalog to boost your ${compScore} pts score.`;
+              }
+              checkTelltaleProgression();
+              saveGame();
+              render();
+            };
+          });
+        }
+
+        if (magSubTab === "trophies") {
+          mount.innerHTML = `<p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:6px;">Earn permanent career trophies and badges across your empire run:</p><div class="trophy-grid" id="trophy-grid"></div>`;
+          const grid = mount.querySelector("#trophy-grid");
+          TROPHY_BADGES.forEach(t => {
+            const unlocked = t.check(state);
+            const badge = document.createElement("div");
+            badge.className = "trophy-badge" + (unlocked ? " earned" : "");
+            badge.innerHTML = `
+              <span class="trophy-icon">${unlocked ? t.icon : "🔒"}</span>
+              <div>
+                <div style="font-weight:800;font-size:0.78rem;">${t.title}</div>
+                <div style="font-size:0.68rem;color:var(--text-secondary);">${t.desc}</div>
+              </div>
+            `;
+            grid.appendChild(badge);
+          });
+        }
+
+        container.appendChild(card);
+      }
+
+      function renderCatalogTab(container) {
+        const cfg = getCfg();
+        const items = REAL_WORLD_CATALOG[state.path] || [];
+        const stockedIds = state.shopCatalog || [];
+        const shopDaily = items.reduce((sum, it) => sum + (stockedIds.includes(it.id) ? it.dailyShopSales : 0), 0);
+
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <h2><span>🛍️ ${cfg.label} Shop Catalog</span><span style="font-size:0.72rem;color:var(--success)">+${fmt(shopDaily)}/day</span></h2>
+          <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:10px;">
+            Browse real-world trending ${state.path === "chef" ? "cookware & kitchen tools" : "creator studio & camera gear"} and add them to your shop using your play money! Stocked gear boosts daily passive shop income and your Magazine Competition Score.
+          </p>
+          <div id="catalog-list"></div>
+        `;
+
+        const list = card.querySelector("#catalog-list");
+        items.forEach(it => {
+          const owned = stockedIds.includes(it.id);
+          const row = document.createElement("div");
+          row.className = "catalog-card" + (owned ? " stocked" : "");
+          row.innerHTML = `
+            <div style="flex:1;">
+              <div style="font-weight:800;font-size:0.86rem;">${owned ? "✅ " : ""}${it.name}</div>
+              <div style="font-size:0.7rem;color:var(--accent);font-weight:700;margin-bottom:2px;">${it.brand}</div>
+              <div style="font-size:0.73rem;color:var(--text-secondary);">${it.desc}</div>
+            </div>
+            <button type="button" class="btn btn-buy" data-buy-cat="${it.id}" ${owned || state.cash < it.price ? "disabled" : ""}>
+              ${owned ? "In Shop" : fmt(it.price)}
+            </button>
+          `;
+          list.appendChild(row);
+        });
+
+        card.querySelectorAll("[data-buy-cat]").forEach(btn => {
+          btn.onclick = () => {
+            const it = items.find(x => x.id === btn.dataset.buyCat);
+            if (!it || state.cash < it.price || stockedIds.includes(it.id)) return;
+            triggerSfx("cash");
+            state.cash -= it.price;
+            state.shopCatalog.push(it.id);
+            state.news = `🛍️ Added ${it.name} to your shop! (+$${it.dailyShopSales}/day & +${it.compScore} Magazine Score)`;
+            awardXP(35);
+            checkTelltaleProgression();
+            saveGame();
+            render();
+          };
+        });
+
+        container.appendChild(card);
       }
 
       function renderMissionsTab(container) {
@@ -4237,6 +4743,14 @@
           renderMissionsTab(container);
         }
 
+        if (state.tab === "magazine") {
+          renderMagazineTab(container);
+        }
+
+        if (state.tab === "catalog") {
+          renderCatalogTab(container);
+        }
+
         if (state.tab === "gigs") {
           renderSideGigsTab(container);
         }
@@ -4595,6 +5109,7 @@
         render();
       };
 
+      document.getElementById("quick-style-btn").onclick = () => { triggerSfx("tap"); state.tab = "settings"; render(); };
       document.getElementById("sound-toggle-btn").onclick = () => {
         sfxEnabled = !sfxEnabled;
         document.getElementById("sound-toggle-btn").textContent = sfxEnabled ? "🔊 SFX" : "🔇 Mute";
