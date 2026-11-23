@@ -1334,8 +1334,8 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v17";
-      const BACKUP_KEY = "hh_empire_undo_backup_v17";
+      const STORAGE_KEY = "hh_empire_save_v18";
+      const BACKUP_KEY = "hh_empire_undo_backup_v18";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
       // Synthesized Web Audio Engine: SFX + Soft Low-Volume Regional & Scene Background Music + Haptics
@@ -3821,7 +3821,7 @@
         state = createFreshState(draftSetup, keepPrestige);
         rollPrices();
         startNewMarketClearance(true);
-        updateMusicContext(hubId);
+        updateMusicContext(state.hub);
         saveGame();
         render();
         checkTelltaleProgression();
