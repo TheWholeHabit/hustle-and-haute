@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#0f172a" id="meta-theme-color" />
-  <meta name="description" content="Hustle & Haute: Empire Simulator — 10 Tailored Outfits x 5 Colorways, Custom Season Length, Real-World Career Scenarios, and Extended 5-Episode Telltale Stories." />
+  <meta name="description" content="Hustle & Haute: Empire Simulator — Web Audio SFX, Passive Empire Businesses, Rival AI Moguls, Market Forecasts, Prestige Stars & Shareable Victory Cards." />
   <title>Hustle &amp; Haute: Empire Simulator</title>
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
@@ -126,7 +126,7 @@
 
     .title-block { min-width: 0; }
     .title-block h1 {
-      font-size: 0.98rem;
+      font-size: 0.96rem;
       font-weight: 800;
       letter-spacing: -0.01em;
       white-space: nowrap;
@@ -135,7 +135,7 @@
     }
 
     .title-block span {
-      font-size: 0.73rem;
+      font-size: 0.72rem;
       color: var(--text-secondary);
       display: block;
     }
@@ -186,7 +186,7 @@
     .top-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       flex-shrink: 0;
     }
 
@@ -194,9 +194,9 @@
       background: var(--accent-soft);
       color: var(--accent);
       border: 1px solid var(--accent);
-      padding: 6px 10px;
+      padding: 6px 9px;
       border-radius: 999px;
-      font-size: 0.73rem;
+      font-size: 0.72rem;
       font-weight: 800;
       cursor: pointer;
     }
@@ -278,6 +278,19 @@
       align-items: center;
       gap: 10px;
       font-size: 0.8rem;
+    }
+
+    /* Rival Leaderboard Strip */
+    .rival-strip {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 11px;
+      font-size: 0.74rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
     }
 
     .flash-clearance-card {
@@ -824,7 +837,7 @@
     }
     .choice-btn:hover { border-color: var(--accent); }
 
-    /* 30-Second Mini-Video Reel Player Modal */
+    /* Interactive 30-Second Mini-Video Reel Player Modal */
     .cine-stage {
       background: radial-gradient(circle at 50% 25%, rgba(245, 158, 11, 0.25), #070b14 82%);
       border: 2px solid var(--accent);
@@ -869,19 +882,40 @@
       margin-bottom: 10px;
     }
     .cine-avatar-box {
-      width: 112px;
-      height: 136px;
+      width: 116px;
+      height: 140px;
       flex-shrink: 0;
       border-radius: 12px;
       border: 2px solid var(--accent);
       background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%);
       overflow: hidden;
+      position: relative;
       animation: cineZoom 5s ease-in-out infinite alternate;
     }
     .cine-avatar-box svg { width: 100%; height: 100%; display: block; }
     @keyframes cineZoom {
       0% { transform: scale(1); }
       100% { transform: scale(1.06); }
+    }
+    .sparkle-target {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--accent-text);
+      border: 2px solid #ffffff;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 12px var(--accent);
+      animation: popSparkle 0.9s infinite alternate;
+    }
+    @keyframes popSparkle {
+      0% { transform: scale(0.92); }
+      100% { transform: scale(1.12); }
     }
     .cine-caption-card {
       flex: 1;
@@ -934,6 +968,7 @@
           </div>
         </div>
         <div class="top-actions">
+          <button class="help-btn" id="sound-toggle-btn" title="Toggle Sound & Haptics">🔊 SFX</button>
           <button class="help-btn" id="open-help-btn">? Guide</button>
         </div>
       </div>
@@ -965,6 +1000,7 @@
     </header>
 
     <div id="undo-container"></div>
+    <div id="rival-banner-mount"></div>
 
     <div class="ticker">
       <span>📡</span>
@@ -984,11 +1020,11 @@
     <button class="nav-btn" data-tab="gigs"><span>🎮</span>Gigs</button>
     <button class="nav-btn" data-tab="travel"><span>✈️</span>Travel</button>
     <button class="nav-btn" data-tab="story"><span>🎬</span>Story</button>
-    <button class="nav-btn" data-tab="finance"><span>🏦</span>Bank</button>
+    <button class="nav-btn" data-tab="finance"><span>🏦</span>Empire</button>
     <button class="nav-btn" data-tab="settings"><span>⚙️</span>Style</button>
   </nav>
 
-  <!-- 30-Second Mini-Video Reel / Level-Up & Story Cutscene Modal -->
+  <!-- Interactive 30-Second Mini-Video Reel / Level-Up & Story Cutscene Modal -->
   <div class="modal-backdrop" id="cine-modal">
     <div class="modal-box">
       <div class="cine-header">
@@ -1007,8 +1043,8 @@
         </div>
 
         <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--text-secondary);">
-          <span id="cine-metric-left">📸 Likes: +12.5K</span>
-          <span id="cine-metric-right" style="color:var(--success);font-weight:800;">Bonus: +$500</span>
+          <span id="cine-metric-left">📸 Rating: 1.0x</span>
+          <span id="cine-metric-right" style="color:var(--success);font-weight:800;">Reel Bonus: +$0</span>
         </div>
 
         <div class="cine-timeline"><div class="cine-timeline-fill" id="cine-timeline-fill" style="width:0%"></div></div>
@@ -1020,6 +1056,21 @@
       </div>
 
       <div id="cine-menu-upgrade-box" style="display:none;background:var(--bg-primary);border:1px solid var(--success);border-radius:10px;padding:10px;font-size:0.79rem;"></div>
+    </div>
+  </div>
+
+  <!-- Shareable Mogul Victory / Business Card Modal -->
+  <div class="modal-backdrop" id="victory-modal">
+    <div class="modal-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <h3>🏆 Mogul Empire Business Card</h3>
+        <button class="pill-btn" id="close-victory-modal">✕</button>
+      </div>
+      <canvas id="mogul-card-canvas" width="600" height="340" style="width:100%;border-radius:12px;border:1px solid var(--accent);"></canvas>
+      <div class="btn-group">
+        <button type="button" class="btn btn-buy" style="flex:1;" id="download-card-btn">⬇️ Save Card Image</button>
+        <button type="button" class="btn btn-success" style="flex:1;" id="prestige-run-btn">⭐ Prestige New Run (+10% Bonus)</button>
+      </div>
     </div>
   </div>
 
@@ -1047,23 +1098,27 @@
   <div class="modal-backdrop" id="help-modal">
     <div class="modal-box">
       <div style="display:flex;justify-content:space-between;align-items:center;">
-        <h3>📖 How to Play &amp; Timeline Challenge</h3>
+        <h3>📖 How to Play &amp; Empire Strategy</h3>
         <button class="pill-btn" id="close-help-top">✕</button>
       </div>
       <p style="font-size:0.82rem;color:var(--text-secondary);">
-        Reach <strong>$500,000+ Net Worth</strong> before your chosen <strong>Season Timeline</strong> expires! Shorter timelines boost market volatility and challenge intensity—even on Easy, Normal, and Difficult modes.
+        Reach <strong>$500,000+ Net Worth</strong> and overtake all <strong>3 AI Rival Moguls</strong> before your chosen season timeline ends!
       </p>
       <div class="guide-step">
-        <strong>1. Custom Season Timeline (30 to 180 Days)</strong>
-        Choosing a shorter run (like <strong>30-Day Sprint</strong> or <strong>60-Day Rush</strong>) increases daily pressure and speeds up story milestones, requiring sharp arbitrage and fast quiz bonuses to hit $500K in time.
+        <strong>1. Buy Passive Empire Properties (Empire Tab)</strong>
+        Purchase real businesses (Ghost Kitchens, Bistros, Podcast Studios, Streaming Networks) in <strong>🏦 Empire</strong> to earn automatic daily cash every time you travel!
       </div>
       <div class="guide-step">
-        <strong>2. High-Payout Real-World Mini-Quizzes (Gigs Tab)</strong>
-        Play the <strong>Pro Audit Quiz</strong> in <strong>🎮 Gigs</strong> to master real culinary food-costing, health codes, FTC sponsorship rules, and contract negotiation—earning massive cash + XP boosts!
+        <strong>2. Use Insider Market Forecasts (Market Tab)</strong>
+        Check the <strong>🔮 Insider Forecast</strong> banner on the Market tab—it reveals which hub is about to experience a massive price spike tomorrow.
       </div>
       <div class="guide-step">
-        <strong>3. Menu Evolution &amp; Backstock Flash Sales</strong>
-        Leveling up upgrades your menu/feed and triggers a <strong>30s Story Reel</strong> (skippable anytime). Liquidate old backstock at a <strong>-30% Flash Sale</strong> on the Market tab.
+        <strong>3. Interactive 30s Story Reels &amp; Backstock Flash Sales</strong>
+        Leveling up plays a 30s reel where tapping glowing targets boosts your cash bonus (or tap <strong>Skip Video</strong> anytime), and lets you sell old backstock at a <strong>-30% Flash Sale</strong>.
+      </div>
+      <div class="guide-step">
+        <strong>4. Prestige Stars (★) &amp; Shareable Empire Card</strong>
+        Hit $500,000+ (or open <strong>🎬 Story</strong>) to generate your downloadable <strong>Mogul Business Card</strong> and prestige for permanent <strong>+10% ★</strong> income multipliers!
       </div>
       <button class="btn btn-buy btn-full" id="close-help-bottom">Got It — Let's Build!</button>
     </div>
@@ -1073,9 +1128,60 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v9";
-      const BACKUP_KEY = "hh_empire_undo_backup_v9";
+      const STORAGE_KEY = "hh_empire_save_v10";
+      const BACKUP_KEY = "hh_empire_undo_backup_v10";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
+
+      // Lightweight Zero-Dependency Web Audio Synthesizer + Mobile Haptics
+      let audioCtx = null;
+      let sfxEnabled = true;
+
+      function playTone(freq, type, duration, vol, delay) {
+        if (!sfxEnabled) return;
+        try {
+          if (!audioCtx) {
+            const Ctx = window.AudioContext || window.webkitAudioContext;
+            if (Ctx) audioCtx = new Ctx();
+          }
+          if (!audioCtx) return;
+          if (audioCtx.state === "suspended") audioCtx.resume();
+          const now = audioCtx.currentTime + (delay || 0);
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = type || "sine";
+          osc.frequency.setValueAtTime(freq, now);
+          gain.gain.setValueAtTime(vol || 0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + duration);
+        } catch (e) {}
+      }
+
+      function triggerSfx(kind) {
+        if (!sfxEnabled) return;
+        try {
+          if (navigator.vibrate) {
+            if (kind === "tap") navigator.vibrate(12);
+            else if (kind === "cash" || kind === "level") navigator.vibrate([25, 30, 40]);
+          }
+        } catch (e) {}
+
+        if (kind === "tap") {
+          playTone(620, "triangle", 0.07, 0.06, 0);
+        } else if (kind === "cash") {
+          playTone(587.33, "sine", 0.1, 0.08, 0);
+          playTone(880, "sine", 0.18, 0.09, 0.07);
+        } else if (kind === "level") {
+          playTone(523.25, "triangle", 0.14, 0.09, 0);
+          playTone(659.25, "triangle", 0.14, 0.09, 0.1);
+          playTone(783.99, "triangle", 0.14, 0.09, 0.2);
+          playTone(1046.5, "triangle", 0.3, 0.11, 0.3);
+        } else if (kind === "error") {
+          playTone(220, "sawtooth", 0.18, 0.07, 0);
+        }
+      }
 
       // 5 Curated Contemporary Colorways for Styling All 10 Tailored Outfits
       const OUTFIT_COLORWAYS = [
@@ -1215,7 +1321,6 @@
         ]
       };
 
-      // Extended 5-Episode Rich Telltale Story Arcs (scales automatically to chosen maxDays timeline)
       const TELLTALE_EPISODES = {
         female: {
           social: {
@@ -1225,7 +1330,7 @@
                 {
                   pct: 0,
                   chapter: "Episode 1: The Cropped Gala Photo",
-                  prompt: "At Paris Fashion Week, your former best friend crops {NAME} out of the viral VIP photo and captions it 'No Plus-Ones.' Press photographers are stationed right outside the velvet rope as snow begins to fall. How do you turn the snub into leverage?",
+                  prompt: "At Paris Fashion Week, your former best friend crops {NAME} out of the viral VIP photo and captions it 'No Plus-Ones.' Press photographers are stationed right outside the velvet rope. How do you turn the snub into leverage?",
                   options: [
                     { label: "Host an impromptu street-style livestream right outside (+$850 Cash, Bold Mogul)", tag: "Bold Mogul", cashDelta: 850, outcome: "{NAME} turned the cobblestone sidewalk into a high-fashion runway! Your live stream hit 400K viewers and luxury sponsors wired $850 immediately." },
                     { label: "Leak the original uncropped photo with timestamped receipts (+$550 Cash, Calculated)", tag: "Calculated", cashDelta: 550, outcome: "Fashion commentary channels exploded over {NAME}'s receipts, driving massive traffic and $550 in instant creator payouts." }
@@ -1841,6 +1946,17 @@
           clickerUnitLabel: "Views Monetized",
           baseClickPay: 30,
           baseViewsPerClick: 1200,
+          rivals: [
+            { name: "Bella Sterling", startNw: 4500, dailyGrowth: 1.075 },
+            { name: "Marcus Vance", startNw: 12000, dailyGrowth: 1.065 },
+            { name: "Sienna Thorne", startNw: 28000, dailyGrowth: 1.055 }
+          ],
+          businesses: [
+            { id: "b1", name: "Podcast & Clipping Studio", cost: 12000, dailyYield: 950, desc: "Earns +$950 passive cash every travel day" },
+            { id: "b2", name: "UGC Talent & Creator Agency", cost: 45000, dailyYield: 3800, desc: "Earns +$3,800 passive cash every travel day" },
+            { id: "b3", name: "Direct-to-Consumer Merch Warehouse", cost: 120000, dailyYield: 11500, desc: "Earns +$11,500 passive cash every travel day" },
+            { id: "b4", name: "Global Streaming & Media Network", cost: 250000, dailyYield: 26000, desc: "Earns +$26,000 passive cash every travel day" }
+          ],
           hubs: [
             { id: "bedroom", name: "Bedroom Creator Feed", risk: "Low Risk", mult: 0.9 },
             { id: "tiktok", name: "TikTok & Reels Live Hub", risk: "Medium Risk", mult: 1.0 },
@@ -1873,7 +1989,7 @@
             { id: "m1", title: "Viral Debut: Post 15 Clips", desc: "Tap 'Post Viral Clip' 15 times on the Market tab.", metric: "hustleCount", target: 15, cashReward: 650, xpReward: 60 },
             { id: "m2", title: "Side Hustle Grind: Complete 2 Gigs", desc: "Finish any 2 Side Gigs in the Gigs tab.", metric: "gigsCompleted", target: 2, cashReward: 1200, xpReward: 90 },
             { id: "m3", title: "Market Flipper: Close 3 Asset Sales", desc: "Sell inventory on the Market 3 times.", metric: "salesCount", target: 3, cashReward: 1900, xpReward: 120 },
-            { id: "m4", title: "Debt-Free Creator: Clear Agency Loan", desc: "Pay off your entire Agency Debt in Bank.", metric: "debtCleared", target: 1, cashReward: 2600, xpReward: 160 },
+            { id: "m4", title: "Debt-Free Creator: Clear Agency Loan", desc: "Pay off your entire Agency Debt in Empire.", metric: "debtCleared", target: 1, cashReward: 2600, xpReward: 160 },
             { id: "m5", title: "Studio Mogul: Reach Level 3", desc: "Complete tasks and mini-games to hit Level 3.", metric: "levelReached", target: 3, cashReward: 4200, xpReward: 200 },
             { id: "m6", title: "Trendsetter: Post 60 Viral Clips", desc: "Reach 60 total viral clips posted.", metric: "hustleCount", target: 60, cashReward: 6800, xpReward: 260 },
             { id: "m7", title: "Six-Figure Network: $100K Net Worth", desc: "Grow your Net Worth to $100,000+.", metric: "netWorth", target: 100000, cashReward: 18000, xpReward: 400 }
@@ -1892,7 +2008,6 @@
               btnLabel: "🎯 LOCK HOOK",
               baseReward: 380
             },
-            // Expanded High-Reward Real-World Creator Mini-Quiz (5 questions per round, big cash + XP!)
             trivia: {
               title: "💼 High-Stakes Creator Business & Contract Audit",
               desc: "Pass 5 real-world creator business scenarios to earn a massive sponsorship & XP payout!",
@@ -1951,6 +2066,17 @@
           clickerUnitLabel: "Plates Sold",
           baseClickPay: 30,
           baseViewsPerClick: 1,
+          rivals: [
+            { name: "Chef Julian Vance", startNw: 4500, dailyGrowth: 1.075 },
+            { name: "Chef Camille Laurent", startNw: 12000, dailyGrowth: 1.065 },
+            { name: "Chef Dante Moretti", startNw: 28000, dailyGrowth: 1.055 }
+          ],
+          businesses: [
+            { id: "b1", name: "24/7 Delivery Ghost Kitchen", cost: 12000, dailyYield: 950, desc: "Earns +$950 passive cash every travel day" },
+            { id: "b2", name: "Downtown Neighborhood Bistro", cost: 45000, dailyYield: 3800, desc: "Earns +$3,800 passive cash every travel day" },
+            { id: "b3", name: "Artisanal Sauce & Cookware Plant", cost: 120000, dailyYield: 11500, desc: "Earns +$11,500 passive cash every travel day" },
+            { id: "b4", name: "Michelin Flagship Restaurant Group", cost: 250000, dailyYield: 26000, desc: "Earns +$26,000 passive cash every travel day" }
+          ],
           hubs: [
             { id: "farmers", name: "Local Farmers Market", risk: "Low Risk", mult: 0.9 },
             { id: "truck", name: "Downtown Food Truck Lot", risk: "Medium Risk", mult: 1.0 },
@@ -1983,7 +2109,7 @@
             { id: "m1", title: "Lunch Rush: Sell 15 Signature Dishes", desc: "Tap 'Sell Signature Dish' 15 times on the Market tab.", metric: "hustleCount", target: 15, cashReward: 650, xpReward: 60 },
             { id: "m2", title: "Catering Hustle: Complete 2 Side Gigs", desc: "Finish any 2 Side Gigs in the Gigs tab.", metric: "gigsCompleted", target: 2, cashReward: 1200, xpReward: 90 },
             { id: "m3", title: "Ingredient Arbitrage: Close 3 Sales", desc: "Sell culinary inventory on the Market 3 times.", metric: "salesCount", target: 3, cashReward: 1900, xpReward: 120 },
-            { id: "m4", title: "Debt-Free Kitchen: Pay Off Loan", desc: "Clear your entire Kitchen Loan in Bank.", metric: "debtCleared", target: 1, cashReward: 2600, xpReward: 160 },
+            { id: "m4", title: "Debt-Free Kitchen: Pay Off Loan", desc: "Clear your entire Kitchen Loan in Empire.", metric: "debtCleared", target: 1, cashReward: 2600, xpReward: 160 },
             { id: "m5", title: "Sous-Chef Promotion: Reach Level 3", desc: "Complete tasks and mini-games to hit Level 3.", metric: "levelReached", target: 3, cashReward: 4200, xpReward: 200 },
             { id: "m6", title: "Packed House: Sell 60 Dishes", desc: "Reach 60 total signature plates sold.", metric: "hustleCount", target: 60, cashReward: 6800, xpReward: 260 },
             { id: "m7", title: "Hospitality Mogul: $100K Net Worth", desc: "Grow your Net Worth to $100,000+.", metric: "netWorth", target: 100000, cashReward: 18000, xpReward: 400 }
@@ -2002,7 +2128,6 @@
               btnLabel: "🔪 PLATE STEAK",
               baseReward: 380
             },
-            // Expanded High-Reward Real-World Culinary Business & Safety Mini-Quiz (5 questions)
             trivia: {
               title: "📋 Executive Chef Food Costing & Health Audit",
               desc: "Pass 5 real-world restaurant costing, yield, and food-safety scenarios for a huge catering bonus!",
@@ -2053,8 +2178,6 @@
         }
       };
 
-      // Highly Detailed Body-Fitting Contemporary Doll Vector Renderer
-      // 10 Distinct Real-World Outfits x 5 Curated Colorways
       function renderAvatarSVG(avatarCfg, gender) {
         const face = AVATAR_TEMPLATES.faceShape.find(x => x.id === avatarCfg.faceShape) || AVATAR_TEMPLATES.faceShape[0];
         const body = AVATAR_TEMPLATES.bodyShape.find(x => x.id === avatarCfg.bodyShape) || AVATAR_TEMPLATES.bodyShape[3];
@@ -2084,7 +2207,6 @@
              <circle cx="${cx + 26}" cy="${headY + 6}" r="44" fill="none" stroke="#38bdf8" stroke-width="12" opacity="0.3" />`
           : "";
 
-        // Head-Fitted Multi-Layered Back Hair
         let backHair = "";
         if (hairStyle === "silk_press_layers") {
           backHair = `
@@ -2129,14 +2251,12 @@
           `;
         }
 
-        // 10 Real-World Tailored Body-Fitting Outfits rendered with the selected 5-Colorway Palette
         let baseTorsoFill = cw.primary;
         let sleeveFill = cw.primary;
         let sleeveBorder = cw.trim;
         let outfitDetails = "";
 
         if (outfitId === "double_breasted_blazer") {
-          // 1. Tailored Double-Breasted Peak-Lapel Blazer & Silk Camisole
           outfitDetails = `
             <polygon points="${cx - 13},97 ${cx + 13},97 ${cx + 8},142 ${cx - 8},142" fill="${cw.secondary}" />
             <path d="M ${cx - 13} 102 Q ${cx} 110 ${cx + 13} 102" fill="none" stroke="${cw.accent}" stroke-width="1.5" />
@@ -2149,7 +2269,6 @@
             <line x1="${cx + 12}" y1="126" x2="${cx + 21}" y2="124" stroke="${cw.accent}" stroke-width="2.5" />
           `;
         } else if (outfitId === "executive_chef_coat") {
-          // 2. Piped Mandarin-Collar Executive Chef Coat & Bistro Wrap
           outfitDetails = `
             <path d="M ${cx - 12} 96 L ${cx} 105 L ${cx + 12} 96 L ${cx + 10} 103 L ${cx} 112 L ${cx - 10} 103 Z" fill="${cw.secondary}" stroke="${cw.trim}" stroke-width="1.4" />
             <path d="M ${cx - 10} 103 L ${cx - 4} 116 L ${cx - 4} 148" fill="none" stroke="${cw.trim}" stroke-width="2.2" />
@@ -2162,7 +2281,6 @@
             <path d="M ${cx - 5} 148 L ${cx - 10} 162 M ${cx + 5} 148 L ${cx + 10} 162" stroke="${cw.accent}" stroke-width="2.6" stroke-linecap="round" />
           `;
         } else if (outfitId === "silk_bow_suit") {
-          // 3. Silk Tie-Neck Bow Blouse & Fitted Tailored Suit
           outfitDetails = `
             <polygon points="${cx - 14},97 ${cx + 14},97 ${cx + 9},152 ${cx - 9},152" fill="${cw.secondary}" />
             <path d="M ${cx} 105 L ${cx - 9} 101 L ${cx - 7} 109 Z M ${cx} 105 L ${cx + 9} 101 L ${cx + 7} 109 Z" fill="${cw.trim}" />
@@ -2172,7 +2290,6 @@
             <polygon points="${cx + 15},97 ${cx + 7},148 ${cx + 22},125" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.3" />
           `;
         } else if (outfitId === "turtleneck_overcoat") {
-          // 4. Fine-Knit Cashmere Turtleneck & Draped Wool Overcoat
           outfitDetails = `
             <rect x="${cx - 10}" y="93" width="20" height="14" rx="4" fill="${cw.secondary}" />
             <polygon points="${cx - 11},107 ${cx + 11},107 ${cx + 9},184 ${cx - 9},184" fill="${cw.secondary}" />
@@ -2182,7 +2299,6 @@
             <rect x="${cx - 4}" y="141" width="8" height="8" rx="1.5" fill="none" stroke="${cw.accent}" stroke-width="1.5" />
           `;
         } else if (outfitId === "sculpted_wrap_dress") {
-          // 5. Structured V-Neck Midi Wrap Dress with Belted Waist
           outfitDetails = `
             <polygon points="${cx - 14},97 ${cx},124 ${cx + 14},97" fill="${skin.hex}" />
             <path d="M ${cx - 14} 97 L ${cx + 6} 142 L ${cx - waistW/2} 142 Z" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.4" />
@@ -2191,7 +2307,6 @@
             <circle cx="${cx}" cy="143.2" r="3" fill="${cw.accent}" />
           `;
         } else if (outfitId === "baroque_hoodie_blazer") {
-          // 6. Contemporary Luxury Hoodie Under Structured Blazer
           outfitDetails = `
             <polygon points="${cx - 14},97 ${cx + 14},97 ${cx + 10},166 ${cx - 10},166" fill="${cw.secondary}" />
             <path d="M ${cx - 7.5} 103 L ${cx - 7.5} 162 M ${cx + 7.5} 103 L ${cx + 7.5} 162" stroke="${cw.trim}" stroke-width="2.3" stroke-dasharray="4 2" />
@@ -2201,28 +2316,21 @@
             <polygon points="${cx + 15},97 ${cx + 7},148 ${cx + 23},125" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.3" />
           `;
         } else if (outfitId === "bistro_apron_shirt") {
-          // 7. Rolled-Sleeve Crisp Oxford Shirt & Cross-Back Bistro Apron
           sleeveFill = skin.mid;
           sleeveBorder = "none";
           outfitDetails = `
-            <!-- Short Rolled Oxford Sleeves -->
             <path d="M ${cx - shW/2} 112 L ${cx - shW/2 - 5} 130 L ${cx - shW/2 + 5} 132 L ${cx - shW/2 + 6} 118 Z" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.2" />
             <path d="M ${cx + shW/2} 112 L ${cx + shW/2 + 5} 130 L ${cx + shW/2 - 5} 132 L ${cx + shW/2 - 6} 118 Z" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.2" />
-            <!-- Open Collar -->
             <polygon points="${cx - 11},97 ${cx},112 ${cx + 11},97" fill="${skin.hex}" />
-            <!-- Full Bib Apron -->
             <path d="M ${cx - waistW/2 + 2} 114 L ${cx + waistW/2 - 2} 114 L ${cx + hipW/2 - 2} 184 L ${cx - hipW/2 + 2} 184 Z" fill="${cw.secondary}" stroke="${cw.trim}" stroke-width="1.5" />
             <line x1="${cx - 12}" y1="97" x2="${cx - waistW/2 + 4}" y2="114" stroke="${cw.trim}" stroke-width="3" />
             <line x1="${cx + 12}" y1="97" x2="${cx + waistW/2 - 4}" y2="114" stroke="${cw.trim}" stroke-width="3" />
             <rect x="${cx - 10}" y="150" width="20" height="14" rx="2" fill="none" stroke="${cw.accent}" stroke-width="1.3" />
           `;
         } else if (outfitId === "cropped_tweed_set") {
-          // 8. Cropped Bouclé Tweed Jacket & High-Waist Skirt/Trouser
           outfitDetails = `
             <path d="M ${cx - 12} 97 Q ${cx} 107 ${cx + 12} 97" fill="${skin.hex}" stroke="${cw.trim}" stroke-width="2" />
-            <!-- Cropped Jacket Hem at Waist -->
             <rect x="${cx - waistW/2 - 1}" y="136" width="${waistW + 2}" height="5" rx="2" fill="${cw.trim}" />
-            <!-- High-Waist Lower Skirt/Trouser -->
             <path d="M ${cx - waistW/2} 141 L ${cx + waistW/2} 141 L ${cx + hipW/2} 184 L ${cx - hipW/2} 184 Z" fill="${cw.secondary}" />
             <line x1="${cx}" y1="103" x2="${cx}" y2="136" stroke="${cw.trim}" stroke-width="2.2" />
             <circle cx="${cx}" cy="112" r="2.2" fill="${cw.accent}" />
@@ -2230,18 +2338,15 @@
             <circle cx="${cx}" cy="133" r="2.2" fill="${cw.accent}" />
           `;
         } else if (outfitId === "sleeveless_mockneck") {
-          // 9. Fitted Sleeveless Mock-Neck Top & High-Waist Tailored Trousers
           sleeveFill = skin.mid;
           sleeveBorder = "none";
           outfitDetails = `
             <rect x="${cx - 10}" y="93" width="20" height="8" rx="3" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.2" />
-            <!-- High-Waist Belted Trousers -->
             <path d="M ${cx - waistW/2} 138 L ${cx + waistW/2} 138 L ${cx + hipW/2} 184 L ${cx - hipW/2} 184 Z" fill="${cw.secondary}" />
             <rect x="${cx - waistW/2 - 1}" y="136" width="${waistW + 2}" height="6" rx="2" fill="${cw.trim}" />
             <line x1="${cx}" y1="142" x2="${cx}" y2="184" stroke="rgba(0,0,0,0.3)" stroke-width="1.5" />
           `;
         } else {
-          // 10. Tailored Three-Piece Executive Waistcoat & Crisp Dress Shirt
           sleeveFill = cw.secondary;
           sleeveBorder = cw.trim;
           outfitDetails = `
@@ -2253,7 +2358,6 @@
           `;
         }
 
-        // Head-Fitted Front Hair Cap
         let frontHair = "";
         if (hairStyle === "braided_crown" || hairStyle === "curly_pineapple" || hairStyle === "goddess_braids" || hairStyle === "slick_back_bun") {
           frontHair = `
@@ -2307,7 +2411,6 @@
           `;
         }
 
-        // Facial Details
         let facialExtras = "";
         if (brow.facial === "freckles") {
           facialExtras = `
@@ -2538,10 +2641,12 @@
         avatarCfg: defaultAvatarConfig("female", "social")
       };
 
-      function createFreshState(setup) {
+      function createFreshState(setup, keepPrestige) {
+        const prestige = keepPrestige || 0;
         if (!setup) {
           return {
             started: false,
+            prestigeStars: prestige,
             charName: "Nova",
             gender: "female",
             path: "social",
@@ -2559,8 +2664,10 @@
             vault: 0,
             baseCap: 25,
             upgrades: [],
+            ownedBusinesses: [],
             inventory: {},
             prices: {},
+            forecast: null,
             backstockBatch: null,
             hustleCount: 0,
             hustleStreak: 0,
@@ -2583,6 +2690,7 @@
 
         return {
           started: true,
+          prestigeStars: prestige,
           charName: finalName,
           gender: setup.gender,
           path: setup.path,
@@ -2595,13 +2703,15 @@
           maxDays: clampedDays,
           hub: cfg.hubs[0].id,
           theme: defaultTheme,
-          cash: diff.startCash,
+          cash: Math.round(diff.startCash * (1 + prestige * 0.1)),
           debt: diff.startDebt,
           vault: 0,
           baseCap: 25,
           upgrades: [],
+          ownedBusinesses: [],
           inventory: {},
           prices: {},
+          forecast: null,
           backstockBatch: null,
           hustleCount: 0,
           hustleStreak: 0,
@@ -2615,7 +2725,7 @@
         };
       }
 
-      let state = createFreshState(null);
+      let state = createFreshState(null, 0);
       let undoAvailable = false;
       let activeMiniGame = null;
       let miniGameTimer = null;
@@ -2675,14 +2785,14 @@
           const expectedSig = await computeHash(parsed.data);
           if (parsed.sig !== expectedSig) {
             alert("Save file integrity check failed. Starting fresh.");
-            state = createFreshState(null);
+            state = createFreshState(null, 0);
             await saveGame();
             return;
           }
-          state = Object.assign(createFreshState(null), JSON.parse(parsed.data));
+          state = Object.assign(createFreshState(null, 0), JSON.parse(parsed.data));
           if (state.started && Object.keys(state.prices).length === 0) rollPrices();
         } catch (e) {
-          state = createFreshState(null);
+          state = createFreshState(null, 0);
         }
       }
 
@@ -2690,9 +2800,40 @@
       function getDiff() { return DIFFICULTIES[state.difficulty] || DIFFICULTIES.normal; }
       function getStoryArc() { return TELLTALE_EPISODES[state.gender][state.path][state.genre]; }
       function formatStoryText(tpl, name) { return tpl.replace(/\{NAME\}/g, sanitizeName(name)); }
-      function getNetWorth() { return state.cash + state.vault - state.debt; }
+      function getNetWorth() {
+        const cfg = getCfg();
+        const bizEquity = cfg
+          ? state.ownedBusinesses.reduce((sum, bId) => {
+              const found = cfg.businesses.find(b => b.id === bId);
+              return sum + (found ? Math.round(found.cost * 0.8) : 0);
+            }, 0)
+          : 0;
+        return state.cash + state.vault + bizEquity - state.debt;
+      }
 
-      // Timeline Pressure Factor: Shorter runs (e.g. 30 or 60 days vs 180 days) increase difficulty & volatility!
+      function getDailyPassiveIncome() {
+        const cfg = getCfg();
+        const prestigeMult = 1 + (state.prestigeStars || 0) * 0.1;
+        const base = state.ownedBusinesses.reduce((sum, bId) => {
+          const found = cfg.businesses.find(b => b.id === bId);
+          return sum + (found ? found.dailyYield : 0);
+        }, 0);
+        return Math.round(base * prestigeMult);
+      }
+
+      function getRivalStandings() {
+        const cfg = getCfg();
+        const nw = getNetWorth();
+        const playerTitle = `${state.charName}${state.prestigeStars > 0 ? " ★".repeat(state.prestigeStars) : ""} (You)`;
+        const list = [{ name: playerTitle, nw, isPlayer: true }];
+        cfg.rivals.forEach(r => {
+          const rivalNw = Math.round(r.startNw * Math.pow(r.dailyGrowth, state.day - 1));
+          list.push({ name: r.name, nw: rivalNw, isPlayer: false });
+        });
+        list.sort((a, b) => b.nw - a.nw);
+        return list;
+      }
+
       function getTimelinePressure(days) {
         const d = days || state.maxDays || 90;
         if (d <= 30) return { label: "Extreme Sprint", debtMult: 1.03, spikeChance: 0.24, feeMult: 1.35 };
@@ -2712,9 +2853,11 @@
       }
 
       function getLevelIncomeMultiplier() {
-        return 1 + (state.level - 1) * 0.15;
+        const prestigeMult = 1 + (state.prestigeStars || 0) * 0.1;
+        return (1 + (state.level - 1) * 0.15) * prestigeMult;
       }
 
+      // Interactive 30-Second Story Reel with Floating Sparkle/Garnish Targets + Skip Option
       function openStoryReelModal(config) {
         if (cineInterval) clearInterval(cineInterval);
 
@@ -2722,13 +2865,37 @@
           secondsLeft: 30,
           sceneIdx: 0,
           bonusEarned: 0,
+          ratingMult: 1.0,
           scenes: config.scenes,
           menuUpgradeInfo: config.menuUpgradeInfo || null
         };
 
         const modal = document.getElementById("cine-modal");
         const avatarMount = document.getElementById("cine-avatar-mount");
-        avatarMount.innerHTML = renderAvatarSVG(state.avatarCfg, state.gender);
+
+        const renderReelAvatar = () => {
+          avatarMount.innerHTML = renderAvatarSVG(state.avatarCfg, state.gender);
+          const targetBtn = document.createElement("button");
+          targetBtn.type = "button";
+          targetBtn.className = "sparkle-target";
+          targetBtn.textContent = state.path === "chef" ? "🌿" : "✨";
+          targetBtn.style.left = `${14 + Math.floor(Math.random() * 64)}px`;
+          targetBtn.style.top = `${16 + Math.floor(Math.random() * 82)}px`;
+          targetBtn.onclick = (e) => {
+            e.stopPropagation();
+            if (!cineData) return;
+            triggerSfx("tap");
+            cineData.ratingMult = Math.min(5.0, +(cineData.ratingMult + 0.5).toFixed(1));
+            const hitCash = Math.round(90 * cineData.ratingMult * getLevelIncomeMultiplier());
+            state.cash += hitCash;
+            cineData.bonusEarned += hitCash;
+            document.getElementById("stat-cash").textContent = fmt(state.cash);
+            updateSlideUI();
+            renderReelAvatar();
+            saveGame();
+          };
+          avatarMount.appendChild(targetBtn);
+        };
 
         const menuBox = document.getElementById("cine-menu-upgrade-box");
         if (cineData.menuUpgradeInfo) {
@@ -2744,7 +2911,7 @@
           document.getElementById("cine-scene-tag").textContent = `Memory Reel • Scene ${(cineData.sceneIdx % cineData.scenes.length) + 1} / ${cineData.scenes.length}`;
           document.getElementById("cine-title").textContent = sc.title;
           document.getElementById("cine-caption").textContent = formatStoryText(sc.text, state.charName);
-          document.getElementById("cine-metric-left").textContent = sc.statLabel;
+          document.getElementById("cine-metric-left").textContent = `${sc.statLabel} • Shoot Rating: ${cineData.ratingMult.toFixed(1)}x`;
           document.getElementById("cine-metric-right").textContent = `Reel Bonus: +${fmt(cineData.bonusEarned)}`;
 
           const secStr = cineData.secondsLeft < 10 ? `0${cineData.secondsLeft}` : `${cineData.secondsLeft}`;
@@ -2753,6 +2920,7 @@
           document.getElementById("cine-timeline-fill").style.width = `${pct}%`;
         };
 
+        renderReelAvatar();
         updateSlideUI();
         modal.classList.add("open");
 
@@ -2761,6 +2929,7 @@
           cineData.secondsLeft -= 1;
           if (cineData.secondsLeft > 0 && cineData.secondsLeft % 6 === 0) {
             cineData.sceneIdx += 1;
+            renderReelAvatar();
           }
           if (cineData.secondsLeft <= 0) {
             closeStoryReelModal();
@@ -2793,6 +2962,7 @@
         }
 
         if (leveledUp) {
+          triggerSfx("level");
           const newMenu = getCurrentMenuObj();
           const pctBonus = Math.round((getLevelIncomeMultiplier() - 1) * 100);
 
@@ -2816,7 +2986,7 @@
             ? [
                 {
                   title: `🍽️ Plating Showcase: ${newMenu.dishName}`,
-                  text: `{NAME} steps onto the pass in tailored chef attire, plating ${newMenu.dishName} with precision tweezers as VIP cameras flash!`,
+                  text: `{NAME} steps onto the pass in tailored chef attire, plating ${newMenu.dishName} with precision tweezers—tap the floating 🌿 garnish on your portrait for bonus tips!`,
                   statLabel: `⭐ Kitchen Rating: Level ${state.level}`
                 },
                 {
@@ -2829,7 +2999,7 @@
             : [
                 {
                   title: `📸 30-Second Studio Photo Shoot (Lvl ${state.level})`,
-                  text: `Studio ring lights flare as {NAME} strikes signature editorial poses for your ${newMenu.menuName} campaign (+12.5K Likes)!`,
+                  text: `Studio ring lights flare as {NAME} strikes signature editorial poses—tap the floating ✨ sparkles on your portrait to boost your magazine cover rating!`,
                   statLabel: `❤️ Likes Surge: +${(state.level * 12.5).toFixed(1)}K`
                 },
                 {
@@ -2903,7 +3073,6 @@
         return tier ? tier.name : cfg.tiers[cfg.tiers.length - 1].name;
       }
 
-      // Episode thresholds scale dynamically to the player's chosen maxDays timeline!
       function getEpisodeThreshold(ep) {
         const timelineFactor = Math.min(1.0, (state.maxDays || 90) / 150);
         if (ep.pct <= 0) return -999999;
@@ -2933,6 +3102,7 @@
           btn.className = "choice-btn";
           btn.textContent = opt.label;
           btn.onclick = () => {
+            triggerSfx("cash");
             const finalCash = Math.round(opt.cashDelta * getDiff().mult);
             state.cash += finalCash;
             const resolvedOutcome = formatStoryText(opt.outcome, state.charName);
@@ -2991,6 +3161,11 @@
           nextPrices[c.id] = price;
         });
 
+        // Generate Insider Market Forecast hint for tomorrow's travel
+        const targetHub = cfg.hubs.find(h => h.id !== state.hub) || cfg.hubs[1];
+        const targetItem = cfg.commodities[Math.floor(Math.random() * cfg.commodities.length)];
+        state.forecast = `Insider Rumor: High demand for ${targetItem.name} expected in ${targetHub.name} tomorrow!`;
+
         state.prices = nextPrices;
         if (spikeNote) state.news = spikeNote;
       }
@@ -3005,7 +3180,9 @@
       }
 
       function launchNewRun() {
-        state = createFreshState(draftSetup);
+        triggerSfx("level");
+        const keepPrestige = state.prestigeStars || 0;
+        state = createFreshState(draftSetup, keepPrestige);
         rollPrices();
         saveGame();
         render();
@@ -3015,6 +3192,7 @@
       async function triggerResetWithUndo() {
         clearMiniGameTimer();
         activeMiniGame = null;
+        const keepPrestige = state.prestigeStars || 0;
         if (state.started) {
           await saveUndoBackup(JSON.parse(JSON.stringify(state)));
           draftSetup = {
@@ -3028,11 +3206,59 @@
             avatarCfg: Object.assign({}, state.avatarCfg)
           };
         }
-        state = createFreshState(null);
+        state = createFreshState(null, keepPrestige);
         state.theme = draftSetup.gender === "female" ? "queen" : "king";
         state.news = "Game reset! Customize your wardrobe, timeline & story below—or tap Undo above.";
         await saveGame();
         render();
+      }
+
+      function openVictoryCardModal() {
+        const modal = document.getElementById("victory-modal");
+        const canvas = document.getElementById("mogul-card-canvas");
+        const ctx = canvas.getContext("2d");
+        const cfg = getCfg();
+        const arc = getStoryArc();
+        const nw = getNetWorth();
+
+        // Draw Executive Mogul Business Card on HTML5 Canvas
+        const grad = ctx.createLinearGradient(0, 0, 600, 340);
+        grad.addColorStop(0, "#0b0f19");
+        grad.addColorStop(1, "#1e1b4b");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 600, 340);
+
+        ctx.strokeStyle = "#f59e0b";
+        ctx.lineWidth = 6;
+        ctx.strokeRect(12, 12, 576, 316);
+
+        ctx.fillStyle = "#f59e0b";
+        ctx.font = "bold 16px sans-serif";
+        ctx.fillText("HUSTLE & HAUTE • OFFICIAL MOGUL CREDENTIAL", 36, 52);
+
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "900 34px sans-serif";
+        const stars = state.prestigeStars > 0 ? " " + "★".repeat(state.prestigeStars) : "";
+        ctx.fillText(`${state.charName}${stars}`, 36, 102);
+
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "600 18px sans-serif";
+        ctx.fillText(`${cfg.label} • ${getTierLabel()}`, 36, 134);
+        ctx.fillText(`Story Arc: "${arc.title}"`, 36, 162);
+
+        ctx.fillStyle = "#10b981";
+        ctx.font = "900 32px sans-serif";
+        ctx.fillText(`Net Worth: ${fmt(nw)}`, 36, 222);
+
+        ctx.fillStyle = "#f8fafc";
+        ctx.font = "600 16px sans-serif";
+        ctx.fillText(`Level ${state.level} • Day ${state.day} / ${state.maxDays} • ${state.ownedBusinesses.length} Businesses Owned`, 36, 262);
+
+        ctx.fillStyle = "#eab308";
+        ctx.font = "bold 14px sans-serif";
+        ctx.fillText("100% Free Empire Simulator • Built for Android & Web", 36, 302);
+
+        modal.classList.add("open");
       }
 
       function triggerLessonModal() {
@@ -3052,11 +3278,13 @@
           btn.textContent = ch.text;
           btn.onclick = () => {
             if (ch.correct) {
+              triggerSfx("cash");
               const bonus = Math.round(ch.reward * diff.mult);
               state.cash += bonus;
               state.news = `✅ +${fmt(bonus)} & +45 XP! ${ch.note}`;
               awardXP(45);
             } else {
+              triggerSfx("error");
               const loss = Math.round((ch.penalty / diff.mult) * pressure.feeMult);
               state.cash = Math.max(0, state.cash - loss);
               state.news = `⚠️ -${fmt(loss)} Loss! ${ch.note}`;
@@ -3079,6 +3307,7 @@
         const actualQty = Math.min(qty, freeSpace, maxAffordable);
         if (actualQty <= 0) return;
 
+        triggerSfx("tap");
         const existing = state.inventory[id] || { qty: 0, avgCost: 0 };
         const totalCost = existing.qty * existing.avgCost + actualQty * price;
         const newQty = existing.qty + actualQty;
@@ -3092,6 +3321,7 @@
       function sellItem(id, qty) {
         const existing = state.inventory[id];
         if (!existing || existing.qty <= 0) return;
+        triggerSfx("cash");
         const actualQty = Math.min(qty, existing.qty);
         const revenue = Math.round(actualQty * state.prices[id] * getSellMultiplier());
 
@@ -3108,26 +3338,29 @@
       function travelTo(hubId) {
         if (hubId === state.hub) return;
         if (state.day >= state.maxDays) {
-          const nw = getNetWorth();
-          const won = nw >= 500000;
-          alert(
-            won
-              ? `🏆 VICTORY! ${state.charName} built a ${fmt(nw)} Empire within ${state.maxDays} days!`
-              : `⏱️ ${state.maxDays}-Day Season Complete! Final Net Worth: ${fmt(nw)} (Target: $500,000). Try a new run or longer timeline!`
-          );
+          openVictoryCardModal();
           return;
         }
+        triggerSfx("tap");
         const diff = getDiff();
         const pressure = getTimelinePressure();
         state.hub = hubId;
         state.day += 1;
         state.hustleStreak = 0;
 
-        // Shorter timelines compound debt slightly faster, raising challenge across all difficulty modes
+        // Collect passive daily business yields!
+        const passive = getDailyPassiveIncome();
+        if (passive > 0) {
+          state.cash += passive;
+        }
+
         if (state.debt > 0) state.debt = Math.round(state.debt * diff.debtRate * pressure.debtMult);
         if (state.vault > 0) state.vault = Math.round(state.vault * diff.vaultRate);
 
         rollPrices();
+        if (passive > 0) {
+          state.news = `🏢 Passive Empire Income: +${fmt(passive)} collected! ${state.news}`;
+        }
         checkTelltaleProgression();
 
         if (Math.random() < 0.40 && !document.getElementById("telltale-modal").classList.contains("open") && !document.getElementById("cine-modal").classList.contains("open")) {
@@ -3146,7 +3379,8 @@
         row.style.display = "flex";
         const needed = getXpNeeded(state.level);
         const pct = Math.min(100, Math.round((state.xp / needed) * 100));
-        document.getElementById("lvl-badge").textContent = `LVL ${state.level}`;
+        const stars = state.prestigeStars > 0 ? ` • ${"★".repeat(state.prestigeStars)}` : "";
+        document.getElementById("lvl-badge").textContent = `LVL ${state.level}${stars}`;
         document.getElementById("xp-fill").style.width = `${pct}%`;
         document.getElementById("xp-text").textContent = `${state.xp} / ${needed} XP`;
 
@@ -3166,6 +3400,7 @@
       }
 
       function handleHustleClick(event, cardEl) {
+        triggerSfx("tap");
         const earned = getClickPayout();
         state.cash += earned;
         state.hustleCount += 1;
@@ -3251,6 +3486,7 @@
           btn.onclick = () => {
             const m = cfg.missions.find(x => x.id === btn.dataset.claim);
             if (!m || state.claimedMissions.includes(m.id)) return;
+            triggerSfx("cash");
             state.claimedMissions.push(m.id);
             const payout = Math.round(m.cashReward * diff.mult);
             state.cash += payout;
@@ -3323,6 +3559,7 @@
             activeMiniGame.timeLeft -= 1;
             if (activeMiniGame.timeLeft <= 0) {
               clearMiniGameTimer();
+              triggerSfx("cash");
               const payout = Math.max(0, Math.round(activeMiniGame.score * gigs.reflex.payPerHit * diff.mult * lvlMult));
               const xpEarned = Math.max(20, activeMiniGame.score * 5);
               state.cash += payout;
@@ -3390,8 +3627,13 @@
             tile.className = "pad-tile" + (isTarget ? " target" : "") + (isHazard ? " hazard" : "");
             tile.textContent = isTarget ? gigs.reflex.goodIcon : (isHazard ? gigs.reflex.badIcon : "•");
             tile.onclick = () => {
-              if (isTarget) activeMiniGame.score += 1;
-              else if (isHazard) activeMiniGame.score = Math.max(0, activeMiniGame.score - 2);
+              if (isTarget) {
+                triggerSfx("tap");
+                activeMiniGame.score += 1;
+              } else if (isHazard) {
+                triggerSfx("error");
+                activeMiniGame.score = Math.max(0, activeMiniGame.score - 2);
+              }
               activeMiniGame.targetIdx = Math.floor(Math.random() * 9);
               let h = Math.floor(Math.random() * 9);
               activeMiniGame.hazardIdx = h === activeMiniGame.targetIdx ? -1 : h;
@@ -3418,6 +3660,7 @@
             clearMiniGameTimer();
             const p = activeMiniGame.pos;
             const inSweet = p >= 36 && p <= 62;
+            triggerSfx(inSweet ? "cash" : "tap");
             const mult = inSweet ? 2.5 : 0.6;
             const reward = Math.round(gigs.timing.baseReward * mult * diff.mult * lvlMult);
             const xpEarned = inSweet ? 50 : 20;
@@ -3461,6 +3704,7 @@
             b.textContent = ans;
             b.onclick = () => {
               const isRight = idx === qObj.ok;
+              triggerSfx(isRight ? "cash" : "error");
               if (isRight) activeMiniGame.correctCount += 1;
               activeMiniGame.lastNote = (isRight ? "✅ Correct! " : "❌ Tip: ") + qObj.lesson;
               activeMiniGame.qIdx += 1;
@@ -3501,6 +3745,24 @@
         banner.querySelector("#undo-reset-btn").onclick = restoreUndoBackup;
       }
 
+      function renderRivalLeaderboardStrip() {
+        const mount = document.getElementById("rival-banner-mount");
+        mount.innerHTML = "";
+        if (!state.started) return;
+
+        const standings = getRivalStandings();
+        const playerRank = standings.findIndex(x => x.isPlayer) + 1;
+        const leader = standings[0];
+
+        const strip = document.createElement("div");
+        strip.className = "rival-strip";
+        strip.innerHTML = `
+          <span>🏆 Rank: <strong>#${playerRank} of 4</strong> (Net Worth: ${fmt(getNetWorth())})</span>
+          <span style="color:var(--accent);font-weight:700;">#1: ${leader.name} (${fmt(leader.nw)})</span>
+        `;
+        mount.appendChild(strip);
+      }
+
       function renderAvatarControls(parentEl, targetAvatarCfg, activeSubTab, onTabSwitch, onChange) {
         const wrap = document.createElement("div");
         wrap.innerHTML = `
@@ -3529,7 +3791,7 @@
             b.type = "button";
             b.className = "pill-btn" + (targetAvatarCfg[key] === item.id ? " active" : "");
             b.textContent = item.label;
-            b.onclick = () => { targetAvatarCfg[key] = item.id; onChange(); };
+            b.onclick = () => { triggerSfx("tap"); targetAvatarCfg[key] = item.id; onChange(); };
             box.appendChild(b);
           });
           panel.appendChild(sec);
@@ -3546,14 +3808,13 @@
             b.title = item.label;
             b.className = "swatch-btn" + (targetAvatarCfg[key] === item.id ? " active" : "");
             b.style.backgroundColor = item[colorProp];
-            b.onclick = () => { targetAvatarCfg[key] = item.id; onChange(); };
+            b.onclick = () => { triggerSfx("tap"); targetAvatarCfg[key] = item.id; onChange(); };
             box.appendChild(b);
           });
           panel.appendChild(sec);
         };
 
         if (activeSubTab === "style") {
-          // 5 Colorway Chips + 10 Modern & Professional Outfit Styles
           const cwSec = document.createElement("div");
           cwSec.className = "setup-section";
           cwSec.innerHTML = `<span class="setup-label">Outfit Colorway (5 Designer Palettes)</span><div class="theme-pills"></div>`;
@@ -3563,7 +3824,7 @@
             chip.type = "button";
             chip.className = "colorway-chip" + (targetAvatarCfg.outfitColor === cwItem.id ? " active" : "");
             chip.innerHTML = `<span class="cw-dot" style="background:linear-gradient(135deg, ${cwItem.primary} 50%, ${cwItem.trim} 50%);"></span><span>${cwItem.label}</span>`;
-            chip.onclick = () => { targetAvatarCfg.outfitColor = cwItem.id; onChange(); };
+            chip.onclick = () => { triggerSfx("tap"); targetAvatarCfg.outfitColor = cwItem.id; onChange(); };
             cwBox.appendChild(chip);
           });
           panel.appendChild(cwSec);
@@ -3587,6 +3848,7 @@
       }
 
       function cycleExpression(targetAvatarCfg, onDone) {
+        triggerSfx("tap");
         const list = AVATAR_TEMPLATES.expression;
         const idx = list.findIndex(e => e.id === targetAvatarCfg.expression);
         targetAvatarCfg.expression = list[(idx + 1) % list.length].id;
@@ -3671,11 +3933,11 @@
             <div class="choice-grid-2">
               <button class="select-tile ${draftSetup.path === "social" ? "selected" : ""}" data-p="social">
                 <span class="tile-title">🤳 Social Media Guru</span>
-                <span class="tile-sub">30s photo shoots, viral clips &amp; brand missions</span>
+                <span class="tile-sub">30s photo shoots, viral clips &amp; media networks</span>
               </button>
               <button class="select-tile ${draftSetup.path === "chef" ? "selected" : ""}" data-p="chef">
                 <span class="tile-title">🍳 Homecook to Chef</span>
-                <span class="tile-sub">Plating challenges, evolving menus &amp; bistros</span>
+                <span class="tile-sub">Plating reels, evolving menus &amp; restaurant empire</span>
               </button>
             </div>
           </div>
@@ -3768,6 +4030,7 @@
 
         card.querySelectorAll("[data-days]").forEach(btn => {
           btn.onclick = () => {
+            triggerSfx("tap");
             draftSetup.maxDays = Number(btn.dataset.days);
             render();
           };
@@ -3783,6 +4046,7 @@
         };
 
         card.querySelector("#randomize-avatar-btn").onclick = () => {
+          triggerSfx("tap");
           const pick = arr => arr[Math.floor(Math.random() * arr.length)].id;
           draftSetup.avatarCfg = {
             faceShape: pick(AVATAR_TEMPLATES.faceShape),
@@ -3801,27 +4065,31 @@
         };
 
         card.querySelector("#preset-look-btn").onclick = () => {
+          triggerSfx("tap");
           draftSetup.avatarCfg = defaultAvatarConfig(draftSetup.gender, draftSetup.path);
           render();
         };
 
         card.querySelectorAll("[data-g]").forEach(b => b.onclick = () => {
+          triggerSfx("tap");
           draftSetup.gender = b.dataset.g;
           draftSetup.avatarCfg = defaultAvatarConfig(draftSetup.gender, draftSetup.path);
           render();
         });
         card.querySelectorAll("[data-p]").forEach(b => b.onclick = () => {
+          triggerSfx("tap");
           draftSetup.path = b.dataset.p;
           draftSetup.avatarCfg = defaultAvatarConfig(draftSetup.gender, draftSetup.path);
           render();
         });
-        card.querySelectorAll("[data-s]").forEach(b => b.onclick = () => { draftSetup.genre = b.dataset.s; render(); });
-        card.querySelectorAll("[data-d]").forEach(b => b.onclick = () => { draftSetup.difficulty = b.dataset.d; render(); });
+        card.querySelectorAll("[data-s]").forEach(b => b.onclick = () => { triggerSfx("tap"); draftSetup.genre = b.dataset.s; render(); });
+        card.querySelectorAll("[data-d]").forEach(b => b.onclick = () => { triggerSfx("tap"); draftSetup.difficulty = b.dataset.d; render(); });
         card.querySelector("#start-empire-btn").onclick = launchNewRun;
       }
 
       function render() {
         renderUndoBanner();
+        renderRivalLeaderboardStrip();
         updateHeaderLevelUI();
 
         const navBar = document.getElementById("bottom-nav");
@@ -3874,6 +4142,7 @@
               </button>
             `;
             flashCard.querySelector("#clear-backstock-btn").onclick = () => {
+              triggerSfx("cash");
               state.cash += totalClearance;
               state.news = `💸 Backstock Cleared! Earned +${fmt(totalClearance)} from -30% Flash Sale!`;
               state.backstockBatch = null;
@@ -3907,6 +4176,14 @@
           `;
           clickCard.querySelector("#hustle-tap-btn").onclick = (e) => handleHustleClick(e, clickCard);
           container.appendChild(clickCard);
+
+          // Insider Market Forecast Banner
+          if (state.forecast) {
+            const fBox = document.createElement("div");
+            fBox.style.cssText = "background:var(--bg-card);border:1px dashed var(--accent);border-radius:10px;padding:8px 11px;font-size:0.76rem;color:var(--text-secondary);";
+            fBox.innerHTML = `🔮 <strong style="color:var(--accent);">Market Forecast:</strong> ${state.forecast}`;
+            container.appendChild(fBox);
+          }
 
           const card = document.createElement("div");
           card.className = "card";
@@ -3968,7 +4245,11 @@
           const card = document.createElement("div");
           card.className = "card";
           const daysLeft = Math.max(0, state.maxDays - state.day);
-          card.innerHTML = `<h2><span>✈️ Travel &amp; Advance Day</span><span style="font-size:0.74rem;color:var(--text-secondary)">${daysLeft} Days Left</span></h2>`;
+          const passive = getDailyPassiveIncome();
+          card.innerHTML = `
+            <h2><span>✈️ Travel &amp; Advance Day</span><span style="font-size:0.74rem;color:var(--text-secondary)">${daysLeft} Days Left</span></h2>
+            ${passive > 0 ? `<p style="font-size:0.76rem;color:var(--success);margin-bottom:8px;">🏢 Owned Businesses pay <strong>+${fmt(passive)}</strong> automatically on every trip!</p>` : ""}
+          `;
           const grid = document.createElement("div");
           grid.className = "hub-grid";
 
@@ -3991,12 +4272,15 @@
           card.innerHTML = `
             <h2><span>🎬 ${arc.title}</span><span style="font-size:0.73rem;color:var(--text-secondary)">${genreObj.label} • 5 Episodes</span></h2>
             <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:10px;">
-              Starring <strong>${state.charName}</strong> • Replay your 30-second memory reel anytime or unlock all 5 Telltale episodes as your Net Worth grows.
+              Starring <strong>${state.charName}</strong> • Replay your 30s memory reel or generate your downloadable Mogul Business Card!
             </p>
-            <button type="button" class="btn btn-buy btn-full" id="replay-memory-reel-btn" style="margin-bottom:12px;">
-              🎬 Play 30-Second Story Memory Reel
-            </button>
+            <div class="btn-group" style="margin-bottom:12px;">
+              <button type="button" class="btn btn-buy" style="flex:1;" id="replay-memory-reel-btn">🎬 Play 30s Story Reel</button>
+              <button type="button" class="btn btn-sell" style="flex:1;" id="open-mogul-card-btn">🏆 Mogul Card &amp; Prestige</button>
+            </div>
           `;
+
+          card.querySelector("#open-mogul-card-btn").onclick = openVictoryCardModal;
 
           card.querySelector("#replay-memory-reel-btn").onclick = () => {
             const memories = state.storyLog.length > 0
@@ -4043,6 +4327,7 @@
         }
 
         if (state.tab === "finance") {
+          // 1. Bank & Vault
           const bankCard = document.createElement("div");
           bankCard.className = "card";
           const debtPct = Math.round((diff.debtRate * getTimelinePressure().debtMult - 1) * 100);
@@ -4061,6 +4346,7 @@
           container.appendChild(bankCard);
 
           bankCard.querySelector("#pay-debt-btn").onclick = () => {
+            triggerSfx("cash");
             const pay = Math.min(state.cash, state.debt);
             state.cash -= pay;
             state.debt -= pay;
@@ -4069,21 +4355,65 @@
             render();
           };
           bankCard.querySelector("#dep-vault-btn").onclick = () => {
+            triggerSfx("tap");
             state.vault += state.cash;
             state.cash = 0;
             saveGame();
             render();
           };
           bankCard.querySelector("#wd-vault-btn").onclick = () => {
+            triggerSfx("tap");
             state.cash += state.vault;
             state.vault = 0;
             saveGame();
             render();
           };
 
+          // 2. Ownable Passive Empire Properties & Businesses
+          const bizCard = document.createElement("div");
+          bizCard.className = "card";
+          bizCard.innerHTML = `<h2><span>🏢 Empire Properties (Passive Daily Cash)</span><span style="font-size:0.73rem;color:var(--success)">+${fmt(getDailyPassiveIncome())}/day</span></h2>`;
+          const bizList = document.createElement("div");
+          bizList.className = "market-list";
+
+          cfg.businesses.forEach(b => {
+            const owned = state.ownedBusinesses.includes(b.id);
+            const row = document.createElement("div");
+            row.className = "item-row";
+            row.innerHTML = `
+              <div class="item-info">
+                <div class="item-title">${b.name}</div>
+                <div class="item-sub">${b.desc}</div>
+              </div>
+              <button class="btn btn-buy" data-biz="${b.id}" ${owned || state.cash < b.cost ? "disabled" : ""}>
+                ${owned ? "Owned" : fmt(b.cost)}
+              </button>
+            `;
+            bizList.appendChild(row);
+          });
+          bizCard.appendChild(bizList);
+          container.appendChild(bizCard);
+
+          bizCard.querySelectorAll("[data-biz]").forEach(btn => {
+            btn.onclick = () => {
+              const b = cfg.businesses.find(x => x.id === btn.dataset.biz);
+              if (b && state.cash >= b.cost && !state.ownedBusinesses.includes(b.id)) {
+                triggerSfx("level");
+                state.cash -= b.cost;
+                state.ownedBusinesses.push(b.id);
+                state.news = `🏢 Acquired ${b.name}! Now earning +${fmt(getDailyPassiveIncome())}/day!`;
+                awardXP(45);
+                checkTelltaleProgression();
+                saveGame();
+                render();
+              }
+            };
+          });
+
+          // 3. Equipment & Capacity Upgrades
           const gearCard = document.createElement("div");
           gearCard.className = "card";
-          gearCard.innerHTML = `<h2><span>⚡ ${cfg.label} Upgrades</span></h2>`;
+          gearCard.innerHTML = `<h2><span>⚡ ${cfg.label} Equipment Upgrades</span></h2>`;
           const list = document.createElement("div");
           list.className = "market-list";
 
@@ -4109,6 +4439,7 @@
             b.onclick = () => {
               const u = cfg.upgrades.find(x => x.id === b.dataset.upg);
               if (u && state.cash >= u.cost && !state.upgrades.includes(u.id)) {
+                triggerSfx("cash");
                 state.cash -= u.cost;
                 state.upgrades.push(u.id);
                 awardXP(30);
@@ -4117,6 +4448,27 @@
               }
             };
           });
+
+          // 4. Rival AI Moguls Standings
+          const rivalCard = document.createElement("div");
+          rivalCard.className = "card";
+          rivalCard.innerHTML = `<h2><span>🏆 Top Moguls Leaderboard</span><span style="font-size:0.73rem;color:var(--text-secondary)">Target: $500K</span></h2>`;
+          const rList = document.createElement("div");
+          rList.className = "market-list";
+          getRivalStandings().forEach((r, idx) => {
+            const row = document.createElement("div");
+            row.className = "item-row";
+            if (r.isPlayer) row.style.borderColor = "var(--accent)";
+            row.innerHTML = `
+              <div class="item-info">
+                <div class="item-title">#${idx + 1} ${r.name}</div>
+              </div>
+              <span class="price-tag" style="${r.isPlayer ? "color:var(--success);" : ""}">${fmt(r.nw)}</span>
+            `;
+            rList.appendChild(row);
+          });
+          rivalCard.appendChild(rList);
+          container.appendChild(rivalCard);
         }
 
         if (state.tab === "settings") {
@@ -4177,6 +4529,7 @@
 
           card.querySelectorAll("[data-set-theme]").forEach(btn => {
             btn.onclick = () => {
+              triggerSfx("tap");
               applyTheme(btn.dataset.setTheme);
               saveGame();
               render();
@@ -4199,6 +4552,7 @@
       document.getElementById("cine-skip-btn").onclick = closeStoryReelModal;
       document.getElementById("cine-hype-btn").onclick = () => {
         if (!cineData) return;
+        triggerSfx("cash");
         const tapBonus = Math.round(75 * getLevelIncomeMultiplier());
         state.cash += tapBonus;
         cineData.bonusEarned += tapBonus;
@@ -4208,16 +4562,48 @@
       };
       document.getElementById("cine-next-slide-btn").onclick = () => {
         if (!cineData) return;
+        triggerSfx("tap");
         cineData.sceneIdx += 1;
         const sc = cineData.scenes[cineData.sceneIdx % cineData.scenes.length];
         document.getElementById("cine-scene-tag").textContent = `Memory Reel • Scene ${(cineData.sceneIdx % cineData.scenes.length) + 1} / ${cineData.scenes.length}`;
         document.getElementById("cine-title").textContent = sc.title;
         document.getElementById("cine-caption").textContent = formatStoryText(sc.text, state.charName);
-        document.getElementById("cine-metric-left").textContent = sc.statLabel;
+        document.getElementById("cine-metric-left").textContent = `${sc.statLabel} • Shoot Rating: ${cineData.ratingMult.toFixed(1)}x`;
+      };
+
+      document.getElementById("close-victory-modal").onclick = () => {
+        document.getElementById("victory-modal").classList.remove("open");
+      };
+      document.getElementById("download-card-btn").onclick = () => {
+        const canvas = document.getElementById("mogul-card-canvas");
+        const link = document.createElement("a");
+        link.download = `${state.charName.replace(/\s+/g, "_")}_Mogul_Card.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      };
+      document.getElementById("prestige-run-btn").onclick = async () => {
+        if (getNetWorth() < 500000) {
+          alert("Reach $500,000 Net Worth first to unlock a Prestige Star (★)!");
+          return;
+        }
+        triggerSfx("level");
+        const nextStars = (state.prestigeStars || 0) + 1;
+        document.getElementById("victory-modal").classList.remove("open");
+        state = createFreshState(null, nextStars);
+        state.news = `⭐ PRESTIGE ${nextStars} UNLOCKED! Permanent +${nextStars * 10}% cash & starting capital bonus active!`;
+        await saveGame();
+        render();
+      };
+
+      document.getElementById("sound-toggle-btn").onclick = () => {
+        sfxEnabled = !sfxEnabled;
+        document.getElementById("sound-toggle-btn").textContent = sfxEnabled ? "🔊 SFX" : "🔇 Mute";
+        if (sfxEnabled) triggerSfx("tap");
       };
 
       document.querySelectorAll("[data-tab]").forEach(btn => {
         btn.onclick = () => {
+          triggerSfx("tap");
           if (btn.dataset.tab !== "gigs") {
             clearMiniGameTimer();
             activeMiniGame = null;
