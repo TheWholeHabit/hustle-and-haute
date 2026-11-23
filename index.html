@@ -1479,6 +1479,54 @@
       text-shadow: 0 0 12px var(--accent);
     }
 
+  
+    /* Hustle & Haute v24 — Video-Style Character Design, Esthetic & Photo Frame Upgrade */
+    .portrait-preview-frame, .mag-portrait, .cine-avatar-box {
+      position: relative;
+      border-radius: 18px !important;
+      border: 2.5px solid #fbbf24 !important;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(251, 191, 36, 0.26), rgba(6, 182, 212, 0.14) 52%, #070b14 95%) !important;
+      box-shadow:
+        0 0 0 2px rgba(6, 182, 212, 0.35),
+        0 0 28px rgba(245, 158, 11, 0.38),
+        inset 0 0 22px rgba(255, 255, 255, 0.12) !important;
+      overflow: hidden;
+    }
+
+    .portrait-preview-frame::before,
+    .mag-portrait::before,
+    .cine-avatar-box::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(125deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.04) 38%, transparent 62%);
+      z-index: 3;
+    }
+
+    .portrait-preview-frame::after,
+    .mag-portrait::after,
+    .cine-avatar-box::after {
+      content: "✦";
+      position: absolute;
+      top: 7px;
+      right: 9px;
+      font-size: 0.78rem;
+      color: #fde047;
+      text-shadow: 0 0 10px rgba(253, 224, 71, 0.9);
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    .portrait-preview-frame svg,
+    .mag-portrait svg,
+    .cine-avatar-box svg {
+      position: relative;
+      z-index: 2;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.65));
+    }
+
   </style>
 </head>
 <body>
@@ -1688,8 +1736,8 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v23";
-      const BACKUP_KEY = "hh_empire_undo_backup_v23";
+      const STORAGE_KEY = "hh_empire_save_v24";
+      const BACKUP_KEY = "hh_empire_undo_backup_v24";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
       // Synthesized Web Audio Engine: SFX + Soft Low-Volume Regional & Scene Background Music + Haptics
@@ -3734,6 +3782,9 @@
               ${frontHair}
               ${accFront}
             </g>
+
+            <!-- Subtle Rim-Light & Studio Accent Ring for Video-Grade Character Polish -->
+            <ellipse cx="${cx}" cy="96" rx="${shHalf + 4}" ry="82" fill="none" stroke="${cw.trim}" stroke-width="0.9" opacity="0.22" pointer-events="none" />
           </svg>
         `;
       }
