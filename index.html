@@ -1141,6 +1141,25 @@
       background: linear-gradient(135deg, var(--bg-primary), rgba(239, 68, 68, 0.12));
     }
 
+  
+    /* Smooth Anatomical Silhouette & Animated Pro Look Gestures */
+    @keyframes proLookSpotlight {
+      0% { transform: scale(1) translateY(0); }
+      35% { transform: scale(1.035) translateY(-3px); }
+      70% { transform: scale(1.015) translateY(-1px); }
+      100% { transform: scale(1) translateY(0); }
+    }
+    .pro-look-burst {
+      animation: proLookSpotlight 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes subtleHeadBob {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-1.5px); }
+    }
+    .portrait-preview-frame svg {
+      animation: subtleHeadBob 3.6s ease-in-out infinite;
+    }
+
   </style>
 </head>
 <body>
@@ -1315,8 +1334,8 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v15";
-      const BACKUP_KEY = "hh_empire_undo_backup_v15";
+      const STORAGE_KEY = "hh_empire_save_v16";
+      const BACKUP_KEY = "hh_empire_undo_backup_v16";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
       // Synthesized Web Audio + Haptics
@@ -1382,13 +1401,14 @@
         { id: "sunset_copper", label: "Sunset Copper & Plum", primary: "#9a3412", primaryHi: "#ea580c", primaryLo: "#431407", secondary: "#3b0764", trim: "#f472b6", accent: "#fbcfe8" }
       ];
 
-      // Natural Articulated Body Poses (Users can cycle poses by tapping the character portrait!)
+      // Natural Articulated Body Poses & Pro Look Gestures
       const CHARACTER_POSES = [
         { id: "editorial_stance", label: "Editorial Stance", headTilt: 0, leftArmAngle: 0, rightArmAngle: 0, torsoShiftX: 0 },
         { id: "hand_on_hip", label: "Power Hip Pose", headTilt: -3, leftArmAngle: 18, rightArmAngle: -16, torsoShiftX: -1.5 },
         { id: "confident_lean", label: "Runway Lean", headTilt: 3.5, leftArmAngle: -8, rightArmAngle: 14, torsoShiftX: 1.5 },
         { id: "executive_cross", label: "Executive Poise", headTilt: -2, leftArmAngle: -22, rightArmAngle: 20, torsoShiftX: 0 },
-        { id: "spotlight_wave", label: "Red Carpet Wave", headTilt: 2.5, leftArmAngle: 10, rightArmAngle: -42, torsoShiftX: -1 }
+        { id: "spotlight_wave", label: "Red Carpet Wave", headTilt: 2.5, leftArmAngle: 10, rightArmAngle: -42, torsoShiftX: -1 },
+        { id: "pro_salute", label: "Signature Peace / Salute", headTilt: -3.5, leftArmAngle: 14, rightArmAngle: -54, torsoShiftX: 1 }
       ];
 
       // 10 Realistic Editorial & Professional Outfits (No "doll palace" styling)
@@ -2523,36 +2543,39 @@
           `;
         }
 
-        // Organic Anatomical Torso Contour Path (Smooth traps -> rounded deltoids -> natural bust/pectoral curve -> tapered waist -> hip flare)
+        // Ultra-Smooth Natural Human Torso Contour (Continuous collarbone -> sloping trapezius -> rounded deltoid shoulder cap -> natural chest/ribcage taper -> smooth waist-to-hip curve)
         const torsoPath = `
-          M ${cx - 11} 91
-          C ${cx - 16} 93, ${cx - shHalf + 3} 94, ${cx - shHalf} 104
-          C ${cx - shHalf - 1} 112, ${cx - chestHalf} 120, ${cx - waistHalf} 139
-          C ${cx - waistHalf - 1} 148, ${cx - hipHalf} 162, ${cx - hipHalf - 2} 184
-          L ${cx + hipHalf + 2} 184
-          C ${cx + hipHalf} 162, ${cx + waistHalf + 1} 148, ${cx + waistHalf} 139
-          C ${cx + chestHalf} 120, ${cx + shHalf + 1} 112, ${cx + shHalf} 104
-          C ${cx + shHalf - 3} 94, ${cx + 16} 93, ${cx + 11} 91
+          M ${cx - 9.5} 90
+          C ${cx - 15} 91, ${cx - shHalf * 0.72} 93, ${cx - shHalf + 1} 98
+          C ${cx - shHalf - 3.5} 103, ${cx - shHalf - 2.5} 112, ${cx - chestHalf} 121
+          C ${cx - chestHalf + 1.5} 128, ${cx - waistHalf} 134, ${cx - waistHalf} 141
+          C ${cx - waistHalf} 149, ${cx - hipHalf + 1} 162, ${cx - hipHalf - 1.5} 184
+          L ${cx + hipHalf + 1.5} 184
+          C ${cx + hipHalf - 1} 162, ${cx + waistHalf} 149, ${cx + waistHalf} 141
+          C ${cx + waistHalf} 134, ${cx + chestHalf - 1.5} 128, ${cx + chestHalf} 121
+          C ${cx + shHalf + 2.5} 112, ${cx + shHalf + 3.5} 103, ${cx + shHalf - 1} 98
+          C ${cx + shHalf * 0.72} 93, ${cx + 15} 91, ${cx + 9.5} 90
           Z
         `;
 
-        // Articulated Organic Limbs (Left & Right Arms with anatomical bicep taper, elbow bend, forearm taper, and natural hands)
+        // Seamless Anatomical Limbs (Rounded shoulder ball joint tucked naturally into the deltoid slope, organic bicep/elbow/forearm taper & hand)
         function renderArm(side) {
           const isLeft = side === "left";
           const dir = isLeft ? -1 : 1;
-          const pivotX = cx + dir * (shHalf - 2);
-          const pivotY = 104;
+          const pivotX = cx + dir * (shHalf - 3.5);
+          const pivotY = 103;
           const angle = isLeft ? pose.leftArmAngle : pose.rightArmAngle;
 
-          // Natural anatomical arm curve from shoulder to wrist + sculpted hand
+          // Smooth rounded shoulder cap + natural arm curve
           const armSkinPath = `
-            M ${pivotX - dir * 3} ${pivotY - 3}
-            C ${pivotX + dir * 6} ${pivotY + 2}, ${pivotX + dir * 10} ${pivotY + 18}, ${pivotX + dir * 9} ${pivotY + 34}
-            C ${pivotX + dir * 8} ${pivotY + 46}, ${pivotX + dir * 5} ${pivotY + 56}, ${pivotX + dir * 3} ${pivotY + 64}
-            C ${pivotX + dir * 4} ${pivotY + 70}, ${pivotX + dir * 2} ${pivotY + 75}, ${pivotX} ${pivotY + 75}
-            C ${pivotX - dir * 2} ${pivotY + 74}, ${pivotX - dir * 3} ${pivotY + 68}, ${pivotX - dir * 2} ${pivotY + 63}
-            C ${pivotX - dir * 1} ${pivotY + 55}, ${pivotX + dir * 1} ${pivotY + 45}, ${pivotX + dir * 1} ${pivotY + 34}
-            C ${pivotX} ${pivotY + 20}, ${pivotX - dir * 4} ${pivotY + 8}, ${pivotX - dir * 4} ${pivotY + 2}
+            M ${pivotX - dir * 3} ${pivotY - 5.5}
+            C ${pivotX + dir * 4.5} ${pivotY - 5}, ${pivotX + dir * 9.5} ${pivotY + 4}, ${pivotX + dir * 10} ${pivotY + 18}
+            C ${pivotX + dir * 10.2} ${pivotY + 30}, ${pivotX + dir * 8.5} ${pivotY + 44}, ${pivotX + dir * 5.5} ${pivotY + 56}
+            C ${pivotX + dir * 4.5} ${pivotY + 62}, ${pivotX + dir * 4.8} ${pivotY + 69}, ${pivotX + dir * 2.2} ${pivotY + 73}
+            C ${pivotX + dir * 0.5} ${pivotY + 75}, ${pivotX - dir * 1.8} ${pivotY + 74}, ${pivotX - dir * 2.2} ${pivotY + 69}
+            C ${pivotX - dir * 2.5} ${pivotY + 64}, ${pivotX - dir * 1.5} ${pivotY + 59}, ${pivotX - dir * 1} ${pivotY + 54}
+            C ${pivotX + dir * 0.8} ${pivotY + 43}, ${pivotX + dir * 1.8} ${pivotY + 31}, ${pivotX + dir * 1.2} ${pivotY + 19}
+            C ${pivotX + dir * 0.5} ${pivotY + 10}, ${pivotX - dir * 3.5} ${pivotY + 4}, ${pivotX - dir * 4.5} ${pivotY - 1}
             Z
           `;
 
@@ -2561,33 +2584,33 @@
             const sleeveFill = outfitId === "sommelier_waistcoat" ? cw.secondary : `url(#garmentGrad_${uid})`;
             sleeveOverlay = `
               <path d="
-                M ${pivotX - dir * 4} ${pivotY - 4}
-                C ${pivotX + dir * 7} ${pivotY + 1}, ${pivotX + dir * 11} ${pivotY + 18}, ${pivotX + dir * 10} ${pivotY + 34}
-                C ${pivotX + dir * 9} ${pivotY + 45}, ${pivotX + dir * 6} ${pivotY + 54}, ${pivotX + dir * 4} ${pivotY + 61}
-                L ${pivotX - dir * 2.5} ${pivotY + 60}
-                C ${pivotX - dir * 1} ${pivotY + 52}, ${pivotX} ${pivotY + 43}, ${pivotX} ${pivotY + 34}
-                C ${pivotX - dir * 1} ${pivotY + 20}, ${pivotX - dir * 5} ${pivotY + 9}, ${pivotX - dir * 5} ${pivotY + 2}
+                M ${pivotX - dir * 3.5} ${pivotY - 6}
+                C ${pivotX + dir * 5} ${pivotY - 5.5}, ${pivotX + dir * 10.5} ${pivotY + 4}, ${pivotX + dir * 11} ${pivotY + 18}
+                C ${pivotX + dir * 11.2} ${pivotY + 30}, ${pivotX + dir * 9.2} ${pivotY + 44}, ${pivotX + dir * 6} ${pivotY + 58}
+                Q ${pivotX + dir * 2.2} ${pivotY + 60.5} ${pivotX - dir * 1.6} ${pivotY + 57.5}
+                C ${pivotX + dir * 0.4} ${pivotY + 44}, ${pivotX + dir * 1.4} ${pivotY + 31}, ${pivotX + dir * 0.8} ${pivotY + 19}
+                C ${pivotX} ${pivotY + 10}, ${pivotX - dir * 4} ${pivotY + 4}, ${pivotX - dir * 5} ${pivotY - 1}
                 Z"
                 fill="${sleeveFill}" />
-              <!-- Tailored Cuff Detail -->
-              <path d="M ${pivotX - dir * 2.5} ${pivotY + 58} L ${pivotX + dir * 4} ${pivotY + 59}" stroke="${cw.trim}" stroke-width="2.2" stroke-linecap="round" />
-              <circle cx="${pivotX + dir * 2.2}" cy="${pivotY + 55}" r="1.3" fill="${cw.accent}" />
+              <!-- Smooth Curved Tailored Cuff -->
+              <path d="M ${pivotX - dir * 1.4} ${pivotY + 56.5} Q ${pivotX + dir * 2.2} ${pivotY + 59} ${pivotX + dir * 5.8} ${pivotY + 57}" fill="none" stroke="${cw.trim}" stroke-width="2.1" stroke-linecap="round" />
+              <circle cx="${pivotX + dir * 3.5}" cy="${pivotY + 53.5}" r="1.25" fill="${cw.accent}" />
             `;
           } else if (sleeveType === "rolled") {
             sleeveOverlay = `
               <path d="
-                M ${pivotX - dir * 4} ${pivotY - 4}
-                C ${pivotX + dir * 7} ${pivotY + 1}, ${pivotX + dir * 9} ${pivotY + 12}, ${pivotX + dir * 8.5} ${pivotY + 22}
-                L ${pivotX - dir * 1} ${pivotY + 23}
-                C ${pivotX - dir * 3} ${pivotY + 14}, ${pivotX - dir * 5} ${pivotY + 7}, ${pivotX - dir * 5} ${pivotY + 2}
+                M ${pivotX - dir * 3.5} ${pivotY - 6}
+                C ${pivotX + dir * 5} ${pivotY - 5.5}, ${pivotX + dir * 9.8} ${pivotY + 3}, ${pivotX + dir * 10} ${pivotY + 16}
+                Q ${pivotX + dir * 5.2} ${pivotY + 19} ${pivotX + dir * 0.6} ${pivotY + 17.5}
+                C ${pivotX - dir * 0.5} ${pivotY + 10}, ${pivotX - dir * 4} ${pivotY + 4}, ${pivotX - dir * 5} ${pivotY - 1}
                 Z"
                 fill="url(#garmentGrad_${uid})" />
-              <path d="M ${pivotX - dir * 1.2} ${pivotY + 22} L ${pivotX + dir * 8.8} ${pivotY + 21}" stroke="${cw.trim}" stroke-width="2.5" stroke-linecap="round" />
+              <path d="M ${pivotX + dir * 0.6} ${pivotY + 17.5} Q ${pivotX + dir * 5.2} ${pivotY + 19.2} ${pivotX + dir * 10} ${pivotY + 16}" fill="none" stroke="${cw.trim}" stroke-width="2.4" stroke-linecap="round" />
             `;
           }
 
           const watchDetail = (!isLeft && acc === "watch_cuff")
-            ? `<rect x="${pivotX - 2.5}" y="${pivotY + 59}" width="6.5" height="3.5" rx="1.2" fill="#eab308" stroke="#090d16" stroke-width="0.6" />`
+            ? `<rect x="${pivotX - 1.5}" y="${pivotY + 58}" width="6.5" height="3.5" rx="1.2" fill="#eab308" stroke="#090d16" stroke-width="0.6" />`
             : "";
 
           return `
@@ -2878,9 +2901,9 @@
             ${renderArm("left")}
             ${renderArm("right")}
 
-            <!-- Anatomical Neck & Collarbone Shadow -->
-            <path d="M ${cx - 8.5} ${headY + ry - 5} L ${cx - 9.5} 98 L ${cx + 9.5} 98 L ${cx + 8.5} ${headY + ry - 5} Z" fill="${skin.shadow}" />
-            <ellipse cx="${cx}" cy="${headY + ry - 2}" rx="8.5" ry="3.5" fill="rgba(0,0,0,0.22)" />
+            <!-- Smooth Anatomical Neck & Trapezius Base -->
+            <path d="M ${cx - 8} ${headY + ry - 5} C ${cx - 8.5} 86, ${cx - 10} 92, ${cx - 13} 96 L ${cx + 13} 96 C ${cx + 10} 92, ${cx + 8.5} 86, ${cx + 8} ${headY + ry - 5} Z" fill="url(#skinGrad_${uid})" />
+            <ellipse cx="${cx}" cy="${headY + ry - 2}" rx="8.2" ry="3.2" fill="rgba(0,0,0,0.22)" />
 
             <!-- Form-Fitting Anatomical Torso -->
             <path d="${torsoPath}" fill="url(#garmentGrad_${uid})" />
@@ -4977,9 +5000,25 @@
         };
 
         card.querySelector("#preset-look-btn").onclick = () => {
-          triggerSfx("tap");
-          draftSetup.avatarCfg = defaultAvatarConfig(draftSetup.gender, draftSetup.path);
+          triggerSfx("cash");
+          // Keep ALL of the user's selected features (skin, hair, face, body, outfit) and strike a dynamic Pro Look pose + animated laugh/smile/wink!
+          const proPoses = ["hand_on_hip", "confident_lean", "spotlight_wave", "pro_salute", "executive_cross"];
+          const currentPose = draftSetup.avatarCfg.pose || "editorial_stance";
+          const nextProPoses = proPoses.filter(p => p !== currentPose);
+          draftSetup.avatarCfg.pose = nextProPoses[Math.floor(Math.random() * nextProPoses.length)];
+
+          const proExpressions = ["joyful_beam", "confident_smile", "playful_wink", "fierce_smirk"];
+          const currentExpr = draftSetup.avatarCfg.expression || "confident_smile";
+          const nextProExprs = proExpressions.filter(e => e !== currentExpr);
+          draftSetup.avatarCfg.expression = nextProExprs[Math.floor(Math.random() * nextProExprs.length)];
+
           render();
+          const stage = document.getElementById("live-avatar-stage");
+          if (stage) {
+            stage.classList.remove("pro-look-burst");
+            void stage.offsetWidth;
+            stage.classList.add("pro-look-burst");
+          }
         };
 
         card.querySelectorAll("[data-g]").forEach(b => b.onclick = () => {
@@ -5405,13 +5444,14 @@
             <h2><span>⚙️ Wardrobe (10 Styles × 5 Colors)</span></h2>
 
             <div class="portrait-studio-stage">
-              <div class="portrait-preview-frame" id="settings-avatar-stage" title="Tap portrait to change expression">
+              <div class="portrait-preview-frame" id="settings-avatar-stage" title="Tap portrait to change pose & expression">
                 ${avatarSVG}
                 <span class="portrait-tap-hint">👆 Tap Pose</span>
               </div>
               <div style="flex:1;min-width:0;">
                 <span class="setup-label"><span>Character Name</span><span>${state.charName.length}/20</span></span>
-                <input type="text" maxlength="20" class="text-input" id="settings-name-input" value="${state.charName.replace(/"/g, "&quot;")}" />
+                <input type="text" maxlength="20" class="text-input" id="settings-name-input" value="${state.charName.replace(/"/g, "&quot;")}" style="margin-bottom:8px;" />
+                <button type="button" class="pill-btn" id="settings-pro-look-btn">✨ Pro Look Pose</button>
               </div>
             </div>
 
@@ -5434,9 +5474,27 @@
             </div>
           `;
 
-          card.querySelector("#settings-avatar-stage").onclick = () => {
-            cycleExpression(state.avatarCfg, () => { saveGame(); render(); });
+          const triggerSettingsProPose = () => {
+            triggerSfx("cash");
+            const proPoses = ["hand_on_hip", "confident_lean", "spotlight_wave", "pro_salute", "executive_cross"];
+            const nextProPoses = proPoses.filter(p => p !== (state.avatarCfg.pose || "editorial_stance"));
+            state.avatarCfg.pose = nextProPoses[Math.floor(Math.random() * nextProPoses.length)];
+
+            const proExpressions = ["joyful_beam", "confident_smile", "playful_wink", "fierce_smirk"];
+            const nextProExprs = proExpressions.filter(e => e !== (state.avatarCfg.expression || "confident_smile"));
+            state.avatarCfg.expression = nextProExprs[Math.floor(Math.random() * nextProExprs.length)];
+
+            saveGame();
+            render();
+            const st = document.getElementById("settings-avatar-stage");
+            if (st) {
+              st.classList.remove("pro-look-burst");
+              void st.offsetWidth;
+              st.classList.add("pro-look-burst");
+            }
           };
+          card.querySelector("#settings-avatar-stage").onclick = triggerSettingsProPose;
+          card.querySelector("#settings-pro-look-btn").onclick = triggerSettingsProPose;
 
           renderAvatarControls(
             card.querySelector("#settings-avatar-mount"),
