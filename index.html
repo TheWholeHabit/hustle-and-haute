@@ -1052,6 +1052,14 @@
 
     .footer-note { text-align: center; font-size: 0.72rem; color: var(--text-secondary); margin-top: 4px; }
     .footer-note a { color: var(--accent); text-decoration: none; }
+  
+    .portrait-preview-frame svg g,
+    .avatar-circle svg g,
+    .mag-portrait svg g,
+    .cine-avatar-box svg g {
+      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
   </style>
 </head>
 <body>
@@ -1222,8 +1230,8 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v12";
-      const BACKUP_KEY = "hh_empire_undo_backup_v12";
+      const STORAGE_KEY = "hh_empire_save_v13";
+      const BACKUP_KEY = "hh_empire_undo_backup_v13";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
       // Synthesized Web Audio + Haptics
@@ -1277,13 +1285,25 @@
         }
       }
 
-      // 5 Curated Editorial Colorways for All 10 Tailored Outfits
+      // 8 Stunning Luxury & Runway Colorways with Gradients, Highlights & Shadow Shading
       const OUTFIT_COLORWAYS = [
-        { id: "obsidian_gold", label: "Obsidian & Brushed Gold", primary: "#111827", secondary: "#1f2937", trim: "#eab308", accent: "#facc15" },
-        { id: "ivory_crimson", label: "Crisp Ivory & Crimson", primary: "#f8fafc", secondary: "#881337", trim: "#be123c", accent: "#fda4af" },
-        { id: "midnight_cobalt", label: "Midnight Navy & Steel", primary: "#172554", secondary: "#0f172a", trim: "#38bdf8", accent: "#bae6fd" },
-        { id: "emerald_noir", label: "Emerald & Carbon", primary: "#064e3b", secondary: "#090d16", trim: "#10b981", accent: "#6ee7b7" },
-        { id: "espresso_sand", label: "Espresso & Warm Sand", primary: "#3b2314", secondary: "#e7e5e4", trim: "#d97706", accent: "#fde68a" }
+        { id: "obsidian_gold", label: "Obsidian & 24K Gold", primary: "#141923", primaryHi: "#2b3548", primaryLo: "#07090e", secondary: "#1f2937", trim: "#eab308", accent: "#fde047" },
+        { id: "amethyst_chrome", label: "Royal Amethyst & Chrome", primary: "#4c1d95", primaryHi: "#7c3aed", primaryLo: "#2e1065", secondary: "#1e1b4b", trim: "#e2e8f0", accent: "#f8fafc" },
+        { id: "rose_champagne", label: "Rose Gold & Champagne", primary: "#9f1239", primaryHi: "#e11d48", primaryLo: "#4c0519", secondary: "#fdf2f8", trim: "#f59e0b", accent: "#fef3c7" },
+        { id: "peacock_emerald", label: "Peacock Teal & Emerald", primary: "#065f46", primaryHi: "#0d9488", primaryLo: "#022c22", secondary: "#0f172a", trim: "#34d399", accent: "#a7f3d0" },
+        { id: "electric_sapphire", label: "Electric Sapphire & Silver", primary: "#1e3a8a", primaryHi: "#2563eb", primaryLo: "#172554", secondary: "#f8fafc", trim: "#38bdf8", accent: "#e0f2fe" },
+        { id: "crimson_silk", label: "Scarlet Silk & Jet", primary: "#991b1b", primaryHi: "#dc2626", primaryLo: "#450a0a", secondary: "#111827", trim: "#fbbf24", accent: "#fef08a" },
+        { id: "alabaster_bronze", label: "Alabaster & Burnished Bronze", primary: "#f1f5f9", primaryHi: "#ffffff", primaryLo: "#cbd5e1", secondary: "#3f2e21", trim: "#d97706", accent: "#fde68a" },
+        { id: "sunset_copper", label: "Sunset Copper & Plum", primary: "#9a3412", primaryHi: "#ea580c", primaryLo: "#431407", secondary: "#3b0764", trim: "#f472b6", accent: "#fbcfe8" }
+      ];
+
+      // Natural Articulated Body Poses (Users can cycle poses by tapping the character portrait!)
+      const CHARACTER_POSES = [
+        { id: "editorial_stance", label: "Editorial Stance", headTilt: 0, leftArmAngle: 0, rightArmAngle: 0, torsoShiftX: 0 },
+        { id: "hand_on_hip", label: "Power Hip Pose", headTilt: -3, leftArmAngle: 18, rightArmAngle: -16, torsoShiftX: -1.5 },
+        { id: "confident_lean", label: "Runway Lean", headTilt: 3.5, leftArmAngle: -8, rightArmAngle: 14, torsoShiftX: 1.5 },
+        { id: "executive_cross", label: "Executive Poise", headTilt: -2, leftArmAngle: -22, rightArmAngle: 20, torsoShiftX: 0 },
+        { id: "spotlight_wave", label: "Red Carpet Wave", headTilt: 2.5, leftArmAngle: 10, rightArmAngle: -42, torsoShiftX: -1 }
       ];
 
       // 10 Realistic Editorial & Professional Outfits (No "doll palace" styling)
@@ -2193,7 +2213,7 @@
         }
       };
 
-      // High-Craft Editorial Portrait Vector Renderer (Natural human proportions, realistic garments, zero doll-palace elements)
+      // Anatomical Form-Fitting & Articulated Character Renderer (Organic curves, fabric shading, articulated limbs & clean seams)
       function renderAvatarSVG(avatarCfg, gender) {
         const face = AVATAR_TEMPLATES.faceShape.find(x => x.id === avatarCfg.faceShape) || AVATAR_TEMPLATES.faceShape[0];
         const body = AVATAR_TEMPLATES.bodyShape.find(x => x.id === avatarCfg.bodyShape) || AVATAR_TEMPLATES.bodyShape[3];
@@ -2204,50 +2224,61 @@
         const hairColor = AVATAR_TEMPLATES.hairColor.find(x => x.id === avatarCfg.hairColor) || AVATAR_TEMPLATES.hairColor[0];
         const outfitId = avatarCfg.outfit || "double_breasted_blazer";
         const cw = OUTFIT_COLORWAYS.find(x => x.id === avatarCfg.outfitColor) || OUTFIT_COLORWAYS[0];
+        const pose = CHARACTER_POSES.find(x => x.id === avatarCfg.pose) || CHARACTER_POSES[0];
         const hairStyle = avatarCfg.hairStyle;
         const acc = avatarCfg.accessory;
 
         const uid = Math.random().toString(36).slice(2, 7);
-        const cx = 80;
-        const headY = 60;
+        const cx = 80 + pose.torsoShiftX;
+        const headY = 58;
         const rx = face.rx;
         const ry = face.ry;
         const jawW = face.jawW;
-        const shW = body.shoulderW;
-        const waistW = body.waistW;
-        const hipW = body.hipW;
+
+        // Anatomical shoulder, bust/chest, waist, and hip proportions
+        const shHalf = body.shoulderW * 0.48;
+        const chestHalf = gender === "female" ? shHalf * 0.86 : shHalf * 0.90;
+        const waistHalf = body.waistW * 0.46;
+        const hipHalf = body.hipW * 0.50;
+
+        // Sleeve coverage based on outfit design
+        const sleeveType = (outfitId === "sleeveless_mockneck")
+          ? "sleeveless"
+          : (outfitId === "bistro_apron_shirt")
+            ? "rolled"
+            : "full";
 
         const ringLightBack = acc === "ring_halo"
-          ? `<circle cx="${cx + 28}" cy="${headY + 6}" r="42" fill="none" stroke="#ffffff" stroke-width="5.5" opacity="0.82" />
-             <circle cx="${cx + 28}" cy="${headY + 6}" r="42" fill="none" stroke="#38bdf8" stroke-width="10" opacity="0.25" />`
+          ? `<circle cx="${cx + 28}" cy="${headY + 6}" r="42" fill="none" stroke="#ffffff" stroke-width="5" opacity="0.8" />
+             <circle cx="${cx + 28}" cy="${headY + 6}" r="42" fill="none" stroke="#38bdf8" stroke-width="9" opacity="0.22" />`
           : "";
 
+        // Layered Back Hair
         let backHair = "";
         if (hairStyle === "silk_press_layers") {
           backHair = `
-            <path d="M ${cx - rx - 3} ${headY - 6} Q ${cx - rx - 10} 112 ${cx - rx + 1} 152 L ${cx + rx - 1} 152 Q ${cx + rx + 10} 112 ${cx + rx + 3} ${headY - 6} Z" fill="${hairColor.hex}" />
-            <path d="M ${cx - rx - 1} ${headY + 10} Q ${cx - rx - 5} 78 ${cx} 142" fill="none" stroke="${hairColor.hi}" stroke-width="2.4" opacity="0.42" />
-            <path d="M ${cx + rx + 1} ${headY + 10} Q ${cx + rx + 5} 78 ${cx} 142" fill="none" stroke="${hairColor.hi}" stroke-width="2.4" opacity="0.42" />
+            <path d="M ${cx - rx - 3} ${headY - 6} C ${cx - rx - 11} 96, ${cx - rx - 6} 130, ${cx - rx + 1} 156 L ${cx + rx - 1} 156 C ${cx + rx + 6} 130, ${cx + rx + 11} 96, ${cx + rx + 3} ${headY - 6} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - rx - 1} ${headY + 10} Q ${cx - rx - 5} 82 ${cx - 4} 148" fill="none" stroke="${hairColor.hi}" stroke-width="2.2" opacity="0.4" />
+            <path d="M ${cx + rx + 1} ${headY + 10} Q ${cx + rx + 5} 82 ${cx + 4} 148" fill="none" stroke="${hairColor.hi}" stroke-width="2.2" opacity="0.4" />
           `;
         } else if (hairStyle === "hollywood_glam") {
           backHair = `
-            <path d="M ${cx - rx - 5} ${headY - 6} C ${cx - rx - 18} 95, ${cx - rx - 4} 125, ${cx - rx - 10} 154 L ${cx + rx + 10} 154 C ${cx + rx + 4} 125, ${cx + rx + 18} 95, ${cx + rx + 5} ${headY - 6} Z" fill="${hairColor.hex}" />
-            <path d="M ${cx - rx - 4} ${headY + 18} Q ${cx - rx - 11} 88 ${cx - rx - 2} 118 T ${cx - rx - 4} 148" fill="none" stroke="${hairColor.hi}" stroke-width="2.8" opacity="0.5" />
-            <path d="M ${cx + rx + 4} ${headY + 18} Q ${cx + rx + 11} 88 ${cx + rx + 2} 118 T ${cx + rx + 4} 148" fill="none" stroke="${hairColor.hi}" stroke-width="2.8" opacity="0.5" />
+            <path d="M ${cx - rx - 5} ${headY - 6} C ${cx - rx - 18} 95, ${cx - rx - 4} 125, ${cx - rx - 10} 156 L ${cx + rx + 10} 156 C ${cx + rx + 4} 125, ${cx + rx + 18} 95, ${cx + rx + 5} ${headY - 6} Z" fill="${hairColor.hex}" />
+            <path d="M ${cx - rx - 4} ${headY + 18} Q ${cx - rx - 11} 88 ${cx - rx - 2} 118 T ${cx - rx - 4} 150" fill="none" stroke="${hairColor.hi}" stroke-width="2.6" opacity="0.48" />
+            <path d="M ${cx + rx + 4} ${headY + 18} Q ${cx + rx + 11} 88 ${cx + rx + 2} 118 T ${cx + rx + 4} 150" fill="none" stroke="${hairColor.hi}" stroke-width="2.6" opacity="0.48" />
           `;
         } else if (hairStyle === "curly_pineapple") {
           backHair = `
             <circle cx="${cx}" cy="${headY - ry - 10}" r="19" fill="${hairColor.hex}" />
             <circle cx="${cx - 13}" cy="${headY - ry - 4}" r="12" fill="${hairColor.hex}" />
             <circle cx="${cx + 13}" cy="${headY - ry - 4}" r="12" fill="${hairColor.hex}" />
-            <circle cx="${cx - 5}" cy="${headY - ry - 16}" r="9" fill="${hairColor.hi}" opacity="0.22" />
           `;
         } else if (hairStyle === "goddess_braids") {
           backHair = `
-            <rect x="${cx - rx - 5}" y="${headY - 2}" width="5.5" height="88" rx="2.7" fill="${hairColor.hex}" />
-            <rect x="${cx - rx}" y="${headY + 2}" width="5" height="90" rx="2.5" fill="${hairColor.hex}" />
-            <rect x="${cx + rx - 5}" y="${headY + 2}" width="5" height="90" rx="2.5" fill="${hairColor.hex}" />
-            <rect x="${cx + rx}" y="${headY - 2}" width="5.5" height="88" rx="2.7" fill="${hairColor.hex}" />
+            <rect x="${cx - rx - 5}" y="${headY - 2}" width="5.5" height="90" rx="2.7" fill="${hairColor.hex}" />
+            <rect x="${cx - rx}" y="${headY + 2}" width="5" height="92" rx="2.5" fill="${hairColor.hex}" />
+            <rect x="${cx + rx - 5}" y="${headY + 2}" width="5" height="92" rx="2.5" fill="${hairColor.hex}" />
+            <rect x="${cx + rx}" y="${headY - 2}" width="5.5" height="90" rx="2.7" fill="${hairColor.hex}" />
             <rect x="${cx - rx - 5}" y="${headY + 42}" width="5.5" height="3" fill="#eab308" />
             <rect x="${cx + rx}" y="${headY + 42}" width="5.5" height="3" fill="#eab308" />
           `;
@@ -2263,111 +2294,183 @@
           `;
         }
 
-        let baseTorsoFill = cw.primary;
-        let sleeveFill = cw.primary;
-        let sleeveBorder = cw.trim;
-        let outfitDetails = "";
+        // Organic Anatomical Torso Contour Path (Smooth traps -> rounded deltoids -> natural bust/pectoral curve -> tapered waist -> hip flare)
+        const torsoPath = `
+          M ${cx - 11} 91
+          C ${cx - 16} 93, ${cx - shHalf + 3} 94, ${cx - shHalf} 104
+          C ${cx - shHalf - 1} 112, ${cx - chestHalf} 120, ${cx - waistHalf} 139
+          C ${cx - waistHalf - 1} 148, ${cx - hipHalf} 162, ${cx - hipHalf - 2} 184
+          L ${cx + hipHalf + 2} 184
+          C ${cx + hipHalf} 162, ${cx + waistHalf + 1} 148, ${cx + waistHalf} 139
+          C ${cx + chestHalf} 120, ${cx + shHalf + 1} 112, ${cx + shHalf} 104
+          C ${cx + shHalf - 3} 94, ${cx + 16} 93, ${cx + 11} 91
+          Z
+        `;
 
-        if (outfitId === "double_breasted_blazer") {
-          outfitDetails = `
-            <polygon points="${cx - 13},94 ${cx + 13},94 ${cx + 8},140 ${cx - 8},140" fill="${cw.secondary}" />
-            <path d="M ${cx - 13} 100 Q ${cx} 108 ${cx + 13} 100" fill="none" stroke="${cw.accent}" stroke-width="1.4" />
-            <polygon points="${cx - 15},94 ${cx - 6},142 ${cx - 23},121" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.3" />
-            <polygon points="${cx + 15},94 ${cx + 6},142 ${cx + 23},121" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.3" />
-            <circle cx="${cx - 7}" cy="132" r="2.1" fill="${cw.trim}" />
-            <circle cx="${cx + 7}" cy="132" r="2.1" fill="${cw.trim}" />
-            <circle cx="${cx - 7}" cy="144" r="2.1" fill="${cw.trim}" />
-            <circle cx="${cx + 7}" cy="144" r="2.1" fill="${cw.trim}" />
-            <line x1="${cx + 12}" y1="124" x2="${cx + 21}" y2="122" stroke="${cw.accent}" stroke-width="2.4" />
+        // Articulated Organic Limbs (Left & Right Arms with anatomical bicep taper, elbow bend, forearm taper, and natural hands)
+        function renderArm(side) {
+          const isLeft = side === "left";
+          const dir = isLeft ? -1 : 1;
+          const pivotX = cx + dir * (shHalf - 2);
+          const pivotY = 104;
+          const angle = isLeft ? pose.leftArmAngle : pose.rightArmAngle;
+
+          // Natural anatomical arm curve from shoulder to wrist + sculpted hand
+          const armSkinPath = `
+            M ${pivotX - dir * 3} ${pivotY - 3}
+            C ${pivotX + dir * 6} ${pivotY + 2}, ${pivotX + dir * 10} ${pivotY + 18}, ${pivotX + dir * 9} ${pivotY + 34}
+            C ${pivotX + dir * 8} ${pivotY + 46}, ${pivotX + dir * 5} ${pivotY + 56}, ${pivotX + dir * 3} ${pivotY + 64}
+            C ${pivotX + dir * 4} ${pivotY + 70}, ${pivotX + dir * 2} ${pivotY + 75}, ${pivotX} ${pivotY + 75}
+            C ${pivotX - dir * 2} ${pivotY + 74}, ${pivotX - dir * 3} ${pivotY + 68}, ${pivotX - dir * 2} ${pivotY + 63}
+            C ${pivotX - dir * 1} ${pivotY + 55}, ${pivotX + dir * 1} ${pivotY + 45}, ${pivotX + dir * 1} ${pivotY + 34}
+            C ${pivotX} ${pivotY + 20}, ${pivotX - dir * 4} ${pivotY + 8}, ${pivotX - dir * 4} ${pivotY + 2}
+            Z
           `;
-        } else if (outfitId === "executive_chef_coat") {
-          outfitDetails = `
-            <path d="M ${cx - 12} 93 L ${cx} 102 L ${cx + 12} 93 L ${cx + 10} 100 L ${cx} 109 L ${cx - 10} 100 Z" fill="${cw.secondary}" stroke="${cw.trim}" stroke-width="1.4" />
-            <path d="M ${cx - 10} 100 L ${cx - 4} 114 L ${cx - 4} 146" fill="none" stroke="${cw.trim}" stroke-width="2.1" />
-            <circle cx="${cx - 11}" cy="116" r="2.1" fill="${cw.trim}" />
-            <circle cx="${cx + 4}" cy="116" r="2.1" fill="${cw.trim}" />
-            <circle cx="${cx - 11}" cy="129" r="2.1" fill="${cw.trim}" />
-            <circle cx="${cx + 4}" cy="129" r="2.1" fill="${cw.trim}" />
-            <path d="M ${cx - waistW/2 - 1} 143 L ${cx + waistW/2 + 1} 143 L ${cx + hipW/2 + 2} 184 L ${cx - hipW/2 - 2} 184 Z" fill="${cw.secondary}" />
-            <rect x="${cx - waistW/2 - 2}" y="141" width="${waistW + 4}" height="7" rx="3" fill="${cw.trim}" />
-            <path d="M ${cx - 5} 146 L ${cx - 10} 160 M ${cx + 5} 146 L ${cx + 10} 160" stroke="${cw.accent}" stroke-width="2.5" stroke-linecap="round" />
-          `;
-        } else if (outfitId === "silk_bow_suit") {
-          outfitDetails = `
-            <polygon points="${cx - 14},94 ${cx + 14},94 ${cx + 9},150 ${cx - 9},150" fill="${cw.secondary}" />
-            <path d="M ${cx} 103 L ${cx - 9} 99 L ${cx - 7} 107 Z M ${cx} 103 L ${cx + 9} 99 L ${cx + 7} 107 Z" fill="${cw.trim}" />
-            <line x1="${cx - 2}" y1="104" x2="${cx - 4}" y2="124" stroke="${cw.trim}" stroke-width="2.1" />
-            <line x1="${cx + 2}" y1="104" x2="${cx + 4}" y2="124" stroke="${cw.trim}" stroke-width="2.1" />
-            <polygon points="${cx - 15},94 ${cx - 7},146 ${cx - 22},123" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.3" />
-            <polygon points="${cx + 15},94 ${cx + 7},146 ${cx + 22},123" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.3" />
-          `;
-        } else if (outfitId === "turtleneck_overcoat") {
-          outfitDetails = `
-            <rect x="${cx - 10}" y="90" width="20" height="14" rx="4" fill="${cw.secondary}" />
-            <polygon points="${cx - 11},104 ${cx + 11},104 ${cx + 9},184 ${cx - 9},184" fill="${cw.secondary}" />
-            <polygon points="${cx - 17},94 ${cx - 8},146 ${cx - 25},124" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.4" />
-            <polygon points="${cx + 17},94 ${cx + 8},146 ${cx + 25},124" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.4" />
-            <rect x="${cx - waistW/2 - 1}" y="140" width="${waistW + 2}" height="6" rx="2.5" fill="${cw.trim}" />
-            <rect x="${cx - 4}" y="139" width="8" height="8" rx="1.5" fill="none" stroke="${cw.accent}" stroke-width="1.4" />
-          `;
-        } else if (outfitId === "sculpted_wrap_dress") {
-          outfitDetails = `
-            <polygon points="${cx - 14},94 ${cx},122 ${cx + 14},94" fill="${skin.hex}" />
-            <path d="M ${cx - 14} 94 L ${cx + 6} 140 L ${cx - waistW/2} 140 Z" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.4" />
-            <path d="M ${cx + 14} 94 L ${cx - 4} 140 L ${cx + waistW/2} 140 Z" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.4" />
-            <rect x="${cx - waistW/2 - 1}" y="138" width="${waistW + 2}" height="6.5" rx="3" fill="${cw.secondary}" stroke="${cw.trim}" stroke-width="1.2" />
-            <circle cx="${cx}" cy="141.2" r="2.8" fill="${cw.accent}" />
-          `;
-        } else if (outfitId === "baroque_hoodie_blazer") {
-          outfitDetails = `
-            <polygon points="${cx - 14},94 ${cx + 14},94 ${cx + 10},164 ${cx - 10},164" fill="${cw.secondary}" />
-            <path d="M ${cx - 7.5} 100 L ${cx - 7.5} 160 M ${cx + 7.5} 100 L ${cx + 7.5} 160" stroke="${cw.trim}" stroke-width="2.2" stroke-dasharray="4 2" />
-            <polygon points="${cx - 15},94 ${cx - 7},146 ${cx - 23},123" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.3" />
-            <polygon points="${cx + 15},94 ${cx + 7},146 ${cx + 23},123" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.3" />
-          `;
-        } else if (outfitId === "bistro_apron_shirt") {
-          sleeveFill = skin.mid;
-          sleeveBorder = "none";
-          outfitDetails = `
-            <path d="M ${cx - shW/2} 109 L ${cx - shW/2 - 5} 127 L ${cx - shW/2 + 5} 129 L ${cx - shW/2 + 6} 115 Z" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.2" />
-            <path d="M ${cx + shW/2} 109 L ${cx + shW/2 + 5} 127 L ${cx + shW/2 - 5} 129 L ${cx + shW/2 - 6} 115 Z" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.2" />
-            <polygon points="${cx - 11},94 ${cx},109 ${cx + 11},94" fill="${skin.hex}" />
-            <path d="M ${cx - waistW/2 + 2} 111 L ${cx + waistW/2 - 2} 111 L ${cx + hipW/2 - 2} 184 L ${cx - hipW/2 + 2} 184 Z" fill="${cw.secondary}" stroke="${cw.trim}" stroke-width="1.5" />
-            <line x1="${cx - 12}" y1="94" x2="${cx - waistW/2 + 4}" y2="111" stroke="${cw.trim}" stroke-width="3" />
-            <line x1="${cx + 12}" y1="94" x2="${cx + waistW/2 - 4}" y2="111" stroke="${cw.trim}" stroke-width="3" />
-            <rect x="${cx - 10}" y="148" width="20" height="14" rx="2" fill="none" stroke="${cw.accent}" stroke-width="1.3" />
-          `;
-        } else if (outfitId === "cropped_tweed_set") {
-          outfitDetails = `
-            <path d="M ${cx - 12} 94 Q ${cx} 104 ${cx + 12} 94" fill="${skin.hex}" stroke="${cw.trim}" stroke-width="2" />
-            <rect x="${cx - waistW/2 - 1}" y="134" width="${waistW + 2}" height="5" rx="2" fill="${cw.trim}" />
-            <path d="M ${cx - waistW/2} 139 L ${cx + waistW/2} 139 L ${cx + hipW/2} 184 L ${cx - hipW/2} 184 Z" fill="${cw.secondary}" />
-            <line x1="${cx}" y1="100" x2="${cx}" y2="134" stroke="${cw.trim}" stroke-width="2.1" />
-            <circle cx="${cx}" cy="110" r="2.1" fill="${cw.accent}" />
-            <circle cx="${cx}" cy="121" r="2.1" fill="${cw.accent}" />
-            <circle cx="${cx}" cy="131" r="2.1" fill="${cw.accent}" />
-          `;
-        } else if (outfitId === "sleeveless_mockneck") {
-          sleeveFill = skin.mid;
-          sleeveBorder = "none";
-          outfitDetails = `
-            <rect x="${cx - 10}" y="90" width="20" height="8" rx="3" fill="${cw.primary}" stroke="${cw.trim}" stroke-width="1.2" />
-            <path d="M ${cx - waistW/2} 136 L ${cx + waistW/2} 136 L ${cx + hipW/2} 184 L ${cx - hipW/2} 184 Z" fill="${cw.secondary}" />
-            <rect x="${cx - waistW/2 - 1}" y="134" width="${waistW + 2}" height="6" rx="2" fill="${cw.trim}" />
-            <line x1="${cx}" y1="140" x2="${cx}" y2="184" stroke="rgba(0,0,0,0.3)" stroke-width="1.5" />
-          `;
-        } else {
-          sleeveFill = cw.secondary;
-          sleeveBorder = cw.trim;
-          outfitDetails = `
-            <polygon points="${cx - 13},94 ${cx + 13},94 ${cx + 8},142 ${cx - 8},142" fill="${cw.secondary}" />
-            <polygon points="${cx - 2.5},98 ${cx + 2.5},98 ${cx + 3.5},134 ${cx},139 ${cx - 3.5},134" fill="${cw.trim}" />
-            <circle cx="${cx}" cy="146" r="2.1" fill="${cw.accent}" />
-            <circle cx="${cx}" cy="156" r="2.1" fill="${cw.accent}" />
-            <path d="M ${cx - 11} 150 Q ${cx - 5} 156 ${cx} 150" fill="none" stroke="${cw.accent}" stroke-width="1.3" />
+
+          let sleeveOverlay = "";
+          if (sleeveType === "full") {
+            const sleeveFill = outfitId === "sommelier_waistcoat" ? cw.secondary : `url(#garmentGrad_${uid})`;
+            sleeveOverlay = `
+              <path d="
+                M ${pivotX - dir * 4} ${pivotY - 4}
+                C ${pivotX + dir * 7} ${pivotY + 1}, ${pivotX + dir * 11} ${pivotY + 18}, ${pivotX + dir * 10} ${pivotY + 34}
+                C ${pivotX + dir * 9} ${pivotY + 45}, ${pivotX + dir * 6} ${pivotY + 54}, ${pivotX + dir * 4} ${pivotY + 61}
+                L ${pivotX - dir * 2.5} ${pivotY + 60}
+                C ${pivotX - dir * 1} ${pivotY + 52}, ${pivotX} ${pivotY + 43}, ${pivotX} ${pivotY + 34}
+                C ${pivotX - dir * 1} ${pivotY + 20}, ${pivotX - dir * 5} ${pivotY + 9}, ${pivotX - dir * 5} ${pivotY + 2}
+                Z"
+                fill="${sleeveFill}" />
+              <!-- Tailored Cuff Detail -->
+              <path d="M ${pivotX - dir * 2.5} ${pivotY + 58} L ${pivotX + dir * 4} ${pivotY + 59}" stroke="${cw.trim}" stroke-width="2.2" stroke-linecap="round" />
+              <circle cx="${pivotX + dir * 2.2}" cy="${pivotY + 55}" r="1.3" fill="${cw.accent}" />
+            `;
+          } else if (sleeveType === "rolled") {
+            sleeveOverlay = `
+              <path d="
+                M ${pivotX - dir * 4} ${pivotY - 4}
+                C ${pivotX + dir * 7} ${pivotY + 1}, ${pivotX + dir * 9} ${pivotY + 12}, ${pivotX + dir * 8.5} ${pivotY + 22}
+                L ${pivotX - dir * 1} ${pivotY + 23}
+                C ${pivotX - dir * 3} ${pivotY + 14}, ${pivotX - dir * 5} ${pivotY + 7}, ${pivotX - dir * 5} ${pivotY + 2}
+                Z"
+                fill="url(#garmentGrad_${uid})" />
+              <path d="M ${pivotX - dir * 1.2} ${pivotY + 22} L ${pivotX + dir * 8.8} ${pivotY + 21}" stroke="${cw.trim}" stroke-width="2.5" stroke-linecap="round" />
+            `;
+          }
+
+          const watchDetail = (!isLeft && acc === "watch_cuff")
+            ? `<rect x="${pivotX - 2.5}" y="${pivotY + 59}" width="6.5" height="3.5" rx="1.2" fill="#eab308" stroke="#090d16" stroke-width="0.6" />`
+            : "";
+
+          return `
+            <g transform="rotate(${angle}, ${pivotX}, ${pivotY})">
+              <path d="${armSkinPath}" fill="url(#skinGrad_${uid})" />
+              ${sleeveOverlay}
+              ${watchDetail}
+            </g>
           `;
         }
 
+        // Form-Fitting Garment Details with Smooth Curves & Zero Jagged Polygon Seams
+        let outfitDetails = "";
+        if (outfitId === "double_breasted_blazer") {
+          outfitDetails = `
+            <!-- Fitted Silk Camisole Base -->
+            <path d="M ${cx - 12} 93 Q ${cx} 112 ${cx + 12} 93 L ${cx + 9} 142 L ${cx - 9} 142 Z" fill="${cw.secondary}" />
+            <path d="M ${cx - 11} 102 Q ${cx} 109 ${cx + 11} 102" fill="none" stroke="${cw.accent}" stroke-width="1.3" />
+            <!-- Sculpted Curved Peak Lapels -->
+            <path d="M ${cx - 13} 93 C ${cx - 19} 106, ${cx - 15} 124, ${cx - 5} 142 L ${cx - 21} 122 C ${cx - 23} 111, ${cx - 18} 99, ${cx - 13} 93 Z" fill="url(#garmentGrad_${uid})" stroke="${cw.trim}" stroke-width="1.1" />
+            <path d="M ${cx + 13} 93 C ${cx + 19} 106, ${cx + 15} 124, ${cx + 5} 142 L ${cx + 21} 122 C ${cx + 23} 111, ${cx + 18} 99, ${cx + 13} 93 Z" fill="url(#garmentGrad_${uid})" stroke="${cw.trim}" stroke-width="1.1" />
+            <!-- Double-Breasted Metallic Buttons & Pocket Square -->
+            <circle cx="${cx - 6.5}" cy="133" r="2" fill="${cw.trim}" />
+            <circle cx="${cx + 6.5}" cy="133" r="2" fill="${cw.trim}" />
+            <circle cx="${cx - 6.5}" cy="145" r="2" fill="${cw.trim}" />
+            <circle cx="${cx + 6.5}" cy="145" r="2" fill="${cw.trim}" />
+            <path d="M ${cx + 11} 123 L ${cx + 19} 121" stroke="${cw.accent}" stroke-width="2.2" stroke-linecap="round" />
+          `;
+        } else if (outfitId === "executive_chef_coat") {
+          outfitDetails = `
+            <!-- Mandarin Collar & Contoured Double-Breasted Placket -->
+            <path d="M ${cx - 11} 92 Q ${cx} 103 ${cx + 11} 92 L ${cx + 9} 99 Q ${cx} 109 ${cx - 9} 99 Z" fill="${cw.secondary}" stroke="${cw.trim}" stroke-width="1.2" />
+            <path d="M ${cx - 9} 99 C ${cx - 5} 112, ${cx - 4} 128, ${cx - 4} 144" fill="none" stroke="${cw.trim}" stroke-width="2" stroke-linecap="round" />
+            <circle cx="${cx - 10}" cy="116" r="2" fill="${cw.trim}" />
+            <circle cx="${cx + 3.5}" cy="116" r="2" fill="${cw.trim}" />
+            <circle cx="${cx - 10}" cy="129" r="2" fill="${cw.trim}" />
+            <circle cx="${cx + 3.5}" cy="129" r="2" fill="${cw.trim}" />
+            <!-- Form-Fitting Bistro Waist Apron -->
+            <path d="M ${cx - waistHalf} 141 L ${cx + waistHalf} 141 C ${cx + hipHalf} 158, ${cx + hipHalf + 2} 172, ${cx + hipHalf + 2} 184 L ${cx - hipHalf - 2} 184 C ${cx - hipHalf - 2} 172, ${cx - hipHalf} 158, ${cx - waistHalf} 141 Z" fill="${cw.secondary}" />
+            <path d="M ${cx - waistHalf} 141 Q ${cx} 144 ${cx + waistHalf} 141" fill="none" stroke="${cw.trim}" stroke-width="4.5" stroke-linecap="round" />
+            <path d="M ${cx - 4} 144 Q ${cx - 8} 154 ${cx - 10} 161 M ${cx + 4} 144 Q ${cx + 8} 154 ${cx + 10} 161" fill="none" stroke="${cw.accent}" stroke-width="2.2" stroke-linecap="round" />
+          `;
+        } else if (outfitId === "silk_bow_suit") {
+          outfitDetails = `
+            <path d="M ${cx - 13} 93 L ${cx + 13} 93 L ${cx + 8} 148 L ${cx - 8} 148 Z" fill="${cw.secondary}" />
+            <!-- Draped Silk Tie-Bow -->
+            <path d="M ${cx} 102 C ${cx - 7} 97, ${cx - 10} 104, ${cx - 3} 106 Z M ${cx} 102 C ${cx + 7} 97, ${cx + 10} 104, ${cx + 3} 106 Z" fill="${cw.trim}" />
+            <path d="M ${cx - 1.5} 104 Q ${cx - 4} 116 ${cx - 5} 126 M ${cx + 1.5} 104 Q ${cx + 4} 116 ${cx + 5} 126" fill="none" stroke="${cw.trim}" stroke-width="2" stroke-linecap="round" />
+            <!-- Tailored Suit Lapels -->
+            <path d="M ${cx - 14} 93 C ${cx - 18} 108, ${cx - 14} 126, ${cx - 6} 146 L ${cx - 21} 123 Z" fill="url(#garmentGrad_${uid})" stroke="${cw.trim}" stroke-width="1.1" />
+            <path d="M ${cx + 14} 93 C ${cx + 18} 108, ${cx + 14} 126, ${cx + 6} 146 L ${cx + 21} 123 Z" fill="url(#garmentGrad_${uid})" stroke="${cw.trim}" stroke-width="1.1" />
+          `;
+        } else if (outfitId === "turtleneck_overcoat") {
+          outfitDetails = `
+            <rect x="${cx - 9.5}" y="89" width="19" height="14" rx="4" fill="${cw.secondary}" />
+            <path d="M ${cx - 10} 103 L ${cx + 10} 103 L ${cx + 8.5} 184 L ${cx - 8.5} 184 Z" fill="${cw.secondary}" />
+            <path d="M ${cx - 15} 93 C ${cx - 20} 108, ${cx - 15} 128, ${cx - 7} 146 L ${cx - 23} 124 Z" fill="url(#garmentGrad_${uid})" stroke="${cw.trim}" stroke-width="1.2" />
+            <path d="M ${cx + 15} 93 C ${cx + 20} 108, ${cx + 15} 128, ${cx + 7} 146 L ${cx + 23} 124 Z" fill="url(#garmentGrad_${uid})" stroke="${cw.trim}" stroke-width="1.2" />
+            <path d="M ${cx - waistHalf} 140 Q ${cx} 143 ${cx + waistHalf} 140" fill="none" stroke="${cw.trim}" stroke-width="5" stroke-linecap="round" />
+            <rect x="${cx - 4}" y="137.5" width="8" height="7" rx="1.5" fill="none" stroke="${cw.accent}" stroke-width="1.4" />
+          `;
+        } else if (outfitId === "sculpted_wrap_dress") {
+          outfitDetails = `
+            <path d="M ${cx - 13} 93 Q ${cx} 122 ${cx + 13} 93 Z" fill="url(#skinGrad_${uid})" />
+            <path d="M ${cx - 13} 93 C ${cx - 6} 112, ${cx + 2} 126, ${cx + 6} 140 L ${cx - waistHalf} 140 Z" fill="url(#garmentGrad_${uid})" stroke="${cw.trim}" stroke-width="1.2" />
+            <path d="M ${cx + 13} 93 C ${cx + 6} 112, ${cx - 1} 126, ${cx - 4} 140 L ${cx + waistHalf} 140 Z" fill="url(#garmentGrad_${uid})" stroke="${cw.trim}" stroke-width="1.2" />
+            <path d="M ${cx - waistHalf} 139 Q ${cx} 142 ${cx + waistHalf} 139" fill="none" stroke="${cw.secondary}" stroke-width="5.5" stroke-linecap="round" />
+            <circle cx="${cx}" cy="140.5" r="2.8" fill="${cw.accent}" stroke="${cw.trim}" stroke-width="1" />
+          `;
+        } else if (outfitId === "baroque_hoodie_blazer") {
+          outfitDetails = `
+            <path d="M ${cx - 13} 93 L ${cx + 13} 93 L ${cx + 9} 164 L ${cx - 9} 164 Z" fill="${cw.secondary}" />
+            <path d="M ${cx - 7} 100 L ${cx - 7} 160 M ${cx + 7} 100 L ${cx + 7} 160" stroke="${cw.trim}" stroke-width="2" stroke-dasharray="4 2" />
+            <path d="M ${cx - 14} 93 C ${cx - 18} 108, ${cx - 14} 126, ${cx - 6} 146 L ${cx - 22} 123 Z" fill="url(#garmentGrad_${uid})" stroke="${cw.trim}" stroke-width="1.1" />
+            <path d="M ${cx + 14} 93 C ${cx + 18} 108, ${cx + 14} 126, ${cx + 6} 146 L ${cx + 22} 123 Z" fill="url(#garmentGrad_${uid})" stroke="${cw.trim}" stroke-width="1.1" />
+          `;
+        } else if (outfitId === "bistro_apron_shirt") {
+          outfitDetails = `
+            <path d="M ${cx - 11} 93 Q ${cx} 110 ${cx + 11} 93 Z" fill="url(#skinGrad_${uid})" />
+            <path d="M ${cx - waistHalf + 1} 112 L ${cx + waistHalf - 1} 112 C ${cx + hipHalf - 1} 145, ${cx + hipHalf} 168, ${cx + hipHalf} 184 L ${cx - hipHalf} 184 C ${cx - hipHalf} 168, ${cx - hipHalf + 1} 145, ${cx - waistHalf + 1} 112 Z" fill="${cw.secondary}" stroke="${cw.trim}" stroke-width="1.3" />
+            <line x1="${cx - 11}" y1="93" x2="${cx - waistHalf + 3}" y2="112" stroke="${cw.trim}" stroke-width="2.6" stroke-linecap="round" />
+            <line x1="${cx + 11}" y1="93" x2="${cx + waistHalf - 3}" y2="112" stroke="${cw.trim}" stroke-width="2.6" stroke-linecap="round" />
+            <rect x="${cx - 9}" y="148" width="18" height="13" rx="2.5" fill="none" stroke="${cw.accent}" stroke-width="1.2" />
+          `;
+        } else if (outfitId === "cropped_tweed_set") {
+          outfitDetails = `
+            <path d="M ${cx - 11} 93 Q ${cx} 104 ${cx + 11} 93" fill="url(#skinGrad_${uid})" stroke="${cw.trim}" stroke-width="1.8" />
+            <path d="M ${cx - waistHalf} 135 L ${cx + waistHalf} 135 C ${cx + hipHalf} 154, ${cx + hipHalf + 1} 170, ${cx + hipHalf + 2} 184 L ${cx - hipHalf - 2} 184 C ${cx - hipHalf - 1} 170, ${cx - hipHalf} 154, ${cx - waistHalf} 135 Z" fill="${cw.secondary}" />
+            <path d="M ${cx - waistHalf} 135 Q ${cx} 137.5 ${cx + waistHalf} 135" fill="none" stroke="${cw.trim}" stroke-width="4" stroke-linecap="round" />
+            <line x1="${cx}" y1="99" x2="${cx}" y2="134" stroke="${cw.trim}" stroke-width="2" />
+            <circle cx="${cx}" cy="109" r="2" fill="${cw.accent}" />
+            <circle cx="${cx}" cy="120" r="2" fill="${cw.accent}" />
+            <circle cx="${cx}" cy="130" r="2" fill="${cw.accent}" />
+          `;
+        } else if (outfitId === "sleeveless_mockneck") {
+          outfitDetails = `
+            <rect x="${cx - 9.5}" y="89" width="19" height="7.5" rx="3" fill="url(#garmentGrad_${uid})" stroke="${cw.trim}" stroke-width="1.1" />
+            <path d="M ${cx - waistHalf} 136 L ${cx + waistHalf} 136 C ${cx + hipHalf} 154, ${cx + hipHalf + 1} 170, ${cx + hipHalf + 2} 184 L ${cx - hipHalf - 2} 184 C ${cx - hipHalf - 1} 170, ${cx - hipHalf} 154, ${cx - waistHalf} 136 Z" fill="${cw.secondary}" />
+            <path d="M ${cx - waistHalf} 136 Q ${cx} 138.5 ${cx + waistHalf} 136" fill="none" stroke="${cw.trim}" stroke-width="4.5" stroke-linecap="round" />
+            <line x1="${cx}" y1="139" x2="${cx}" y2="184" stroke="rgba(0,0,0,0.28)" stroke-width="1.4" />
+          `;
+        } else {
+          outfitDetails = `
+            <path d="M ${cx - 12} 93 L ${cx + 12} 93 L ${cx + 7.5} 142 L ${cx - 7.5} 142 Z" fill="${cw.secondary}" />
+            <polygon points="${cx - 2.2},97 ${cx + 2.2},97 ${cx + 3.2},133 ${cx},138 ${cx - 3.2},133" fill="${cw.trim}" />
+            <circle cx="${cx}" cy="145" r="2" fill="${cw.accent}" />
+            <circle cx="${cx}" cy="155" r="2" fill="${cw.accent}" />
+            <path d="M ${cx - 10} 149 Q ${cx - 5} 155 ${cx} 149" fill="none" stroke="${cw.accent}" stroke-width="1.2" />
+          `;
+        }
+
+        // Front Hair Cap
         let frontHair = "";
         if (hairStyle === "braided_crown" || hairStyle === "curly_pineapple" || hairStyle === "goddess_braids" || hairStyle === "slick_back_bun") {
           frontHair = `
@@ -2467,7 +2570,6 @@
           `;
         }
 
-        // Realistic Editorial Human Eyes (Balanced proportions, subtle catchlight, natural eyelid crease)
         const leftEyeSVG = `
           <g transform="translate(${cx - 9}, ${headY - 2})">
             <path d="M -4.2 0 Q 0 -3.2 4.2 0 Q 0 2.8 -4.2 0 Z" fill="#ffffff" />
@@ -2498,7 +2600,7 @@
           `;
         } else if (acc === "collar_shades") {
           accFront = `
-            <g transform="translate(${cx}, 103)">
+            <g transform="translate(${cx}, 102)">
               <rect x="-11" y="0" width="9.5" height="7.5" rx="2" fill="#18181b" stroke="#eab308" stroke-width="1.3" />
               <rect x="1.5" y="0" width="9.5" height="7.5" rx="2" fill="#18181b" stroke="#eab308" stroke-width="1.3" />
               <line x1="-1.5" y1="2.8" x2="1.5" y2="2.8" stroke="#eab308" stroke-width="1.5" />
@@ -2513,16 +2615,11 @@
               <circle cx="-4" cy="3" r="0.9" fill="#eab308" />
             </g>
           `;
-        } else if (acc === "watch_cuff") {
-          accFront = `
-            <rect x="${cx - shW/2 - 6}" y="148" width="9" height="4.5" rx="1.5" fill="#eab308" stroke="#090d16" stroke-width="0.8" />
-            <circle cx="${cx + shW/2 + 2}" cy="150" r="2.2" fill="#eab308" />
-          `;
         } else if (acc === "hoops_mic") {
           accFront = `
             <circle cx="${cx - rx}" cy="${headY + 9}" r="4.8" fill="none" stroke="#facc15" stroke-width="1.8" />
             <circle cx="${cx + rx}" cy="${headY + 9}" r="4.8" fill="none" stroke="#facc15" stroke-width="1.8" />
-            <rect x="${cx - 2}" y="105" width="4" height="7.5" rx="1.5" fill="#18181b" stroke="#facc15" stroke-width="1" />
+            <rect x="${cx - 2}" y="104" width="4" height="7.5" rx="1.5" fill="#18181b" stroke="#facc15" stroke-width="1" />
           `;
         }
 
@@ -2534,6 +2631,11 @@
                 <stop offset="75%" stop-color="${skin.mid}" />
                 <stop offset="100%" stop-color="${skin.shadow}" />
               </radialGradient>
+              <linearGradient id="garmentGrad_${uid}" x1="15%" y1="0%" x2="85%" y2="100%">
+                <stop offset="0%" stop-color="${cw.primaryHi || cw.primary}" />
+                <stop offset="52%" stop-color="${cw.primary}" />
+                <stop offset="100%" stop-color="${cw.primaryLo || cw.primary}" />
+              </linearGradient>
               <linearGradient id="bladeGrad_${uid}" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#f8fafc" />
                 <stop offset="50%" stop-color="#cbd5e1" />
@@ -2542,57 +2644,52 @@
             </defs>
 
             ${ringLightBack}
-            ${backHair}
 
-            <ellipse cx="${cx - rx + 0.5}" cy="${headY + 2}" rx="3.4" ry="6.2" fill="${skin.mid}" />
-            <ellipse cx="${cx + rx - 0.5}" cy="${headY + 2}" rx="3.4" ry="6.2" fill="${skin.mid}" />
+            <!-- Articulated Left & Right Limbs (Behind Torso Shoulders for Natural Depth) -->
+            ${renderArm("left")}
+            ${renderArm("right")}
 
-            <path d="M ${cx - 8.5} ${headY + ry - 5} L ${cx - 9.5} 99 L ${cx + 9.5} 99 L ${cx + 8.5} ${headY + ry - 5} Z" fill="${skin.shadow}" />
+            <!-- Anatomical Neck & Collarbone Shadow -->
+            <path d="M ${cx - 8.5} ${headY + ry - 5} L ${cx - 9.5} 98 L ${cx + 9.5} 98 L ${cx + 8.5} ${headY + ry - 5} Z" fill="${skin.shadow}" />
             <ellipse cx="${cx}" cy="${headY + ry - 2}" rx="8.5" ry="3.5" fill="rgba(0,0,0,0.22)" />
 
-            <!-- Body-Fitting Tailored Silhouette -->
-            <path d="M ${cx - shW/2} 119
-                     Q ${cx - shW/2 + 2} 95 ${cx - 13} 93
-                     L ${cx + 13} 93
-                     Q ${cx + shW/2 - 2} 95 ${cx + shW/2} 119
-                     L ${cx + waistW/2} 142
-                     L ${cx + hipW/2} 184
-                     L ${cx - hipW/2} 184
-                     L ${cx - waistW/2} 142 Z"
-                  fill="${baseTorsoFill}" />
+            <!-- Form-Fitting Anatomical Torso -->
+            <path d="${torsoPath}" fill="url(#garmentGrad_${uid})" />
 
-            <!-- Tailored Princess / Suit Dart Seams -->
-            <path d="M ${cx - shW/2 + 10} 109 Q ${cx - waistW/2 + 4} 133 ${cx - hipW/2 + 8} 178" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="1.3" />
-            <path d="M ${cx + shW/2 - 10} 109 Q ${cx + waistW/2 - 4} 133 ${cx + hipW/2 - 8} 178" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="1.3" />
-
-            <!-- Fitted Sleeves / Arms -->
-            <path d="M ${cx - shW/2} 109 L ${cx - shW/2 - 8} 150 L ${cx - waistW/2 - 2} 164 L ${cx - waistW/2 + 4} 152 L ${cx - shW/2 + 6} 121 Z" fill="${sleeveFill}" ${sleeveBorder !== "none" ? `stroke="${sleeveBorder}" stroke-width="1.2"` : ""} />
-            <path d="M ${cx + shW/2} 109 L ${cx + shW/2 + 8} 150 L ${cx + waistW/2 + 2} 164 L ${cx + waistW/2 - 4} 152 L ${cx + shW/2 - 6} 121 Z" fill="${sleeveFill}" ${sleeveBorder !== "none" ? `stroke="${sleeveBorder}" stroke-width="1.2"` : ""} />
+            <!-- Soft Fabric Drape & Tailored Princess / Waist Contour Shading -->
+            <path d="M ${cx - chestHalf + 5} 108 C ${cx - waistHalf + 3} 126, ${cx - waistHalf + 2} 142, ${cx - hipHalf + 6} 178" fill="none" stroke="rgba(0,0,0,0.22)" stroke-width="1.3" stroke-linecap="round" />
+            <path d="M ${cx + chestHalf - 5} 108 C ${cx + waistHalf - 3} 126, ${cx + waistHalf - 2} 142, ${cx + hipHalf - 6} 178" fill="none" stroke="rgba(0,0,0,0.22)" stroke-width="1.3" stroke-linecap="round" />
+            <path d="M ${cx - waistHalf + 2} 140 Q ${cx} 143 ${cx + waistHalf - 2} 140" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.2" />
 
             ${outfitDetails}
 
-            <!-- Realistic Sculpted Human Head -->
-            <path d="M ${cx - rx} ${headY - 4}
-                     C ${cx - rx} ${headY - ry - 2}, ${cx + rx} ${headY - ry - 2}, ${cx + rx} ${headY - 4}
-                     C ${cx + rx} ${headY + ry * 0.52}, ${cx + jawW} ${headY + ry * 0.92}, ${cx} ${headY + ry}
-                     C ${cx - jawW} ${headY + ry * 0.92}, ${cx - rx} ${headY + ry * 0.52}, ${cx - rx} ${headY - 4} Z"
-                  fill="url(#skinGrad_${uid})" />
+            <!-- Articulated Head & Hair Group (Tilts naturally with pose!) -->
+            <g transform="rotate(${pose.headTilt}, ${cx}, ${headY + 18})">
+              ${backHair}
 
-            ${leftEyeSVG}
-            ${rightEyeSVG}
+              <ellipse cx="${cx - rx + 0.5}" cy="${headY + 2}" rx="3.4" ry="6.2" fill="${skin.mid}" />
+              <ellipse cx="${cx + rx - 0.5}" cy="${headY + 2}" rx="3.4" ry="6.2" fill="${skin.mid}" />
 
-            <!-- Natural Sculpted Eyebrows -->
-            <path d="M ${cx - 14} ${headY - 7.5} Q ${cx - 9} ${headY - 10.5} ${cx - 4.2} ${headY - 8}" fill="none" stroke="${hairColor.hex}" stroke-width="1.9" stroke-linecap="round" />
-            <path d="M ${cx + 4.2} ${headY - 8} Q ${cx + 9} ${headY - 10.5} ${cx + 14} ${headY - 7.5}" fill="none" stroke="${hairColor.hex}" stroke-width="1.9" stroke-linecap="round" />
-            ${browSlitSVG}
+              <path d="M ${cx - rx} ${headY - 4}
+                       C ${cx - rx} ${headY - ry - 2}, ${cx + rx} ${headY - ry - 2}, ${cx + rx} ${headY - 4}
+                       C ${cx + rx} ${headY + ry * 0.52}, ${cx + jawW} ${headY + ry * 0.92}, ${cx} ${headY + ry}
+                       C ${cx - jawW} ${headY + ry * 0.92}, ${cx - rx} ${headY + ry * 0.52}, ${cx - rx} ${headY - 4} Z"
+                    fill="url(#skinGrad_${uid})" />
 
-            <!-- Nose Bridge & Tip Contour -->
-            <path d="M ${cx} ${headY - 1} L ${cx - 1.2} ${headY + 5} Q ${cx} ${headY + 6.4} ${cx + 1.6} ${headY + 5}" fill="none" stroke="${skin.shadow}" stroke-width="1.3" stroke-linecap="round" />
+              ${leftEyeSVG}
+              ${rightEyeSVG}
 
-            ${mouthSVG}
-            ${facialExtras}
-            ${frontHair}
-            ${accFront}
+              <path d="M ${cx - 14} ${headY - 7.5} Q ${cx - 9} ${headY - 10.5} ${cx - 4.2} ${headY - 8}" fill="none" stroke="${hairColor.hex}" stroke-width="1.9" stroke-linecap="round" />
+              <path d="M ${cx + 4.2} ${headY - 8} Q ${cx + 9} ${headY - 10.5} ${cx + 14} ${headY - 7.5}" fill="none" stroke="${hairColor.hex}" stroke-width="1.9" stroke-linecap="round" />
+              ${browSlitSVG}
+
+              <path d="M ${cx} ${headY - 1} L ${cx - 1.2} ${headY + 5} Q ${cx} ${headY + 6.4} ${cx + 1.6} ${headY + 5}" fill="none" stroke="${skin.shadow}" stroke-width="1.3" stroke-linecap="round" />
+
+              ${mouthSVG}
+              ${facialExtras}
+              ${frontHair}
+              ${accFront}
+            </g>
           </svg>
         `;
       }
@@ -2603,6 +2700,7 @@
             faceShape: "heart",
             bodyShape: "hourglass",
             skinTone: "caramel",
+            pose: "editorial_stance",
             expression: "confident_smile",
             eyeStyle: "espresso_brown",
             browFeature: "arched_glam",
@@ -2617,6 +2715,7 @@
           faceShape: "square",
           bodyShape: "athletic",
           skinTone: "olive",
+          pose: "confident_lean",
           expression: "fierce_smirk",
           eyeStyle: "warm_hazel",
           browFeature: "sharp_slit",
@@ -4140,6 +4239,7 @@
           addSwatches("Natural Eye Color", AVATAR_TEMPLATES.eyeStyle, "eyeStyle", "color");
           addPills("Brows, Beard & Details", AVATAR_TEMPLATES.browFeature, "browFeature");
         } else if (activeSubTab === "body") {
+          addPills("Natural Body Pose", CHARACTER_POSES, "pose");
           addPills("Body Silhouette", AVATAR_TEMPLATES.bodyShape, "bodyShape");
           addSwatches("Skin Tone", AVATAR_TEMPLATES.skinTone, "skinTone", "hex");
         }
@@ -4149,9 +4249,13 @@
 
       function cycleExpression(targetAvatarCfg, onDone) {
         triggerSfx("tap");
-        const list = AVATAR_TEMPLATES.expression;
-        const idx = list.findIndex(e => e.id === targetAvatarCfg.expression);
-        targetAvatarCfg.expression = list[(idx + 1) % list.length].id;
+        const pList = CHARACTER_POSES;
+        const pIdx = pList.findIndex(p => p.id === (targetAvatarCfg.pose || "editorial_stance"));
+        targetAvatarCfg.pose = pList[(pIdx + 1) % pList.length].id;
+
+        const eList = AVATAR_TEMPLATES.expression;
+        const eIdx = eList.findIndex(e => e.id === targetAvatarCfg.expression);
+        targetAvatarCfg.expression = eList[(eIdx + 1) % eList.length].id;
         onDone();
       }
 
@@ -4353,6 +4457,7 @@
             faceShape: pick(AVATAR_TEMPLATES.faceShape),
             bodyShape: pick(AVATAR_TEMPLATES.bodyShape),
             skinTone: pick(AVATAR_TEMPLATES.skinTone),
+            pose: pick(CHARACTER_POSES),
             expression: pick(AVATAR_TEMPLATES.expression),
             eyeStyle: pick(AVATAR_TEMPLATES.eyeStyle),
             browFeature: pick(AVATAR_TEMPLATES.browFeature),
