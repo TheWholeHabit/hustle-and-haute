@@ -1480,18 +1480,27 @@
     }
 
   
-    /* Hustle & Haute v24 — Video-Style Character Design, Esthetic & Photo Frame Upgrade */
+    /* Hustle & Haute v25 — Centered Full-Character Video Aesthetic & Frame Alignment */
     .portrait-preview-frame, .mag-portrait, .cine-avatar-box {
       position: relative;
       border-radius: 18px !important;
       border: 2.5px solid #fbbf24 !important;
       background:
-        radial-gradient(circle at 50% 18%, rgba(251, 191, 36, 0.26), rgba(6, 182, 212, 0.14) 52%, #070b14 95%) !important;
+        radial-gradient(circle at 50% 22%, rgba(251, 191, 36, 0.25), rgba(6, 182, 212, 0.15) 55%, #070b14 96%) !important;
       box-shadow:
         0 0 0 2px rgba(6, 182, 212, 0.35),
-        0 0 28px rgba(245, 158, 11, 0.38),
-        inset 0 0 22px rgba(255, 255, 255, 0.12) !important;
+        0 0 26px rgba(245, 158, 11, 0.34),
+        inset 0 0 20px rgba(255, 255, 255, 0.12) !important;
       overflow: hidden;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 6px !important;
+    }
+
+    .portrait-preview-frame {
+      width: 158px !important;
+      height: 196px !important;
     }
 
     .portrait-preview-frame::before,
@@ -1501,7 +1510,7 @@
       position: absolute;
       inset: 0;
       pointer-events: none;
-      background: linear-gradient(125deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.04) 38%, transparent 62%);
+      background: linear-gradient(125deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.03) 38%, transparent 62%);
       z-index: 3;
     }
 
@@ -1521,7 +1530,13 @@
 
     .portrait-preview-frame svg,
     .mag-portrait svg,
-    .cine-avatar-box svg {
+    .cine-avatar-box svg,
+    .polaroid-photo-frame svg {
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      object-fit: contain !important;
       position: relative;
       z-index: 2;
       filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.65));
@@ -1736,8 +1751,8 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v24";
-      const BACKUP_KEY = "hh_empire_undo_backup_v24";
+      const STORAGE_KEY = "hh_empire_save_v25";
+      const BACKUP_KEY = "hh_empire_undo_backup_v25";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
       // Synthesized Web Audio Engine: SFX + Soft Low-Volume Regional & Scene Background Music + Haptics
@@ -3312,7 +3327,7 @@
         const acc = avatarCfg.accessory;
 
         const uid = Math.random().toString(36).slice(2, 7);
-        const cx = 80 + pose.torsoShiftX;
+        const cx = 80 + (pose.torsoShiftX || 0) * 0.45;
         const headY = 58;
         const rx = face.rx;
         const ry = face.ry;
@@ -3710,7 +3725,7 @@
         }
 
         return `
-          <svg viewBox="0 0 160 184" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="-6 -14 172 204" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <radialGradient id="skinGrad_${uid}" cx="42%" cy="30%" r="68%">
                 <stop offset="0%" stop-color="${skin.hex}" />
