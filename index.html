@@ -1542,6 +1542,24 @@
       filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.65));
     }
 
+  
+    @keyframes naturalHairFlow {
+      0%, 100% { transform: rotate(0deg) translateX(0px); }
+      50% { transform: rotate(1.4deg) translateX(1.2px); }
+    }
+    @keyframes naturalClothFlow {
+      0%, 100% { transform: rotate(0deg) scaleX(1); }
+      50% { transform: rotate(-0.8deg) scaleX(1.012); }
+    }
+    .hair-flow-group {
+      transform-origin: 80px 44px;
+      animation: naturalHairFlow 3.4s ease-in-out infinite;
+    }
+    .cloth-flow-group {
+      transform-origin: 80px 94px;
+      animation: naturalClothFlow 3.8s ease-in-out infinite;
+    }
+
   </style>
 </head>
 <body>
@@ -1751,8 +1769,8 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v25";
-      const BACKUP_KEY = "hh_empire_undo_backup_v25";
+      const STORAGE_KEY = "hh_empire_save_v26";
+      const BACKUP_KEY = "hh_empire_undo_backup_v26";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
       // Synthesized Web Audio Engine: SFX + Soft Low-Volume Regional & Scene Background Music + Haptics
@@ -3351,44 +3369,73 @@
              <circle cx="${cx + 28}" cy="${headY + 6}" r="42" fill="none" stroke="#38bdf8" stroke-width="9" opacity="0.22" />`
           : "";
 
-        // Layered Back Hair
-        let backHair = "";
+        // Full Scalp Crown Base (Prevents ANY bald spot or gap on top of the head across all styles)
+        const scalpCapSVG = `
+          <path d="
+            M ${cx - rx - 2} ${headY + 2}
+            C ${cx - rx - 3} ${headY - ry - 9}, ${cx + rx + 3} ${headY - ry - 9}, ${cx + rx + 2} ${headY + 2}
+            C ${cx + rx} ${headY - ry + 6}, ${cx - rx} ${headY - ry + 6}, ${cx - rx - 2} ${headY + 2} Z"
+            fill="${hairColor.hex}" />
+        `;
+
+        // Layered Back & Shoulder-Drape Hair (Flows naturally over shoulders & torso)
+        let backHair = scalpCapSVG;
         if (hairStyle === "silk_press_layers") {
-          backHair = `
-            <path d="M ${cx - rx - 3} ${headY - 6} C ${cx - rx - 11} 96, ${cx - rx - 6} 130, ${cx - rx + 1} 156 L ${cx + rx - 1} 156 C ${cx + rx + 6} 130, ${cx + rx + 11} 96, ${cx + rx + 3} ${headY - 6} Z" fill="${hairColor.hex}" />
-            <path d="M ${cx - rx - 1} ${headY + 10} Q ${cx - rx - 5} 82 ${cx - 4} 148" fill="none" stroke="${hairColor.hi}" stroke-width="2.2" opacity="0.4" />
-            <path d="M ${cx + rx + 1} ${headY + 10} Q ${cx + rx + 5} 82 ${cx + 4} 148" fill="none" stroke="${hairColor.hi}" stroke-width="2.2" opacity="0.4" />
+          backHair += `
+            <g class="hair-flow-group">
+              <path d="
+                M ${cx - rx - 2} ${headY - 8}
+                C ${cx - rx - 2} ${headY - ry - 9}, ${cx + rx + 2} ${headY - ry - 9}, ${cx + rx + 2} ${headY - 8}
+                C ${cx + rx + 9} 96, ${cx + shHalf * 0.85} 122, ${cx + waistHalf + 6} 158
+                C ${cx + waistHalf} 162, ${cx - waistHalf} 162, ${cx - waistHalf - 6} 158
+                C ${cx - shHalf * 0.85} 122, ${cx - rx - 9} 96, ${cx - rx - 2} ${headY - 8} Z"
+                fill="url(#hairGrad_${uid})" />
+              <path d="M ${cx - rx} ${headY + 4} C ${cx - shHalf * 0.78} 102, ${cx - waistHalf - 2} 130, ${cx - waistHalf - 2} 154" fill="none" stroke="${hairColor.hi}" stroke-width="2" stroke-linecap="round" opacity="0.45" />
+              <path d="M ${cx + rx} ${headY + 4} C ${cx + shHalf * 0.78} 102, ${cx + waistHalf + 2} 130, ${cx + waistHalf + 2} 154" fill="none" stroke="${hairColor.hi}" stroke-width="2" stroke-linecap="round" opacity="0.45" />
+            </g>
           `;
         } else if (hairStyle === "hollywood_glam") {
-          backHair = `
-            <path d="M ${cx - rx - 5} ${headY - 6} C ${cx - rx - 18} 95, ${cx - rx - 4} 125, ${cx - rx - 10} 156 L ${cx + rx + 10} 156 C ${cx + rx + 4} 125, ${cx + rx + 18} 95, ${cx + rx + 5} ${headY - 6} Z" fill="${hairColor.hex}" />
-            <path d="M ${cx - rx - 4} ${headY + 18} Q ${cx - rx - 11} 88 ${cx - rx - 2} 118 T ${cx - rx - 4} 150" fill="none" stroke="${hairColor.hi}" stroke-width="2.6" opacity="0.48" />
-            <path d="M ${cx + rx + 4} ${headY + 18} Q ${cx + rx + 11} 88 ${cx + rx + 2} 118 T ${cx + rx + 4} 150" fill="none" stroke="${hairColor.hi}" stroke-width="2.6" opacity="0.48" />
+          backHair += `
+            <g class="hair-flow-group">
+              <path d="
+                M ${cx - rx - 2} ${headY - 8}
+                C ${cx - rx - 2} ${headY - ry - 10}, ${cx + rx + 2} ${headY - ry - 10}, ${cx + rx + 2} ${headY - 8}
+                C ${cx + rx + 13} 94, ${cx + shHalf * 0.92} 120, ${cx + waistHalf + 9} 158
+                C ${cx + 6} 163, ${cx - 6} 163, ${cx - waistHalf - 9} 158
+                C ${cx - shHalf * 0.92} 120, ${cx - rx - 13} 94, ${cx - rx - 2} ${headY - 8} Z"
+                fill="url(#hairGrad_${uid})" />
+              <path d="M ${cx - rx - 3} ${headY + 12} C ${cx - shHalf - 4} 96, ${cx - waistHalf - 6} 124, ${cx - waistHalf - 4} 152" fill="none" stroke="${hairColor.hi}" stroke-width="2.4" stroke-linecap="round" opacity="0.52" />
+              <path d="M ${cx + rx + 3} ${headY + 12} C ${cx + shHalf + 4} 96, ${cx + waistHalf + 6} 124, ${cx + waistHalf + 4} 152" fill="none" stroke="${hairColor.hi}" stroke-width="2.4" stroke-linecap="round" opacity="0.52" />
+            </g>
           `;
         } else if (hairStyle === "curly_pineapple") {
-          backHair = `
-            <circle cx="${cx}" cy="${headY - ry - 10}" r="19" fill="${hairColor.hex}" />
-            <circle cx="${cx - 13}" cy="${headY - ry - 4}" r="12" fill="${hairColor.hex}" />
-            <circle cx="${cx + 13}" cy="${headY - ry - 4}" r="12" fill="${hairColor.hex}" />
+          backHair += `
+            <g class="hair-flow-group">
+              <circle cx="${cx}" cy="${headY - ry - 10}" r="18" fill="url(#hairGrad_${uid})" />
+              <circle cx="${cx - 12}" cy="${headY - ry - 4}" r="12" fill="${hairColor.hex}" />
+              <circle cx="${cx + 12}" cy="${headY - ry - 4}" r="12" fill="${hairColor.hex}" />
+            </g>
           `;
         } else if (hairStyle === "goddess_braids") {
-          backHair = `
-            <rect x="${cx - rx - 5}" y="${headY - 2}" width="5.5" height="90" rx="2.7" fill="${hairColor.hex}" />
-            <rect x="${cx - rx}" y="${headY + 2}" width="5" height="92" rx="2.5" fill="${hairColor.hex}" />
-            <rect x="${cx + rx - 5}" y="${headY + 2}" width="5" height="92" rx="2.5" fill="${hairColor.hex}" />
-            <rect x="${cx + rx}" y="${headY - 2}" width="5.5" height="90" rx="2.7" fill="${hairColor.hex}" />
-            <rect x="${cx - rx - 5}" y="${headY + 42}" width="5.5" height="3" fill="#eab308" />
-            <rect x="${cx + rx}" y="${headY + 42}" width="5.5" height="3" fill="#eab308" />
+          backHair += `
+            <g class="hair-flow-group">
+              <path d="M ${cx - rx - 3} ${headY - 4} C ${cx - shHalf * 0.85} 104, ${cx - waistHalf - 4} 132, ${cx - waistHalf - 5} 160" fill="none" stroke="${hairColor.hex}" stroke-width="5.2" stroke-linecap="round" />
+              <path d="M ${cx - rx + 1} ${headY} C ${cx - shHalf * 0.72} 108, ${cx - waistHalf} 136, ${cx - waistHalf - 1} 164" fill="none" stroke="${hairColor.hex}" stroke-width="4.8" stroke-linecap="round" />
+              <path d="M ${cx + rx + 3} ${headY - 4} C ${cx + shHalf * 0.85} 104, ${cx + waistHalf + 4} 132, ${cx + waistHalf + 5} 160" fill="none" stroke="${hairColor.hex}" stroke-width="5.2" stroke-linecap="round" />
+              <path d="M ${cx + rx - 1} ${headY} C ${cx + shHalf * 0.72} 108, ${cx + waistHalf} 136, ${cx + waistHalf + 1} 164" fill="none" stroke="${hairColor.hex}" stroke-width="4.8" stroke-linecap="round" />
+            </g>
           `;
         } else if (hairStyle === "braided_crown" || hairStyle === "slick_back_bun") {
           const isBraided = hairStyle === "braided_crown";
-          backHair = `
-            <ellipse cx="${cx}" cy="${headY - ry - 9}" rx="15" ry="13" fill="${hairColor.hex}" />
-            <path d="M ${cx - 12} ${headY - ry - 11} Q ${cx} ${headY - ry - 19} ${cx + 12} ${headY - ry - 11}" fill="none" stroke="${hairColor.hi}" stroke-width="${isBraided ? "2.8" : "1.6"}" stroke-linecap="round" />
-            ${isBraided ? `
-              <path d="M ${cx - rx + 2} ${headY - 8} Q ${cx - rx - 4} ${headY + 26} ${cx - rx + 3} ${headY + 60}" fill="none" stroke="${hairColor.hex}" stroke-width="3.8" stroke-linecap="round" />
-              <path d="M ${cx - rx + 2} ${headY - 8} Q ${cx - rx - 4} ${headY + 26} ${cx - rx + 3} ${headY + 60}" fill="none" stroke="${hairColor.hi}" stroke-width="1.3" stroke-dasharray="3 3" />
-            ` : ""}
+          backHair += `
+            <g class="hair-flow-group">
+              <ellipse cx="${cx}" cy="${headY - ry - 8}" rx="15" ry="12" fill="url(#hairGrad_${uid})" />
+              <path d="M ${cx - 12} ${headY - ry - 10} Q ${cx} ${headY - ry - 18} ${cx + 12} ${headY - ry - 10}" fill="none" stroke="${hairColor.hi}" stroke-width="${isBraided ? "2.6" : "1.5"}" stroke-linecap="round" />
+              ${isBraided ? `
+                <path d="M ${cx - rx + 1} ${headY - 6} C ${cx - shHalf * 0.78} 102, ${cx - waistHalf - 2} 126, ${cx - waistHalf} 148" fill="none" stroke="${hairColor.hex}" stroke-width="4.2" stroke-linecap="round" />
+                <path d="M ${cx - rx + 1} ${headY - 6} C ${cx - shHalf * 0.78} 102, ${cx - waistHalf - 2} 126, ${cx - waistHalf} 148" fill="none" stroke="${hairColor.hi}" stroke-width="1.3" stroke-dasharray="3 3" />
+              ` : ""}
+            </g>
           `;
         }
 
@@ -3747,6 +3794,11 @@
                 <stop offset="65%" stop-color="${cw.primaryHi || cw.primary}" stop-opacity="0.08" />
                 <stop offset="100%" stop-color="#0b0f19" stop-opacity="0" />
               </radialGradient>
+              <linearGradient id="hairGrad_${uid}" x1="20%" y1="0%" x2="80%" y2="100%">
+                <stop offset="0%" stop-color="${hairColor.hi || hairColor.hex}" />
+                <stop offset="45%" stop-color="${hairColor.hex}" />
+                <stop offset="100%" stop-color="#07090e" />
+              </linearGradient>
             </defs>
             <circle cx="80" cy="84" r="68" fill="url(#auraGlow_${uid})" />
 
@@ -3760,15 +3812,17 @@
             <path d="M ${cx - 8} ${headY + ry - 5} C ${cx - 8.5} 86, ${cx - 10} 92, ${cx - 13} 96 L ${cx + 13} 96 C ${cx + 10} 92, ${cx + 8.5} 86, ${cx + 8} ${headY + ry - 5} Z" fill="url(#skinGrad_${uid})" />
             <ellipse cx="${cx}" cy="${headY + ry - 2}" rx="8.2" ry="3.2" fill="rgba(0,0,0,0.22)" />
 
-            <!-- Form-Fitting Anatomical Torso -->
-            <path d="${torsoPath}" fill="url(#garmentGrad_${uid})" />
+            <g class="cloth-flow-group">
+              <!-- Form-Fitting Anatomical Torso -->
+              <path d="${torsoPath}" fill="url(#garmentGrad_${uid})" />
 
-            <!-- Soft Fabric Drape & Tailored Princess / Waist Contour Shading -->
-            <path d="M ${cx - chestHalf + 5} 108 C ${cx - waistHalf + 3} 126, ${cx - waistHalf + 2} 142, ${cx - hipHalf + 6} 178" fill="none" stroke="rgba(0,0,0,0.22)" stroke-width="1.3" stroke-linecap="round" />
-            <path d="M ${cx + chestHalf - 5} 108 C ${cx + waistHalf - 3} 126, ${cx + waistHalf - 2} 142, ${cx + hipHalf - 6} 178" fill="none" stroke="rgba(0,0,0,0.22)" stroke-width="1.3" stroke-linecap="round" />
-            <path d="M ${cx - waistHalf + 2} 140 Q ${cx} 143 ${cx + waistHalf - 2} 140" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.2" />
+              <!-- Soft Fabric Drape & Tailored Princess / Waist Contour Shading -->
+              <path d="M ${cx - chestHalf + 5} 108 C ${cx - waistHalf + 3} 126, ${cx - waistHalf + 2} 142, ${cx - hipHalf + 6} 178" fill="none" stroke="rgba(0,0,0,0.22)" stroke-width="1.3" stroke-linecap="round" />
+              <path d="M ${cx + chestHalf - 5} 108 C ${cx + waistHalf - 3} 126, ${cx + waistHalf - 2} 142, ${cx + hipHalf - 6} 178" fill="none" stroke="rgba(0,0,0,0.22)" stroke-width="1.3" stroke-linecap="round" />
+              <path d="M ${cx - waistHalf + 2} 140 Q ${cx} 143 ${cx + waistHalf - 2} 140" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.2" />
 
-            ${outfitDetails}
+              ${outfitDetails}
+            </g>
 
             <!-- Articulated Head & Hair Group (Tilts naturally with pose!) -->
             <g transform="rotate(${pose.headTilt}, ${cx}, ${headY + 18})">
