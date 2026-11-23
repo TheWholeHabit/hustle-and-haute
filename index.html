@@ -1249,6 +1249,108 @@
       margin-bottom: 6px;
     }
 
+  
+    /* Scrapbook Memories Book, Polaroid Character Snapshots & Interactive Travel/Empire Scenarios */
+    .scenario-hub-card {
+      background: linear-gradient(135deg, var(--bg-primary), var(--accent-soft));
+      border: 1.5px solid var(--accent);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+    .memory-scrapbook-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .polaroid-memory-card {
+      background: #fdfbf7;
+      color: #1e293b;
+      border-radius: 12px;
+      padding: 10px 10px 14px;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+      border: 1px solid #e2e8f0;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      position: relative;
+      transform: rotate(-0.4deg);
+    }
+    .polaroid-memory-card:nth-child(even) {
+      transform: rotate(0.4deg);
+    }
+    .polaroid-photo-frame {
+      width: 104px;
+      height: 122px;
+      flex-shrink: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid #cbd5e1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .polaroid-photo-frame svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .polaroid-sticker {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: rgba(15, 23, 42, 0.85);
+      color: #facc15;
+      font-size: 0.72rem;
+      padding: 2px 5px;
+      border-radius: 6px;
+      font-weight: 800;
+    }
+    .polaroid-caption-area {
+      flex: 1;
+      min-width: 0;
+    }
+    .polaroid-date-stamp {
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #64748b;
+      margin-bottom: 2px;
+    }
+    .polaroid-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 0.88rem;
+      font-weight: 900;
+      color: #0f172a;
+      margin-bottom: 4px;
+      line-height: 1.25;
+    }
+    .polaroid-text {
+      font-size: 0.75rem;
+      color: #334155;
+      line-height: 1.38;
+      margin-bottom: 6px;
+    }
+    .polaroid-tag-pill {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #0f172a;
+      color: #f59e0b;
+    }
+    .bailout-banner {
+      background: rgba(239, 68, 68, 0.14);
+      border: 1.5px solid var(--danger);
+      border-radius: 12px;
+      padding: 11px;
+      margin-bottom: 10px;
+    }
+
   </style>
 </head>
 <body>
@@ -1263,7 +1365,8 @@
           </div>
         </div>
         <div class="top-actions">
-          <button class="help-btn" id="quick-style-btn" title="Wardrobe & Story">👗 Style</button>
+          <button class="help-btn" id="quick-memories-btn" title="Memories Book">📸</button>
+          <button class="help-btn" id="quick-style-btn" title="Wardrobe & Audio">👗</button>
           <button class="help-btn" id="sound-toggle-btn" title="Toggle Sound & Haptics">🔊</button>
           <button class="help-btn" id="open-help-btn">?</button>
         </div>
@@ -1457,8 +1560,8 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v19";
-      const BACKUP_KEY = "hh_empire_undo_backup_v19";
+      const STORAGE_KEY = "hh_empire_save_v20";
+      const BACKUP_KEY = "hh_empire_undo_backup_v20";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
       // Synthesized Web Audio Engine: SFX + Soft Low-Volume Regional & Scene Background Music + Haptics
@@ -1975,6 +2078,212 @@
       // Active 1-Minute Market Clearance State (Runtime interval + saved timestamps)
       let clearanceTickerInterval = null;
       let newsRibbonInterval = null;
+
+      
+      // Interactive Real-World Scenarios for Travel & Empire Menus (Positive vs Negative/Risky Telltale Choices)
+      const MENU_SCENARIOS = {
+        travel: {
+          chef: [
+            {
+              id: "tr_chef_customs",
+              title: "🛂 Customs Inspection at Regional Border",
+              desc: "While transporting delicate ingredients between hubs, a customs officer flags your temperature-controlled crates for an extra agricultural paperwork check.",
+              positive: {
+                label: "✅ Present certified cold-chain logs & pay $250 inspection fee (+9 Rep, Smooth Transit)",
+                tag: "Compliant Pro",
+                cashDelta: -250,
+                debtDelta: 0,
+                repDelta: 9,
+                outcome: "{NAME}'s spotless cold-chain logs impressed inspectors—winning fast-track customs clearance and industry praise!"
+              },
+              negative: {
+                label: "⚠️ Slip cash under the table to skip inspection (-$1,400 Fine, +$1,800 Legal Debt, -15 Rep)",
+                tag: "Customs Scandal",
+                cashDelta: -1400,
+                debtDelta: 1800,
+                repDelta: -15,
+                outcome: "The officer reported the attempted bribe! {NAME} paid a $1,400 fine, took on $1,800 in legal fees, and suffered local press backlash—but pushed forward determined to rebuild."
+              }
+            },
+            {
+              id: "tr_chef_popup",
+              title: "🚚 Spontaneous Midnight Street-Food Collab",
+              desc: "En route to your next culinary district, a beloved local food truck breaks down outside a sold-out concert venue and asks {NAME} to co-host a pop-up window.",
+              positive: {
+                label: "✅ Split prep & co-host a charity-backed late-night menu (+$2,400 Cash, +12 Rep)",
+                tag: "Community Chef",
+                cashDelta: 2400,
+                debtDelta: 0,
+                repDelta: 12,
+                outcome: "{NAME} turned a broken-down truck into a viral midnight feast, earning $2,400 and glowing food-blog coverage!"
+              },
+              negative: {
+                label: "⚠️ Jack up prices 400% & take over their spot (+$3,600 Cash, -16 Rep)",
+                tag: "Price Gouger",
+                cashDelta: 3600,
+                debtDelta: 0,
+                repDelta: -16,
+                outcome: "Concertgoers paid $3,600 out of hunger, but angry posts calling {NAME} a 'price-gouging shark' tanked public reputation!"
+              }
+            },
+            {
+              id: "tr_chef_supplier",
+              title: "🌾 Boutique Farm Exclusive Harvest Offer",
+              desc: "A family-owned heirloom farm offers {NAME} first pick of their seasonal harvest before big restaurant groups arrive.",
+              positive: {
+                label: "✅ Sign a fair-trade seasonal contract (+$1,600 Value, +10 Rep)",
+                tag: "Ethical Partner",
+                cashDelta: 1600,
+                debtDelta: 0,
+                repDelta: 10,
+                outcome: "Farm-to-table press celebrated {NAME}'s fair-trade partnership, boosting both cash flow and chef prestige!"
+              },
+              negative: {
+                label: "⚠️ Promise payment in 30 days then ghost the invoice (+$2,500 Cash, +$3,200 Debt, -18 Rep)",
+                tag: "Broken Promise",
+                cashDelta: 2500,
+                debtDelta: 3200,
+                repDelta: -18,
+                outcome: "Suppliers blacklisted {NAME} across the county, adding $3,200 in collection debt and damaging your culinary name."
+              }
+            }
+          ],
+          social: [
+            {
+              id: "tr_soc_airport",
+              title: "🛫 First-Class Lounge Creator Ambush",
+              desc: "During a flight connection between media hubs, a controversial drama channel shoves a camera in {NAME}'s face demanding a hot take on a rival creator.",
+              positive: {
+                label: "✅ Pivot gracefully to promote your upcoming creator workshop (+$2,200 Cash, +11 Rep)",
+                tag: "Poised Icon",
+                cashDelta: 2200,
+                debtDelta: 0,
+                repDelta: 11,
+                outcome: "{NAME} handled the ambush with executive grace—turning the clip into $2,200 in workshop signups!"
+              },
+              negative: {
+                label: "⚠️ Snap on camera & start a viral feud (-$1,200 Sponsor Pullout, -15 Rep)",
+                tag: "PR Meltdown",
+                cashDelta: -1200,
+                debtDelta: 0,
+                repDelta: -15,
+                outcome: "Two family-friendly sponsors paused campaigns (-$1,200), though drama channels kept {NAME}'s name trending."
+              }
+            },
+            {
+              id: "tr_soc_collab",
+              title: "📸 Cross-City Rooftop Collab Shoot",
+              desc: "Arriving in a new hub, a rising photographer offers to shoot an editorial lookbook with {NAME} if you credit their studio.",
+              positive: {
+                label: "✅ Co-brand the shoot & tag every crew member (+$2,600 Cash, +12 Rep)",
+                tag: "Team Builder",
+                cashDelta: 2600,
+                debtDelta: 0,
+                repDelta: 12,
+                outcome: "The creative community amplified the shoot—netting $2,600 in brand inquiries and huge industry respect!"
+              },
+              negative: {
+                label: "⚠️ Crop out the photographer's watermark & claim solo credit (+$1,500 Cash, +$2,200 Debt, -17 Rep)",
+                tag: "Credit Thief",
+                cashDelta: 1500,
+                debtDelta: 2200,
+                repDelta: -17,
+                outcome: "The studio billed a $2,200 licensing penalty and exposed {NAME} online—a costly lesson in creator ethics."
+              }
+            }
+          ]
+        },
+        empire: {
+          chef: [
+            {
+              id: "emp_chef_staff",
+              title: "👨‍🍳 Kitchen Brigade Profit-Sharing Vote",
+              desc: "Your prep cooks and sous-chefs have worked double shifts during peak demand. They ask for a structured bonus pool.",
+              positive: {
+                label: "✅ Launch a 10% service-charge profit share (-$1,100 Cash, +14 Rep, +25 XP)",
+                tag: "Beloved Mentor",
+                cashDelta: -1100,
+                debtDelta: 0,
+                repDelta: 14,
+                outcome: "Turnover dropped to zero! Food critics praised {NAME}'s loyal kitchen culture across the city."
+              },
+              negative: {
+                label: "⚠️ Cut overtime pay & replace veterans with unpaid interns (+$2,800 Cash, -19 Rep)",
+                tag: "Cutthroat Boss",
+                cashDelta: 2800,
+                debtDelta: 0,
+                repDelta: -19,
+                outcome: "Short-term payroll savings added $2,800 cash, but an exposé on unpaid kitchen labor battered {NAME}'s reputation."
+              }
+            },
+            {
+              id: "emp_chef_investor",
+              title: "🏦 Private Equity Franchise Term Sheet",
+              desc: "An aggressive hospitality fund offers {NAME} immediate expansion capital—if you swap fresh local ingredients for frozen factory pre-packs.",
+              positive: {
+                label: "✅ Reject the shortcut & protect artisan quality (+$1,800 Loyal Diner Surge, +12 Rep)",
+                tag: "Quality Purist",
+                cashDelta: 1800,
+                debtDelta: 0,
+                repDelta: 12,
+                outcome: "Diners noticed the difference immediately—regulars packed every table for $1,800 in organic growth!"
+              },
+              negative: {
+                label: "⚠️ Take the $9,000 franchise advance & cut ingredient quality (+$9,000 Cash, +$11,000 Debt, -20 Rep)",
+                tag: "Sellout Gamble",
+                cashDelta: 9000,
+                debtDelta: 11000,
+                repDelta: -20,
+                outcome: "The $9,000 cash injection came with $11,000 in strict franchise debt and a wave of 2-star reviews!"
+              }
+            }
+          ],
+          social: [
+            {
+              id: "emp_soc_crypto",
+              title: "💎 Dubious '10x Coin' Sponsor Offer",
+              desc: "An unvetted token promoter wires a massive offer asking {NAME} to tell followers to invest their savings before tonight's launch.",
+              positive: {
+                label: "✅ Decline the sketchy promo & publish a scam-awareness reel (+$1,900 Trusted Brand Bonus, +15 Rep)",
+                tag: "Audience Protector",
+                cashDelta: 1900,
+                debtDelta: 0,
+                repDelta: 15,
+                outcome: "Blue-chip sponsors rewarded {NAME}'s integrity with a $1,900 brand-safety bonus!"
+              },
+              negative: {
+                label: "⚠️ Shill the token—crashes 99% overnight (+$7,500 Cash, +$9,500 Legal Debt, -22 Rep)",
+                tag: "Rug-Pull Scandal",
+                cashDelta: 7500,
+                debtDelta: 9500,
+                repDelta: -22,
+                outcome: "Followers lost money, regulators issued a $9,500 restitution lien, and {NAME}'s reputation plummeted!"
+              }
+            },
+            {
+              id: "emp_soc_editors",
+              title: "✂️ Editing Team Burnout Crossroads",
+              desc: "Your video editors have pulled three all-nighters in a row to hit daily upload targets.",
+              positive: {
+                label: "✅ Hire a second editor & give the team a paid recharge day (-$950 Cash, +13 Rep, +25 XP)",
+                tag: "Empathetic CEO",
+                cashDelta: -950,
+                debtDelta: 0,
+                repDelta: 13,
+                outcome: "Refreshed editors produced your highest-retention video of the quarter and praised {NAME} publicly!"
+              },
+              negative: {
+                label: "⚠️ Demand double output with zero overtime (+$2,400 Cash, -16 Rep)",
+                tag: "Burnout Factory",
+                cashDelta: 2400,
+                debtDelta: 0,
+                repDelta: -16,
+                outcome: "You squeezed $2,400 in extra ad revenue out of the week, but a viral thread exposed your studio crunch culture."
+              }
+            }
+          ]
+        }
+      };
 
       const SEASON_PACES = {
         sprint: { id: "sprint", label: "14-Day Blitz", maxDays: 14, daysPerHop: 1, debtMult: 1.035, spikeChance: 0.25, feeMult: 1.35, sub: "14 days • High-stakes sprint" },
@@ -3221,6 +3530,8 @@
             riskWinsCount: 0,
             riskLossesCount: 0,
             finaleShown: false,
+            memoriesBook: [],
+            seenScenarios: [],
             expHistory: [],
             latestMagHeadline: '',
             inventory: {},
@@ -3278,6 +3589,8 @@
             riskWinsCount: 0,
             riskLossesCount: 0,
             finaleShown: false,
+            memoriesBook: [],
+            seenScenarios: [],
             expHistory: [],
             latestMagHeadline: '',
           inventory: {},
@@ -3382,6 +3695,135 @@
       function formatStoryText(tpl, name) { return tpl.replace(/\{NAME\}/g, sanitizeName(name)); }
 
       
+      
+      // Cute Character Polaroid Snapshot Generator (Customized to user's avatar + choice mood + scene backdrop)
+      function renderMemorySnapshotSVG(memEntry) {
+        const snapAvatar = Object.assign({}, state.avatarCfg);
+        if (memEntry.mood === "win") {
+          snapAvatar.pose = memEntry.poseOverride || "spotlight_wave";
+          snapAvatar.expression = "joyful_beam";
+        } else if (memEntry.mood === "risk_win") {
+          snapAvatar.pose = "pro_salute";
+          snapAvatar.expression = "playful_wink";
+        } else {
+          snapAvatar.pose = "hand_on_hip";
+          snapAvatar.expression = "boss_focus";
+        }
+        const charSvg = renderAvatarSVG(snapAvatar, state.gender);
+
+        const bgThemes = {
+          travel: { top: "#0284c7", bot: "#1e1b4b", props: "✈️ 🌆 ✨", sticker: "📸 ON TOUR" },
+          empire: { top: "#b45309", bot: "#111827", props: "🏢 💎 📈", sticker: "💼 BOARDROOM" },
+          story:  { top: "#be185d", bot: "#1e1b4b", props: "🎬 🌟 🥂", sticker: "🎭 CHAPTER" },
+          rnd:    { top: "#047857", bot: "#0f172a", props: "🧪 🔥 ⭐", sticker: "🏆 BREAKTHROUGH" },
+          setback:{ top: "#7f1d1d", bot: "#090d16", props: "⚡ 📉 🛠️", sticker: "💪 COMEBACK" }
+        };
+        const theme = bgThemes[memEntry.sceneType] || bgThemes.story;
+
+        return `
+          <div class="polaroid-photo-frame" style="background:linear-gradient(180deg, ${theme.top} 0%, ${theme.bot} 100%);">
+            <div style="position:absolute;top:5px;left:6px;font-size:0.72rem;letter-spacing:2px;opacity:0.9;pointer-events:none;">${theme.props}</div>
+            ${charSvg}
+            <span class="polaroid-sticker">${theme.sticker}</span>
+          </div>
+        `;
+      }
+
+      // Helper to record a rich Memory Book entry with a cute character snapshot
+      function recordMemoryEntry(entry) {
+        if (!state.memoriesBook) state.memoriesBook = [];
+        state.memoriesBook.unshift({
+          id: "mem_" + Date.now() + "_" + Math.floor(Math.random() * 999),
+          day: state.day,
+          hubName: (getCfg().hubs.find(h => h.id === state.hub) || getCfg().hubs[0]).name,
+          title: entry.title,
+          choiceTag: entry.choiceTag,
+          outcome: entry.outcome,
+          cashDelta: entry.cashDelta || 0,
+          repDelta: entry.repDelta || 0,
+          mood: entry.mood || "win",
+          sceneType: entry.sceneType || "story"
+        });
+      }
+
+      
+      function resolveMenuScenario(menuType, scenarioId, isPositive) {
+        const list = (MENU_SCENARIOS[menuType] && MENU_SCENARIOS[menuType][state.path]) || [];
+        const sc = list.find(x => x.id === scenarioId);
+        if (!sc) return;
+
+        const choice = isPositive ? sc.positive : sc.negative;
+        const diff = getDiff();
+        const cashChange = choice.cashDelta >= 0
+          ? Math.round(choice.cashDelta * diff.mult)
+          : Math.round(choice.cashDelta / diff.mult);
+        const debtAdded = choice.debtDelta ? Math.round(choice.debtDelta / diff.mult) : 0;
+
+        state.cash = Math.max(0, state.cash + cashChange);
+        if (debtAdded > 0) state.debt += debtAdded;
+
+        if (isPositive) {
+          state.goodChoicesCount = (state.goodChoicesCount || 0) + 1;
+          triggerSfx("good");
+        } else {
+          state.badChoicesCount = (state.badChoicesCount || 0) + 1;
+          triggerSfx("bad");
+        }
+
+        const repDelta = adjustReputation(choice.repDelta, !isPositive, isPositive);
+        const resolvedOutcome = formatStoryText(choice.outcome, state.charName);
+
+        if (!state.seenScenarios) state.seenScenarios = [];
+        state.seenScenarios.push(scenarioId);
+
+        // Save to Story Log & Memories Book with a cute photo!
+        state.storyLog.push({
+          chapter: sc.title,
+          choiceTag: choice.tag,
+          outcome: resolvedOutcome,
+          cashDelta: cashChange
+        });
+
+        recordMemoryEntry({
+          title: sc.title,
+          choiceTag: choice.tag,
+          outcome: resolvedOutcome,
+          cashDelta: cashChange,
+          repDelta: repDelta,
+          mood: isPositive ? "win" : "setback",
+          sceneType: menuType === "travel" ? "travel" : "empire"
+        });
+
+        const impactStr = `${cashChange >= 0 ? "+" : "-"}${fmt(Math.abs(cashChange))}${debtAdded > 0 ? ` • +${fmt(debtAdded)} Debt` : ""} • Rep ${repDelta >= 0 ? "+" : ""}${repDelta}`;
+        state.news = `🎭 [${choice.tag}] (${impactStr}) ${resolvedOutcome}`;
+        awardXP(isPositive ? 35 : 20);
+        checkTelltaleProgression();
+        saveGame();
+        render();
+      }
+
+      // Bankruptcy Protection / Chapter 11 Bailout so negative choices NEVER make progression impossible!
+      function triggerBankruptcyRestructuring() {
+        triggerSfx("level");
+        const wipedDebt = state.debt;
+        state.debt = 500;
+        state.cash = Math.max(state.cash, 1200);
+        const rDelta = adjustReputation(-8, true, false);
+        const msg = `${state.charName} filed Chapter 11 Restructuring—wiping ${fmt(wipedDebt)} of crushing debt and securing a $1,200 turnaround grant (${rDelta} Rep)!`;
+        recordMemoryEntry({
+          title: "Chapter 11 Turnaround Bailout",
+          choiceTag: "Phoenix Comeback",
+          outcome: msg,
+          cashDelta: 1200,
+          repDelta: rDelta,
+          mood: "setback",
+          sceneType: "setback"
+        });
+        state.news = `🛡️ TURNAROUND COMPLETE! ${msg}`;
+        saveGame();
+        render();
+      }
+
       function getReputationRank(rep) {
         if (rep >= 85) return { label: "👑 ICONIC", cls: "rep-grade-high", color: "#10b981", summary: "Beloved Industry Icon" };
         if (rep >= 65) return { label: "🌟 RESPECTED", cls: "rep-grade-high", color: "#34d399", summary: "Trusted Executive" };
@@ -3950,6 +4392,15 @@
               choiceTag: opt.tag,
               outcome: resolvedOutcome,
               cashDelta: cashChange
+            });
+            recordMemoryEntry({
+              title: ep.chapter,
+              choiceTag: opt.tag,
+              outcome: resolvedOutcome,
+              cashDelta: cashChange,
+              repDelta: repDelta,
+              mood: isNegativeChoice && !isRiskyPositive ? "setback" : (isRiskyPositive ? "risk_win" : "win"),
+              sceneType: "story"
             });
             const deltaStr = `${cashChange >= 0 ? "+" : "-"}${fmt(Math.abs(cashChange))}${debtAdded > 0 ? ` • +${fmt(debtAdded)} Debt` : ""} • Rep ${repDelta >= 0 ? "+" : ""}${repDelta}`;
             state.news = `🎭 [${opt.tag}] (${deltaStr}) ${resolvedOutcome}`;
@@ -5086,6 +5537,16 @@
                 state.reputation = Math.min(100, (state.reputation ?? 50) + item.winRep);
                 state.latestMagHeadline = formatStoryText(item.magHeadline, state.charName);
                 state.expHistory.push({ name: item.name, tier: item.tier, success: true });
+                state.riskWinsCount = (state.riskWinsCount || 0) + 1;
+                recordMemoryEntry({
+                  title: `${item.tier} Hit: ${item.name}`,
+                  choiceTag: "R&D Breakthrough",
+                  outcome: formatStoryText(item.winNote, state.charName),
+                  cashDelta: payout,
+                  repDelta: item.winRep,
+                  mood: "risk_win",
+                  sceneType: "rnd"
+                });
                 const msg = formatStoryText(item.winNote, state.charName);
                 state.news = `🧪 R&D HIT! ${msg}`;
                 activeMiniGame.lastResult = `✅ <strong>SUCCESS!</strong> ${msg}`;
@@ -5094,6 +5555,16 @@
                 triggerSfx("error");
                 state.reputation = Math.max(0, (state.reputation ?? 50) + item.loseRep);
                 state.expHistory.push({ name: item.name, tier: item.tier, success: false });
+                state.riskLossesCount = (state.riskLossesCount || 0) + 1;
+                recordMemoryEntry({
+                  title: `${item.tier} Setback: ${item.name}`,
+                  choiceTag: "Kitchen/Studio Flop",
+                  outcome: formatStoryText(item.loseNote, state.charName),
+                  cashDelta: -item.cost,
+                  repDelta: item.loseRep,
+                  mood: "setback",
+                  sceneType: "setback"
+                });
                 const msg = formatStoryText(item.loseNote, state.charName);
                 state.news = `💥 R&D FLOP! ${msg}`;
                 activeMiniGame.lastResult = `❌ <strong>SETBACK:</strong> ${msg}`;
@@ -5718,6 +6189,27 @@
           });
 
           card.appendChild(grid);
+
+          // Interactive Travel & Regional Telltale Scenario Card
+          const tScenarios = (MENU_SCENARIOS.travel && MENU_SCENARIOS.travel[state.path]) || [];
+          const nextT = tScenarios.find(s => !(state.seenScenarios || []).includes(s.id)) || tScenarios[state.day % tScenarios.length];
+          if (nextT) {
+            const scBox = document.createElement("div");
+            scBox.className = "scenario-hub-card";
+            scBox.innerHTML = `
+              <span class="telltale-badge">🎭 Real-World Travel Scenario</span>
+              <div style="font-weight:800;font-size:0.88rem;margin-bottom:4px;">${nextT.title}</div>
+              <p style="font-size:0.78rem;color:var(--text-primary);line-height:1.4;margin-bottom:8px;">${formatStoryText(nextT.desc, state.charName)}</p>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <button type="button" class="choice-btn" id="travel-sc-pos">${nextT.positive.label}</button>
+                <button type="button" class="choice-btn" id="travel-sc-neg">${nextT.negative.label}</button>
+              </div>
+            `;
+            scBox.querySelector("#travel-sc-pos").onclick = () => resolveMenuScenario("travel", nextT.id, true);
+            scBox.querySelector("#travel-sc-neg").onclick = () => resolveMenuScenario("travel", nextT.id, false);
+            card.appendChild(scBox);
+          }
+
           container.appendChild(card);
         }
 
@@ -5725,16 +6217,50 @@
           const card = document.createElement("div");
           card.className = "card";
           const genreObj = GENRES[state.genre];
+          const memList = state.memoriesBook || [];
           card.innerHTML = `
-            <h2><span>🎬 ${arc.title}</span><span style="font-size:0.73rem;color:var(--text-secondary)">${genreObj.label} • 5 Episodes</span></h2>
+            <h2><span>📸 ${state.charName}'s Memories Book</span><span style="font-size:0.73rem;color:var(--accent)">${memList.length} Snapshot${memList.length === 1 ? "" : "s"}</span></h2>
             <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:10px;">
-              Starring <strong>${state.charName}</strong> • Replay your 30s memory reel or generate your downloadable Mogul Business Card!
+              Every choice, travel twist, R&amp;D creation, and triumph is captured here with a custom snapshot of <strong>${state.charName}</strong>!
             </p>
             <div class="btn-group" style="margin-bottom:12px;">
               <button type="button" class="btn btn-buy" style="flex:1;" id="replay-memory-reel-btn">📜 Autobiography &amp; Rating</button>
               <button type="button" class="btn btn-sell" style="flex:1;" id="open-mogul-card-btn">🏆 Mogul Card &amp; Prestige</button>
             </div>
+            <div class="memory-scrapbook-grid" id="memories-scrapbook-mount"></div>
+            <h2 style="margin-top:16px;"><span>🎬 ${arc.title} (${genreObj.label} Chapters)</span></h2>
           `;
+
+          const scrapMount = card.querySelector("#memories-scrapbook-mount");
+          if (memList.length === 0) {
+            scrapMount.innerHTML = `
+              <div class="polaroid-memory-card">
+                ${renderMemorySnapshotSVG({ mood: "win", sceneType: "story" })}
+                <div class="polaroid-caption-area">
+                  <div class="polaroid-date-stamp">Day ${state.day} • Opening Snapshot</div>
+                  <div class="polaroid-title">${state.charName}'s Journey Begins</div>
+                  <div class="polaroid-text">Make choices in Story, Travel, Empire, or the R&amp;D Lab to fill your scrapbook with cute milestone photos!</div>
+                  <span class="polaroid-tag-pill">⭐ ${getReputationRank(state.reputation ?? 50).summary}</span>
+                </div>
+              </div>
+            `;
+          } else {
+            memList.forEach(mem => {
+              const pCard = document.createElement("div");
+              pCard.className = "polaroid-memory-card";
+              const impactBadge = `${mem.cashDelta >= 0 ? "+" : "-"}${fmt(Math.abs(mem.cashDelta))} • Rep ${mem.repDelta >= 0 ? "+" : ""}${mem.repDelta}`;
+              pCard.innerHTML = `
+                ${renderMemorySnapshotSVG(mem)}
+                <div class="polaroid-caption-area">
+                  <div class="polaroid-date-stamp">Day ${mem.day} • ${mem.hubName}</div>
+                  <div class="polaroid-title">${mem.title}</div>
+                  <div class="polaroid-text">${mem.outcome}</div>
+                  <span class="polaroid-tag-pill">${mem.choiceTag} (${impactBadge})</span>
+                </div>
+              `;
+              scrapMount.appendChild(pCard);
+            });
+          }
 
           card.querySelector("#open-mogul-card-btn").onclick = openVictoryCardModal;
 
@@ -5784,6 +6310,42 @@
         }
 
         if (state.tab === "finance") {
+          // Bankruptcy / Crushing Debt Restructuring Safety Net (Prevents any soft-lock!)
+          if (state.debt >= 12000 && state.cash < 500) {
+            const bailoutCard = document.createElement("div");
+            bailoutCard.className = "bailout-banner";
+            bailoutCard.innerHTML = `
+              <div style="font-weight:900;font-size:0.86rem;color:#fca5a5;margin-bottom:4px;">🛡️ Emergency Chapter 11 Debt Restructuring Available</div>
+              <p style="font-size:0.76rem;color:var(--text-primary);margin-bottom:8px;">
+                Heavy debt (${fmt(state.debt)}) and low liquidity (${fmt(state.cash)}) slowing you down? Restructure your liabilities to wipe debt to $500 and receive a $1,200 turnaround grant (-8 Rep).
+              </p>
+              <button type="button" class="btn btn-danger btn-full" id="chapter11-btn">⚖️ File Chapter 11 Restructuring (+$1,200 Cash &amp; Reset Debt)</button>
+            `;
+            bailoutCard.querySelector("#chapter11-btn").onclick = triggerBankruptcyRestructuring;
+            container.appendChild(bailoutCard);
+          }
+
+          // Interactive Empire Executive Telltale Scenario Card
+          const eScenarios = (MENU_SCENARIOS.empire && MENU_SCENARIOS.empire[state.path]) || [];
+          const nextE = eScenarios.find(s => !(state.seenScenarios || []).includes(s.id)) || eScenarios[(state.day + 1) % eScenarios.length];
+          if (nextE) {
+            const eCard = document.createElement("div");
+            eCard.className = "card";
+            eCard.style.borderColor = "var(--accent)";
+            eCard.innerHTML = `
+              <span class="telltale-badge">🎭 Executive Boardroom Scenario</span>
+              <h2 style="margin-bottom:4px;"><span>${nextE.title}</span></h2>
+              <p style="font-size:0.78rem;color:var(--text-primary);line-height:1.42;margin-bottom:8px;">${formatStoryText(nextE.desc, state.charName)}</p>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <button type="button" class="choice-btn" id="emp-sc-pos">${nextE.positive.label}</button>
+                <button type="button" class="choice-btn" id="emp-sc-neg">${nextE.negative.label}</button>
+              </div>
+            `;
+            eCard.querySelector("#emp-sc-pos").onclick = () => resolveMenuScenario("empire", nextE.id, true);
+            eCard.querySelector("#emp-sc-neg").onclick = () => resolveMenuScenario("empire", nextE.id, false);
+            container.appendChild(eCard);
+          }
+
           const bankCard = document.createElement("div");
           bankCard.className = "card";
           const debtPct = Math.round((diff.debtRate * pace.debtMult - 1) * 100);
@@ -6100,6 +6662,7 @@
         render();
       };
 
+      document.getElementById("quick-memories-btn").onclick = () => { triggerSfx("tap"); state.tab = "story"; render(); };
       document.getElementById("quick-style-btn").onclick = () => { triggerSfx("tap"); state.tab = "settings"; render(); };
       document.getElementById("sound-toggle-btn").onclick = () => {
         sfxEnabled = !sfxEnabled;
