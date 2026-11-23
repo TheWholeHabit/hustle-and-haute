@@ -1769,8 +1769,8 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v26";
-      const BACKUP_KEY = "hh_empire_undo_backup_v26";
+      const STORAGE_KEY = "hh_empire_save_v27";
+      const BACKUP_KEY = "hh_empire_undo_backup_v27";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
       // Synthesized Web Audio Engine: SFX + Soft Low-Volume Regional & Scene Background Music + Haptics
@@ -3369,72 +3369,62 @@
              <circle cx="${cx + 28}" cy="${headY + 6}" r="42" fill="none" stroke="#38bdf8" stroke-width="9" opacity="0.22" />`
           : "";
 
-        // Full Scalp Crown Base (Prevents ANY bald spot or gap on top of the head across all styles)
+        // Full Scalp Crown Base (Complete coverage across top of head with zero bald spots)
         const scalpCapSVG = `
           <path d="
-            M ${cx - rx - 2} ${headY + 2}
-            C ${cx - rx - 3} ${headY - ry - 9}, ${cx + rx + 3} ${headY - ry - 9}, ${cx + rx + 2} ${headY + 2}
-            C ${cx + rx} ${headY - ry + 6}, ${cx - rx} ${headY - ry + 6}, ${cx - rx - 2} ${headY + 2} Z"
-            fill="${hairColor.hex}" />
+            M ${cx - rx - 1} ${headY - 1}
+            C ${cx - rx - 2} ${headY - ry - 8}, ${cx + rx + 2} ${headY - ry - 8}, ${cx + rx + 1} ${headY - 1}
+            C ${cx + rx - 1} ${headY - ry + 5}, ${cx - rx + 1} ${headY - ry + 5}, ${cx - rx - 1} ${headY - 1} Z"
+            fill="url(#hairGrad_${uid})" />
         `;
 
-        // Layered Back & Shoulder-Drape Hair (Flows naturally over shoulders & torso)
+        // Snug back-of-head / bun / updo detail attached to head
         let backHair = scalpCapSVG;
-        if (hairStyle === "silk_press_layers") {
+        if (hairStyle === "curly_pineapple") {
           backHair += `
-            <g class="hair-flow-group">
-              <path d="
-                M ${cx - rx - 2} ${headY - 8}
-                C ${cx - rx - 2} ${headY - ry - 9}, ${cx + rx + 2} ${headY - ry - 9}, ${cx + rx + 2} ${headY - 8}
-                C ${cx + rx + 9} 96, ${cx + shHalf * 0.85} 122, ${cx + waistHalf + 6} 158
-                C ${cx + waistHalf} 162, ${cx - waistHalf} 162, ${cx - waistHalf - 6} 158
-                C ${cx - shHalf * 0.85} 122, ${cx - rx - 9} 96, ${cx - rx - 2} ${headY - 8} Z"
-                fill="url(#hairGrad_${uid})" />
-              <path d="M ${cx - rx} ${headY + 4} C ${cx - shHalf * 0.78} 102, ${cx - waistHalf - 2} 130, ${cx - waistHalf - 2} 154" fill="none" stroke="${hairColor.hi}" stroke-width="2" stroke-linecap="round" opacity="0.45" />
-              <path d="M ${cx + rx} ${headY + 4} C ${cx + shHalf * 0.78} 102, ${cx + waistHalf + 2} 130, ${cx + waistHalf + 2} 154" fill="none" stroke="${hairColor.hi}" stroke-width="2" stroke-linecap="round" opacity="0.45" />
-            </g>
-          `;
-        } else if (hairStyle === "hollywood_glam") {
-          backHair += `
-            <g class="hair-flow-group">
-              <path d="
-                M ${cx - rx - 2} ${headY - 8}
-                C ${cx - rx - 2} ${headY - ry - 10}, ${cx + rx + 2} ${headY - ry - 10}, ${cx + rx + 2} ${headY - 8}
-                C ${cx + rx + 13} 94, ${cx + shHalf * 0.92} 120, ${cx + waistHalf + 9} 158
-                C ${cx + 6} 163, ${cx - 6} 163, ${cx - waistHalf - 9} 158
-                C ${cx - shHalf * 0.92} 120, ${cx - rx - 13} 94, ${cx - rx - 2} ${headY - 8} Z"
-                fill="url(#hairGrad_${uid})" />
-              <path d="M ${cx - rx - 3} ${headY + 12} C ${cx - shHalf - 4} 96, ${cx - waistHalf - 6} 124, ${cx - waistHalf - 4} 152" fill="none" stroke="${hairColor.hi}" stroke-width="2.4" stroke-linecap="round" opacity="0.52" />
-              <path d="M ${cx + rx + 3} ${headY + 12} C ${cx + shHalf + 4} 96, ${cx + waistHalf + 6} 124, ${cx + waistHalf + 4} 152" fill="none" stroke="${hairColor.hi}" stroke-width="2.4" stroke-linecap="round" opacity="0.52" />
-            </g>
-          `;
-        } else if (hairStyle === "curly_pineapple") {
-          backHair += `
-            <g class="hair-flow-group">
-              <circle cx="${cx}" cy="${headY - ry - 10}" r="18" fill="url(#hairGrad_${uid})" />
-              <circle cx="${cx - 12}" cy="${headY - ry - 4}" r="12" fill="${hairColor.hex}" />
-              <circle cx="${cx + 12}" cy="${headY - ry - 4}" r="12" fill="${hairColor.hex}" />
-            </g>
-          `;
-        } else if (hairStyle === "goddess_braids") {
-          backHair += `
-            <g class="hair-flow-group">
-              <path d="M ${cx - rx - 3} ${headY - 4} C ${cx - shHalf * 0.85} 104, ${cx - waistHalf - 4} 132, ${cx - waistHalf - 5} 160" fill="none" stroke="${hairColor.hex}" stroke-width="5.2" stroke-linecap="round" />
-              <path d="M ${cx - rx + 1} ${headY} C ${cx - shHalf * 0.72} 108, ${cx - waistHalf} 136, ${cx - waistHalf - 1} 164" fill="none" stroke="${hairColor.hex}" stroke-width="4.8" stroke-linecap="round" />
-              <path d="M ${cx + rx + 3} ${headY - 4} C ${cx + shHalf * 0.85} 104, ${cx + waistHalf + 4} 132, ${cx + waistHalf + 5} 160" fill="none" stroke="${hairColor.hex}" stroke-width="5.2" stroke-linecap="round" />
-              <path d="M ${cx + rx - 1} ${headY} C ${cx + shHalf * 0.72} 108, ${cx + waistHalf} 136, ${cx + waistHalf + 1} 164" fill="none" stroke="${hairColor.hex}" stroke-width="4.8" stroke-linecap="round" />
-            </g>
+            <circle cx="${cx}" cy="${headY - ry - 9}" r="16" fill="url(#hairGrad_${uid})" />
+            <circle cx="${cx - 10}" cy="${headY - ry - 4}" r="10.5" fill="${hairColor.hex}" />
+            <circle cx="${cx + 10}" cy="${headY - ry - 4}" r="10.5" fill="${hairColor.hex}" />
           `;
         } else if (hairStyle === "braided_crown" || hairStyle === "slick_back_bun") {
           const isBraided = hairStyle === "braided_crown";
           backHair += `
+            <ellipse cx="${cx}" cy="${headY - ry - 7}" rx="14" ry="10.5" fill="url(#hairGrad_${uid})" />
+            <path d="M ${cx - 11} ${headY - ry - 9} Q ${cx} ${headY - ry - 16} ${cx + 11} ${headY - ry - 9}" fill="none" stroke="${hairColor.hi}" stroke-width="${isBraided ? "2.4" : "1.4"}" stroke-linecap="round" />
+          `;
+        }
+
+        // Behind-Body Hair Layer (Renders BEHIND the torso and arms so long hair never covers or blocks the outfit/clothes!)
+        let behindBodyHair = "";
+        if (hairStyle === "silk_press_layers") {
+          behindBodyHair = `
             <g class="hair-flow-group">
-              <ellipse cx="${cx}" cy="${headY - ry - 8}" rx="15" ry="12" fill="url(#hairGrad_${uid})" />
-              <path d="M ${cx - 12} ${headY - ry - 10} Q ${cx} ${headY - ry - 18} ${cx + 12} ${headY - ry - 10}" fill="none" stroke="${hairColor.hi}" stroke-width="${isBraided ? "2.6" : "1.5"}" stroke-linecap="round" />
-              ${isBraided ? `
-                <path d="M ${cx - rx + 1} ${headY - 6} C ${cx - shHalf * 0.78} 102, ${cx - waistHalf - 2} 126, ${cx - waistHalf} 148" fill="none" stroke="${hairColor.hex}" stroke-width="4.2" stroke-linecap="round" />
-                <path d="M ${cx - rx + 1} ${headY - 6} C ${cx - shHalf * 0.78} 102, ${cx - waistHalf - 2} 126, ${cx - waistHalf} 148" fill="none" stroke="${hairColor.hi}" stroke-width="1.3" stroke-dasharray="3 3" />
-              ` : ""}
+              <path d="
+                M ${cx - rx - 1} ${headY - 4}
+                C ${cx - rx - 5} 96, ${cx - rx - 3} 126, ${cx - rx + 2} 148
+                L ${cx + rx - 2} 148
+                C ${cx + rx + 3} 126, ${cx + rx + 5} 96, ${cx + rx + 1} ${headY - 4} Z"
+                fill="url(#hairGrad_${uid})" />
+            </g>
+          `;
+        } else if (hairStyle === "hollywood_glam") {
+          behindBodyHair = `
+            <g class="hair-flow-group">
+              <path d="
+                M ${cx - rx - 2} ${headY - 4}
+                C ${cx - rx - 9} 96, ${cx - rx - 2} 124, ${cx - rx - 4} 148
+                L ${cx + rx + 4} 148
+                C ${cx + rx + 2} 124, ${cx + rx + 9} 96, ${cx + rx + 2} ${headY - 4} Z"
+                fill="url(#hairGrad_${uid})" />
+            </g>
+          `;
+        } else if (hairStyle === "goddess_braids") {
+          behindBodyHair = `
+            <g class="hair-flow-group">
+              <rect x="${cx - rx - 2}" y="${headY}" width="4.5" height="82" rx="2.2" fill="${hairColor.hex}" />
+              <rect x="${cx - rx + 3}" y="${headY + 4}" width="4" height="84" rx="2" fill="${hairColor.hex}" />
+              <rect x="${cx + rx - 7}" y="${headY + 4}" width="4" height="84" rx="2" fill="${hairColor.hex}" />
+              <rect x="${cx + rx - 2.5}" y="${headY}" width="4.5" height="82" rx="2.2" fill="${hairColor.hex}" />
             </g>
           `;
         }
@@ -3803,6 +3793,9 @@
             <circle cx="80" cy="84" r="68" fill="url(#auraGlow_${uid})" />
 
             ${ringLightBack}
+
+            <!-- Behind-Body Hair Layer (Stays strictly behind torso & clothes) -->
+            ${behindBodyHair}
 
             <!-- Articulated Left & Right Limbs (Behind Torso Shoulders for Natural Depth) -->
             ${renderArm("left")}
