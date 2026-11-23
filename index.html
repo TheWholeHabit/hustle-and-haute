@@ -1769,8 +1769,8 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v27";
-      const BACKUP_KEY = "hh_empire_undo_backup_v27";
+      const STORAGE_KEY = "hh_empire_save_v28";
+      const BACKUP_KEY = "hh_empire_undo_backup_v28";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
       // Synthesized Web Audio Engine: SFX + Soft Low-Volume Regional & Scene Background Music + Haptics
@@ -1984,14 +1984,11 @@
         ],
         hairStyle: [
           { id: "braided_crown", label: "Braided Crown Updo" },
-          { id: "silk_press_layers", label: "Silk Press Curtain Layers" },
-          { id: "hollywood_glam", label: "Hollywood Side Waves" },
-          { id: "tapered_crop_fade", label: "Textured Crop & Skin Fade" },
-          { id: "sleek_editorial_bob", label: "Glass-Hair Blunt Bob" },
-          { id: "curly_pineapple", label: "High Curl Puff & Edges" },
-          { id: "goddess_braids", label: "Goddess Knotless Braids" },
           { id: "slick_back_bun", label: "Slick-Back Executive Bun" },
-          { id: "side_swept_pomp", label: "Tailored Side Pompadour" }
+          { id: "curly_pineapple", label: "High Curl Puff Updo" },
+          { id: "sculpted_chignon", label: "Sculpted Low Chignon Updo" },
+          { id: "twisted_top_knot", label: "Twisted Top-Knot Updo" },
+          { id: "french_twist_updo", label: "Classic French Twist Updo" }
         ],
         hairColor: [
           { id: "jet", label: "Obsidian Jet", hex: "#141418", hi: "#4b5563" },
@@ -3378,56 +3375,54 @@
             fill="url(#hairGrad_${uid})" />
         `;
 
-        // Snug back-of-head / bun / updo detail attached to head
+        // Updo Crown & Bun Sculpting (Strictly updo styles—no long or layered hanging hair)
         let backHair = scalpCapSVG;
         if (hairStyle === "curly_pineapple") {
           backHair += `
-            <circle cx="${cx}" cy="${headY - ry - 9}" r="16" fill="url(#hairGrad_${uid})" />
-            <circle cx="${cx - 10}" cy="${headY - ry - 4}" r="10.5" fill="${hairColor.hex}" />
-            <circle cx="${cx + 10}" cy="${headY - ry - 4}" r="10.5" fill="${hairColor.hex}" />
+            <g class="hair-flow-group">
+              <circle cx="${cx}" cy="${headY - ry - 10}" r="16.5" fill="url(#hairGrad_${uid})" />
+              <circle cx="${cx - 10}" cy="${headY - ry - 5}" r="10.5" fill="${hairColor.hex}" />
+              <circle cx="${cx + 10}" cy="${headY - ry - 5}" r="10.5" fill="${hairColor.hex}" />
+            </g>
           `;
-        } else if (hairStyle === "braided_crown" || hairStyle === "slick_back_bun") {
-          const isBraided = hairStyle === "braided_crown";
+        } else if (hairStyle === "braided_crown") {
           backHair += `
-            <ellipse cx="${cx}" cy="${headY - ry - 7}" rx="14" ry="10.5" fill="url(#hairGrad_${uid})" />
-            <path d="M ${cx - 11} ${headY - ry - 9} Q ${cx} ${headY - ry - 16} ${cx + 11} ${headY - ry - 9}" fill="none" stroke="${hairColor.hi}" stroke-width="${isBraided ? "2.4" : "1.4"}" stroke-linecap="round" />
+            <g class="hair-flow-group">
+              <ellipse cx="${cx}" cy="${headY - ry - 7}" rx="15" ry="10.5" fill="url(#hairGrad_${uid})" />
+              <path d="M ${cx - rx + 1} ${headY - 12} Q ${cx} ${headY - ry - 14} ${cx + rx - 1} ${headY - 12}" fill="none" stroke="${hairColor.hi}" stroke-width="2.4" stroke-dasharray="4 3" stroke-linecap="round" />
+            </g>
+          `;
+        } else if (hairStyle === "slick_back_bun") {
+          backHair += `
+            <g class="hair-flow-group">
+              <circle cx="${cx}" cy="${headY - ry - 7}" r="12" fill="url(#hairGrad_${uid})" />
+              <path d="M ${cx - 8} ${headY - ry - 10} Q ${cx} ${headY - ry - 15} ${cx + 8} ${headY - ry - 10}" fill="none" stroke="${hairColor.hi}" stroke-width="1.6" stroke-linecap="round" />
+            </g>
+          `;
+        } else if (hairStyle === "sculpted_chignon") {
+          backHair += `
+            <g class="hair-flow-group">
+              <ellipse cx="${cx}" cy="${headY + ry - 5}" rx="13" ry="8.5" fill="url(#hairGrad_${uid})" />
+              <path d="M ${cx - 9} ${headY + ry - 6} Q ${cx} ${headY + ry - 2} ${cx + 9} ${headY + ry - 6}" fill="none" stroke="${hairColor.hi}" stroke-width="1.5" stroke-linecap="round" />
+            </g>
+          `;
+        } else if (hairStyle === "twisted_top_knot") {
+          backHair += `
+            <g class="hair-flow-group">
+              <circle cx="${cx}" cy="${headY - ry - 10}" r="12.5" fill="url(#hairGrad_${uid})" />
+              <path d="M ${cx - 7} ${headY - ry - 14} C ${cx} ${headY - ry - 7}, ${cx} ${headY - ry - 15}, ${cx + 7} ${headY - ry - 8}" fill="none" stroke="${hairColor.hi}" stroke-width="1.8" stroke-linecap="round" />
+            </g>
+          `;
+        } else if (hairStyle === "french_twist_updo") {
+          backHair += `
+            <g class="hair-flow-group">
+              <rect x="${cx - 10}" y="${headY - ry - 8}" width="20" height="10" rx="5" fill="url(#hairGrad_${uid})" />
+              <line x1="${cx - 7}" y1="${headY - ry - 6}" x2="${cx + 7}" y2="${headY - ry - 1}" stroke="${hairColor.hi}" stroke-width="1.5" stroke-linecap="round" />
+            </g>
           `;
         }
 
-        // Behind-Body Hair Layer (Renders BEHIND the torso and arms so long hair never covers or blocks the outfit/clothes!)
-        let behindBodyHair = "";
-        if (hairStyle === "silk_press_layers") {
-          behindBodyHair = `
-            <g class="hair-flow-group">
-              <path d="
-                M ${cx - rx - 1} ${headY - 4}
-                C ${cx - rx - 5} 96, ${cx - rx - 3} 126, ${cx - rx + 2} 148
-                L ${cx + rx - 2} 148
-                C ${cx + rx + 3} 126, ${cx + rx + 5} 96, ${cx + rx + 1} ${headY - 4} Z"
-                fill="url(#hairGrad_${uid})" />
-            </g>
-          `;
-        } else if (hairStyle === "hollywood_glam") {
-          behindBodyHair = `
-            <g class="hair-flow-group">
-              <path d="
-                M ${cx - rx - 2} ${headY - 4}
-                C ${cx - rx - 9} 96, ${cx - rx - 2} 124, ${cx - rx - 4} 148
-                L ${cx + rx + 4} 148
-                C ${cx + rx + 2} 124, ${cx + rx + 9} 96, ${cx + rx + 2} ${headY - 4} Z"
-                fill="url(#hairGrad_${uid})" />
-            </g>
-          `;
-        } else if (hairStyle === "goddess_braids") {
-          behindBodyHair = `
-            <g class="hair-flow-group">
-              <rect x="${cx - rx - 2}" y="${headY}" width="4.5" height="82" rx="2.2" fill="${hairColor.hex}" />
-              <rect x="${cx - rx + 3}" y="${headY + 4}" width="4" height="84" rx="2" fill="${hairColor.hex}" />
-              <rect x="${cx + rx - 7}" y="${headY + 4}" width="4" height="84" rx="2" fill="${hairColor.hex}" />
-              <rect x="${cx + rx - 2.5}" y="${headY}" width="4.5" height="82" rx="2.2" fill="${hairColor.hex}" />
-            </g>
-          `;
-        }
+        const behindBodyHair = "";
 
         // Ultra-Smooth Natural Human Torso Contour (Continuous collarbone -> sloping trapezius -> rounded deltoid shoulder cap -> natural chest/ribcage taper -> smooth waist-to-hip curve)
         const torsoPath = `
@@ -3608,57 +3603,15 @@
           `;
         }
 
-        // Front Hair Cap
-        let frontHair = "";
-        if (hairStyle === "braided_crown" || hairStyle === "curly_pineapple" || hairStyle === "goddess_braids" || hairStyle === "slick_back_bun") {
-          frontHair = `
-            <path d="M ${cx - rx - 0.5} ${headY - 2}
-                     C ${cx - rx - 1} ${headY - ry - 6}, ${cx + rx + 1} ${headY - ry - 6}, ${cx + rx + 0.5} ${headY - 2}
-                     Q ${cx + rx - 5} ${headY - 14} ${cx} ${headY - 14.5}
-                     Q ${cx - rx + 5} ${headY - 14} ${cx - rx - 0.5} ${headY - 2} Z" fill="${hairColor.hex}" />
-            <path d="M ${cx - 12} ${headY - 15} Q ${cx - 7} ${headY - 11.5} ${cx - 3} ${headY - 15}" fill="none" stroke="${hairColor.hex}" stroke-width="1.4" stroke-linecap="round" />
-            <path d="M ${cx + 3} ${headY - 15} Q ${cx + 7} ${headY - 11.5} ${cx + 12} ${headY - 15}" fill="none" stroke="${hairColor.hex}" stroke-width="1.4" stroke-linecap="round" />
-          `;
-        } else if (hairStyle === "silk_press_layers") {
-          frontHair = `
-            <path d="M ${cx - rx - 1.5} ${headY + 14}
-                     C ${cx - rx - 1.5} ${headY - ry - 6}, ${cx + rx + 1.5} ${headY - ry - 6}, ${cx + rx + 1.5} ${headY + 14}
-                     Q ${cx + 5} ${headY - 11} ${cx} ${headY - 16}
-                     Q ${cx - 5} ${headY - 11} ${cx - rx - 1.5} ${headY + 14} Z" fill="${hairColor.hex}" />
-            <path d="M ${cx - 3.5} ${headY - 16} Q ${cx - 12} ${headY - 5} ${cx - rx} ${headY + 10}" fill="none" stroke="${hairColor.hi}" stroke-width="1.8" opacity="0.55" />
-            <path d="M ${cx + 3.5} ${headY - 16} Q ${cx + 12} ${headY - 5} ${cx + rx} ${headY + 10}" fill="none" stroke="${hairColor.hi}" stroke-width="1.8" opacity="0.55" />
-          `;
-        } else if (hairStyle === "hollywood_glam") {
-          frontHair = `
-            <path d="M ${cx - rx - 1} ${headY + 5}
-                     C ${cx - rx} ${headY - ry - 8}, ${cx + rx + 1.5} ${headY - ry - 7}, ${cx + rx + 1.5} ${headY + 3}
-                     Q ${cx + rx - 4} ${headY - 13} ${cx - 3.5} ${headY - 14}
-                     Q ${cx - rx + 4} ${headY - 9} ${cx - rx - 1} ${headY + 5} Z" fill="${hairColor.hex}" />
-          `;
-        } else if (hairStyle === "tapered_crop_fade") {
-          frontHair = `
-            <path d="M ${cx - rx + 0.5} ${headY - 4}
-                     C ${cx - rx} ${headY - ry - 7}, ${cx + rx} ${headY - ry - 7}, ${cx + rx - 0.5} ${headY - 4}
-                     L ${cx + rx - 1.5} ${headY - 12} Q ${cx} ${headY - 17.5} ${cx - rx + 1.5} ${headY - 12} Z" fill="${hairColor.hex}" />
-            <path d="M ${cx - rx + 4} ${headY - 17} Q ${cx} ${headY - ry - 5} ${cx + rx - 4} ${headY - 17}" fill="none" stroke="${hairColor.hi}" stroke-width="2.6" opacity="0.52" />
-          `;
-        } else if (hairStyle === "sleek_editorial_bob") {
-          frontHair = `
-            <path d="M ${cx - rx - 3} ${headY + 25}
-                     L ${cx - rx - 1} ${headY - 6}
-                     C ${cx - rx} ${headY - ry - 7}, ${cx + rx} ${headY - ry - 7}, ${cx + rx + 1} ${headY - 6}
-                     L ${cx + rx + 3} ${headY + 25}
-                     L ${cx + rx - 1.5} ${headY + 25}
-                     Q ${cx + rx - 2} ${headY - 12} ${cx} ${headY - 14}
-                     Q ${cx - rx + 2} ${headY - 12} ${cx - rx + 1.5} ${headY + 25} Z" fill="${hairColor.hex}" />
-          `;
-        } else if (hairStyle === "side_swept_pomp") {
-          frontHair = `
-            <path d="M ${cx - rx + 0.5} ${headY - 4}
-                     C ${cx - rx - 1.5} ${headY - ry - 14}, ${cx + rx + 2} ${headY - ry - 11}, ${cx + rx - 0.5} ${headY - 4}
-                     Q ${cx + 3.5} ${headY - 15.5} ${cx - rx + 0.5} ${headY - 4} Z" fill="${hairColor.hex}" />
-          `;
-        }
+        // Updo Front Hairline & Sleek Edge Framing
+        const frontHair = `
+          <path d="M ${cx - rx - 0.5} ${headY - 3}
+                   C ${cx - rx - 1} ${headY - ry - 6}, ${cx + rx + 1} ${headY - ry - 6}, ${cx + rx + 0.5} ${headY - 3}
+                   Q ${cx + rx - 5} ${headY - 14} ${cx} ${headY - 14.5}
+                   Q ${cx - rx + 5} ${headY - 14} ${cx - rx - 0.5} ${headY - 3} Z" fill="${hairColor.hex}" />
+          <path d="M ${cx - 12} ${headY - 15} Q ${cx - 7} ${headY - 11.5} ${cx - 3} ${headY - 15}" fill="none" stroke="${hairColor.hi}" stroke-width="1.3" stroke-linecap="round" opacity="0.65" />
+          <path d="M ${cx + 3} ${headY - 15} Q ${cx + 7} ${headY - 11.5} ${cx + 12} ${headY - 15}" fill="none" stroke="${hairColor.hi}" stroke-width="1.3" stroke-linecap="round" opacity="0.65" />
+        `;
 
         let facialExtras = "";
         if (brow.facial === "freckles") {
@@ -3861,7 +3814,7 @@
             expression: "confident_smile",
             eyeStyle: "espresso_brown",
             browFeature: "arched_glam",
-            hairStyle: path === "chef" ? "braided_crown" : "silk_press_layers",
+            hairStyle: path === "chef" ? "braided_crown" : "slick_back_bun",
             hairColor: "jet",
             outfit: path === "chef" ? "executive_chef_coat" : "silk_bow_suit",
             outfitColor: path === "chef" ? "ivory_crimson" : "obsidian_gold",
@@ -3876,7 +3829,7 @@
           expression: "fierce_smirk",
           eyeStyle: "warm_hazel",
           browFeature: "sharp_slit",
-          hairStyle: "tapered_crop_fade",
+          hairStyle: "sculpted_chignon",
           hairColor: path === "chef" ? "jet" : "platinum",
           outfit: path === "chef" ? "executive_chef_coat" : "baroque_hoodie_blazer",
           outfitColor: "obsidian_gold",
@@ -6069,7 +6022,7 @@
         wrap.innerHTML = `
           <div class="wardrobe-tabs">
             <button type="button" class="w-tab-btn ${activeSubTab === "style" ? "active" : ""}" data-wtab="style">🧥 10 Outfits</button>
-            <button type="button" class="w-tab-btn ${activeSubTab === "hair" ? "active" : ""}" data-wtab="hair">💇 Hair Studio</button>
+            <button type="button" class="w-tab-btn ${activeSubTab === "hair" ? "active" : ""}" data-wtab="hair">👑 Updo Hair</button>
             <button type="button" class="w-tab-btn ${activeSubTab === "face" ? "active" : ""}" data-wtab="face">👁️ Face &amp; Shape</button>
             <button type="button" class="w-tab-btn ${activeSubTab === "body" ? "active" : ""}" data-wtab="body">🧍 Body &amp; Skin</button>
           </div>
@@ -6133,7 +6086,7 @@
           addPills("Modern & Professional Outfits", OUTFIT_STYLES, "outfit");
           addPills("Accessories & Studio Gear", AVATAR_TEMPLATES.accessory, "accessory");
         } else if (activeSubTab === "hair") {
-          addPills("Head-Fitted Contemporary Hairstyles", AVATAR_TEMPLATES.hairStyle, "hairStyle");
+          addPills("Updo Hairstyles Only", AVATAR_TEMPLATES.hairStyle, "hairStyle");
           addSwatches("Hair Color & Balayage", AVATAR_TEMPLATES.hairColor, "hairColor", "hex");
         } else if (activeSubTab === "face") {
           addPills("Face & Jawline Shape", AVATAR_TEMPLATES.faceShape, "faceShape");
