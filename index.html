@@ -1083,6 +1083,64 @@
       background: linear-gradient(135deg, var(--bg-primary), var(--accent-soft));
     }
 
+  
+    /* Flashing Live News Ribbon & 1-Minute Timed Clearance Urgency Styles */
+    .ticker.flashing-ribbon {
+      animation: newsRibbonPulse 1.4s ease-in-out infinite alternate;
+      border-width: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+    @keyframes newsRibbonPulse {
+      0% {
+        box-shadow: 0 0 0 rgba(245, 158, 11, 0);
+        background: var(--accent-soft);
+      }
+      100% {
+        box-shadow: 0 0 14px var(--accent-soft);
+        background: rgba(245, 158, 11, 0.24);
+      }
+    }
+    .news-badge-live {
+      background: var(--danger);
+      color: #ffffff;
+      font-size: 0.62rem;
+      font-weight: 900;
+      padding: 2px 6px;
+      border-radius: 5px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+      animation: blinkBadge 1s infinite;
+    }
+    @keyframes blinkBadge {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.45; }
+    }
+    .tag-clearance-flash {
+      background: rgba(239, 68, 68, 0.28);
+      color: #fecaca;
+      border: 1px solid var(--danger);
+      animation: blinkBadge 0.95s infinite;
+    }
+    .clearance-timer-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid var(--danger);
+      color: #fca5a5;
+      font-size: 0.68rem;
+      font-weight: 900;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-variant-numeric: tabular-nums;
+    }
+    .item-row.clearance-active {
+      border: 1.5px solid var(--danger);
+      background: linear-gradient(135deg, var(--bg-primary), rgba(239, 68, 68, 0.12));
+    }
+
   </style>
 </head>
 <body>
@@ -1131,9 +1189,9 @@
 
     <div id="rival-banner-mount"></div>
 
-    <div class="ticker">
-      <span>📡</span>
-      <span id="news-feed">Design your executive character, pick a fast-paced season timeline, and build your $500K empire!</span>
+    <div class="ticker flashing-ribbon" id="news-ribbon-box">
+      <span class="news-badge-live" id="news-ribbon-tag">📡 LIVE FLASH</span>
+      <span id="news-feed" style="font-weight:600;">Design your executive character, pick a fast-paced season timeline, and build your $500K empire!</span>
     </div>
 
     <main id="view-container"></main>
@@ -1234,8 +1292,8 @@
         Reach <strong>$500,000+ Net Worth</strong> and overtake all <strong>3 AI Rival Moguls</strong> before your fast-paced season ends!
       </p>
       <div class="guide-step">
-        <strong>1. Expanded Market &amp; Hub-Exclusive Arbitrage (📈 Market + ✈️ Travel)</strong>
-        Browse <strong>12 market assets</strong> per career! Watch for <strong>🔒 Hub-Exclusive Imports</strong> (marked with a purple <em>Hub Exclusive</em> badge)—these rare items can <strong>only be bought in their home hub</strong> and <strong>must be traveled to another hub to sell</strong> for massive inter-city profits.
+        <strong>1. Flashing Live News Ribbon &amp; 1-Minute 30% Off Clearance (📈 Market)</strong>
+        Watch the live flashing news ribbon for regional shortages and <strong>🔥 30% OFF Clearance</strong> alerts with a <strong>1:00 countdown timer</strong>! Selling your clearance stock before the timer hits <code>0:00</code> earns a <strong>+5% Profit Bonus</strong>; failing to sell your stock in time costs <strong>110% of what you paid</strong> (if you hold 0 stock, you lose nothing). Also trade <strong>🔒 Hub-Exclusive Imports</strong> across cities for huge export gains.
       </div>
       <div class="guide-step">
         <strong>2. Chef R&amp;D Test Kitchen &amp; Viral Labs (🎮 Gigs &rarr; 🧪 R&amp;D Lab)</strong>
@@ -1257,8 +1315,8 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v14";
-      const BACKUP_KEY = "hh_empire_undo_backup_v14";
+      const STORAGE_KEY = "hh_empire_save_v15";
+      const BACKUP_KEY = "hh_empire_undo_backup_v15";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
       // Synthesized Web Audio + Haptics
@@ -1663,6 +1721,51 @@
           }
         ]
       };
+
+      
+      // Regional & Market News Flash Headlines (Rotates live while in a region & when traveling)
+      const REGION_NEWS_FLASHES = {
+        social: {
+          bedroom: [
+            "🏠 BEDROOM FEED FLASH: Lo-fi study beats & late-night POV clips are surging +45% in algorithm reach!",
+            "📱 CREATOR WIRE: Indie affiliate links are converting at record highs across Bedroom Creator Feeds!"
+          ],
+          tiktok: [
+            "⚡ TIKTOK & REELS HUB: Short-form 7-second hook challenges just triggered a massive sponsorship wave!",
+            "🔥 TRENDING NOW: Live-shopping flash drops are dominating the Reels Hub explore page!"
+          ],
+          studio: [
+            "🌴 LA CONTENT HOUSE ROW: Paparazzi spotted A-list creators signing multi-brand studio retainers on Sunset!",
+            "🎥 STUDIO ALERT: Hollywood production houses are paying top dollar for 4K UGC packages right now!"
+          ],
+          nyc: [
+            "🗽 NYC MEDIA HQ: Madison Avenue ad buyers just unlocked Q4 upfront budgets—brand equity prices surging!",
+            "📰 SOHO WIRE: Fashion Week afterparties in NYC are driving emergency demand for creator collabs!"
+          ]
+        },
+        chef: {
+          farmers: [
+            "🌻 FARMERS MARKET FLASH: Early-morning chefs snapped up heirloom produce—artisan spice demand is heating up!",
+            "🍯 LOCAL HARVEST WIRE: Weekend market crowds are paying premium tips for small-batch sauces & sliders!"
+          ],
+          truck: [
+            "🚚 DOWNTOWN FOOD TRUCK LOT: Stadium concert crowds just flooded the lot—late-night street eats booming!",
+            "🌮 STREET FOOD ALERT: Gourmet fusion trucks are outselling sit-down diners 3-to-1 downtown!"
+          ],
+          bistro: [
+            "🍷 FINE DINING BISTRO DISTRICT: Food critics are dining incognito on Bistro Row tonight—presentation is everything!",
+            "🕯️ BISTRO WIRE: Sommeliers report a sudden shortage of Grand Cru pairings and black winter truffles!"
+          ],
+          michelin: [
+            "⭐ NYC / PARIS CULINARY ROW: International Michelin inspectors arrived in town—A5 Wagyu & saffron prices spiking!",
+            "🥂 HAUTE CUISINE FLASH: Private jet charter dining contracts just surged across Culinary Row!"
+          ]
+        }
+      };
+
+      // Active 1-Minute Market Clearance State (Runtime interval + saved timestamps)
+      let clearanceTickerInterval = null;
+      let newsRibbonInterval = null;
 
       const SEASON_PACES = {
         sprint: { id: "sprint", label: "14-Day Blitz", maxDays: 14, daysPerHop: 1, debtMult: 1.035, spikeChance: 0.25, feeMult: 1.35, sub: "14 days • High-stakes sprint" },
@@ -2906,6 +3009,7 @@
             prices: {},
             forecast: null,
             backstockBatch: null,
+            marketClearance: null,
             hustleCount: 0,
             hustleStreak: 0,
             gigsCompleted: 0,
@@ -2956,6 +3060,7 @@
           prices: {},
           forecast: null,
           backstockBatch: null,
+            marketClearance: null,
           hustleCount: 0,
           hustleStreak: 0,
           gigsCompleted: 0,
@@ -3439,6 +3544,138 @@
         modal.classList.add("open");
       }
 
+      
+      // Trigger a fresh 1-minute (60s) Market Clearance on 2 rotating market items (30% OFF)
+      function startNewMarketClearance(forceReset) {
+        if (!state.started) return;
+        const cfg = getCfg();
+        if (!forceReset && state.marketClearance && state.marketClearance.expiresAt > Date.now()) {
+          return;
+        }
+        // Pick 2 distinct non-exclusive market items to put on 30% OFF 1-minute clearance
+        const eligible = cfg.commodities.filter(c => !c.exclusiveBuyHub);
+        const shuffled = eligible.slice().sort(() => Math.random() - 0.5);
+        const chosen = shuffled.slice(0, 2);
+
+        const itemsMap = {};
+        chosen.forEach(c => {
+          const baseP = state.prices[c.id] || Math.round((c.min + c.max) / 2);
+          const clearancePrice = Math.max(10, Math.round(baseP * 0.70)); // 30% OFF
+          itemsMap[c.id] = {
+            id: c.id,
+            name: c.name,
+            originalPrice: baseP,
+            clearancePrice: clearancePrice
+          };
+        });
+
+        state.marketClearance = {
+          items: itemsMap,
+          expiresAt: Date.now() + 60000 // 60 seconds (1 minute)
+        };
+
+        const names = chosen.map(c => c.name).join(" & ");
+        state.news = `🚨 30% OFF CLEARANCE (1:00): ${names}! Sell your stock before timer hits 0:00 or lose 110% of cost!`;
+      }
+
+      // Check if 1-minute clearance timer expired:
+      // - If player still holds stock of clearance items -> lose 110% of what they paid for it!
+      // - If player has NO stock of clearance items -> lose nothing!
+      function evaluateClearanceExpiration() {
+        if (!state.started || !state.marketClearance) return;
+        if (Date.now() < state.marketClearance.expiresAt) return;
+
+        const expiredItems = Object.values(state.marketClearance.items || {});
+        let totalPenalty = 0;
+        const penalizedNames = [];
+
+        expiredItems.forEach(cItem => {
+          const owned = state.inventory[cItem.id];
+          if (owned && owned.qty > 0) {
+            const paidTotal = owned.qty * owned.avgCost;
+            const penalty = Math.round(paidTotal * 1.10); // Lose 110% of what they paid
+            totalPenalty += penalty;
+            penalizedNames.push(`${owned.qty}x ${cItem.name}`);
+            delete state.inventory[cItem.id];
+          }
+        });
+
+        state.marketClearance = null;
+
+        if (totalPenalty > 0) {
+          triggerSfx("error");
+          const cashDeducted = Math.min(state.cash, totalPenalty);
+          const unpaidOverflow = totalPenalty - cashDeducted;
+          state.cash -= cashDeducted;
+          if (unpaidOverflow > 0) {
+            state.debt += unpaidOverflow;
+          }
+          state.news = `💥 CLEARANCE EXPIRED! Unsold backstock (${penalizedNames.join(", ")}) liquidated at -110% loss (-${fmt(totalPenalty)})!`;
+        } else {
+          state.news = `✅ Clearance window closed safely with zero unsold backstock! New market deals incoming...`;
+        }
+
+        // Start the next rotating 1-minute clearance wave with new items
+        startNewMarketClearance(true);
+        saveGame();
+        render();
+      }
+
+      function startLiveTimers() {
+        if (clearanceTickerInterval) clearInterval(clearanceTickerInterval);
+        if (newsRibbonInterval) clearInterval(newsRibbonInterval);
+
+        // 1-second timer updating the 1-minute clearance countdown badge & checking expiration
+        clearanceTickerInterval = setInterval(() => {
+          if (!state.started) return;
+          if (!state.marketClearance) {
+            startNewMarketClearance(true);
+            render();
+            return;
+          }
+          const msLeft = state.marketClearance.expiresAt - Date.now();
+          if (msLeft <= 0) {
+            evaluateClearanceExpiration();
+            return;
+          }
+          const secs = Math.ceil(msLeft / 1000);
+          const fmtTimer = `0:${secs < 10 ? "0" + secs : secs}`;
+          document.querySelectorAll("[data-clearance-clock]").forEach(el => {
+            el.textContent = `⏱️ ${fmtTimer}`;
+          });
+        }, 1000);
+
+        // Rotate flashing regional news, shortages, and clearance alerts every 7 seconds
+        newsRibbonInterval = setInterval(() => {
+          if (!state.started) return;
+          const cfg = getCfg();
+          const hubObj = cfg.hubs.find(h => h.id === state.hub) || cfg.hubs[0];
+          const regionalPool = (REGION_NEWS_FLASHES[state.path] && REGION_NEWS_FLASHES[state.path][state.hub]) || [];
+          const flashMessages = [];
+
+          if (state.marketClearance && state.marketClearance.expiresAt > Date.now()) {
+            const cNames = Object.values(state.marketClearance.items).map(x => x.name).join(" & ");
+            const secs = Math.max(1, Math.ceil((state.marketClearance.expiresAt - Date.now()) / 1000));
+            flashMessages.push(`🚨 FLASH 30% OFF (${secs}s left): ${cNames} — Sell now for +5% Profit Bonus!`);
+          }
+          regionalPool.forEach(msg => flashMessages.push(msg));
+          if (state.forecast) flashMessages.push(`🔮 ${state.forecast}`);
+
+          // Add live shortage/surge alert from current prices
+          const hotItem = cfg.commodities.find(c => !c.exclusiveBuyHub && state.prices[c.id] > c.max * 1.2);
+          if (hotItem) {
+            flashMessages.push(`📈 SUPPLY SHORTAGE in ${hubObj.name}: ${hotItem.name} trading at ${fmt(state.prices[hotItem.id])}!`);
+          }
+
+          if (flashMessages.length > 0) {
+            const pick = flashMessages[Math.floor(Math.random() * flashMessages.length)];
+            state.news = pick;
+            const feedEl = document.getElementById("news-feed");
+            if (feedEl) feedEl.textContent = pick;
+          }
+        }, 7000);
+      }
+
       function rollPrices() {
         const cfg = getCfg();
         const hubObj = cfg.hubs.find(h => h.id === state.hub) || cfg.hubs[0];
@@ -3486,6 +3723,7 @@
         const keepPrestige = state.prestigeStars || 0;
         state = createFreshState(draftSetup, keepPrestige);
         rollPrices();
+        startNewMarketClearance(true);
         saveGame();
         render();
         checkTelltaleProgression();
@@ -3605,6 +3843,11 @@
         modal.classList.add("open");
       }
 
+      function getActiveClearanceItem(id) {
+        if (!state.marketClearance || Date.now() >= state.marketClearance.expiresAt) return null;
+        return (state.marketClearance.items && state.marketClearance.items[id]) || null;
+      }
+
       function buyItem(id, qty) {
         const cfg = getCfg();
         const itemDef = cfg.commodities.find(c => c.id === id);
@@ -3614,7 +3857,8 @@
           render();
           return;
         }
-        const price = state.prices[id];
+        const clr = getActiveClearanceItem(id);
+        const price = clr ? clr.clearancePrice : state.prices[id];
         const freeSpace = getCapacity() - getUsedCapacity();
         const maxAffordable = Math.floor(state.cash / price);
         const actualQty = Math.min(qty, freeSpace, maxAffordable);
@@ -3644,13 +3888,21 @@
         if (!existing || existing.qty <= 0) return;
         triggerSfx("cash");
         const actualQty = Math.min(qty, existing.qty);
-        const revenue = Math.round(actualQty * state.prices[id] * getSellMultiplier());
+
+        // If sold during active 1-minute clearance window: earn +5% Profit Bonus!
+        const clr = getActiveClearanceItem(id);
+        const unitSellPrice = clr ? clr.clearancePrice : state.prices[id];
+        const bonusMult = clr ? 1.05 : 1.0;
+        const revenue = Math.round(actualQty * unitSellPrice * getSellMultiplier() * bonusMult);
 
         existing.qty -= actualQty;
         if (existing.qty === 0) delete state.inventory[id];
         state.cash += revenue;
         state.salesCount += 1;
-        awardXP(15);
+        if (clr) {
+          state.news = `⚡ BEAT THE CLOCK! Sold ${actualQty}x ${clr.name} on clearance for ${fmt(revenue)} (includes +5% Profit Bonus)!`;
+        }
+        awardXP(clr ? 25 : 15);
         checkTelltaleProgression();
         saveGame();
         render();
@@ -3679,9 +3931,11 @@
         if (state.vault > 0) state.vault = Math.round(state.vault * diff.vaultRate);
 
         rollPrices();
-        if (passive > 0) {
-          state.news = `🏢 Passive Empire & Shop Sales: +${fmt(passive)} collected! ${state.news}`;
-        }
+        startNewMarketClearance(true);
+        const hubObj = getCfg().hubs.find(h => h.id === hubId) || getCfg().hubs[0];
+        const regMsgs = (REGION_NEWS_FLASHES[state.path] && REGION_NEWS_FLASHES[state.path][hubId]) || [];
+        const regSplash = regMsgs.length > 0 ? regMsgs[Math.floor(Math.random() * regMsgs.length)] : "";
+        state.news = `✈️ Arrived in ${hubObj.name}! ${passive > 0 ? `(+${fmt(passive)} Passive Income) ` : ""}${regSplash}`;
         checkTelltaleProgression();
 
         if (Math.random() < 0.42 && !document.getElementById("telltale-modal").classList.contains("open") && !document.getElementById("cine-modal").classList.contains("open")) {
@@ -4851,21 +5105,26 @@
           list.className = "market-list";
 
           cfg.commodities.forEach(c => {
-            const price = state.prices[c.id];
+            const clr = getActiveClearanceItem(c.id);
+            const price = clr ? clr.clearancePrice : state.prices[c.id];
             const owned = state.inventory[c.id];
             const isExclusive = Boolean(c.exclusiveBuyHub);
             const canBuyHere = !isExclusive || c.exclusiveBuyHub === state.hub;
             const canSellHere = Boolean(owned) && (!isExclusive || c.exclusiveBuyHub !== state.hub);
-            const isHot = !isExclusive && price > c.max * 1.25;
-            const isDeal = !isExclusive && price < c.min * 0.9;
+            const isHot = !isExclusive && !clr && price > c.max * 1.25;
+            const isDeal = !isExclusive && !clr && price < c.min * 0.9;
+
+            const secsLeft = clr ? Math.max(1, Math.ceil((state.marketClearance.expiresAt - Date.now()) / 1000)) : 0;
+            const clockText = clr ? `⏱️ 0:${secsLeft < 10 ? "0" + secsLeft : secsLeft}` : "";
 
             const row = document.createElement("div");
-            row.className = "item-row";
+            row.className = "item-row" + (clr ? " clearance-active" : "");
             if (isExclusive) row.style.borderColor = "rgba(168, 85, 247, 0.45)";
             row.innerHTML = `
               <div class="item-info">
                 <div class="item-title">
                   ${c.name}
+                  ${clr ? `<span class="tag tag-clearance-flash">🔥 30% OFF CLEARANCE</span><span class="clearance-timer-pill" data-clearance-clock>${clockText}</span>` : ""}
                   ${isExclusive ? `<span class="tag tag-exclusive">${canBuyHere ? "Buy Here Only" : "Export Sell Only"}</span>` : ""}
                   ${isHot ? '<span class="tag tag-hot">Spike</span>' : ""}
                   ${isDeal ? '<span class="tag tag-deal">Low</span>' : ""}
@@ -4873,15 +5132,16 @@
                 <div class="item-sub">
                   Owned: <strong>${owned ? owned.qty : 0}</strong>
                   ${owned ? ` (Avg: ${fmt(owned.avgCost)})` : ""}
+                  ${clr ? ` • <span style="color:#fca5a5;">Sell before 0:00 for <strong>+5% Bonus</strong> (or lose 110% of paid cost!)</span>` : ""}
                   ${isExclusive ? ` • ${canBuyHere ? "Travel elsewhere to sell!" : `Sourced in ${c.hubLabel}`}` : ""}
                 </div>
               </div>
               <div class="item-actions">
-                <span class="price-tag">${canBuyHere || owned ? fmt(price) : "Locked"}</span>
+                <span class="price-tag">${canBuyHere || owned ? (clr ? `<s style="opacity:0.55;font-size:0.74rem;margin-right:4px;">${fmt(clr.originalPrice)}</s>${fmt(price)}` : fmt(price)) : "Locked"}</span>
                 <div class="btn-group">
                   <button class="btn btn-buy" data-buy1="${c.id}" ${!canBuyHere ? "disabled" : ""}>+1</button>
                   <button class="btn btn-buy" data-buymax="${c.id}" ${!canBuyHere ? "disabled" : ""}>Max</button>
-                  <button class="btn btn-sell" data-sellall="${c.id}" ${!canSellHere ? "disabled" : ""}>Sell</button>
+                  <button class="btn ${clr && canSellHere ? "btn-success" : "btn-sell"}" data-sellall="${c.id}" ${!canSellHere ? "disabled" : ""}>${clr && canSellHere ? "Sell +5%" : "Sell"}</button>
                 </div>
               </div>
             `;
@@ -5293,7 +5553,7 @@
         });
       }
 
-      loadGame().then(render);
+      loadGame().then(() => { if (state.started && !state.marketClearance) startNewMarketClearance(true); startLiveTimers(); render(); });
     })();
   </script>
 </body>
