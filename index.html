@@ -1351,6 +1351,61 @@
       margin-bottom: 10px;
     }
 
+  
+    /* 3-Scenario Selector & 3-Choice RNG Decision Cards on Travel & Empire/Banking */
+    .scenario-selector-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .sc-tab-pill {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      color: var(--text-secondary);
+      padding: 7px 6px;
+      border-radius: 10px;
+      font-size: 0.71rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      line-height: 1.25;
+    }
+    .sc-tab-pill.active {
+      background: var(--accent);
+      color: var(--accent-text);
+      border-color: var(--accent);
+    }
+    .rng-choice-btn {
+      background: var(--bg-primary);
+      border: 1.5px solid var(--border);
+      color: var(--text-primary);
+      padding: 10px 12px;
+      border-radius: 10px;
+      text-align: left;
+      font-size: 0.8rem;
+      line-height: 1.36;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .rng-choice-btn:hover, .rng-choice-btn:active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .rng-odds-tag {
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--accent);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
   </style>
 </head>
 <body>
@@ -1454,7 +1509,7 @@
         <div class="cine-timeline"><div class="cine-timeline-fill" id="cine-timeline-fill" style="width:0%"></div></div>
 
         <div class="cine-burst-row">
-          <button type="button" class="btn btn-buy" style="flex:1;" id="cine-hype-btn">📸 Snap / Plate Bonus (+$75)</button>
+          <button type="button" class="btn btn-buy" style="flex:1;" id="cine-hype-btn">📸 Snap / Plate Bonus</button>
           <button type="button" class="btn btn-sell" id="cine-next-slide-btn">Next &rarr;</button>
         </div>
       </div>
@@ -1560,8 +1615,8 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v20";
-      const BACKUP_KEY = "hh_empire_undo_backup_v20";
+      const STORAGE_KEY = "hh_empire_save_v22";
+      const BACKUP_KEY = "hh_empire_undo_backup_v22";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
       // Synthesized Web Audio Engine: SFX + Soft Low-Volume Regional & Scene Background Music + Haptics
@@ -2080,206 +2135,366 @@
       let newsRibbonInterval = null;
 
       
-      // Interactive Real-World Scenarios for Travel & Empire Menus (Positive vs Negative/Risky Telltale Choices)
+      // 3 Real-World Scenarios per Menu (Travel: Upgrades/Delays/Modes; Empire & Banking: Career & Bank Realities)
+      // Each scenario gives 3 choices with RNG outcomes (positive, negative, or mixed RNG roll)!
       const MENU_SCENARIOS = {
         travel: {
           chef: [
             {
-              id: "tr_chef_customs",
-              title: "🛂 Customs Inspection at Regional Border",
-              desc: "While transporting delicate ingredients between hubs, a customs officer flags your temperature-controlled crates for an extra agricultural paperwork check.",
-              positive: {
-                label: "✅ Present certified cold-chain logs & pay $250 inspection fee (+9 Rep, Smooth Transit)",
-                tag: "Compliant Pro",
-                cashDelta: -250,
-                debtDelta: 0,
-                repDelta: 9,
-                outcome: "{NAME}'s spotless cold-chain logs impressed inspectors—winning fast-track customs clearance and industry praise!"
-              },
-              negative: {
-                label: "⚠️ Slip cash under the table to skip inspection (-$1,400 Fine, +$1,800 Legal Debt, -15 Rep)",
-                tag: "Customs Scandal",
-                cashDelta: -1400,
-                debtDelta: 1800,
-                repDelta: -15,
-                outcome: "The officer reported the attempted bribe! {NAME} paid a $1,400 fine, took on $1,800 in legal fees, and suffered local press backlash—but pushed forward determined to rebuild."
-              }
+              id: "tr_chef_modes",
+              tabLabel: "🚢 Transit Mode",
+              title: "🚢 Cold-Chain Transit: Charter Flight vs. Refrigerated Boat vs. Sprinter Van",
+              desc: "Your specialty ingredients need to cross regions before a tasting event. Weather advisories are shifting—pick how {NAME} moves the shipment:",
+              choices: [
+                {
+                  label: "✈️ Book Air Cargo Freight",
+                  odds: "RNG 70% Hit",
+                  winChance: 0.70,
+                  hit: { tag: "VIP Air Express", cashDelta: 2400, debtDelta: 0, repDelta: 11, outcome: "Your ingredients landed fresh ahead of schedule! VIP guests tipped +$2,400 and praised {NAME}'s precision." },
+                  miss: { tag: "Tarmac Delay", cashDelta: -900, debtDelta: 1200, repDelta: -8, outcome: "Crosswinds grounded the cargo flight! Rush rerouting cost $900 cash and $1,200 in air-freight debt." }
+                },
+                {
+                  label: "🛥️ Charter Coastal Ferry & Boat",
+                  odds: "RNG 55% Hit",
+                  winChance: 0.55,
+                  hit: { tag: "Harbor Breeze Win", cashDelta: 2900, debtDelta: 0, repDelta: 9, outcome: "Smooth harbor waters and scenic dockside photos netted $2,900 in catering leads!" },
+                  miss: { tag: "Choppy Swell Delay", cashDelta: -1200, debtDelta: 1500, repDelta: -11, outcome: "Rough coastal swells delayed docking by 14 hours, costing $1,200 and adding $1,500 in berth debt." }
+                },
+                {
+                  label: "🚐 Drive Sprinter Van & Reroute",
+                  odds: "RNG 45% Hit",
+                  winChance: 0.45,
+                  hit: { tag: "Highway Shortcut", cashDelta: 1950, debtDelta: 0, repDelta: 8, outcome: "{NAME} spotted a highway detour and scored a $1,950 roadside pop-up booking!" },
+                  miss: { tag: "Tire Blowout & Delay", cashDelta: -1500, debtDelta: 2000, repDelta: -14, outcome: "A blowout and highway delay cost $1,500 in repairs and $2,000 in emergency tow credit." }
+                }
+              ]
             },
             {
-              id: "tr_chef_popup",
-              title: "🚚 Spontaneous Midnight Street-Food Collab",
-              desc: "En route to your next culinary district, a beloved local food truck breaks down outside a sold-out concert venue and asks {NAME} to co-host a pop-up window.",
-              positive: {
-                label: "✅ Split prep & co-host a charity-backed late-night menu (+$2,400 Cash, +12 Rep)",
-                tag: "Community Chef",
-                cashDelta: 2400,
-                debtDelta: 0,
-                repDelta: 12,
-                outcome: "{NAME} turned a broken-down truck into a viral midnight feast, earning $2,400 and glowing food-blog coverage!"
-              },
-              negative: {
-                label: "⚠️ Jack up prices 400% & take over their spot (+$3,600 Cash, -16 Rep)",
-                tag: "Price Gouger",
-                cashDelta: 3600,
-                debtDelta: 0,
-                repDelta: -16,
-                outcome: "Concertgoers paid $3,600 out of hunger, but angry posts calling {NAME} a 'price-gouging shark' tanked public reputation!"
-              }
+              id: "tr_chef_upgrades_delays",
+              tabLabel: "⏱️ Delays & Upgrades",
+              title: "⏱️ Flight Delay & First-Class Lounge Upgrade Offer",
+              desc: "Your flight is delayed 4 hours due to air-traffic control. A gate agent offers a discounted lounge/seat upgrade while a rival chef is stuck in the terminal.",
+              choices: [
+                {
+                  label: "⬆️ Upgrade Cabin & Network in Lounge",
+                  odds: "RNG 65% Hit",
+                  winChance: 0.65,
+                  hit: { tag: "Lounge Deal Closed", cashDelta: 3200, debtDelta: 0, repDelta: 12, outcome: "Sitting next to a food-network producer in the lounge landed a $3,200 guest segment!" },
+                  miss: { tag: "Upgrade Sunk Cost", cashDelta: -750, debtDelta: 0, repDelta: -5, outcome: "The flight was canceled anyway—costing $750 in non-refundable upgrade fees." }
+                },
+                {
+                  label: "🍳 Host Live 'Delayed Flight' Q&A",
+                  odds: "RNG 75% Hit",
+                  winChance: 0.75,
+                  hit: { tag: "Viral Travel Pivot", cashDelta: 2100, debtDelta: 0, repDelta: 13, outcome: "Fans loved {NAME}'s calm vibe during a delay—earning $2,100 in brand & subscriber boosts!" },
+                  miss: { tag: "Wi-Fi Drop & Backlash", cashDelta: -600, debtDelta: 0, repDelta: -9, outcome: "Spotty airport Wi-Fi cut the stream short, costing $600 in promo refunds." }
+                },
+                {
+                  label: "🎟️ Slip Into the VIP Lounge",
+                  odds: "RNG 35% Hit",
+                  winChance: 0.35,
+                  hit: { tag: "Bold Gatecrash", cashDelta: 1800, debtDelta: 0, repDelta: -6, outcome: "{NAME} slipped inside and grabbed a quick photo, though security gave a stern warning." },
+                  miss: { tag: "Escorted Out & Fined", cashDelta: -1600, debtDelta: 2200, repDelta: -17, outcome: "Security spotted the pass mismatch—triggering a $1,600 penalty, $2,200 in fees, and bad press!" }
+                }
+              ]
             },
             {
-              id: "tr_chef_supplier",
-              title: "🌾 Boutique Farm Exclusive Harvest Offer",
-              desc: "A family-owned heirloom farm offers {NAME} first pick of their seasonal harvest before big restaurant groups arrive.",
-              positive: {
-                label: "✅ Sign a fair-trade seasonal contract (+$1,600 Value, +10 Rep)",
-                tag: "Ethical Partner",
-                cashDelta: 1600,
-                debtDelta: 0,
-                repDelta: 10,
-                outcome: "Farm-to-table press celebrated {NAME}'s fair-trade partnership, boosting both cash flow and chef prestige!"
-              },
-              negative: {
-                label: "⚠️ Promise payment in 30 days then ghost the invoice (+$2,500 Cash, +$3,200 Debt, -18 Rep)",
-                tag: "Broken Promise",
-                cashDelta: 2500,
-                debtDelta: 3200,
-                repDelta: -18,
-                outcome: "Suppliers blacklisted {NAME} across the county, adding $3,200 in collection debt and damaging your culinary name."
-              }
+              id: "tr_chef_reroute",
+              tabLabel: "🧭 Route Change",
+              title: "🧭 Last-Minute Venue Change Across Town",
+              desc: "Your private dinner host moves the venue across town 90 minutes before doors open. How does {NAME} adapt transit?",
+              choices: [
+                {
+                  label: "🚗 Dispatch Private Car & Crew",
+                  odds: "RNG 70% Hit",
+                  winChance: 0.70,
+                  hit: { tag: "White-Glove Save", cashDelta: 2600, debtDelta: 0, repDelta: 12, outcome: "Arriving early with every course intact earned {NAME} a $2,600 host bonus and rave reviews!" },
+                  miss: { tag: "Gridlock Surcharge", cashDelta: -950, debtDelta: 1100, repDelta: -7, outcome: "Bumper-to-bumper traffic added $950 in driver overtime and $1,100 in rush courier debt." }
+                },
+                {
+                  label: "🚤 Take Water-Taxi Across the Bay",
+                  odds: "RNG 55% Hit",
+                  winChance: 0.55,
+                  hit: { tag: "Bay Shortcut Triumph", cashDelta: 3400, debtDelta: 0, repDelta: 10, outcome: "Bypassing city gridlock by water-taxi won a $3,400 waterfront catering contract!" },
+                  miss: { tag: "Fog & Dock Fees", cashDelta: -1200, debtDelta: 1600, repDelta: -10, outcome: "Harbor fog slowed the boat and added $1,200 in cash costs plus $1,600 in charter debt." }
+                },
+                {
+                  label: "⚡ Speed Up Plating for Early Doors",
+                  odds: "RNG 40% Hit",
+                  winChance: 0.40,
+                  hit: { tag: "Speedy Hustle", cashDelta: 2200, debtDelta: 0, repDelta: -8, outcome: "You saved $1,200 in rush labor, though guests noticed simpler plating." },
+                  miss: { tag: "Botched Service Refund", cashDelta: -1800, debtDelta: 2400, repDelta: -18, outcome: "Rushed plating led to comped tables (-$1,800) and $2,400 in supplier dispute debt!" }
+                }
+              ]
             }
           ],
           social: [
             {
-              id: "tr_soc_airport",
-              title: "🛫 First-Class Lounge Creator Ambush",
-              desc: "During a flight connection between media hubs, a controversial drama channel shoves a camera in {NAME}'s face demanding a hot take on a rival creator.",
-              positive: {
-                label: "✅ Pivot gracefully to promote your upcoming creator workshop (+$2,200 Cash, +11 Rep)",
-                tag: "Poised Icon",
-                cashDelta: 2200,
-                debtDelta: 0,
-                repDelta: 11,
-                outcome: "{NAME} handled the ambush with executive grace—turning the clip into $2,200 in workshop signups!"
-              },
-              negative: {
-                label: "⚠️ Snap on camera & start a viral feud (-$1,200 Sponsor Pullout, -15 Rep)",
-                tag: "PR Meltdown",
-                cashDelta: -1200,
-                debtDelta: 0,
-                repDelta: -15,
-                outcome: "Two family-friendly sponsors paused campaigns (-$1,200), though drama channels kept {NAME}'s name trending."
-              }
+              id: "tr_soc_modes",
+              tabLabel: "✈️ Transit Mode",
+              title: "✈️ Creator Tour Transit: Direct Flight vs. Road-Trip Van vs. Ferry",
+              desc: "You're heading to a major creator summit and brand shoot. Pick {NAME}'s travel mode and see how the RNG road plays out:",
+              choices: [
+                {
+                  label: "✈️ Fly First-Class & Film Airport Vlog",
+                  odds: "RNG 70% Hit",
+                  winChance: 0.70,
+                  hit: { tag: "Sky-High Views", cashDelta: 2500, debtDelta: 0, repDelta: 11, outcome: "Your airport & first-class vlog hit 1.2M views and unlocked $2,500 in travel brand deals!" },
+                  miss: { tag: "Flight Reroute Loss", cashDelta: -900, debtDelta: 1300, repDelta: -8, outcome: "Flight delays forced a $900 rebooking cost and $1,300 in agency credit charges." }
+                },
+                {
+                  label: "🚐 Hit the Road in a Creator Van",
+                  odds: "RNG 60% Hit",
+                  winChance: 0.60,
+                  hit: { tag: "Road-Trip Series Hit", cashDelta: 3100, debtDelta: 0, repDelta: 13, outcome: "Fans loved the behind-the-scenes van series—earning $3,100 in sponsor & merch sales!" },
+                  miss: { tag: "Van Breakdown & Debt", cashDelta: -1150, debtDelta: 1700, repDelta: -10, outcome: "Engine trouble stranded the crew and added $1,150 cash loss plus $1,700 in repair debt." }
+                },
+                {
+                  label: "⛴️ Livestream From the Coastal Ferry",
+                  odds: "RNG 50% Hit",
+                  winChance: 0.50,
+                  hit: { tag: "Sunset Stream Surge", cashDelta: 2200, debtDelta: 0, repDelta: 9, outcome: "Golden-hour ocean views made {NAME}'s live stream go viral for $2,200!" },
+                  miss: { tag: "Sea-Sickness & Signal Drop", cashDelta: -850, debtDelta: 1000, repDelta: -12, outcome: "Dropped cell signal and rough waters cut the stream short, costing $850 and $1,000 debt." }
+                }
+              ]
             },
             {
-              id: "tr_soc_collab",
-              title: "📸 Cross-City Rooftop Collab Shoot",
-              desc: "Arriving in a new hub, a rising photographer offers to shoot an editorial lookbook with {NAME} if you credit their studio.",
-              positive: {
-                label: "✅ Co-brand the shoot & tag every crew member (+$2,600 Cash, +12 Rep)",
-                tag: "Team Builder",
-                cashDelta: 2600,
-                debtDelta: 0,
-                repDelta: 12,
-                outcome: "The creative community amplified the shoot—netting $2,600 in brand inquiries and huge industry respect!"
-              },
-              negative: {
-                label: "⚠️ Crop out the photographer's watermark & claim solo credit (+$1,500 Cash, +$2,200 Debt, -17 Rep)",
-                tag: "Credit Thief",
-                cashDelta: 1500,
-                debtDelta: 2200,
-                repDelta: -17,
-                outcome: "The studio billed a $2,200 licensing penalty and exposed {NAME} online—a costly lesson in creator ethics."
-              }
+              id: "tr_soc_upgrades_delays",
+              tabLabel: "⏱️ Delays & Upgrades",
+              title: "⏱️ Terminal Delay & Press Pass Upgrade",
+              desc: "Your connecting flight is delayed while a VIP press-pass upgrade opens up for a red-carpet event in the next city.",
+              choices: [
+                {
+                  label: "🎟️ Claim Press Pass & Work the Room",
+                  odds: "RNG 65% Hit",
+                  winChance: 0.65,
+                  hit: { tag: "Red Carpet Scoop", cashDelta: 3300, debtDelta: 0, repDelta: 12, outcome: "{NAME} landed exclusive red-carpet interviews worth $3,300 in syndication & brand deals!" },
+                  miss: { tag: "Missed Carpet Window", cashDelta: -800, debtDelta: 0, repDelta: -6, outcome: "Flight delays made you miss the carpet window, losing the $500 pass plus $300 rush transit." }
+                },
+                {
+                  label: "📱 Film a 'Stranded Mogul' Mini-Series",
+                  odds: "RNG 75% Hit",
+                  winChance: 0.75,
+                  hit: { tag: "Relatable Mogul Hit", cashDelta: 2050, debtDelta: 0, repDelta: 12, outcome: "Audience engagement spiked as {NAME} turned terminal boredom into $2,050 in revenue!" },
+                  miss: { tag: "Copyright Flagged Audio", cashDelta: -700, debtDelta: 0, repDelta: -9, outcome: "Background music in the terminal triggered a claim, costing $700 in ad adjustments." }
+                },
+                {
+                  label: "🪪 Use Backstage Pass Shortcuts",
+                  odds: "RNG 30% Hit",
+                  winChance: 0.30,
+                  hit: { tag: "Risky Sneak-In", cashDelta: 2400, debtDelta: 0, repDelta: -12, outcome: "You got photos inside, though industry insiders questioned {NAME}'s credibility." },
+                  miss: { tag: "Blacklisted & Legal Debt", cashDelta: -1500, debtDelta: 2500, repDelta: -19, outcome: "Event security revoked access—costing $1,500, adding $2,500 in legal debt, and hurting Rep!" }
+                }
+              ]
+            },
+            {
+              id: "tr_soc_reroute",
+              tabLabel: "🧭 Schedule Shift",
+              title: "🧭 Sudden Brand Shoot Location Pivot",
+              desc: "A sponsor moves tomorrow's studio shoot to a coastal loft across the region on short notice.",
+              choices: [
+                {
+                  label: "🚁 Charter Fast Shuttle & Crew",
+                  odds: "RNG 65% Hit",
+                  winChance: 0.65,
+                  hit: { tag: "On-Time Luxury Delivery", cashDelta: 3500, debtDelta: 0, repDelta: 13, outcome: "The sponsor was thrilled by {NAME}'s reliability and added a $3,500 rush bonus!" },
+                  miss: { tag: "Charter Overrun Debt", cashDelta: -1100, debtDelta: 1800, repDelta: -9, outcome: "Weather & fuel surcharges cost $1,100 cash and put $1,800 onto your credit tab." }
+                },
+                {
+                  label: "🚆 Ride High-Speed Rail & Edit Live",
+                  odds: "RNG 70% Hit",
+                  winChance: 0.70,
+                  hit: { tag: "Rail-Side Edit Win", cashDelta: 2300, debtDelta: 0, repDelta: 10, outcome: "{NAME} delivered edited rough cuts before arriving, earning $2,300 in client praise!" },
+                  miss: { tag: "Missed Connection", cashDelta: -750, debtDelta: 0, repDelta: -7, outcome: "A missed rail connection cost $750 in rebooking fees." }
+                },
+                {
+                  label: "🎥 Outsource Shoot to a Freelancer",
+                  odds: "RNG 40% Hit",
+                  winChance: 0.40,
+                  hit: { tag: "Cheap Margin Score", cashDelta: 2100, debtDelta: 0, repDelta: -7, outcome: "The low-cost shoot passed muster and pocketed $2,100, though quality felt rushed." },
+                  miss: { tag: "Corrupted Footage & Penalty", cashDelta: -1450, debtDelta: 2100, repDelta: -16, outcome: "Corrupted files forced a reshoot—costing $1,450 cash and $2,100 in production debt!" }
+                }
+              ]
             }
           ]
         },
         empire: {
           chef: [
             {
-              id: "emp_chef_staff",
-              title: "👨‍🍳 Kitchen Brigade Profit-Sharing Vote",
-              desc: "Your prep cooks and sous-chefs have worked double shifts during peak demand. They ask for a structured bonus pool.",
-              positive: {
-                label: "✅ Launch a 10% service-charge profit share (-$1,100 Cash, +14 Rep, +25 XP)",
-                tag: "Beloved Mentor",
-                cashDelta: -1100,
-                debtDelta: 0,
-                repDelta: 14,
-                outcome: "Turnover dropped to zero! Food critics praised {NAME}'s loyal kitchen culture across the city."
-              },
-              negative: {
-                label: "⚠️ Cut overtime pay & replace veterans with unpaid interns (+$2,800 Cash, -19 Rep)",
-                tag: "Cutthroat Boss",
-                cashDelta: 2800,
-                debtDelta: 0,
-                repDelta: -19,
-                outcome: "Short-term payroll savings added $2,800 cash, but an exposé on unpaid kitchen labor battered {NAME}'s reputation."
-              }
+              id: "emp_chef_bank_line",
+              tabLabel: "🏦 Credit Line",
+              title: "🏦 Commercial Bank Credit Line & Kitchen Expansion",
+              desc: "Your bank offers a $15,000 revolving credit line to expand your culinary prep & dining capacity, based on your current career & reputation.",
+              choices: [
+                {
+                  label: "💼 Draw Credit for Tasting Menu Expansion",
+                  odds: "RNG 70% Hit",
+                  winChance: 0.70,
+                  hit: { tag: "Smart Leverage Win", cashDelta: 4200, debtDelta: 3000, repDelta: 11, outcome: "Your new tasting menu sold out nightly—netting $4,200 cash while keeping debt manageable!" },
+                  miss: { tag: "Slow Tasting Ramp", cashDelta: -1200, debtDelta: 5500, repDelta: -10, outcome: "Opening-week food costs ran hot, costing $1,200 cash and adding $5,500 in kitchen loan debt." }
+                },
+                {
+                  label: "🏦 Restructure Balance & Keep Lean Cash",
+                  odds: "RNG 80% Hit",
+                  winChance: 0.80,
+                  hit: { tag: "Disciplined Balance Sheet", cashDelta: 1800, debtDelta: -1500, repDelta: 13, outcome: "Bankers praised {NAME}'s disciplined cash flow—cutting $1,500 debt and adding $1,800 in partner perks!" },
+                  miss: { tag: "Missed Seasonal Surge", cashDelta: -700, debtDelta: 0, repDelta: -5, outcome: "Staying extra lean missed a brief holiday rush (-$700), keeping your credit clean." }
+                },
+                {
+                  label: "🥂 Push Credit Line for VIP Gala",
+                  odds: "RNG 40% Hit",
+                  winChance: 0.40,
+                  hit: { tag: "Gala Jackpot", cashDelta: 8500, debtDelta: 9000, repDelta: 6, outcome: "The gala was a massive hit (+$8,500 cash), though $9,000 in bank credit remains on your ledger." },
+                  miss: { tag: "Gala Default & Debt Spike", cashDelta: -2200, debtDelta: 11000, repDelta: -18, outcome: "Low ticket sales turned the gala into a loss (-$2,200 cash) and added $11,000 in bank debt!" }
+                }
+              ]
             },
             {
-              id: "emp_chef_investor",
-              title: "🏦 Private Equity Franchise Term Sheet",
-              desc: "An aggressive hospitality fund offers {NAME} immediate expansion capital—if you swap fresh local ingredients for frozen factory pre-packs.",
-              positive: {
-                label: "✅ Reject the shortcut & protect artisan quality (+$1,800 Loyal Diner Surge, +12 Rep)",
-                tag: "Quality Purist",
-                cashDelta: 1800,
-                debtDelta: 0,
-                repDelta: 12,
-                outcome: "Diners noticed the difference immediately—regulars packed every table for $1,800 in organic growth!"
-              },
-              negative: {
-                label: "⚠️ Take the $9,000 franchise advance & cut ingredient quality (+$9,000 Cash, +$11,000 Debt, -20 Rep)",
-                tag: "Sellout Gamble",
-                cashDelta: 9000,
-                debtDelta: 11000,
-                repDelta: -20,
-                outcome: "The $9,000 cash injection came with $11,000 in strict franchise debt and a wave of 2-star reviews!"
-              }
+              id: "emp_chef_audit_escrow",
+              tabLabel: "🧾 Tax & Escrow",
+              title: "🧾 Restaurant Tax Escrow & Merchant Reserve Review",
+              desc: "Your business banker reviews your restaurant's daily card-processor reserve and quarterly tax withholding based on your recent choices.",
+              choices: [
+                {
+                  label: "🧾 Automate Tax & Merchant Reserve Vault",
+                  odds: "RNG 80% Hit",
+                  winChance: 0.80,
+                  hit: { tag: "Bank Preferred Tier", cashDelta: 2300, debtDelta: 0, repDelta: 12, outcome: "Clean tax & reserve habits unlocked lower processing fees and a $2,300 cash-back rebate!" },
+                  miss: { tag: "Tight Cash Cushion", cashDelta: -650, debtDelta: 0, repDelta: -4, outcome: "Setting funds aside felt tight this week (-$650), protecting you from penalties." }
+                },
+                {
+                  label: "⚖️ Request Extended Vendor & Bank Terms",
+                  odds: "RNG 55% Hit",
+                  winChance: 0.55,
+                  hit: { tag: "Grace Terms Approved", cashDelta: 2700, debtDelta: 1000, repDelta: 7, outcome: "Your relationship manager approved flexible terms, freeing $2,700 cash with $1,000 scheduled debt." },
+                  miss: { tag: "Higher APR Penalty", cashDelta: -1100, debtDelta: 3400, repDelta: -12, outcome: "The bank required a $3,400 credit note and $1,100 fee to extend grace terms." }
+                },
+                {
+                  label: "🎲 Shift Reserves Into a High-Yield Play",
+                  odds: "RNG 35% Hit",
+                  winChance: 0.35,
+                  hit: { tag: "Speculative Windfall", cashDelta: 5200, debtDelta: 0, repDelta: -9, outcome: "The bet paid $5,200, though compliance flagged your reserve sweep." },
+                  miss: { tag: "Reserve Freeze & Debt", cashDelta: -1900, debtDelta: 6500, repDelta: -19, outcome: "Processor froze payouts and slapped a $6,500 compliance loan plus $1,900 loss!" }
+                }
+              ]
+            },
+            {
+              id: "emp_chef_payroll",
+              tabLabel: "👥 Staff & Payroll",
+              title: "👥 Kitchen Payroll & Franchise Royalties",
+              desc: "Payroll day arrives alongside franchise royalty checks. How does {NAME} balance staff morale, banking limits, and growth?",
+              choices: [
+                {
+                  label: "👨‍🍳 Settle Full Payroll & Brigade Bonus",
+                  odds: "RNG 75% Hit",
+                  winChance: 0.75,
+                  hit: { tag: "Loyalty Dividend", cashDelta: 3100, debtDelta: 0, repDelta: 14, outcome: "Your crew crushed weekend service—generating $3,100 in extra profits and top reputation!" },
+                  miss: { tag: "Payroll Dip", cashDelta: -950, debtDelta: 0, repDelta: 4, outcome: "Payroll cost $950 upfront, keeping your kitchen team loyal." }
+                },
+                {
+                  label: "📊 Cover Payroll With a Bank Advance",
+                  odds: "RNG 55% Hit",
+                  winChance: 0.55,
+                  hit: { tag: "Bridge Loan Success", cashDelta: 2500, debtDelta: 1500, repDelta: 5, outcome: "Weekend covers paid back the advance quickly and netted $2,500 ($1,500 balance)." },
+                  miss: { tag: "Overdraft & Debt Hit", cashDelta: -1300, debtDelta: 4200, repDelta: -14, outcome: "Overdraft fees cost $1,300 and added $4,200 to your kitchen debt." }
+                },
+                {
+                  label: "⏳ Hold Payroll Settlement Until Later",
+                  odds: "RNG 35% Hit",
+                  winChance: 0.35,
+                  hit: { tag: "Risky Float Kept", cashDelta: 3600, debtDelta: 0, repDelta: -13, outcome: "You held $3,600 in cash, but late pay hurt team trust and public reputation." },
+                  miss: { tag: "Walkout & Severance Debt", cashDelta: -1800, debtDelta: 5500, repDelta: -21, outcome: "Staff walked out mid-week—costing $1,800 cash, $5,500 in emergency debt, and heavy Rep loss!" }
+                }
+              ]
             }
           ],
           social: [
             {
-              id: "emp_soc_crypto",
-              title: "💎 Dubious '10x Coin' Sponsor Offer",
-              desc: "An unvetted token promoter wires a massive offer asking {NAME} to tell followers to invest their savings before tonight's launch.",
-              positive: {
-                label: "✅ Decline the sketchy promo & publish a scam-awareness reel (+$1,900 Trusted Brand Bonus, +15 Rep)",
-                tag: "Audience Protector",
-                cashDelta: 1900,
-                debtDelta: 0,
-                repDelta: 15,
-                outcome: "Blue-chip sponsors rewarded {NAME}'s integrity with a $1,900 brand-safety bonus!"
-              },
-              negative: {
-                label: "⚠️ Shill the token—crashes 99% overnight (+$7,500 Cash, +$9,500 Legal Debt, -22 Rep)",
-                tag: "Rug-Pull Scandal",
-                cashDelta: 7500,
-                debtDelta: 9500,
-                repDelta: -22,
-                outcome: "Followers lost money, regulators issued a $9,500 restitution lien, and {NAME}'s reputation plummeted!"
-              }
+              id: "emp_soc_bank_line",
+              tabLabel: "🏦 Creator Credit",
+              title: "🏦 Media Banking Line & Ad-Advance Facility",
+              desc: "A creator-friendly bank offers an advance against upcoming brand invoices and ad revenue based on your career momentum.",
+              choices: [
+                {
+                  label: "💼 Draw Credit for Campaign Push",
+                  odds: "RNG 70% Hit",
+                  winChance: 0.70,
+                  hit: { tag: "Campaign ROAS Win", cashDelta: 4300, debtDelta: 2500, repDelta: 11, outcome: "The campaign outperformed benchmarks—netting $4,300 cash with $2,500 structured debt." },
+                  miss: { tag: "Underperforming Ad Spend", cashDelta: -1150, debtDelta: 5200, repDelta: -10, outcome: "Ad costs exceeded returns, costing $1,150 cash and adding $5,200 in agency debt." }
+                },
+                {
+                  label: "🏦 Sweep Revenue Into Tax & Debt Vault",
+                  odds: "RNG 80% Hit",
+                  winChance: 0.80,
+                  hit: { tag: "Clean Credit Standing", cashDelta: 1900, debtDelta: -1500, repDelta: 13, outcome: "Strong financial discipline reduced debt by $1,500 and earned $1,900 in partner bonuses!" },
+                  miss: { tag: "Slower Ad Push", cashDelta: -650, debtDelta: 0, repDelta: -4, outcome: "Holding back ad spend slowed short-term reach (-$650) with zero debt." }
+                },
+                {
+                  label: "🚀 Push Credit Line for Viral Drop",
+                  odds: "RNG 40% Hit",
+                  winChance: 0.40,
+                  hit: { tag: "Viral Mega-Payday", cashDelta: 8400, debtDelta: 8500, repDelta: 6, outcome: "The drop went mega-viral (+$8,400 cash), leaving $8,500 on your credit facility." },
+                  miss: { tag: "Algorithm Bust & Debt", cashDelta: -2100, debtDelta: 10500, repDelta: -18, outcome: "Algorithm shifts sank the launch—costing $2,100 cash and adding $10,500 in debt!" }
+                }
+              ]
             },
             {
-              id: "emp_soc_editors",
-              title: "✂️ Editing Team Burnout Crossroads",
-              desc: "Your video editors have pulled three all-nighters in a row to hit daily upload targets.",
-              positive: {
-                label: "✅ Hire a second editor & give the team a paid recharge day (-$950 Cash, +13 Rep, +25 XP)",
-                tag: "Empathetic CEO",
-                cashDelta: -950,
-                debtDelta: 0,
-                repDelta: 13,
-                outcome: "Refreshed editors produced your highest-retention video of the quarter and praised {NAME} publicly!"
-              },
-              negative: {
-                label: "⚠️ Demand double output with zero overtime (+$2,400 Cash, -16 Rep)",
-                tag: "Burnout Factory",
-                cashDelta: 2400,
-                debtDelta: 0,
-                repDelta: -16,
-                outcome: "You squeezed $2,400 in extra ad revenue out of the week, but a viral thread exposed your studio crunch culture."
-              }
+              id: "emp_soc_audit_escrow",
+              tabLabel: "🧾 1099 Taxes",
+              title: "🧾 1099 Creator Tax Audit & Sponsor Clawback Clause",
+              desc: "Your accountant & bank flag an upcoming 1099 tax deadline alongside a brand contract with a performance clawback clause.",
+              choices: [
+                {
+                  label: "🧾 Lock In 28% Tax Vault & Contract Terms",
+                  odds: "RNG 80% Hit",
+                  winChance: 0.80,
+                  hit: { tag: "Audit-Proof Mogul", cashDelta: 2200, debtDelta: 0, repDelta: 13, outcome: "Sponsors & banks loved your clean books—unlocking $2,200 in renewal bonuses!" },
+                  miss: { tag: "Withholding Squeeze", cashDelta: -700, debtDelta: 0, repDelta: -4, outcome: "Tax withholding tightened short-term cash by $700 with no penalties." }
+                },
+                {
+                  label: "⚖️ Arrange Installment Plan With Banker",
+                  odds: "RNG 55% Hit",
+                  winChance: 0.55,
+                  hit: { tag: "Smooth Installment", cashDelta: 2600, debtDelta: 1200, repDelta: 7, outcome: "Your banker structured a clean payment plan, freeing $2,600 cash ($1,200 balance)." },
+                  miss: { tag: "Interest & Fee Hit", cashDelta: -1150, debtDelta: 3500, repDelta: -12, outcome: "Late structuring added $1,150 in fees and $3,500 in agency debt." }
+                },
+                {
+                  label: "✨ Keep Cash Liquid & Skip Tax Vault",
+                  odds: "RNG 35% Hit",
+                  winChance: 0.35,
+                  hit: { tag: "Short-Term Flex Win", cashDelta: 4800, debtDelta: 0, repDelta: -11, outcome: "You banked $4,800 fast, but skipping tax reserves drew warnings from advisors." },
+                  miss: { tag: "Tax Lien & Penalty Debt", cashDelta: -1850, debtDelta: 6500, repDelta: -20, outcome: "Tax penalties & clawbacks cost $1,850 cash and added $6,500 in debt!" }
+                }
+              ]
+            },
+            {
+              id: "emp_soc_payroll",
+              tabLabel: "🎬 Crew & Royalties",
+              title: "🎬 Production Crew Payroll & Revenue-Share Split",
+              desc: "Your editors, camera crew, and talent managers expect payout settlement as brand checks clear the bank.",
+              choices: [
+                {
+                  label: "🎬 Settle Crew Pay & Revenue Bonus",
+                  odds: "RNG 75% Hit",
+                  winChance: 0.75,
+                  hit: { tag: "Dream Team Output", cashDelta: 3200, debtDelta: 0, repDelta: 14, outcome: "Your crew delivered back-to-back hits worth $3,200 and boosted {NAME}'s reputation!" },
+                  miss: { tag: "Crew Payout Dip", cashDelta: -900, debtDelta: 0, repDelta: 4, outcome: "Paying crew upfront cost $900 while keeping your studio running smoothly." }
+                },
+                {
+                  label: "📊 Fund Crew With a Bank Advance",
+                  odds: "RNG 55% Hit",
+                  winChance: 0.55,
+                  hit: { tag: "Advance Paid Off", cashDelta: 2450, debtDelta: 1500, repDelta: 6, outcome: "Sponsor wires covered the advance and netted $2,450 ($1,500 remaining balance)." },
+                  miss: { tag: "Advance Overhang", cashDelta: -1250, debtDelta: 4000, repDelta: -13, outcome: "Delayed sponsor wires cost $1,250 and added $4,000 in credit debt." }
+                },
+                {
+                  label: "⏳ Defer Crew Payouts to Next Cycle",
+                  odds: "RNG 35% Hit",
+                  winChance: 0.35,
+                  hit: { tag: "Cash Held Briefly", cashDelta: 3500, debtDelta: 0, repDelta: -13, outcome: "You kept $3,500 liquid, though holding payouts strained team morale and Rep." },
+                  miss: { tag: "Crew Walkout & Debt", cashDelta: -1750, debtDelta: 5200, repDelta: -20, outcome: "Key editors quit mid-campaign—costing $1,750, adding $5,200 debt, and hurting Rep!" }
+                }
+              ]
             }
           ]
         }
@@ -2332,8 +2547,8 @@
                   chapter: "Episode 1: The Cropped Gala Photo",
                   prompt: "At Paris Fashion Week, your former best friend crops {NAME} out of the viral VIP photo and captions it 'No Plus-Ones.' Press photographers are stationed right outside the velvet rope. How do you respond?",
                   options: [
-                    { label: "Host an impromptu street-style livestream right outside (+$950 Cash)", tag: "Bold Mogul", cashDelta: 950, debtDelta: 0, outcome: "{NAME} turned the cobblestone sidewalk into a runway! Your live stream hit 400K viewers and luxury sponsors wired $950 immediately." },
-                    { label: "Finance a last-minute VIP afterparty table on credit to upstage her (+$2,200 Cash, +$2,800 Debt)", tag: "High-Roller Risk", cashDelta: 2200, debtDelta: 2800, outcome: "Your VIP table stole every headline and netted $2,200 in brand deals—but put $2,800 onto your agency credit line!" }
+                    { label: "Host an impromptu street-style livestream right outside", tag: "Bold Mogul", cashDelta: 950, debtDelta: 0, outcome: "{NAME} turned the cobblestone sidewalk into a runway! Your live stream hit 400K viewers and luxury sponsors wired $950 immediately." },
+                    { label: "Finance a last-minute VIP afterparty table on credit to upstage her", tag: "High-Roller Risk", cashDelta: 2200, debtDelta: 2800, outcome: "Your VIP table stole every headline and netted $2,200 in brand deals—but put $2,800 onto your agency credit line!" }
                   ]
                 },
                 {
@@ -2341,8 +2556,8 @@
                   chapter: "Episode 2: The Exclusive Showroom Ambush",
                   prompt: "A top Milan creative director invites {NAME} to a private penthouse fitting and offers a $4,800 campaign—on the condition that you publicly trash your rival's upcoming capsule drop.",
                   options: [
-                    { label: "Refuse the smear & counter-pitch a luxury solo editorial (+$5,200 Cash)", tag: "Class & Leverage", cashDelta: 5200, debtDelta: 0, outcome: "The creative director respected {NAME}'s poise so much they upgraded the contract to $5,200 without the petty clause!" },
-                    { label: "Take the deal—triggering a defamation countersuit (-$1,800 Cash, +$3,500 Legal Debt)", tag: "Reckless Shade", cashDelta: -1800, debtDelta: 3500, outcome: "Your rival's lawyers slapped {NAME} with a cease-and-desist, costing $1,800 upfront and adding $3,500 in legal retainer debt!" }
+                    { label: "Refuse the smear & counter-pitch a luxury solo editorial", tag: "Class & Leverage", cashDelta: 5200, debtDelta: 0, outcome: "The creative director respected {NAME}'s poise so much they upgraded the contract to $5,200 without the petty clause!" },
+                    { label: "Take the deal—triggering a defamation countersuit", tag: "Reckless Shade", cashDelta: -1800, debtDelta: 3500, outcome: "Your rival's lawyers slapped {NAME} with a cease-and-desist, costing $1,800 upfront and adding $3,500 in legal retainer debt!" }
                   ]
                 },
                 {
@@ -2350,8 +2565,8 @@
                   chapter: "Episode 3: The Counterfeit Brand Crisis",
                   prompt: "A fast-fashion knockoff factory steals {NAME}'s signature aesthetic and floods social ads with cheap imitations using your face without permission.",
                   options: [
-                    { label: "File emergency DMCA takedowns & drop your real capsule (+$12,000 Cash)", tag: "IP Sovereign", cashDelta: 12000, debtDelta: 0, outcome: "{NAME} shut down the counterfeit ads within 12 hours and converted angry shoppers into $12,000 in authentic sales!" },
-                    { label: "Take out an emergency PR crisis loan to buy billboards (+$6,000 Cash, +$9,000 Debt)", tag: "Leveraged Blitz", cashDelta: 6000, debtDelta: 9000, outcome: "Your Times Square billboard went viral (+$6,000 sales), leaving a $9,000 media loan to pay off." }
+                    { label: "File emergency DMCA takedowns & drop your real capsule", tag: "IP Sovereign", cashDelta: 12000, debtDelta: 0, outcome: "{NAME} shut down the counterfeit ads within 12 hours and converted angry shoppers into $12,000 in authentic sales!" },
+                    { label: "Take out an emergency PR crisis loan to buy billboards", tag: "Leveraged Blitz", cashDelta: 6000, debtDelta: 9000, outcome: "Your Times Square billboard went viral (+$6,000 sales), leaving a $9,000 media loan to pay off." }
                   ]
                 },
                 {
@@ -2359,8 +2574,8 @@
                   chapter: "Episode 4: Acquisition War in Soho",
                   prompt: "Your rival's talent agency is bleeding cash and quietly shopping their top beauty roster. {NAME} has the opportunity to strike.",
                   options: [
-                    { label: "Poach their top 3 creators with transparent 80/20 splits (+$24,000 Cash)", tag: "Empire Builder", cashDelta: 24000, debtDelta: 0, outcome: "Top creators flocked to {NAME}'s studio, generating $24,000 in immediate Q1 brand commissions!" },
-                    { label: "Assume their $18,000 lease debt to take over their Soho Penthouse HQ (+$32,000 Cash, +$18,000 Debt)", tag: "Hostile Takeover", cashDelta: 32000, debtDelta: 18000, outcome: "{NAME} claimed the Soho penthouse and $32,000 in client retainers while absorbing $18,000 of their building debt." }
+                    { label: "Poach their top 3 creators with transparent 80/20 splits", tag: "Empire Builder", cashDelta: 24000, debtDelta: 0, outcome: "Top creators flocked to {NAME}'s studio, generating $24,000 in immediate Q1 brand commissions!" },
+                    { label: "Assume their $18,000 lease debt to take over their Soho Penthouse HQ", tag: "Hostile Takeover", cashDelta: 32000, debtDelta: 18000, outcome: "{NAME} claimed the Soho penthouse and $32,000 in client retainers while absorbing $18,000 of their building debt." }
                   ]
                 },
                 {
@@ -2368,8 +2583,8 @@
                   chapter: "Episode 5: Empress of Global Culture",
                   prompt: "Met-level gala organizers offer {NAME} the official global livestream broadcast rights—the very event that locked you out at the start.",
                   options: [
-                    { label: "Co-produce the broadcast & launch your flagship beauty line live (+$48,000 Cash)", tag: "Cultural Empress", cashDelta: 48000, debtDelta: 0, outcome: "{NAME} made history with a record-breaking broadcast and $48,000 in launch-night orders!" },
-                    { label: "License the broadcast rights for a guaranteed executive payout (+$38,000 Cash)", tag: "Media Titan", cashDelta: 38000, debtDelta: 0, outcome: "{NAME} locked in an ironclad $38,000 payout and crowned your empire." }
+                    { label: "Co-produce the broadcast & launch your flagship beauty line live", tag: "Cultural Empress", cashDelta: 48000, debtDelta: 0, outcome: "{NAME} made history with a record-breaking broadcast and $48,000 in launch-night orders!" },
+                    { label: "License the broadcast rights for a guaranteed executive payout", tag: "Media Titan", cashDelta: 38000, debtDelta: 0, outcome: "{NAME} locked in an ironclad $38,000 payout and crowned your empire." }
                   ]
                 }
               ]
@@ -2382,8 +2597,8 @@
                   chapter: "Episode 1: Cracked Screen, Zero Quit",
                   prompt: "Filming on a cracked phone in a cramped apartment between shifts, {NAME}'s raw tutorial hits 250K views. A predatory MCN offers $600 cash today for 50% of your channel forever.",
                   options: [
-                    { label: "Reject the predatory contract & launch direct affiliate links (+$850 Cash)", tag: "Self-Made", cashDelta: 850, debtDelta: 0, outcome: "{NAME} kept 100% ownership and earned $850 in direct community sales within 24 hours!" },
-                    { label: "Buy a pro camera bundle on high-interest store credit (+$1,400 Cash, +$2,200 Debt)", tag: "Gear Gamble", cashDelta: 1400, debtDelta: 2200, outcome: "Crisp 4K quality boosted sponsor rates (+$1,400), adding $2,200 to your starter loan." }
+                    { label: "Reject the predatory contract & launch direct affiliate links", tag: "Self-Made", cashDelta: 850, debtDelta: 0, outcome: "{NAME} kept 100% ownership and earned $850 in direct community sales within 24 hours!" },
+                    { label: "Buy a pro camera bundle on high-interest store credit", tag: "Gear Gamble", cashDelta: 1400, debtDelta: 2200, outcome: "Crisp 4K quality boosted sponsor rates, adding $2,200 to your starter loan." }
                   ]
                 },
                 {
@@ -2391,8 +2606,8 @@
                   chapter: "Episode 2: Hometown Keynote vs. Studio Shoot",
                   prompt: "Your local community college invites {NAME} to inspire students, while a major tech brand offers $4,500 for a sponsored vlog the exact same weekend.",
                   options: [
-                    { label: "Film the keynote as a brand-sponsored documentary (+$5,200 Cash)", tag: "Win-Win Mogul", cashDelta: 5200, debtDelta: 0, outcome: "Genius move! {NAME} inspired the crowd AND delivered a viral sponsor piece worth $5,200." },
-                    { label: "Cancel the brand shoot last-minute without reading the kill-fee clause (-$1,500 Cash)", tag: "Rookie Mistake", cashDelta: -1500, debtDelta: 0, outcome: "Breaching the shoot date triggered a $1,500 kill-fee penalty!" }
+                    { label: "Film the keynote as a brand-sponsored documentary", tag: "Win-Win Mogul", cashDelta: 5200, debtDelta: 0, outcome: "Genius move! {NAME} inspired the crowd AND delivered a viral sponsor piece worth $5,200." },
+                    { label: "Cancel the brand shoot last-minute without reading the kill-fee clause", tag: "Rookie Mistake", cashDelta: -1500, debtDelta: 0, outcome: "Breaching the shoot date triggered a $1,500 kill-fee penalty!" }
                   ]
                 },
                 {
@@ -2400,8 +2615,8 @@
                   chapter: "Episode 3: Algorithm Crash & Pivot",
                   prompt: "A sudden platform algorithm update cuts short-form reach by 60% overnight. Creators everywhere are panicking.",
                   options: [
-                    { label: "Launch a weekly interactive Live Shopping & Q&A show (+$11,500 Cash)", tag: "Early Adopter", cashDelta: 11500, debtDelta: 0, outcome: "Conversion rates tripled! {NAME} turned a smaller view count into $11,500 in high-ticket sales." },
-                    { label: "Borrow $7,500 to run unoptimized paid follower ads (-$2,000 Cash, +$7,500 Debt)", tag: "Vanity Trap", cashDelta: -2000, debtDelta: 7500, outcome: "Paid bot followers tanked engagement, costing $2,000 and adding $7,500 in ad debt!" }
+                    { label: "Launch a weekly interactive Live Shopping & Q&A show", tag: "Early Adopter", cashDelta: 11500, debtDelta: 0, outcome: "Conversion rates tripled! {NAME} turned a smaller view count into $11,500 in high-ticket sales." },
+                    { label: "Borrow $7,500 to run unoptimized paid follower ads", tag: "Vanity Trap", cashDelta: -2000, debtDelta: 7500, outcome: "Paid bot followers tanked engagement, costing $2,000 and adding $7,500 in ad debt!" }
                   ]
                 },
                 {
@@ -2409,8 +2624,8 @@
                   chapter: "Episode 4: Buying Back Your Masters",
                   prompt: "{NAME} is ready to launch a creator-owned product line and hire your hometown friends onto a full-time production team.",
                   options: [
-                    { label: "Pre-sell limited drops directly to your day-one community (+$23,000 Cash)", tag: "Community Queen", cashDelta: 23000, debtDelta: 0, outcome: "Sold out in 11 minutes! {NAME} netted $23,000 in zero-middleman profit." },
-                    { label: "Finance a full warehouse inventory run on a business line (+$28,000 Cash, +$14,000 Debt)", tag: "Scale Blitz", cashDelta: 28000, debtDelta: 14000, outcome: "National orders poured in (+$28,000) backed by a $14,000 inventory credit line." }
+                    { label: "Pre-sell limited drops directly to your day-one community", tag: "Community Queen", cashDelta: 23000, debtDelta: 0, outcome: "Sold out in 11 minutes! {NAME} netted $23,000 in zero-middleman profit." },
+                    { label: "Finance a full warehouse inventory run on a business line", tag: "Scale Blitz", cashDelta: 28000, debtDelta: 14000, outcome: "National orders poured in backed by a $14,000 inventory credit line." }
                   ]
                 },
                 {
@@ -2418,8 +2633,8 @@
                   chapter: "Episode 5: Self-Made Media Queen",
                   prompt: "Forbes invites {NAME} to headline their Creator Economy Summit as the benchmark for independent ownership.",
                   options: [
-                    { label: "Announce a $100K Creator Grant Fund & studio network (+$45,000 Cash)", tag: "Generational Icon", cashDelta: 45000, debtDelta: 0, outcome: "Sponsors rushed to co-fund the initiative, awarding {NAME} $45,000 in headline partnerships!" },
-                    { label: "Close a strategic brand equity partnership on stage (+$36,000 Cash)", tag: "Equity Mogul", cashDelta: 36000, debtDelta: 0, outcome: "{NAME} cemented generational wealth with a $36,000 equity payout." }
+                    { label: "Announce a $100K Creator Grant Fund & studio network", tag: "Generational Icon", cashDelta: 45000, debtDelta: 0, outcome: "Sponsors rushed to co-fund the initiative, awarding {NAME} $45,000 in headline partnerships!" },
+                    { label: "Close a strategic brand equity partnership on stage", tag: "Equity Mogul", cashDelta: 36000, debtDelta: 0, outcome: "{NAME} cemented generational wealth with a $36,000 equity payout." }
                   ]
                 }
               ]
@@ -2432,8 +2647,8 @@
                   chapter: "Episode 1: The Shadowban Leak",
                   prompt: "Someone inside your former talent agency leaked {NAME}'s private drafts to sabotage your launch. You trace the IP address to an insider.",
                   options: [
-                    { label: "Turn the leaked draft into a viral 'Behind the Sabotage' series (+$950 Cash)", tag: "Plot Twist", cashDelta: 950, debtDelta: 0, outcome: "Viewers binged every episode! {NAME} turned the ambush into $950 in overnight ad revenue." },
-                    { label: "Retain a private cyber-investigator on credit (+$1,200 Cash, +$2,000 Debt)", tag: "Shadow Ops", cashDelta: 1200, debtDelta: 2000, outcome: "You exposed the mole and won a $1,200 sponsor bonus, adding $2,000 to your legal tab." }
+                    { label: "Turn the leaked draft into a viral 'Behind the Sabotage' series", tag: "Plot Twist", cashDelta: 950, debtDelta: 0, outcome: "Viewers binged every episode! {NAME} turned the ambush into $950 in overnight ad revenue." },
+                    { label: "Retain a private cyber-investigator on credit", tag: "Shadow Ops", cashDelta: 1200, debtDelta: 2000, outcome: "You exposed the mole and won a $1,200 sponsor bonus, adding $2,000 to your legal tab." }
                   ]
                 },
                 {
@@ -2441,8 +2656,8 @@
                   chapter: "Episode 2: The Hidden Royalty Ledger",
                   prompt: "An anonymous whistleblower sends {NAME} encrypted spreadsheets proving your old agency skimmed 40% of creator sponsorships off the books.",
                   options: [
-                    { label: "Serve legal notice & force an immediate settlement wire (+$4,800 Cash)", tag: "Checkmate", cashDelta: 4800, debtDelta: 0, outcome: "Terrified of exposure, the executives wired {NAME} $4,800 in back royalties." },
-                    { label: "Post raw unredacted bank docs—triggering an NDA penalty (-$2,200 Cash, +$3,000 Debt)", tag: "Scorched Earth", cashDelta: -2200, debtDelta: 3000, outcome: "Breaching the NDA cost $2,200 in fines and $3,000 in legal debt, though fans rallied behind you." }
+                    { label: "Serve legal notice & force an immediate settlement wire", tag: "Checkmate", cashDelta: 4800, debtDelta: 0, outcome: "Terrified of exposure, the executives wired {NAME} $4,800 in back royalties." },
+                    { label: "Post raw unredacted bank docs—triggering an NDA penalty", tag: "Scorched Earth", cashDelta: -2200, debtDelta: 3000, outcome: "Breaching the NDA cost $2,200 in fines and $3,000 in legal debt, though fans rallied behind you." }
                   ]
                 },
                 {
@@ -2450,8 +2665,8 @@
                   chapter: "Episode 3: Bot-Farm Smear Campaign",
                   prompt: "Minutes before a major brand signing, thousands of fake bot accounts flood {NAME}'s comments to trigger an automated safety review.",
                   options: [
-                    { label: "Deploy forensic analytics & expose the bot farm live (+$12,000 Cash)", tag: "Counter-Strike", cashDelta: 12000, debtDelta: 0, outcome: "The sponsor doubled down on {NAME}'s transparency, wiring $12,000 on the spot!" },
-                    { label: "Hire an emergency reputation-shield firm on credit (+$7,500 Cash, +$6,500 Debt)", tag: "Crisis Shield", cashDelta: 7500, debtDelta: 6500, outcome: "Your account stayed verified (+$7,500 deal closed) with a $6,500 retainer invoice." }
+                    { label: "Deploy forensic analytics & expose the bot farm live", tag: "Counter-Strike", cashDelta: 12000, debtDelta: 0, outcome: "The sponsor doubled down on {NAME}'s transparency, wiring $12,000 on the spot!" },
+                    { label: "Hire an emergency reputation-shield firm on credit", tag: "Crisis Shield", cashDelta: 7500, debtDelta: 6500, outcome: "Your account stayed verified (+$7,500 deal closed) with a $6,500 retainer invoice." }
                   ]
                 },
                 {
@@ -2459,8 +2674,8 @@
                   chapter: "Episode 4: Hostile Boardroom Takeover",
                   prompt: "The scandal tanks your rival network's valuation. {NAME} steps into the boardroom with a controlling buyout offer.",
                   options: [
-                    { label: "Acquire controlling shares & install creator-first contracts (+$23,000 Cash)", tag: "Apex Mogul", cashDelta: 23000, debtDelta: 0, outcome: "{NAME} took the CEO chair and unlocked $23,000 in immediate restructuring bonuses." },
-                    { label: "Execute a leveraged buyout absorbing $16,000 of their debt (+$30,000 Cash, +$16,000 Debt)", tag: "Leveraged Shark", cashDelta: 30000, debtDelta: 16000, outcome: "{NAME} seized all network assets (+$30,000 cash) while assuming $16,000 in debt." }
+                    { label: "Acquire controlling shares & install creator-first contracts", tag: "Apex Mogul", cashDelta: 23000, debtDelta: 0, outcome: "{NAME} took the CEO chair and unlocked $23,000 in immediate restructuring bonuses." },
+                    { label: "Execute a leveraged buyout absorbing $16,000 of their debt", tag: "Leveraged Shark", cashDelta: 30000, debtDelta: 16000, outcome: "{NAME} seized all network assets (+$30,000 cash) while assuming $16,000 in debt." }
                   ]
                 },
                 {
@@ -2468,8 +2683,8 @@
                   chapter: "Episode 5: Sovereign of the Network",
                   prompt: "Your former rival asks for a seat at {NAME}'s new media conglomerate.",
                   options: [
-                    { label: "Hire them as a junior analyst under strict audit rules (+$44,000 Cash)", tag: "Poetic Justice", cashDelta: 44000, debtDelta: 0, outcome: "{NAME} sealed total industry dominance and banked $44,000 in Q4 profits!" },
-                    { label: "Close the door & expand into international media hubs (+$36,000 Cash)", tag: "Untouchable", cashDelta: 36000, debtDelta: 0, outcome: "{NAME} expanded across London, Tokyo, and NYC with $36,000 net gain." }
+                    { label: "Hire them as a junior analyst under strict audit rules", tag: "Poetic Justice", cashDelta: 44000, debtDelta: 0, outcome: "{NAME} sealed total industry dominance and banked $44,000 in Q4 profits!" },
+                    { label: "Close the door & expand into international media hubs", tag: "Untouchable", cashDelta: 36000, debtDelta: 0, outcome: "{NAME} expanded across London, Tokyo, and NYC with $36,000 net gain." }
                   ]
                 }
               ]
@@ -2484,8 +2699,8 @@
                   chapter: "Episode 1: The Critic's Snub",
                   prompt: "A notorious food critic walks past {NAME}'s pop-up table calling home cooks 'amateurs.' A Michelin-starred chef nearby watches your tweezers plating.",
                   options: [
-                    { label: "Plate your signature truffle amuse-bouche for the Michelin chef (+$900 Cash)", tag: "Bold Plating", cashDelta: 900, debtDelta: 0, outcome: "Impressed by {NAME}'s technique, the chef booked you for a $900 private VIP tasting!" },
-                    { label: "Order imported caviar & gold leaf on supplier credit to prove a point (+$1,500 Cash, +$2,400 Debt)", tag: "Luxury Gamble", cashDelta: 1500, debtDelta: 2400, outcome: "VIPs loved the caviar (+$1,500 sales), leaving a $2,400 specialty purveyor tab." }
+                    { label: "Plate your signature truffle amuse-bouche for the Michelin chef", tag: "Bold Plating", cashDelta: 900, debtDelta: 0, outcome: "Impressed by {NAME}'s technique, the chef booked you for a $900 private VIP tasting!" },
+                    { label: "Order imported caviar & gold leaf on supplier credit to prove a point", tag: "Luxury Gamble", cashDelta: 1500, debtDelta: 2400, outcome: "VIPs loved the caviar (+$1,500 sales), leaving a $2,400 specialty purveyor tab." }
                   ]
                 },
                 {
@@ -2493,8 +2708,8 @@
                   chapter: "Episode 2: Yacht Gala Tasting",
                   prompt: "A billionaire art collector hires {NAME} for a Monaco-style yacht dinner, but your saffron shipment gets delayed at customs.",
                   options: [
-                    { label: "Pivot to a smoked black-truffle & wagyu reduction (+$4,800 Cash)", tag: "Michelin Instinct", cashDelta: 4800, debtDelta: 0, outcome: "Guests gave {NAME} a standing ovation and tipped $4,800 on top of your catering fee!" },
-                    { label: "Serve delayed dishes cold—triggering a 50% client refund penalty (-$1,900 Cash)", tag: "Service Failure", cashDelta: -1900, debtDelta: 0, outcome: "Never serve compromised food to VIPs! You lost $1,900 in deposit refunds." }
+                    { label: "Pivot to a smoked black-truffle & wagyu reduction", tag: "Michelin Instinct", cashDelta: 4800, debtDelta: 0, outcome: "Guests gave {NAME} a standing ovation and tipped $4,800 on top of your catering fee!" },
+                    { label: "Serve delayed dishes cold—triggering a 50% client refund penalty", tag: "Service Failure", cashDelta: -1900, debtDelta: 0, outcome: "Never serve compromised food to VIPs! You lost $1,900 in deposit refunds." }
                   ]
                 },
                 {
@@ -2502,8 +2717,8 @@
                   chapter: "Episode 3: Luxury Cookware Line Launch",
                   prompt: "A heritage French copperware manufacturer approaches {NAME} to co-design a signature chef knife and pan collection.",
                   options: [
-                    { label: "Negotiate a 15% gross royalty + design credit (+$12,000 Cash)", tag: "Royalty Queen", cashDelta: 12000, debtDelta: 0, outcome: "First run sold out nationwide, wiring {NAME} $12,000 in initial royalties!" },
-                    { label: "Co-fund custom tooling on an $8,000 equipment loan (+$16,500 Cash, +$8,000 Debt)", tag: "Factory Partner", cashDelta: 16500, debtDelta: 8000, outcome: "Higher margins netted $16,500 upfront with an $8,000 tooling loan." }
+                    { label: "Negotiate a 15% gross royalty + design credit", tag: "Royalty Queen", cashDelta: 12000, debtDelta: 0, outcome: "First run sold out nationwide, wiring {NAME} $12,000 in initial royalties!" },
+                    { label: "Co-fund custom tooling on an $8,000 equipment loan", tag: "Factory Partner", cashDelta: 16500, debtDelta: 8000, outcome: "Higher margins netted $16,500 upfront with an $8,000 tooling loan." }
                   ]
                 },
                 {
@@ -2511,8 +2726,8 @@
                   chapter: "Episode 4: Flagship Opening Night",
                   prompt: "Opening night at {NAME}'s flagship dining room—and the critic who once mocked you asks for a last-minute table.",
                   options: [
-                    { label: "Seat them at the Chef's Counter & serve a 9-course masterpiece (+$23,000 Cash)", tag: "Total Triumph", cashDelta: 23000, debtDelta: 0, outcome: "A glowing 5-star review sent reservations soaring—netting {NAME} $23,000 in opening-week deposits!" },
-                    { label: "Overbook the dining room—causing a kitchen walkout & comped tabs (-$4,500 Cash, +$6,000 Debt)", tag: "Overextended", cashDelta: -4500, debtDelta: 6000, outcome: "Two-hour ticket times forced $4,500 in comped meals and $6,000 in emergency staffing debt!" }
+                    { label: "Seat them at the Chef's Counter & serve a 9-course masterpiece", tag: "Total Triumph", cashDelta: 23000, debtDelta: 0, outcome: "A glowing 5-star review sent reservations soaring—netting {NAME} $23,000 in opening-week deposits!" },
+                    { label: "Overbook the dining room—causing a kitchen walkout & comped tabs", tag: "Overextended", cashDelta: -4500, debtDelta: 6000, outcome: "Two-hour ticket times forced $4,500 in comped meals and $6,000 in emergency staffing debt!" }
                   ]
                 },
                 {
@@ -2520,8 +2735,8 @@
                   chapter: "Episode 5: Three Michelin Stars",
                   prompt: "The international culinary guide announces its highest honors in Paris, with {NAME} seated in the front row.",
                   options: [
-                    { label: "Accept Three Stars & announce your global hospitality group (+$46,000 Cash)", tag: "Three-Star Legend", cashDelta: 46000, debtDelta: 0, outcome: "{NAME} became a global culinary icon with $46,000 in immediate private dining bookings!" },
-                    { label: "Launch an international culinary academy & flagship hotel (+$38,000 Cash)", tag: "Empire Builder", cashDelta: 38000, debtDelta: 0, outcome: "{NAME} cemented a global hospitality dynasty and banked $38,000." }
+                    { label: "Accept Three Stars & announce your global hospitality group", tag: "Three-Star Legend", cashDelta: 46000, debtDelta: 0, outcome: "{NAME} became a global culinary icon with $46,000 in immediate private dining bookings!" },
+                    { label: "Launch an international culinary academy & flagship hotel", tag: "Empire Builder", cashDelta: 38000, debtDelta: 0, outcome: "{NAME} cemented a global hospitality dynasty and banked $38,000." }
                   ]
                 }
               ]
@@ -2534,8 +2749,8 @@
                   chapter: "Episode 1: Dawn at the Farmers Market",
                   prompt: "With a handwritten family recipe book and a tight budget, {NAME} sets up a dawn stall next to big commercial vendors.",
                   options: [
-                    { label: "Pitch a local café owner on a wholesale pastry & sauce supply (+$950 Cash)", tag: "Smart Operator", cashDelta: 950, debtDelta: 0, outcome: "{NAME} locked in a $950 standing weekly order before 9 AM." },
-                    { label: "Lease a commercial mixer on high-interest equipment credit (+$1,400 Cash, +$2,300 Debt)", tag: "Leveraged Prep", cashDelta: 1400, debtDelta: 2300, outcome: "Triple output netted $1,400 on day one, adding $2,300 to your kitchen loan." }
+                    { label: "Pitch a local café owner on a wholesale pastry & sauce supply", tag: "Smart Operator", cashDelta: 950, debtDelta: 0, outcome: "{NAME} locked in a $950 standing weekly order before 9 AM." },
+                    { label: "Lease a commercial mixer on high-interest equipment credit", tag: "Leveraged Prep", cashDelta: 1400, debtDelta: 2300, outcome: "Triple output netted $1,400 on day one, adding $2,300 to your kitchen loan." }
                   ]
                 },
                 {
@@ -2543,8 +2758,8 @@
                   chapter: "Episode 2: Food Truck Festival Showdown",
                   prompt: "Heavy rain threatens the city food truck festival where {NAME} prepped 300 portions.",
                   options: [
-                    { label: "Launch 'Rainy Day Comfort Bowls' with office delivery bundles (+$4,600 Cash)", tag: "Unstoppable", cashDelta: 4600, debtDelta: 0, outcome: "While other trucks closed early, {NAME} sold all 300 portions for $4,600!" },
-                    { label: "Leave unrefrigerated pans out overnight—spoiling the batch (-$1,600 Cash)", tag: "Food Safety Loss", cashDelta: -1600, debtDelta: 0, outcome: "Temperature abuse ruined the entire batch—costing $1,600 in wasted inventory!" }
+                    { label: "Launch 'Rainy Day Comfort Bowls' with office delivery bundles", tag: "Unstoppable", cashDelta: 4600, debtDelta: 0, outcome: "While other trucks closed early, {NAME} sold all 300 portions for $4,600!" },
+                    { label: "Leave unrefrigerated pans out overnight—spoiling the batch", tag: "Food Safety Loss", cashDelta: -1600, debtDelta: 0, outcome: "Temperature abuse ruined the entire batch—costing $1,600 in wasted inventory!" }
                   ]
                 },
                 {
@@ -2552,8 +2767,8 @@
                   chapter: "Episode 3: Grocery Chain Distribution Deal",
                   prompt: "A regional supermarket buyer loves {NAME}'s signature sauce, but demands a steep slotting fee.",
                   options: [
-                    { label: "Negotiate a 30-store trial with end-cap displays at 32% margin (+$11,500 Cash)", tag: "Margin Defender", cashDelta: 11500, debtDelta: 0, outcome: "The end-cap display sold out in 48 hours, earning {NAME} $11,500 in reorders!" },
-                    { label: "Finance a 500-store slotting fee on a $9,000 commercial loan (+$15,000 Cash, +$9,000 Debt)", tag: "National Gamble", cashDelta: 15000, debtDelta: 9000, outcome: "Purchase orders brought in $15,000 with a $9,000 slotting loan on your books." }
+                    { label: "Negotiate a 30-store trial with end-cap displays at 32% margin", tag: "Margin Defender", cashDelta: 11500, debtDelta: 0, outcome: "The end-cap display sold out in 48 hours, earning {NAME} $11,500 in reorders!" },
+                    { label: "Finance a 500-store slotting fee on a $9,000 commercial loan", tag: "National Gamble", cashDelta: 15000, debtDelta: 9000, outcome: "Purchase orders brought in $15,000 with a $9,000 slotting loan on your books." }
                   ]
                 },
                 {
@@ -2561,8 +2776,8 @@
                   chapter: "Episode 4: The Family Bistro Lease",
                   prompt: "A historic corner storefront goes up for lease in {NAME}'s old neighborhood.",
                   options: [
-                    { label: "Buy the building outright & open your flagship bistro (+$23,000 Cash)", tag: "Hometown Hero", cashDelta: 23000, debtDelta: 0, outcome: "{NAME} turned a neighborhood dream into a $23,000-a-week culinary landmark." },
-                    { label: "Sign a triple-net renovation lease on $15,000 contractor credit (+$27,000 Cash, +$15,000 Debt)", tag: "Buildout Debt", cashDelta: 27000, debtDelta: 15000, outcome: "Grand opening packed the house (+$27,000) with $15,000 in buildout debt." }
+                    { label: "Buy the building outright & open your flagship bistro", tag: "Hometown Hero", cashDelta: 23000, debtDelta: 0, outcome: "{NAME} turned a neighborhood dream into a $23,000-a-week culinary landmark." },
+                    { label: "Sign a triple-net renovation lease on $15,000 contractor credit", tag: "Buildout Debt", cashDelta: 27000, debtDelta: 15000, outcome: "Grand opening packed the house with $15,000 in buildout debt." }
                   ]
                 },
                 {
@@ -2570,8 +2785,8 @@
                   chapter: "Episode 5: Global Pantry & Hospitality Icon",
                   prompt: "{NAME}'s family recipes are now stocked in 2,000 stores alongside your award-winning restaurants.",
                   options: [
-                    { label: "Publish Grandma's Ledger cookbook & expand nationally (+$45,000 Cash)", tag: "Living Legend", cashDelta: 45000, debtDelta: 0, outcome: "Bestseller list #1! {NAME} earned $45,000 in launch advances and bookings." },
-                    { label: "Open three sister bistros across major culinary cities (+$37,000 Cash)", tag: "Restaurant Titan", cashDelta: 37000, debtDelta: 0, outcome: "{NAME} built a debt-free restaurant group worth $500K+!" }
+                    { label: "Publish Grandma's Ledger cookbook & expand nationally", tag: "Living Legend", cashDelta: 45000, debtDelta: 0, outcome: "Bestseller list #1! {NAME} earned $45,000 in launch advances and bookings." },
+                    { label: "Open three sister bistros across major culinary cities", tag: "Restaurant Titan", cashDelta: 37000, debtDelta: 0, outcome: "{NAME} built a debt-free restaurant group worth $500K+!" }
                   ]
                 }
               ]
@@ -2584,8 +2799,8 @@
                   chapter: "Episode 1: Sabotaged Prep Line",
                   prompt: "Hours before an investor tasting, a rival sabotages {NAME}'s walk-in cooler. Your prime ingredients are ruined.",
                   options: [
-                    { label: "Sprint to the Farmers Market & craft an open-fire tasting menu (+$950 Cash)", tag: "Clutch Pivot", cashDelta: 950, debtDelta: 0, outcome: "Investors were blown away by {NAME}'s composure under pressure, wiring $950 on the spot." },
-                    { label: "Emergency-buy replacement truffles at 3x markup on credit (+$1,100 Cash, +$2,100 Debt)", tag: "Emergency Tab", cashDelta: 1100, debtDelta: 2100, outcome: "You saved the tasting (+$1,100 investment) but took on $2,100 in emergency supplier debt." }
+                    { label: "Sprint to the Farmers Market & craft an open-fire tasting menu", tag: "Clutch Pivot", cashDelta: 950, debtDelta: 0, outcome: "Investors were blown away by {NAME}'s composure under pressure, wiring $950 on the spot." },
+                    { label: "Emergency-buy replacement truffles at 3x markup on credit", tag: "Emergency Tab", cashDelta: 1100, debtDelta: 2100, outcome: "You saved the tasting (+$1,100 investment) but took on $2,100 in emergency supplier debt." }
                   ]
                 },
                 {
@@ -2593,8 +2808,8 @@
                   chapter: "Episode 2: Supplier Exclusivity War",
                   prompt: "A rival restaurant group tries to lock out {NAME} from buying winter truffles in the Bistro District.",
                   options: [
-                    { label: "Fly directly to the source & sign an exclusive co-op deal (+$4,800 Cash)", tag: "Supply Master", cashDelta: 4800, debtDelta: 0, outcome: "{NAME} now controls the truffle supply—netting $4,800 selling surplus to local chefs!" },
-                    { label: "Buy from an unverified gray-market broker—seized by health inspectors (-$2,000 Cash)", tag: "Contraband Loss", cashDelta: -2000, debtDelta: 0, outcome: "Untraceable imports were confiscated at the door, costing $2,000 in fines!" }
+                    { label: "Fly directly to the source & sign an exclusive co-op deal", tag: "Supply Master", cashDelta: 4800, debtDelta: 0, outcome: "{NAME} now controls the truffle supply—netting $4,800 selling surplus to local chefs!" },
+                    { label: "Buy from an unverified gray-market broker—seized by health inspectors", tag: "Contraband Loss", cashDelta: -2000, debtDelta: 0, outcome: "Untraceable imports were confiscated at the door, costing $2,000 in fines!" }
                   ]
                 },
                 {
@@ -2602,8 +2817,8 @@
                   chapter: "Episode 3: Fake Review Ambush",
                   prompt: "On the eve of a Michelin inspector visit, a rival syndicate floods {NAME}'s restaurant page with 200 fake 1-star health-scare reviews.",
                   options: [
-                    { label: "Publish your A+ Health Dept score & host an open-kitchen livestream (+$12,000 Cash)", tag: "Transparent Boss", cashDelta: 12000, debtDelta: 0, outcome: "Diners booked every table for three months straight, netting {NAME} $12,000!" },
-                    { label: "File an aggressive emergency injunction on $7,000 legal credit (+$9,000 Cash, +$7,000 Debt)", tag: "Courtroom War", cashDelta: 9000, debtDelta: 7000, outcome: "The court ordered the reviews deleted (+$9,000 damages) with a $7,000 legal retainer." }
+                    { label: "Publish your A+ Health Dept score & host an open-kitchen livestream", tag: "Transparent Boss", cashDelta: 12000, debtDelta: 0, outcome: "Diners booked every table for three months straight, netting {NAME} $12,000!" },
+                    { label: "File an aggressive emergency injunction on $7,000 legal credit", tag: "Courtroom War", cashDelta: 9000, debtDelta: 7000, outcome: "The court ordered the reviews deleted (+$9,000 damages) with a $7,000 legal retainer." }
                   ]
                 },
                 {
@@ -2611,8 +2826,8 @@
                   chapter: "Episode 4: Foreclosure Auction",
                   prompt: "Your rival's over-leveraged restaurant hits the auction block. {NAME} holds the winning bid.",
                   options: [
-                    { label: "Acquire their kitchen & rebrand it under your empire (+$22,000 Cash)", tag: "Total Takeover", cashDelta: 22000, debtDelta: 0, outcome: "{NAME} absorbed their prime location and cleared $22,000 in first-week bookings." },
-                    { label: "Assume their $16,000 back-tax lien to grab the deed immediately (+$29,000 Cash, +$16,000 Debt)", tag: "Lien Takeover", cashDelta: 29000, debtDelta: 16000, outcome: "{NAME} took the keys immediately (+$29,000 bookings) while assuming $16,000 in tax liens." }
+                    { label: "Acquire their kitchen & rebrand it under your empire", tag: "Total Takeover", cashDelta: 22000, debtDelta: 0, outcome: "{NAME} absorbed their prime location and cleared $22,000 in first-week bookings." },
+                    { label: "Assume their $16,000 back-tax lien to grab the deed immediately", tag: "Lien Takeover", cashDelta: 29000, debtDelta: 16000, outcome: "{NAME} took the keys immediately (+$29,000 bookings) while assuming $16,000 in tax liens." }
                   ]
                 },
                 {
@@ -2620,8 +2835,8 @@
                   chapter: "Episode 5: Undisputed Culinary Sovereign",
                   prompt: "{NAME} commands the finest dining rooms and rarest imports across every major city.",
                   options: [
-                    { label: "Form an untouchable luxury hospitality syndicate (+$44,000 Cash)", tag: "Apex Sovereign", cashDelta: 44000, debtDelta: 0, outcome: "{NAME} crowned a $500K+ culinary empire with $44,000 in quarterly returns!" },
-                    { label: "Buy out the regional import exchange (+$37,000 Cash)", tag: "Market Maker", cashDelta: 37000, debtDelta: 0, outcome: "{NAME} secured permanent supply dominance and $37,000." }
+                    { label: "Form an untouchable luxury hospitality syndicate", tag: "Apex Sovereign", cashDelta: 44000, debtDelta: 0, outcome: "{NAME} crowned a $500K+ culinary empire with $44,000 in quarterly returns!" },
+                    { label: "Buy out the regional import exchange", tag: "Market Maker", cashDelta: 37000, debtDelta: 0, outcome: "{NAME} secured permanent supply dominance and $37,000." }
                   ]
                 }
               ]
@@ -2796,16 +3011,16 @@
               title: "Real-Life Scenario: FTC Sponsorship Disclosure Audit",
               desc: "A luxury skincare brand pays you $4,000 for a TikTok review and asks you to 'leave off #ad so it looks organic.' What is the smart Mogul move?",
               choices: [
-                { text: "Insist on clear #ad disclosure to avoid FTC fines (+$1,700 Cash)", correct: true, reward: 1700, debtAdd: 0, note: "Real-world rule: Undisclosed paid posts violate FTC guidelines and platform rules." },
-                { text: "Hide the #ad tag—flagged & fined (-$1,100 Cash, +$2,000 Debt)", correct: false, penalty: 1100, debtAdd: 2000, note: "Your post was demonetized and clawback penalties added $2,000 to your agency debt!" }
+                { text: "Insist on clear #ad disclosure to avoid FTC fines", correct: true, reward: 1700, debtAdd: 0, note: "Real-world rule: Undisclosed paid posts violate FTC guidelines and platform rules." },
+                { text: "Hide the #ad tag—flagged & fined", correct: false, penalty: 1100, debtAdd: 2000, note: "Your post was demonetized and clawback penalties added $2,000 to your agency debt!" }
               ]
             },
             {
               title: "Real-Life Scenario: Trending Music Copyright Claim",
               desc: "You used a chart-topping pop song in a paid brand sponsorship video without a commercial sync license. The label files a claim.",
               choices: [
-                { text: "Swap to royalty-free commercial audio & clear the claim (+$1,300 Cash)", correct: true, reward: 1300, debtAdd: 0, note: "Smart! Commercial brand posts require cleared sync rights." },
-                { text: "Boost the post with paid ads anyway (-$1,200 Cash, +$2,500 Legal Debt)", correct: false, penalty: 1200, debtAdd: 2500, note: "Running paid ads on unlicensed music triggered an immediate label takedown and $2,500 settlement debt!" }
+                { text: "Swap to royalty-free commercial audio & clear the claim", correct: true, reward: 1300, debtAdd: 0, note: "Smart! Commercial brand posts require cleared sync rights." },
+                { text: "Boost the post with paid ads anyway", correct: false, penalty: 1200, debtAdd: 2500, note: "Running paid ads on unlicensed music triggered an immediate label takedown and $2,500 settlement debt!" }
               ]
             }
           ]
@@ -2916,7 +3131,7 @@
                 { q: "Ingredients cost $28/plate. At a 28% food-cost target, what should the menu price be?", a: ["$100", "$56"], ok: 0, lesson: "Menu Price = Ingredient Cost ÷ Target Food Cost %." },
                 { q: "What is the maximum safe cold-holding temperature for walk-in coolers?", a: ["48°F (9°C)", "41°F (5°C) or below"], ok: 1, lesson: "41°F (5°C) or below stops bacterial growth in the Danger Zone." },
                 { q: "How should you rotate fresh truffles and proteins into cold storage?", a: ["FIFO: Oldest stock in front", "LIFO: Newest stock in front"], ok: 0, lesson: "First-In, First-Out (FIFO) prevents spoilage waste." },
-                { q: "10 lbs tenderloin ($200) trims to 8 usable lbs. What is your true usable cost per lb?", a: ["$20.00/lb", "$25.00/lb"], ok: 1, lesson: "Always price plates using post-trim yield cost ($200 ÷ 8 lbs)." },
+                { q: "10 lbs tenderloin trims to 8 usable lbs. What is your true usable cost per lb?", a: ["$20.00/lb", "$25.00/lb"], ok: 1, lesson: "Always price plates using post-trim yield cost ($200 ÷ 8 lbs)." },
                 { q: "You upgrade your menu and have 40 prepped portions of the old dish left. Smartest move?", a: ["Run a -30% Flash Special today", "Freeze indefinitely for next season"], ok: 0, lesson: "Discount flash sales recover cash before quality degrades." }
               ],
               reward: 1800
@@ -2937,7 +3152,7 @@
               desc: "A city health inspector checks your prep line sanitizer buckets and cooler logs during lunch rush.",
               choices: [
                 { text: "Verify 41°F logs & fresh sanitizer concentration (+$1,500 VIP Press Bonus)", correct: true, reward: 1500, debtAdd: 0, note: "A-Grade Inspection! Local food press featured your spotless kitchen." },
-                { text: "Shortcut prep hygiene—fined & forced to re-inspect (-$1,100 Cash, +$2,200 Debt)", correct: false, penalty: 1100, debtAdd: 2200, note: "Health code violations cost $1,100 in fines and $2,200 in compliance upgrades!" }
+                { text: "Shortcut prep hygiene—fined & forced to re-inspect", correct: false, penalty: 1100, debtAdd: 2200, note: "Health code violations cost $1,100 in fines and $2,200 in compliance upgrades!" }
               ]
             },
             {
@@ -2952,7 +3167,7 @@
               title: "Real-Life Scenario: Menu Rebrand & Backstock Surplus",
               desc: "You are upgrading your seasonal menu and still have 40 portions of last week's braised short rib prepped in cold storage.",
               choices: [
-                { text: "Run a -30% Chef's Flash Special tonight to convert backstock into cash (+$1,400 Cash)", correct: true, reward: 1400, debtAdd: 0, note: "Smart kitchen economics! Recovering 70% cash on expiring prep beats trash loss every time." },
+                { text: "Run a -30% Chef's Flash Special tonight to convert backstock into cash", correct: true, reward: 1400, debtAdd: 0, note: "Smart kitchen economics! Recovering 70% cash on expiring prep beats trash loss every time." },
                 { text: "Freeze everything indefinitely—freezer burn costs -$850 Cash", correct: false, penalty: 850, debtAdd: 0, note: "Freezer burn ruined the texture and wasted $850 in food cost!" }
               ]
             }
@@ -3747,56 +3962,63 @@
       }
 
       
-      function resolveMenuScenario(menuType, scenarioId, isPositive) {
+      let activeTravelScenarioIdx = 0;
+      let activeEmpireScenarioIdx = 0;
+
+      function resolveRngMenuChoice(menuType, scenarioId, choiceIdx) {
         const list = (MENU_SCENARIOS[menuType] && MENU_SCENARIOS[menuType][state.path]) || [];
         const sc = list.find(x => x.id === scenarioId);
         if (!sc) return;
+        const opt = sc.choices[choiceIdx];
+        if (!opt) return;
 
-        const choice = isPositive ? sc.positive : sc.negative;
+        const isHit = Math.random() <= opt.winChance;
+        const outcomeObj = isHit ? opt.hit : opt.miss;
         const diff = getDiff();
-        const cashChange = choice.cashDelta >= 0
-          ? Math.round(choice.cashDelta * diff.mult)
-          : Math.round(choice.cashDelta / diff.mult);
-        const debtAdded = choice.debtDelta ? Math.round(choice.debtDelta / diff.mult) : 0;
+
+        const cashChange = outcomeObj.cashDelta >= 0
+          ? Math.round(outcomeObj.cashDelta * diff.mult)
+          : Math.round(outcomeObj.cashDelta / diff.mult);
+        const debtAdded = outcomeObj.debtDelta ? Math.round(outcomeObj.debtDelta / diff.mult) : 0;
 
         state.cash = Math.max(0, state.cash + cashChange);
         if (debtAdded > 0) state.debt += debtAdded;
 
-        if (isPositive) {
+        const netPositive = isHit && cashChange >= 0 && debtAdded === 0;
+        if (netPositive) {
           state.goodChoicesCount = (state.goodChoicesCount || 0) + 1;
           triggerSfx("good");
+        } else if (isHit && cashChange > 0 && debtAdded > 0) {
+          state.riskWinsCount = (state.riskWinsCount || 0) + 1;
+          triggerSfx("cash");
         } else {
           state.badChoicesCount = (state.badChoicesCount || 0) + 1;
           triggerSfx("bad");
         }
 
-        const repDelta = adjustReputation(choice.repDelta, !isPositive, isPositive);
-        const resolvedOutcome = formatStoryText(choice.outcome, state.charName);
+        const repDelta = adjustReputation(outcomeObj.repDelta, !netPositive, isHit);
+        const resolvedOutcome = formatStoryText(outcomeObj.outcome, state.charName);
 
-        if (!state.seenScenarios) state.seenScenarios = [];
-        state.seenScenarios.push(scenarioId);
-
-        // Save to Story Log & Memories Book with a cute photo!
         state.storyLog.push({
           chapter: sc.title,
-          choiceTag: choice.tag,
+          choiceTag: outcomeObj.tag,
           outcome: resolvedOutcome,
           cashDelta: cashChange
         });
 
         recordMemoryEntry({
           title: sc.title,
-          choiceTag: choice.tag,
+          choiceTag: outcomeObj.tag,
           outcome: resolvedOutcome,
           cashDelta: cashChange,
           repDelta: repDelta,
-          mood: isPositive ? "win" : "setback",
+          mood: isHit ? (debtAdded > 0 ? "risk_win" : "win") : "setback",
           sceneType: menuType === "travel" ? "travel" : "empire"
         });
 
         const impactStr = `${cashChange >= 0 ? "+" : "-"}${fmt(Math.abs(cashChange))}${debtAdded > 0 ? ` • +${fmt(debtAdded)} Debt` : ""} • Rep ${repDelta >= 0 ? "+" : ""}${repDelta}`;
-        state.news = `🎭 [${choice.tag}] (${impactStr}) ${resolvedOutcome}`;
-        awardXP(isPositive ? 35 : 20);
+        state.news = `🎭 [${outcomeObj.tag}] (${impactStr}) ${resolvedOutcome}`;
+        awardXP(isHit ? 35 : 20);
         checkTelltaleProgression();
         saveGame();
         render();
@@ -6190,23 +6412,37 @@
 
           card.appendChild(grid);
 
-          // Interactive Travel & Regional Telltale Scenario Card
+          // 3 Real-World Travel Scenarios (Modes, Delays/Upgrades, Route Shifts) with 3 RNG Choices Each
           const tScenarios = (MENU_SCENARIOS.travel && MENU_SCENARIOS.travel[state.path]) || [];
-          const nextT = tScenarios.find(s => !(state.seenScenarios || []).includes(s.id)) || tScenarios[state.day % tScenarios.length];
-          if (nextT) {
+          if (tScenarios.length > 0) {
+            const selIdx = activeTravelScenarioIdx % tScenarios.length;
+            const curT = tScenarios[selIdx];
             const scBox = document.createElement("div");
             scBox.className = "scenario-hub-card";
             scBox.innerHTML = `
-              <span class="telltale-badge">🎭 Real-World Travel Scenario</span>
-              <div style="font-weight:800;font-size:0.88rem;margin-bottom:4px;">${nextT.title}</div>
-              <p style="font-size:0.78rem;color:var(--text-primary);line-height:1.4;margin-bottom:8px;">${formatStoryText(nextT.desc, state.charName)}</p>
-              <div style="display:flex;flex-direction:column;gap:6px;">
-                <button type="button" class="choice-btn" id="travel-sc-pos">${nextT.positive.label}</button>
-                <button type="button" class="choice-btn" id="travel-sc-neg">${nextT.negative.label}</button>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span class="telltale-badge" style="margin:0;">✈️ 3 Travel Scenarios (Pick 1 of 3)</span>
+                <span style="font-size:0.68rem;color:var(--text-secondary);">Choose Wisely</span>
               </div>
+              <div class="scenario-selector-tabs">
+                ${tScenarios.map((sItem, i) => `<button type="button" class="sc-tab-pill ${i === selIdx ? "active" : ""}" data-tsel="${i}">${sItem.tabLabel}</button>`).join("")}
+              </div>
+              <div style="font-weight:800;font-size:0.88rem;margin-bottom:4px;">${curT.title}</div>
+              <p style="font-size:0.78rem;color:var(--text-primary);line-height:1.4;margin-bottom:8px;">${formatStoryText(curT.desc, state.charName)}</p>
+              <div style="display:flex;flex-direction:column;gap:6px;" id="travel-rng-choices"></div>
             `;
-            scBox.querySelector("#travel-sc-pos").onclick = () => resolveMenuScenario("travel", nextT.id, true);
-            scBox.querySelector("#travel-sc-neg").onclick = () => resolveMenuScenario("travel", nextT.id, false);
+            scBox.querySelectorAll("[data-tsel]").forEach(btn => {
+              btn.onclick = () => { triggerSfx("tap"); activeTravelScenarioIdx = Number(btn.dataset.tsel); render(); };
+            });
+            const cWrap = scBox.querySelector("#travel-rng-choices");
+            curT.choices.forEach((chItem, cIdx) => {
+              const b = document.createElement("button");
+              b.type = "button";
+              b.className = "rng-choice-btn";
+              b.innerHTML = `<span>${chItem.label}</span><span class="rng-odds-tag">Choice ${cIdx + 1}</span>`;
+              b.onclick = () => resolveRngMenuChoice("travel", curT.id, cIdx);
+              cWrap.appendChild(b);
+            });
             card.appendChild(scBox);
           }
 
@@ -6325,24 +6561,38 @@
             container.appendChild(bailoutCard);
           }
 
-          // Interactive Empire Executive Telltale Scenario Card
+          // 3 Real-World Empire & Banking Scenarios with 3 RNG Choices Each
           const eScenarios = (MENU_SCENARIOS.empire && MENU_SCENARIOS.empire[state.path]) || [];
-          const nextE = eScenarios.find(s => !(state.seenScenarios || []).includes(s.id)) || eScenarios[(state.day + 1) % eScenarios.length];
-          if (nextE) {
+          if (eScenarios.length > 0) {
+            const eSelIdx = activeEmpireScenarioIdx % eScenarios.length;
+            const curE = eScenarios[eSelIdx];
             const eCard = document.createElement("div");
             eCard.className = "card";
             eCard.style.borderColor = "var(--accent)";
             eCard.innerHTML = `
-              <span class="telltale-badge">🎭 Executive Boardroom Scenario</span>
-              <h2 style="margin-bottom:4px;"><span>${nextE.title}</span></h2>
-              <p style="font-size:0.78rem;color:var(--text-primary);line-height:1.42;margin-bottom:8px;">${formatStoryText(nextE.desc, state.charName)}</p>
-              <div style="display:flex;flex-direction:column;gap:6px;">
-                <button type="button" class="choice-btn" id="emp-sc-pos">${nextE.positive.label}</button>
-                <button type="button" class="choice-btn" id="emp-sc-neg">${nextE.negative.label}</button>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span class="telltale-badge" style="margin:0;">🏦 3 Empire &amp; Banking Scenarios</span>
+                <span style="font-size:0.68rem;color:var(--text-secondary);">Choose Wisely</span>
               </div>
+              <div class="scenario-selector-tabs">
+                ${eScenarios.map((sItem, i) => `<button type="button" class="sc-tab-pill ${i === eSelIdx ? "active" : ""}" data-esel="${i}">${sItem.tabLabel}</button>`).join("")}
+              </div>
+              <h2 style="margin-bottom:4px;"><span>${curE.title}</span></h2>
+              <p style="font-size:0.78rem;color:var(--text-primary);line-height:1.42;margin-bottom:8px;">${formatStoryText(curE.desc, state.charName)}</p>
+              <div style="display:flex;flex-direction:column;gap:6px;" id="empire-rng-choices"></div>
             `;
-            eCard.querySelector("#emp-sc-pos").onclick = () => resolveMenuScenario("empire", nextE.id, true);
-            eCard.querySelector("#emp-sc-neg").onclick = () => resolveMenuScenario("empire", nextE.id, false);
+            eCard.querySelectorAll("[data-esel]").forEach(btn => {
+              btn.onclick = () => { triggerSfx("tap"); activeEmpireScenarioIdx = Number(btn.dataset.esel); render(); };
+            });
+            const ecWrap = eCard.querySelector("#empire-rng-choices");
+            curE.choices.forEach((chItem, cIdx) => {
+              const b = document.createElement("button");
+              b.type = "button";
+              b.className = "rng-choice-btn";
+              b.innerHTML = `<span>${chItem.label}</span><span class="rng-odds-tag">Choice ${cIdx + 1}</span>`;
+              b.onclick = () => resolveRngMenuChoice("empire", curE.id, cIdx);
+              ecWrap.appendChild(b);
+            });
             container.appendChild(eCard);
           }
 
