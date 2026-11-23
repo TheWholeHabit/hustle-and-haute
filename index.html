@@ -1406,6 +1406,79 @@
       flex-shrink: 0;
     }
 
+  
+    /* Hustle & Haute v23 — High-Craft Neon & Gold Visual Upgrade */
+    body {
+      background-image:
+        radial-gradient(circle at 15% 10%, rgba(245, 158, 11, 0.14), transparent 36%),
+        radial-gradient(circle at 88% 18%, rgba(6, 182, 212, 0.14), transparent 38%),
+        linear-gradient(180deg, rgba(11, 15, 25, 0.94) 0%, rgba(7, 10, 20, 0.99) 100%);
+      background-attachment: fixed;
+    }
+
+    #app::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+      background-size: 28px 28px;
+      z-index: 0;
+    }
+
+    #app > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    header, .card, .hustle-clicker-card, .scenario-hub-card {
+      box-shadow:
+        0 10px 28px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+    }
+
+    .card {
+      border-color: rgba(245, 158, 11, 0.24);
+      background: linear-gradient(165deg, rgba(22, 30, 49, 0.94) 0%, rgba(12, 17, 29, 0.96) 100%);
+    }
+
+    .portrait-preview-frame, .mag-portrait, .cine-avatar-box {
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.12),
+        0 0 22px rgba(245, 158, 11, 0.28),
+        0 10px 24px rgba(0, 0, 0, 0.65);
+    }
+
+    .big-click-btn, .btn-buy {
+      background: linear-gradient(135deg, var(--accent) 0%, #fbbf24 55%, #f59e0b 100%);
+      box-shadow:
+        0 4px 18px rgba(245, 158, 11, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    }
+
+    .item-row {
+      background: linear-gradient(145deg, rgba(16, 23, 38, 0.92), rgba(10, 14, 24, 0.96));
+      border-color: rgba(148, 163, 184, 0.16);
+      transition: transform 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease;
+    }
+
+    .item-row:hover {
+      border-color: var(--accent);
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.14);
+    }
+
+    .nav-bar {
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.96) 0%, rgba(8, 12, 22, 0.99) 100%);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.65);
+    }
+
+    .nav-btn.active {
+      text-shadow: 0 0 12px var(--accent);
+    }
+
   </style>
 </head>
 <body>
@@ -1615,8 +1688,8 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v22";
-      const BACKUP_KEY = "hh_empire_undo_backup_v22";
+      const STORAGE_KEY = "hh_empire_save_v23";
+      const BACKUP_KEY = "hh_empire_undo_backup_v23";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
       // Synthesized Web Audio Engine: SFX + Soft Low-Volume Regional & Scene Background Music + Haptics
@@ -3591,22 +3664,28 @@
         return `
           <svg viewBox="0 0 160 184" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <radialGradient id="skinGrad_${uid}" cx="45%" cy="35%" r="65%">
+              <radialGradient id="skinGrad_${uid}" cx="42%" cy="30%" r="68%">
                 <stop offset="0%" stop-color="${skin.hex}" />
-                <stop offset="75%" stop-color="${skin.mid}" />
+                <stop offset="72%" stop-color="${skin.mid}" />
                 <stop offset="100%" stop-color="${skin.shadow}" />
               </radialGradient>
-              <linearGradient id="garmentGrad_${uid}" x1="15%" y1="0%" x2="85%" y2="100%">
+              <linearGradient id="garmentGrad_${uid}" x1="12%" y1="0%" x2="88%" y2="100%">
                 <stop offset="0%" stop-color="${cw.primaryHi || cw.primary}" />
-                <stop offset="52%" stop-color="${cw.primary}" />
+                <stop offset="50%" stop-color="${cw.primary}" />
                 <stop offset="100%" stop-color="${cw.primaryLo || cw.primary}" />
               </linearGradient>
               <linearGradient id="bladeGrad_${uid}" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#f8fafc" />
-                <stop offset="50%" stop-color="#cbd5e1" />
-                <stop offset="100%" stop-color="#64748b" />
+                <stop offset="0%" stop-color="#ffffff" />
+                <stop offset="45%" stop-color="#e2e8f0" />
+                <stop offset="100%" stop-color="#475569" />
               </linearGradient>
+              <radialGradient id="auraGlow_${uid}" cx="50%" cy="42%" r="55%">
+                <stop offset="0%" stop-color="${cw.trim}" stop-opacity="0.28" />
+                <stop offset="65%" stop-color="${cw.primaryHi || cw.primary}" stop-opacity="0.08" />
+                <stop offset="100%" stop-color="#0b0f19" stop-opacity="0" />
+              </radialGradient>
             </defs>
+            <circle cx="80" cy="84" r="68" fill="url(#auraGlow_${uid})" />
 
             ${ringLightBack}
 
@@ -4883,9 +4962,16 @@
         const magTitle = getDynamicMagazineTitle();
 
         const grad = ctx.createLinearGradient(0, 0, 600, 340);
-        grad.addColorStop(0, "#0b0f19");
-        grad.addColorStop(1, "#1e1b4b");
+        grad.addColorStop(0, "#070b14");
+        grad.addColorStop(0.55, "#162038");
+        grad.addColorStop(1, "#2a1838");
         ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 600, 340);
+
+        const glowRight = ctx.createRadialGradient(500, 90, 10, 500, 90, 180);
+        glowRight.addColorStop(0, "rgba(245, 158, 11, 0.28)");
+        glowRight.addColorStop(1, "rgba(245, 158, 11, 0)");
+        ctx.fillStyle = glowRight;
         ctx.fillRect(0, 0, 600, 340);
 
         ctx.strokeStyle = "#f59e0b";
