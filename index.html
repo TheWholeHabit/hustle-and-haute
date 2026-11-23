@@ -1060,6 +1060,29 @@
       transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
+  
+    .tag-exclusive { background: rgba(168, 85, 247, 0.25); color: #d8b4fe; border: 1px solid rgba(168, 85, 247, 0.45); }
+    .rep-pill {
+      font-size: 0.69rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.16);
+      color: #7dd3fc;
+      white-space: nowrap;
+    }
+    .exp-tier-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px;
+      margin-bottom: 9px;
+    }
+    .exp-tier-card.high-tier {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, var(--bg-primary), var(--accent-soft));
+    }
+
   </style>
 </head>
 <body>
@@ -1211,16 +1234,20 @@
         Reach <strong>$500,000+ Net Worth</strong> and overtake all <strong>3 AI Rival Moguls</strong> before your fast-paced season ends!
       </p>
       <div class="guide-step">
-        <strong>1. Fast-Paced Season Timelines (14 to 45 Days)</strong>
-        Each travel hop advances <strong>1–2 Days</strong> depending on your pace, keeping runs tight, exciting, and replayable in a single sitting!
+        <strong>1. Expanded Market &amp; Hub-Exclusive Arbitrage (📈 Market + ✈️ Travel)</strong>
+        Browse <strong>12 market assets</strong> per career! Watch for <strong>🔒 Hub-Exclusive Imports</strong> (marked with a purple <em>Hub Exclusive</em> badge)—these rare items can <strong>only be bought in their home hub</strong> and <strong>must be traveled to another hub to sell</strong> for massive inter-city profits.
       </div>
       <div class="guide-step">
-        <strong>2. Real-World Risk, Cash Losses &amp; Debt Liabilities</strong>
-        Watch out for real business hazards—equipment breakdowns, tax audits, supplier emergencies, copyright claims, and chargebacks—that can cost cash or add new debt if you make risky calls.
+        <strong>2. Chef R&amp;D Test Kitchen &amp; Viral Labs (🎮 Gigs &rarr; 🧪 R&amp;D Lab)</strong>
+        In Chef mode, test <strong>Low, Mid, and High-Tier Experimental Dishes</strong> (from <em>Smoked Chili Honey Brioche</em> to <em>24K Saffron Wagyu Tartare</em>). Success boosts cash, <strong>Reputation</strong>, and unlocks special <strong>Magazine Cover Headlines</strong>; failure costs R&amp;D prep cash and tests your resilience!
       </div>
       <div class="guide-step">
-        <strong>3. Magazine Covers, Trophies &amp; Real-World Catalog</strong>
-        Stock real cookware &amp; creator studio gear in <strong>🛍️ Catalog</strong>, win cover competitions in <strong>📰 Magazine</strong>, and play <strong>🎮 Gigs</strong> to level up fast.
+        <strong>3. Adaptive Flowing Storyline (🎬 Story &amp; 📰 Magazine)</strong>
+        Your 5-episode Telltale story adapts dynamically to your <strong>Reputation</strong> (<em>Ethical Icon</em> vs. <em>Ruthless Shark</em>), your experimental hits/misses, and your Magazine wins—weaving previous choices directly into later chapters.
+      </div>
+      <div class="guide-step">
+        <strong>4. Real-World Risk, Debt &amp; Shop Catalog (🛍️ Catalog + 🏦 Empire)</strong>
+        Stock real cookware &amp; creator gear in <strong>🛍️ Catalog</strong> for passive daily income, pay down debt in <strong>🏦 Empire</strong>, and manage real-world tax audits, health inspections, and chargeback scenarios.
       </div>
       <button class="btn btn-buy btn-full" id="close-help-bottom">Got It — Let's Build!</button>
     </div>
@@ -1230,8 +1257,8 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "hh_empire_save_v13";
-      const BACKUP_KEY = "hh_empire_undo_backup_v13";
+      const STORAGE_KEY = "hh_empire_save_v14";
+      const BACKUP_KEY = "hh_empire_undo_backup_v14";
       const INTEGRITY_SALT = "HH-EMPIRE-2026-SIG-9941";
 
       // Synthesized Web Audio + Haptics
@@ -1550,6 +1577,93 @@
       ];
 
       // Fast-Paced Season Timelines (No tedious 180-day slog; each travel jump advances days rapidly!)
+      
+      // Experimental R&D Creations (Low, Mid, High Tier — impacts Sales Cash, Reputation, Magazine Headlines & Story Flow)
+      const EXPERIMENTAL_CREATIONS = {
+        chef: [
+          {
+            id: "exp_low",
+            tier: "Low-Tier R&D",
+            name: "Smoked Chili-Honey Brioche Slider",
+            cost: 350,
+            winChance: 0.76,
+            winCash: 1150,
+            winRep: 12,
+            loseRep: -6,
+            magHeadline: "STREET SENSATION: {NAME}'S CHILI-HONEY SLIDER SELLS OUT IN MINUTES!",
+            winNote: "Foodies lined up around the block! Earned +$1,150 in test-batch sales, +12 Reputation & a Magazine feature!",
+            loseNote: "The glaze caramelized too dark on the flat-top—lost $350 R&D prep and -6 Reputation."
+          },
+          {
+            id: "exp_mid",
+            tier: "Mid-Tier R&D",
+            name: "Yuzu-Cured Hokkaido Scallop & Black Garlic Foam",
+            cost: 1800,
+            winChance: 0.64,
+            winCash: 5600,
+            winRep: 24,
+            loseRep: -12,
+            magHeadline: "BISTRO BREAKTHROUGH: {NAME}'S YUZU SCALLOP REDEFINES MODERN DINING!",
+            winNote: "Critics raved over the umami balance! Banked +$5,600, +24 Reputation & landed a Magazine headline!",
+            loseNote: "The black garlic emulsion split during plating—lost $1,800 ingredients and -12 Reputation."
+          },
+          {
+            id: "exp_high",
+            tier: "High-Tier Michelin R&D",
+            name: "24K Saffron-Infused A5 Wagyu & White Truffle Consommé",
+            cost: 6500,
+            winChance: 0.52,
+            winCash: 22500,
+            winRep: 45,
+            loseRep: -20,
+            magHeadline: "CULINARY MASTERPIECE: {NAME}'S SAFFRON A5 WAGYU HAILED AS DISH OF THE YEAR!",
+            winNote: "Standing ovation from Michelin inspectors! Netted +$22,500, +45 Reputation & front-page Magazine acclaim!",
+            loseNote: "Over-reduced saffron broth turned bitter at VIP tasting—lost $6,500 and -20 Reputation."
+          }
+        ],
+        social: [
+          {
+            id: "exp_low",
+            tier: "Low-Tier Format Lab",
+            name: "Split-Screen Street Debate & Hook Remix",
+            cost: 350,
+            winChance: 0.76,
+            winCash: 1150,
+            winRep: 12,
+            loseRep: -6,
+            magHeadline: "VIRAL SPARK: {NAME}'S SPLIT-SCREEN FORMAT TOPS TRENDING CHARTS!",
+            winNote: "Algorithm pushed it to 900K views! Earned +$1,150, +12 Reputation & a Magazine mention!",
+            loseNote: "Audio sync glitched on upload—lost $350 production budget and -6 Reputation."
+          },
+          {
+            id: "exp_mid",
+            tier: "Mid-Tier Format Lab",
+            name: "24-Hour Live Interactive Mystery Box Challenge",
+            cost: 1800,
+            winChance: 0.64,
+            winCash: 5600,
+            winRep: 24,
+            loseRep: -12,
+            magHeadline: "LIVE STREAM PHENOMENON: {NAME} SHATTERS CONCURRENT VIEWER RECORDS!",
+            winNote: "Sponsors flooded the live chat! Earned +$5,600, +24 Reputation & a Magazine feature!",
+            loseNote: "Stream bitrate dropped mid-finale—lost $1,800 studio cost and -12 Reputation."
+          },
+          {
+            id: "exp_high",
+            tier: "High-Tier Original Pilot",
+            name: "Cinema-Grade Mini-Documentary & Brand Drop",
+            cost: 6500,
+            winChance: 0.52,
+            winCash: 22500,
+            winRep: 45,
+            loseRep: -20,
+            magHeadline: "MEDIA DISRUPTOR: {NAME}'S ORIGINAL PILOT SIGNALS A NEW CREATOR ERA!",
+            winNote: "Picked up by flagship sponsors! Netted +$22,500, +45 Reputation & cover-story buzz!",
+            loseNote: "Pacing missed the retention mark—lost $6,500 production cost and -20 Reputation."
+          }
+        ]
+      };
+
       const SEASON_PACES = {
         sprint: { id: "sprint", label: "14-Day Blitz", maxDays: 14, daysPerHop: 1, debtMult: 1.035, spikeChance: 0.25, feeMult: 1.35, sub: "14 days • High-stakes sprint" },
         fast: { id: "fast", label: "28-Day Hustle", maxDays: 28, daysPerHop: 2, debtMult: 1.02, spikeChance: 0.20, feeMult: 1.15, sub: "28 days • 2 days per trip" },
@@ -1956,11 +2070,17 @@
           ],
           commodities: [
             { id: "audio", name: "Viral Audio Rights", min: 45, max: 190 },
+            { id: "filters", name: "LUT & Color Grading Presets", min: 85, max: 290 },
             { id: "ugc", name: "UGC Ad Hook Package", min: 140, max: 480 },
+            { id: "livestream_slot", name: "Prime-Time Live Shopping Slot", min: 260, max: 780 },
             { id: "sponsor", name: "Mid-Roll Brand Sponsorship", min: 340, max: 1020 },
+            { id: "podcast_ad", name: "Host-Read Podcast Ad Bundle", min: 520, max: 1550 },
             { id: "collab", name: "A-List Creator Collab Slot", min: 700, max: 2100 },
             { id: "merch", name: "Limited Merch Drop", min: 1500, max: 4400 },
-            { id: "equity", name: "Media Network Equity", min: 3600, max: 11800 }
+            { id: "indie_hacks", name: "Underground Growth Scripts (Bedroom Exclusive)", min: 180, max: 340, exclusiveBuyHub: "bedroom", hubLabel: "Bedroom Feed" },
+            { id: "viral_sound_vault", name: "Unreleased TikTok Sound Stems (Live Hub Exclusive)", min: 650, max: 1150, exclusiveBuyHub: "tiktok", hubLabel: "TikTok Hub" },
+            { id: "la_paparazzi", name: "Hollywood Red-Carpet Backstage Pass (LA Exclusive)", min: 1800, max: 3100, exclusiveBuyHub: "studio", hubLabel: "LA Content House" },
+            { id: "nyc_upfront", name: "Madison Ave Upfront Ad Block (NYC Exclusive)", min: 4200, max: 7400, exclusiveBuyHub: "nyc", hubLabel: "NYC Media HQ" }
           ],
           upgrades: [
             { id: "u1", name: "Pro Ring Light & Lavalier Mic", desc: "+15 Queue Cap & +$45/Tap Views", cost: 900, capBonus: 15, sellBonus: 0, clickBonus: 45 },
@@ -2098,11 +2218,17 @@
           ],
           commodities: [
             { id: "saffron", name: "Kashmiri Saffron Threads", min: 45, max: 190 },
+            { id: "vanilla", name: "Madagascar Bourbon Vanilla Beans", min: 90, max: 310 },
             { id: "truffle", name: "Black Winter Truffles", min: 140, max: 480 },
+            { id: "olive_oil", name: "Estate Cold-Pressed Olive Oil", min: 250, max: 740 },
             { id: "catering", name: "Private Dinner Contract", min: 340, max: 1020 },
+            { id: "bluefin", name: "Line-Caught Bluefin Otoro", min: 560, max: 1680 },
             { id: "wagyu", name: "A5 Miyazaki Wagyu", min: 700, max: 2100 },
             { id: "cookware", name: "Signature Knife & Pan Line", min: 1500, max: 4400 },
-            { id: "bistro_stake", name: "Restaurant Group Equity", min: 3600, max: 11800 }
+            { id: "heirloom_truffle_honey", name: "Foraged Wildflower Truffle Honey (Farmers Mkt Exclusive)", min: 190, max: 360, exclusiveBuyHub: "farmers", hubLabel: "Farmers Market" },
+            { id: "street_birria_kit", name: "Secret Heritage Birria Consommé (Food Truck Exclusive)", min: 650, max: 1180, exclusiveBuyHub: "truck", hubLabel: "Food Truck Lot" },
+            { id: "vintage_bordeaux", name: "1982 Grand Cru Cellar Allocation (Bistro Exclusive)", min: 1850, max: 3200, exclusiveBuyHub: "bistro", hubLabel: "Bistro District" },
+            { id: "alba_white_truffle", name: "Auction-Grade Alba White Truffles (Michelin Row Exclusive)", min: 4300, max: 7600, exclusiveBuyHub: "michelin", hubLabel: "Michelin Row" }
           ],
           upgrades: [
             { id: "u1", name: "Japanese Damascus Knife Roll", desc: "+15 Pantry Cap & +$45/Tap Sales", cost: 900, capBonus: 15, sellBonus: 0, clickBonus: 45 },
@@ -2773,6 +2899,9 @@
             ownedBusinesses: [],
             shopCatalog: [],
             wonCovers: [],
+            reputation: 50,
+            expHistory: [],
+            latestMagHeadline: '',
             inventory: {},
             prices: {},
             forecast: null,
@@ -2820,6 +2949,9 @@
           ownedBusinesses: [],
           shopCatalog: [],
           wonCovers: [],
+            reputation: 50,
+            expHistory: [],
+            latestMagHeadline: '',
           inventory: {},
           prices: {},
           forecast: null,
@@ -3238,7 +3370,20 @@
         const modal = document.getElementById("telltale-modal");
         document.getElementById("tt-badge").textContent = `🎭 ${arc.title} • Episode ${nextIdx + 1} of ${arc.episodes.length}`;
         document.getElementById("tt-title").textContent = ep.chapter;
-        document.getElementById("tt-desc").textContent = formatStoryText(ep.prompt, state.charName);
+                const repVal = state.reputation ?? 50;
+        const repTone = repVal >= 65
+          ? `Widely admired as an ethical industry leader (${repVal} Rep), `
+          : (repVal <= 35 ? `Feared across the industry as a ruthless operator (${repVal} Rep), ` : `With a rising reputation (${repVal} Rep), `);
+        const prevEntry = (state.storyLog || [])[state.storyLog.length - 1];
+        const lastExp = (state.expHistory || [])[state.expHistory.length - 1];
+        let dynamicBridge = "";
+        if (prevEntry) {
+          dynamicBridge += ` Following your "${prevEntry.choiceTag}" move in ${prevEntry.chapter.split(":")[0]}, `;
+        }
+        if (lastExp && lastExp.success) {
+          dynamicBridge += `and buzz from your hit creation "${lastExp.name}", `;
+        }
+        document.getElementById("tt-desc").textContent = repTone + dynamicBridge + formatStoryText(ep.prompt, state.charName);
 
         const choicesBox = document.getElementById("tt-choices");
         choicesBox.innerHTML = "";
@@ -3256,6 +3401,8 @@
 
             triggerSfx(cashChange >= 0 ? "cash" : "error");
             const resolvedOutcome = formatStoryText(opt.outcome, state.charName);
+            const repShift = (opt.debtDelta > 0 || opt.cashDelta < 0) ? -10 : 12;
+            state.reputation = Math.max(0, Math.min(100, (state.reputation ?? 50) + repShift));
             state.storyLog.push({
               chapter: ep.chapter,
               choiceTag: opt.tag,
@@ -3301,13 +3448,18 @@
 
         cfg.commodities.forEach(c => {
           let price = Math.round((c.min + Math.random() * (c.max - c.min)) * hubObj.mult);
-          const roll = Math.random();
-          if (roll < pace.spikeChance) {
-            price = Math.round(price * 2.15);
-            spikeNote = `🔥 DEMAND SURGE: ${c.name} prices skyrocketed in ${hubObj.name}!`;
-          } else if (roll > 1 - pace.spikeChance) {
-            price = Math.max(15, Math.round(price * 0.52));
-            spikeNote = `💸 FLASH DIP: Oversupply crashed ${c.name} prices!`;
+          // Hub-Exclusive Imports fetch huge export premiums (2.2x - 3.1x) when sold in OTHER hubs!
+          if (c.exclusiveBuyHub && c.exclusiveBuyHub !== state.hub) {
+            price = Math.round((c.min + Math.random() * (c.max - c.min)) * (2.25 + Math.random() * 0.75) * hubObj.mult);
+          } else {
+            const roll = Math.random();
+            if (roll < pace.spikeChance) {
+              price = Math.round(price * 2.15);
+              spikeNote = `🔥 DEMAND SURGE: ${c.name} prices skyrocketed in ${hubObj.name}!`;
+            } else if (roll > 1 - pace.spikeChance) {
+              price = Math.max(15, Math.round(price * 0.52));
+              spikeNote = `💸 FLASH DIP: Oversupply crashed ${c.name} prices!`;
+            }
           }
           nextPrices[c.id] = price;
         });
@@ -3454,6 +3606,14 @@
       }
 
       function buyItem(id, qty) {
+        const cfg = getCfg();
+        const itemDef = cfg.commodities.find(c => c.id === id);
+        if (itemDef && itemDef.exclusiveBuyHub && itemDef.exclusiveBuyHub !== state.hub) {
+          triggerSfx("error");
+          state.news = `🔒 ${itemDef.name} can only be sourced in ${itemDef.hubLabel}!`;
+          render();
+          return;
+        }
         const price = state.prices[id];
         const freeSpace = getCapacity() - getUsedCapacity();
         const maxAffordable = Math.floor(state.cash / price);
@@ -3472,6 +3632,14 @@
       }
 
       function sellItem(id, qty) {
+        const cfg = getCfg();
+        const itemDef = cfg.commodities.find(c => c.id === id);
+        if (itemDef && itemDef.exclusiveBuyHub && itemDef.exclusiveBuyHub === state.hub) {
+          triggerSfx("error");
+          state.news = `✈️ Travel to another hub to sell ${itemDef.name} for export profits!`;
+          render();
+          return;
+        }
         const existing = state.inventory[id];
         if (!existing || existing.qty <= 0) return;
         triggerSfx("cash");
@@ -3628,9 +3796,12 @@
         const mount = card.querySelector("#mag-sub-mount");
 
         if (magSubTab === "cover") {
-          const coverHeadline = latestComp
-            ? `COVER EXCLUSIVE: ${state.charName.toUpperCase()} WINS "${latestComp.title.toUpperCase()}"!`
-            : `RISING MOGUL SPOTLIGHT: ${state.charName.toUpperCase()} TAKES OVER ${cfg.label.toUpperCase()}`;
+          const repScore = state.reputation ?? 50;
+          const coverHeadline = state.latestMagHeadline
+            ? state.latestMagHeadline
+            : (latestComp
+              ? `COVER EXCLUSIVE: ${state.charName.toUpperCase()} WINS "${latestComp.title.toUpperCase()}"!`
+              : `RISING MOGUL SPOTLIGHT: ${state.charName.toUpperCase()} (${repScore} REP) TAKES OVER ${cfg.label.toUpperCase()}`);
 
           mount.innerHTML = `
             <div class="mag-cover-card">
@@ -3935,18 +4106,22 @@
           <p style="font-size:0.79rem;color:var(--text-secondary);margin-bottom:10px;">
             Play quick side-gig mini-games or the 5-Question Pro Audit Quiz for huge cash &amp; XP payouts!
           </p>
-          <div class="choice-grid-3">
+          <div class="choice-grid-4">
             <button class="select-tile ${activeMiniGame && activeMiniGame.type === "reflex" ? "selected" : ""}" id="start-mg-reflex">
-              <span class="tile-title">⚡ Rush Tap</span>
-              <span class="tile-sub">12s reflex + XP</span>
+              <span class="tile-title">⚡ Rush</span>
+              <span class="tile-sub">12s tap</span>
             </button>
             <button class="select-tile ${activeMiniGame && activeMiniGame.type === "timing" ? "selected" : ""}" id="start-mg-timing">
-              <span class="tile-title">🎯 Sweetspot</span>
-              <span class="tile-sub">Precision + XP</span>
+              <span class="tile-title">🎯 Sear</span>
+              <span class="tile-sub">Sweetspot</span>
             </button>
             <button class="select-tile ${activeMiniGame && activeMiniGame.type === "trivia" ? "selected" : ""}" id="start-mg-trivia">
-              <span class="tile-title">💼 Pro Quiz</span>
-              <span class="tile-sub">5-Q high payout</span>
+              <span class="tile-title">💼 Quiz</span>
+              <span class="tile-sub">5-Q audit</span>
+            </button>
+            <button class="select-tile ${activeMiniGame && activeMiniGame.type === "experiment" ? "selected" : ""}" id="start-mg-exp">
+              <span class="tile-title">🧪 R&amp;D Lab</span>
+              <span class="tile-sub">Create &amp; test</span>
             </button>
           </div>
           <div id="minigame-arena"></div>
@@ -4008,6 +4183,12 @@
         card.querySelector("#start-mg-trivia").onclick = () => {
           clearMiniGameTimer();
           activeMiniGame = { type: "trivia", qIdx: 0, correctCount: 0, lastNote: "" };
+          render();
+        };
+
+        card.querySelector("#start-mg-exp").onclick = () => {
+          clearMiniGameTimer();
+          activeMiniGame = { type: "experiment", lastResult: "" };
           render();
         };
 
@@ -4094,6 +4275,77 @@
             checkTelltaleProgression();
             render();
           };
+          arena.appendChild(box);
+        }
+
+        
+        if (activeMiniGame.type === "experiment") {
+          const expList = EXPERIMENTAL_CREATIONS[state.path] || [];
+          const repVal = state.reputation ?? 50;
+          const box = document.createElement("div");
+          box.className = "minigame-box";
+          box.innerHTML = `
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <strong style="font-size:0.85rem;color:var(--accent);">${state.path === "chef" ? "🧪 Culinary R&D Test Kitchen" : "🧪 Viral Format & Pilot Lab"}</strong>
+              <span class="rep-pill">Reputation: ${repVal}/100</span>
+            </div>
+            <p style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:8px;">
+              Invest play money to prototype Low, Mid, or High-tier creations! Hits boost sales, Reputation, and generate front-page Magazine headlines.
+            </p>
+            ${activeMiniGame.lastResult ? `<div style="background:var(--bg-card);border:1px solid var(--accent);border-radius:8px;padding:8px;font-size:0.76rem;margin-bottom:8px;">${activeMiniGame.lastResult}</div>` : ""}
+            <div id="exp-tiers-mount"></div>
+          `;
+          const mount = box.querySelector("#exp-tiers-mount");
+          expList.forEach(item => {
+            const c = document.createElement("div");
+            c.className = "exp-tier-card" + (item.id === "exp_high" ? " high-tier" : "");
+            const scaledWin = Math.round(item.winCash * diff.mult * lvlMult);
+            c.innerHTML = `
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                <strong style="font-size:0.82rem;color:var(--accent);">${item.tier}: ${item.name}</strong>
+                <span style="font-size:0.71rem;color:var(--text-secondary);">${Math.round(item.winChance * 100)}% Success</span>
+              </div>
+              <div style="font-size:0.73rem;color:var(--text-secondary);margin-bottom:6px;">
+                Cost: <strong>${fmt(item.cost)}</strong> • Success: <strong style="color:var(--success);">+${fmt(scaledWin)}</strong> &amp; <strong>+${item.winRep} Rep</strong> • Failure: <span style="color:#fca5a5;">${item.loseRep} Rep</span>
+              </div>
+              <button type="button" class="btn btn-buy btn-full" data-run-exp="${item.id}" ${state.cash < item.cost ? "disabled" : ""}>
+                ${state.path === "chef" ? "🍳 Test Recipe" : "🎬 Shoot Pilot"} (${fmt(item.cost)})
+              </button>
+            `;
+            mount.appendChild(c);
+          });
+
+          box.querySelectorAll("[data-run-exp]").forEach(btn => {
+            btn.onclick = () => {
+              const item = expList.find(x => x.id === btn.dataset.runExp);
+              if (!item || state.cash < item.cost) return;
+              state.cash -= item.cost;
+              const success = Math.random() <= item.winChance;
+              if (success) {
+                triggerSfx("level");
+                const payout = Math.round(item.winCash * diff.mult * lvlMult);
+                state.cash += payout;
+                state.reputation = Math.min(100, (state.reputation ?? 50) + item.winRep);
+                state.latestMagHeadline = formatStoryText(item.magHeadline, state.charName);
+                state.expHistory.push({ name: item.name, tier: item.tier, success: true });
+                const msg = formatStoryText(item.winNote, state.charName);
+                state.news = `🧪 R&D HIT! ${msg}`;
+                activeMiniGame.lastResult = `✅ <strong>SUCCESS!</strong> ${msg}`;
+                awardXP(45);
+              } else {
+                triggerSfx("error");
+                state.reputation = Math.max(0, (state.reputation ?? 50) + item.loseRep);
+                state.expHistory.push({ name: item.name, tier: item.tier, success: false });
+                const msg = formatStoryText(item.loseNote, state.charName);
+                state.news = `💥 R&D FLOP! ${msg}`;
+                activeMiniGame.lastResult = `❌ <strong>SETBACK:</strong> ${msg}`;
+              }
+              checkTelltaleProgression();
+              saveGame();
+              render();
+            };
+          });
+
           arena.appendChild(box);
         }
 
@@ -4601,29 +4853,35 @@
           cfg.commodities.forEach(c => {
             const price = state.prices[c.id];
             const owned = state.inventory[c.id];
-            const isHot = price > c.max * 1.25;
-            const isDeal = price < c.min * 0.9;
+            const isExclusive = Boolean(c.exclusiveBuyHub);
+            const canBuyHere = !isExclusive || c.exclusiveBuyHub === state.hub;
+            const canSellHere = Boolean(owned) && (!isExclusive || c.exclusiveBuyHub !== state.hub);
+            const isHot = !isExclusive && price > c.max * 1.25;
+            const isDeal = !isExclusive && price < c.min * 0.9;
 
             const row = document.createElement("div");
             row.className = "item-row";
+            if (isExclusive) row.style.borderColor = "rgba(168, 85, 247, 0.45)";
             row.innerHTML = `
               <div class="item-info">
                 <div class="item-title">
                   ${c.name}
+                  ${isExclusive ? `<span class="tag tag-exclusive">${canBuyHere ? "Buy Here Only" : "Export Sell Only"}</span>` : ""}
                   ${isHot ? '<span class="tag tag-hot">Spike</span>' : ""}
                   ${isDeal ? '<span class="tag tag-deal">Low</span>' : ""}
                 </div>
                 <div class="item-sub">
                   Owned: <strong>${owned ? owned.qty : 0}</strong>
                   ${owned ? ` (Avg: ${fmt(owned.avgCost)})` : ""}
+                  ${isExclusive ? ` • ${canBuyHere ? "Travel elsewhere to sell!" : `Sourced in ${c.hubLabel}`}` : ""}
                 </div>
               </div>
               <div class="item-actions">
-                <span class="price-tag">${fmt(price)}</span>
+                <span class="price-tag">${canBuyHere || owned ? fmt(price) : "Locked"}</span>
                 <div class="btn-group">
-                  <button class="btn btn-buy" data-buy1="${c.id}">+1</button>
-                  <button class="btn btn-buy" data-buymax="${c.id}">Max</button>
-                  <button class="btn btn-sell" data-sellall="${c.id}" ${!owned ? "disabled" : ""}>Sell</button>
+                  <button class="btn btn-buy" data-buy1="${c.id}" ${!canBuyHere ? "disabled" : ""}>+1</button>
+                  <button class="btn btn-buy" data-buymax="${c.id}" ${!canBuyHere ? "disabled" : ""}>Max</button>
+                  <button class="btn btn-sell" data-sellall="${c.id}" ${!canSellHere ? "disabled" : ""}>Sell</button>
                 </div>
               </div>
             `;
